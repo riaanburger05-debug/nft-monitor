@@ -16,8 +16,9 @@ body{background:#0a0f1a;font-family:'Inter',sans-serif;color:#fff;min-height:100
 /* Leer-modus-balk bo-aan */
 .leer-banner{background:linear-gradient(90deg,#0d47a1,#1565c0);text-align:center;padding:7px 14px;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#90caf9;position:sticky;top:0;z-index:200}
 
-.nav{display:flex;background:#0d1520;border-bottom:1px solid rgba(255,255,255,.08);position:sticky;top:33px;z-index:100}
-.nav-tab{flex:1;padding:14px 4px 12px;text-align:center;cursor:pointer;border:none;background:none;color:rgba(255,255,255,.4);font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;border-bottom:3px solid transparent;transition:all .15s}
+.nav{display:flex;background:#0d1520;border-bottom:1px solid rgba(255,255,255,.08);position:sticky;top:33px;z-index:100;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav-tab{flex:0 0 auto;min-width:64px;padding:14px 10px 12px;text-align:center;cursor:pointer;border:none;background:none;color:rgba(255,255,255,.4);font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;border-bottom:3px solid transparent;transition:all .15s;white-space:nowrap}
 .nav-tab.active{color:#4CAF50;border-bottom-color:#4CAF50}
 .nav-tab .tab-icon{font-size:18px;display:block;margin-bottom:2px}
 
@@ -144,6 +145,26 @@ body{background:#0a0f1a;font-family:'Inter',sans-serif;color:#fff;min-height:100
 .range-bar-bg{height:10px;border-radius:5px;background:rgba(255,255,255,.08);position:relative;overflow:visible}
 .range-bar-ok{position:absolute;height:100%;border-radius:5px;background:rgba(76,175,80,.4)}
 .range-bar-punt{position:absolute;top:-3px;width:16px;height:16px;border-radius:50%;border:2px solid #fff;transform:translateX(-50%);transition:left .3s}
+/* Groei-Dagboek (leerder - slegs lees) */
+.groei-week-titel{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.35);margin:16px 0 8px;display:flex;align-items:center;gap:8px}
+.groei-week-titel span{background:rgba(76,175,80,.15);border:1px solid rgba(76,175,80,.25);border-radius:20px;padding:2px 10px;color:#81C784;font-size:9px}
+.groei-foto-ry{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px}
+.groei-foto-sel{background:#111827;border:1.5px solid rgba(255,255,255,.08);border-radius:14px;overflow:hidden;position:relative;min-height:140px;height:160px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px}
+.groei-foto-sel img{width:100%;height:100%;object-fit:cover;display:block;cursor:pointer}
+.groei-foto-lbl{font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.3);position:absolute;top:8px;left:8px;background:rgba(0,0,0,.5);padding:3px 8px;border-radius:10px}
+.groei-geen-foto{font-size:12px;color:rgba(255,255,255,.2);font-style:italic}
+.groei-vergelyk{background:#111827;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px;margin-top:16px}
+.groei-vergelyk-titel{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:12px}
+.groei-vergelyk-kies{display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+.groei-vergelyk-kies select{background:#1e2a3a;border:1.5px solid rgba(255,255,255,.1);border-radius:10px;color:#fff;padding:8px 12px;font-size:13px;outline:none;flex:1}
+.groei-vergelyk-rye{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.groei-vergelyk-sel{text-align:center}
+.groei-vergelyk-sel img{width:100%;border-radius:10px;height:140px;object-fit:cover;display:block;cursor:pointer}
+.groei-vergelyk-lbl{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;color:rgba(255,255,255,.5);margin-top:5px}
+.ligbak{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:999;align-items:center;justify-content:center;flex-direction:column;padding:20px}
+.ligbak.oop{display:flex}
+.ligbak img{max-width:100%;max-height:80vh;border-radius:12px;object-fit:contain}
+.ligbak-sluit{position:absolute;top:16px;right:16px;background:rgba(255,255,255,.15);border:none;border-radius:50%;width:36px;height:36px;color:#fff;font-size:18px;cursor:pointer}
 
 /* Oes-countdown */
 .oes-chip{display:flex;align-items:center;gap:8px;margin:4px 14px 10px;background:#0d1a0d;border:1.5px solid rgba(76,175,80,.2);border-radius:10px;padding:8px 12px}
@@ -206,6 +227,9 @@ body{background:#0a0f1a;font-family:'Inter',sans-serif;color:#fff;min-height:100
   <button class="nav-tab" onclick="showPage('leer',this)">
     <span class="tab-icon">📚</span>Leer
   </button>
+  <button class="nav-tab" onclick="showPage('groei',this)">
+    <span class="tab-icon">📷</span>Groei
+  </button>
 </nav>
 
 <!-- ═══ LESINGS ═══ -->
@@ -259,6 +283,22 @@ body{background:#0a0f1a;font-family:'Inter',sans-serif;color:#fff;min-height:100
 </div>
 
 <!-- ═══ LEER ═══ -->
+<!-- ═══ GROEI-DAGBOEK ═══ -->
+<div class="page" id="page-groei">
+  <div class="header">
+    <h1>📷 <span>Groei</span>Dagboek</h1>
+    <p>Weeklikse foto-progressie · Plant &amp; Wortel</p>
+  </div>
+  <div class="tank-selector" id="groei-tank-sel"></div>
+  <div id="groei-inhoud"></div>
+</div>
+
+<!-- Ligbak -->
+<div class="ligbak" id="ligbak" onclick="sluitLigbak()">
+  <button class="ligbak-sluit" onclick="sluitLigbak()">✕</button>
+  <img id="ligbak-img" src="" alt="Foto">
+</div>
+
 <div class="page" id="page-leer">
   <div class="header">
     <h1>📚 <span>Leer</span>gids</h1>
@@ -815,6 +855,126 @@ function showPage(id, tab) {
   if (tab) tab.classList.add('active');
   if (id === 'geskiedenis') bouGeskiedenis();
   if (id === 'grafieke') { bouGrafiekSelektors(); renderAllCharts(); }
+  if (id === 'groei') { bouLeerderGroeiSelektors(); bouLeerderGroeiInhoud(); }
+}
+
+// ── GROEI-DAGBOEK (LEERDER — SLEGS LEES) ────────────────────────────────────
+let _groeiTankL = 1;
+
+function wysLigbak(src){
+  document.getElementById('ligbak-img').src=src;
+  document.getElementById('ligbak').classList.add('oop');
+}
+function sluitLigbak(){document.getElementById('ligbak').classList.remove('oop');}
+
+function bouLeerderGroeiSelektors(){
+  const sel=document.getElementById('groei-tank-sel');
+  if(!sel||sel.children.length)return;
+  for(let i=1;i<=4;i++){
+    const b=document.createElement('button');
+    b.className='ts-btn'+(i===1?' active':'');
+    b.textContent=`Tenk ${i}`;
+    b.onclick=()=>{_groeiTankL=i;document.querySelectorAll('#groei-tank-sel .ts-btn').forEach((x,j)=>x.classList.toggle('active',j+1===i));bouLeerderGroeiInhoud();};
+    sel.appendChild(b);
+  }
+}
+
+function bouLeerderGroeiInhoud(){
+  const cont=document.getElementById('groei-inhoud');
+  if(!cont)return;
+  const n=_groeiTankL;
+  const td=_data[`t${n}`]||{};
+  const crop=td.crop?CROPS[td.crop]:null;
+  const age=td.plantDate?Math.max(0,Math.floor((new Date()-new Date(td.plantDate))/86400000)):null;
+  const fotos=td.fotos||{};
+  const totWeke=Math.max(4,age!==null?Math.ceil(age/7):4);
+
+  // Kyk of daar enige fotos is
+  const totaalFotos=Object.values(fotos).reduce((s,w)=>s+(w.plant?1:0)+(w.wortel?1:0),0);
+
+  let html='';
+  if(totaalFotos===0){
+    html='<div style="text-align:center;padding:40px 20px;color:rgba(255,255,255,.3);font-size:13px">📷 Nog geen fotos gestoor nie.<br><span style="font-size:11px;margin-top:8px;display:block">Die opvoeder sal fotos byvoeg wat hier verskyn.</span></div>';
+  } else {
+    for(let w=1;w<=totWeke;w++){
+      const wData=fotos[`w${w}`]||{};
+      if(!wData.plant&&!wData.wortel)continue;
+      const dagStart=(w-1)*7+1;
+      const dagEnd=w*7;
+      html+=`<div class="groei-week-titel">Week ${w} <span>Dag ${dagStart}–${dagEnd}</span></div>
+      <div class="groei-foto-ry">`;
+      ['plant','wortel'].forEach(tipe=>{
+        const src=wData[tipe]||'';
+        const lbl=tipe==='plant'?'🌱 Plantegroei':'🌿 Wortelontwikkeling';
+        html+=src
+          ?`<div class="groei-foto-sel het-foto"><img src="${src}" onclick="wysLigbak('${src}')" alt="${lbl}"><div class="groei-foto-lbl">${lbl}</div></div>`
+          :`<div class="groei-foto-sel"><div class="groei-foto-lbl">${lbl}</div><div class="groei-geen-foto">Nog nie</div></div>`;
+      });
+      html+='</div>';
+    }
+
+    // Vergelyking
+    const wekenMetFotos=Object.keys(fotos).filter(k=>fotos[k].plant||fotos[k].wortel).map(k=>parseInt(k.replace('w',''))).sort((a,b)=>a-b);
+    if(wekenMetFotos.length>=2){
+      const ops=wekenMetFotos.map(w=>`<option value="${w}">Week ${w}</option>`).join('');
+      const ops2=wekenMetFotos.slice(1).map(w=>`<option value="${w}">Week ${w}</option>`).join('');
+      html+=`<div class="groei-vergelyk">
+        <div class="groei-vergelyk-titel">🔍 Vergelyk Weke</div>
+        <div class="groei-vergelyk-kies">
+          <select id="vgl-week-a" onchange="wysLeerderVergelyking(${n})">${ops}</select>
+          <span style="color:rgba(255,255,255,.3);font-weight:700">vs</span>
+          <select id="vgl-week-b" onchange="wysLeerderVergelyking(${n})">${ops2}</select>
+        </div>
+        <div id="vgl-inhoud"></div>
+      </div>`;
+    }
+  }
+  cont.innerHTML=html;
+  if(Object.keys(fotos).length>=2) wysLeerderVergelyking(n);
+
+  // Auto-kies eerste tenk met fotos
+  if(totaalFotos===0){
+    for(let i=1;i<=4;i++){
+      if(i===n)continue;
+      const tf=(_data[`t${i}`]||{}).fotos||{};
+      const cnt=Object.values(tf).reduce((s,w)=>s+(w.plant?1:0)+(w.wortel?1:0),0);
+      if(cnt>0){
+        _groeiTankL=i;
+        document.querySelectorAll('#groei-tank-sel .ts-btn').forEach((b,j)=>b.classList.toggle('active',j+1===i));
+        bouLeerderGroeiInhoud();
+        return;
+      }
+    }
+  }
+}
+
+function wysLeerderVergelyking(n){
+  const wA=parseInt(document.getElementById('vgl-week-a')?.value||1);
+  const wB=parseInt(document.getElementById('vgl-week-b')?.value||2);
+  const cont=document.getElementById('vgl-inhoud');
+  if(!cont)return;
+  const fotos=(_data[`t${n}`]||{}).fotos||{};
+  let html='';
+  ['plant','wortel'].forEach(tipe=>{
+    const lbl=tipe==='plant'?'🌱 Plantegroei':'🌿 Wortelontwikkeling';
+    const srcA=fotos[`w${wA}`]?.[tipe]||'';
+    const srcB=fotos[`w${wB}`]?.[tipe]||'';
+    if(!srcA&&!srcB)return;
+    html+=`<div style="margin-bottom:12px">
+      <div style="font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:8px">${lbl}</div>
+      <div class="groei-vergelyk-rye">
+        <div class="groei-vergelyk-sel">
+          ${srcA?`<img src="${srcA}" onclick="wysLigbak('${srcA}')">`:'<div style="height:140px;background:#0d1520;border-radius:10px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.2);font-size:11px">Geen foto</div>'}
+          <div class="groei-vergelyk-lbl">Week ${wA}</div>
+        </div>
+        <div class="groei-vergelyk-sel">
+          ${srcB?`<img src="${srcB}" onclick="wysLigbak('${srcB}')">`:'<div style="height:140px;background:#0d1520;border-radius:10px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.2);font-size:11px">Geen foto</div>'}
+          <div class="groei-vergelyk-lbl">Week ${wB}</div>
+        </div>
+      </div>
+    </div>`;
+  });
+  cont.innerHTML=html||'<div style="font-size:12px;color:rgba(255,255,255,.3);text-align:center;padding:12px">Geen fotos vir hierdie weke nie.</div>';
 }
 
 // ── LESINGS-BLADSY ───────────────────────────────────────────────────────────
