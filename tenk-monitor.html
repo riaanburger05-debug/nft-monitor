@@ -329,7 +329,7 @@ canvas{max-width:100%}
     </div>
     <div class="modal-veld">
       <label>Hoeveelheid (gram)</label>
-      <input type="number" id="oes-gram" placeholder="bv. 500" step="1" inputmode="numeric">
+      <input type="number" id="oes-gram" placeholder="bv. 500" step="1" inputmode="numeric" oninput="berekeningOesWaarde()">
     </div>
     <div class="modal-veld">
       <label>Oes Tipe</label>
@@ -337,6 +337,14 @@ canvas{max-width:100%}
         <option value="Gedeeltelik">✂️ Gedeeltelik (sny-en-groei-weer)</option>
         <option value="Volledig">🌾 Volledig (hele plant)</option>
       </select>
+    </div>
+    <div class="modal-veld">
+      <label>Verkoopprys (R per kg)</label>
+      <input type="number" id="oes-prys" placeholder="bv. 45" step="0.01" inputmode="decimal" oninput="berekeningOesWaarde()">
+    </div>
+    <div id="oes-waarde-voorskou" style="display:none;background:rgba(76,175,80,.08);border:1.5px solid rgba(76,175,80,.2);border-radius:10px;padding:10px 14px;margin-bottom:12px;text-align:center">
+      <span style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(76,175,80,.7);display:block;margin-bottom:4px">Rand Waarde</span>
+      <span id="oes-waarde-getal" style="font-family:'Montserrat',sans-serif;font-size:28px;font-weight:900;color:#81C784"></span>
     </div>
     <div class="modal-veld">
       <label>Nota (opsioneel)</label>
@@ -1107,6 +1115,20 @@ let _oesTenk=1;
 function sluitModal(){document.getElementById('modal-siklus').classList.remove('oop');document.body.style.overflow='';}
 function sluitOesModal(){document.getElementById('modal-oes').classList.remove('oop');document.body.style.overflow='';}
 
+function berekeningOesWaarde(){
+  const gram=parseFloat(document.getElementById('oes-gram').value)||0;
+  const prys=parseFloat(document.getElementById('oes-prys').value)||0;
+  const voorskou=document.getElementById('oes-waarde-voorskou');
+  const getal=document.getElementById('oes-waarde-getal');
+  if(gram>0&&prys>0){
+    const waarde=(gram/1000*prys);
+    getal.textContent=`R ${waarde.toFixed(2)}`;
+    voorskou.style.display='block';
+  } else {
+    voorskou.style.display='none';
+  }
+}
+
 function wysTekenOes(n){
   _oesTenk=n;
   const data=loadData();
@@ -1115,7 +1137,9 @@ function wysTekenOes(n){
   document.getElementById('modal-oes-tenk').textContent=`Tenk ${n} · ${crop?crop.emoji+' '+crop.name:''}`;
   document.getElementById('oes-datum').value=today();
   document.getElementById('oes-gram').value='';
+  document.getElementById('oes-prys').value='';
   document.getElementById('oes-nota').value='';
+  document.getElementById('oes-waarde-voorskou').style.display='none';
   document.getElementById('modal-oes').classList.add('oop');
   document.body.style.overflow='hidden';
 }
@@ -1130,7 +1154,9 @@ function bevestigTekenOes(){
   const data=loadData();
   if(!data[`t${n}`])data[`t${n}`]={};
   if(!data[`t${n}`].oesrekords)data[`t${n}`].oesrekords=[];
-  data[`t${n}`].oesrekords.push({datum,gewas:data[`t${n}`].crop,gram,tipe,nota,groeidae:plantAge(data[`t${n}`].plantDate)||0});
+  const prys=parseFloat(document.getElementById('oes-prys').value)||0;
+  const randWaarde=prys>0?+(gram/1000*prys).toFixed(2):null;
+  data[`t${n}`].oesrekords.push({datum,gewas:data[`t${n}`].crop,gram,tipe,nota,prysPerKg:prys||null,randWaarde,groeidae:plantAge(data[`t${n}`].plantDate)||0});
   saveData(data);
   sluitOesModal();
   buildTankCards();
@@ -1405,11 +1431,17 @@ function renderHistory(n){
           ${td.oesrekords.slice().reverse().map(r=>`
             <div class="oes-rek-ry">
               <div><div class="oes-rek-gewas">${CROPS[r.gewas]?CROPS[r.gewas].emoji+' '+CROPS[r.gewas].name:r.gewas||''} <span style="font-size:9px;color:rgba(255,255,255,.3)">${r.tipe||''}</span></div><div class="oes-rek-detail">${r.datum}${r.kwaliteit?' · '+r.kwaliteit:''}${r.nota?' · '+r.nota:''} · Dag ${r.groeidae}</div></div>
-              <div class="oes-rek-kg">${(r.gram||0)>=1000?((r.gram||0)/1000).toFixed(1)+'kg':(r.gram||0)+'g'}</div>
+              <div style="text-align:right">
+                <div class="oes-rek-kg">${(r.gram||0)>=1000?((r.gram||0)/1000).toFixed(1)+'kg':(r.gram||0)+'g'}</div>
+                ${r.randWaarde?`<div style="font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;color:#81C784">R ${r.randWaarde.toFixed(2)}</div>`:''}
+              </div>
             </div>`).join('')}
           <div class="oes-rek-ry" style="background:rgba(76,175,80,.05)">
             <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;color:rgba(76,175,80,.7)">Totaal</div>
-            <div class="oes-rek-kg" style="font-size:18px">${(()=>{const t=td.oesrekords.reduce((s,r)=>s+(r.gram||0),0);return t>=1000?(t/1000).toFixed(1)+'kg':t+'g';})()}</div>
+            <div style="text-align:right">
+              <div class="oes-rek-kg" style="font-size:18px">${(()=>{const t=td.oesrekords.reduce((s,r)=>s+(r.gram||0),0);return t>=1000?(t/1000).toFixed(1)+'kg':t+'g';})()}</div>
+              ${(()=>{const r=td.oesrekords.reduce((s,r)=>s+(r.randWaarde||0),0);return r>0?`<div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:900;color:#81C784">R ${r.toFixed(2)}</div>`:''})()}
+            </div>
           </div>
         </div>`:'';
       return oes;
