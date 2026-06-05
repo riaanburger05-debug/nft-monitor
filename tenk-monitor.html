@@ -313,10 +313,10 @@ canvas{max-width:100%}
     <div class="doseer-seksie-titel">Kies Tenk</div>
     <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap" id="dos-tenk-knoppe">
       <button class="ts-btn" onclick="doseerLaaiTenk(0)">Handmatig</button>
-      <button class="ts-btn" onclick="doseerLaaiTenk(1)">Tenk 1</button>
-      <button class="ts-btn" onclick="doseerLaaiTenk(2)">Tenk 2</button>
-      <button class="ts-btn" onclick="doseerLaaiTenk(3)">Tenk 3</button>
-      <button class="ts-btn" onclick="doseerLaaiTenk(4)">Tenk 4</button>
+      <button class="ts-btn" id="dos-tenk-btn-1" onclick="doseerLaaiTenk(1)">Tenk 1</button>
+      <button class="ts-btn" id="dos-tenk-btn-2" onclick="doseerLaaiTenk(2)">Tenk 2</button>
+      <button class="ts-btn" id="dos-tenk-btn-3" onclick="doseerLaaiTenk(3)">Tenk 3</button>
+      <button class="ts-btn" id="dos-tenk-btn-4" onclick="doseerLaaiTenk(4)">Tenk 4</button>
     </div>
     <div class="doseer-grid">
       <div class="doseer-field" style="grid-column:1/-1">
@@ -1544,9 +1544,9 @@ function doseerLaaiTenk(n){
   }
   const data=loadData();
   const td=data[`t${n}`];
-  if(!td||!td.active){alert(`Tenk ${n} is nie aktief nie.`);return;}
+  if(!td||(!(td.active)&&!(td.readings?.length)&&!td.crop)){alert(`Tenk ${n} het geen data nie.`);return;}
   const crop=CROPS[td.crop];
-  if(!crop){alert(`Tenk ${n} het geen gewas nie.`);return;}
+  if(!crop){alert(`Tenk ${n} het geen gewas nie — stel eers die gewas in op die Lesings-bladsy.`);return;}
   // Invul gewas
   document.getElementById('dos-gewas').value=td.crop;
   // Invul volume
@@ -1623,7 +1623,24 @@ function showPage(id,btn){
   btn.classList.add('active');
   if(id==='geskiedenis')renderHistory(histTank);
   if(id==='grafieke'){renderAgeBar(loadData()[`t${chartTank}`]);renderAllCharts();}
-  if(id==='doseer'){bouOnttrekking();bouWaterverbruik();berekeningKoste();}
+  if(id==='doseer'){
+    // Wys tenk-knoppies met gewas-name waar beskikbaar
+    const dd=loadData();
+    for(let i=1;i<=4;i++){
+      const btn=document.getElementById(`dos-tenk-btn-${i}`);
+      if(!btn)continue;
+      const tt=dd[`t${i}`];
+      const cr=tt&&tt.crop?CROPS[tt.crop]:null;
+      btn.textContent=cr?`T${i} ${cr.emoji}`:`Tenk ${i}`;
+      btn.style.opacity=(tt&&(tt.active||tt.readings?.length||tt.crop))?'1':'0.4';
+    }
+    // Auto-laai eerste tenk met data
+    for(let i=1;i<=4;i++){
+      const tt=dd[`t${i}`];
+      if(tt&&(tt.active||tt.readings?.length||tt.crop)){doseerLaaiTenk(i);break;}
+    }
+    bouOnttrekking();bouWaterverbruik();berekeningKoste();
+  }
   if(id==='groei'){
     bouGroeiSelektors();
     // Kies eerste aktiewe tenk outomaties
