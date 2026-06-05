@@ -118,6 +118,37 @@ canvas{max-width:100%}
 .age-fill span{font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;color:#fff}
 .age-info{font-size:11px;color:rgba(255,255,255,.4)}
 .sync-bar{text-align:center;padding:6px;font-size:10px;color:rgba(255,255,255,.3);font-family:'Montserrat',sans-serif;letter-spacing:1px}
+/* Nuwe Siklus */
+.btn-nuwe-siklus{background:rgba(255,193,7,.12);border:1.5px solid rgba(255,193,7,.3);border-radius:8px;color:#FFD54F;font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;padding:5px 10px;cursor:pointer;white-space:nowrap}
+.btn-nuwe-siklus:active{opacity:.7}
+/* Oes Rekords */
+.oes-rek-ry{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:1px solid rgba(255,255,255,.05);font-size:12px}
+.oes-rek-ry:last-child{border-bottom:none}
+.oes-rek-gewas{font-family:'Montserrat',sans-serif;font-weight:700;font-size:11px}
+.oes-rek-detail{color:rgba(255,255,255,.45);font-size:11px}
+.oes-rek-kg{font-family:'Montserrat',sans-serif;font-weight:900;font-size:16px;color:#81C784}
+/* Modal */
+.modal-orl{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:500;align-items:flex-end;justify-content:center;padding:0}
+.modal-orl.oop{display:flex}
+.modal-boks{background:#111827;border-radius:20px 20px 0 0;padding:24px 20px 36px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto}
+.modal-titel{font-family:'Montserrat',sans-serif;font-size:16px;font-weight:900;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.modal-veld label{display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:4px;font-family:'Montserrat',sans-serif}
+.modal-veld{margin-bottom:14px}
+.modal-veld input,.modal-veld select,.modal-veld textarea{width:100%;background:#1e2a3a;border:1.5px solid rgba(255,255,255,.1);border-radius:10px;color:#fff;padding:10px 12px;font-size:14px;outline:none}
+.modal-veld input:focus,.modal-veld select:focus{border-color:#4CAF50}
+.modal-knoppe{display:flex;gap:10px;margin-top:16px}
+.btn-modal-bevestig{flex:1;background:linear-gradient(135deg,#1B5E20,#4CAF50);color:#fff;border:none;border-radius:12px;padding:13px;font-family:'Montserrat',sans-serif;font-size:14px;font-weight:900;cursor:pointer}
+.btn-modal-kanselleer{flex:1;background:rgba(255,255,255,.07);color:rgba(255,255,255,.6);border:1.5px solid rgba(255,255,255,.1);border-radius:12px;padding:13px;font-family:'Montserrat',sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+/* Help */
+.help-btn{position:fixed;bottom:24px;right:20px;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#1565C0,#42A5F5);border:none;color:#fff;font-size:22px;font-weight:900;cursor:pointer;z-index:200;box-shadow:0 4px 16px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center}
+.help-paneel{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:600;overflow-y:auto;padding:20px}
+.help-paneel.oop{display:block}
+.help-inhoud{background:#111827;border-radius:16px;padding:20px;max-width:480px;margin:0 auto}
+.help-stap{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.help-stap:last-child{border-bottom:none}
+.help-stap-num{width:28px;height:28px;border-radius:50%;background:rgba(76,175,80,.2);border:1.5px solid rgba(76,175,80,.35);display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;font-size:12px;font-weight:900;color:#81C784;flex-shrink:0}
+.help-stap-txt{font-size:12px;color:rgba(255,255,255,.6);line-height:1.6}
+.help-stap-txt strong{color:#fff;display:block;margin-bottom:2px}
 /* Slim Waarskuwings */
 .trend-alarm{background:rgba(244,67,54,.08);border:1.5px solid rgba(244,67,54,.35);border-radius:12px;padding:12px 14px;margin-bottom:12px}
 .trend-alarm-titel{font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#EF9A9A;margin-bottom:8px}
@@ -287,6 +318,90 @@ canvas{max-width:100%}
 </div>
 
 <!-- ═══ DOSEER ═══ -->
+<!-- ═══ NUWE SIKLUS MODAL ═══ -->
+<div class="modal-orl" id="modal-siklus" onclick="if(event.target===this)sluitModal()">
+  <div class="modal-boks">
+    <div class="modal-titel">🔄 Nuwe Aanplantingsiklus</div>
+    <p style="font-size:12px;color:rgba(255,255,255,.5);margin-bottom:16px;line-height:1.6">Stoor die huidige oes en begin 'n nuwe siklus. Die geskiedenisinligting word geargiveer.</p>
+    <div id="modal-siklus-tenk" style="font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;color:#81C784;margin-bottom:14px"></div>
+    <div class="modal-veld">
+      <label>Oesdatum</label>
+      <input type="date" id="siklus-oesdatum">
+    </div>
+    <div class="modal-veld">
+      <label>Oes Hoeveelheid (gram)</label>
+      <input type="number" id="siklus-oes-gram" placeholder="bv. 1500" step="1" inputmode="numeric">
+    </div>
+    <div class="modal-veld">
+      <label>Oes Kwaliteit</label>
+      <select id="siklus-kwaliteit">
+        <option value="Uitstekend">⭐⭐⭐ Uitstekend</option>
+        <option value="Goed">⭐⭐ Goed</option>
+        <option value="Gemiddeld">⭐ Gemiddeld</option>
+        <option value="Swak">Swak</option>
+      </select>
+    </div>
+    <div class="modal-veld">
+      <label>Nuwe Gewas</label>
+      <select id="siklus-nuwe-gewas">
+        <option value="slaai">🥬 Slaai</option>
+        <option value="spinasie">🌿 Spinasie</option>
+        <option value="mosterdspinasie">🌱 Mosterdspinasie</option>
+        <option value="aarbeie">🍓 Aarbeie</option>
+        <option value="basilie">🌿 Basilie</option>
+        <option value="rucola">🥗 Rucola</option>
+        <option value="pakchoi">🥬 Pak Choi</option>
+        <option value="snybeet">🌈 Snybeet</option>
+        <option value="boerkool">🥦 Boerkool</option>
+        <option value="pietersielie">🌱 Pietersielie</option>
+      </select>
+    </div>
+    <div class="modal-veld">
+      <label>Nuwe Plantdatum</label>
+      <input type="date" id="siklus-plantdatum">
+    </div>
+    <div class="modal-knoppe">
+      <button class="btn-modal-kanselleer" onclick="sluitModal()">Kanselleer</button>
+      <button class="btn-modal-bevestig" onclick="bevestigNuweSiklus()">🔄 Begin Nuwe Siklus</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ HELP PANEEL ═══ -->
+<button class="help-btn" onclick="wysHelp()" title="Help">?</button>
+
+<div class="help-paneel" id="help-paneel">
+  <div class="help-inhoud">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <div style="font-family:'Montserrat',sans-serif;font-size:16px;font-weight:900">📖 Hoe Gebruik Ek Die App?</div>
+      <button onclick="sluitHelp()" style="background:rgba(255,255,255,.1);border:none;border-radius:50%;width:32px;height:32px;color:#fff;font-size:16px;cursor:pointer">✕</button>
+    </div>
+
+    <div style="font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(76,175,80,.7);margin-bottom:10px">🚀 Eerste Keer Gebruik</div>
+    <div class="help-stap"><div class="help-stap-num">1</div><div class="help-stap-txt"><strong>Aktiveer 'n Tenk</strong>Klik op die vinkje "Hierdie tenk is in gebruik" om 'n tenk te aktiveer.</div></div>
+    <div class="help-stap"><div class="help-stap-num">2</div><div class="help-stap-txt"><strong>Kies Gewas & Plantdatum</strong>Kies watter gewas in die tenk groei en wanneer jy geplant het.</div></div>
+    <div class="help-stap"><div class="help-stap-num">3</div><div class="help-stap-txt"><strong>Voer Lesings In</strong>Meting van EC, pH, TDS, watertemperatuur en lugtemperatuur.</div></div>
+    <div class="help-stap"><div class="help-stap-num">4</div><div class="help-stap-txt"><strong>Stoor & Ontleed</strong>Klik die groen knoppie onderaan. Die app wys wat reg en verkeerd is.</div></div>
+    <div class="help-stap"><div class="help-stap-num">5</div><div class="help-stap-txt"><strong>Doseer as EC/pH Buite Reeks Is</strong>Gaan na die 🧪 Doseer-tab — kies die tenk en kry presiese gram-hoeveelhede.</div></div>
+
+    <div style="font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(76,175,80,.7);margin:16px 0 10px">📋 Daaglikse Gebruik</div>
+    <div class="help-stap"><div class="help-stap-num">★</div><div class="help-stap-txt"><strong>Elke dag</strong>Meet EC & pH → invoer → Stoor & Ontleed → kontroleer aksielys</div></div>
+    <div class="help-stap"><div class="help-stap-num">★</div><div class="help-stap-txt"><strong>Weekliks</strong>Neem fotos in die 📷 Groei-tab (plant + wortel per week)</div></div>
+    <div class="help-stap"><div class="help-stap-num">★</div><div class="help-stap-txt"><strong>Ná Oes</strong>Klik "🔄 Nuwe Siklus" op die tenk-kaart om van voor af te begin</div></div>
+
+    <div style="font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(76,175,80,.7);margin:16px 0 10px">🧪 Doseer Wenke</div>
+    <div class="help-stap"><div class="help-stap-num">💧</div><div class="help-stap-txt"><strong>EC te hoog</strong>Voeg skoon water by — geen kunsmis nie</div></div>
+    <div class="help-stap"><div class="help-stap-num">🧂</div><div class="help-stap-txt"><strong>EC te laag</strong>Eers Kalsiumnitraat Omnica oplos, dan Hydroflow apart byvoeg</div></div>
+    <div class="help-stap"><div class="help-stap-num">🏊</div><div class="help-stap-txt"><strong>pH te hoog</strong>Swembadsuur — druppel vir druppel, roer, wag 3 min, meet</div></div>
+    <div class="help-stap"><div class="help-stap-num">🧂</div><div class="help-stap-txt"><strong>pH te laag</strong>Koeksoda — druppel vir druppel, roer, wag 3 min, meet</div></div>
+
+    <div style="margin-top:20px;text-align:center;font-size:11px;color:rgba(255,255,255,.3)">
+      NFT Tenk Monitor · <strong style="color:rgba(76,175,80,.7)">GroeiWys</strong>
+    </div>
+    <button onclick="sluitHelp()" class="btn-modal-bevestig" style="margin-top:14px;width:100%">✓ Verstaan</button>
+  </div>
+</div>
+
 <!-- ═══ GROEI-DAGBOEK ═══ -->
 <div class="page" id="page-groei">
   <div class="header">
@@ -561,7 +676,7 @@ function buildTankCards(){
         <div class="tank-num" style="background:${c.grad}">${i}</div>
         <div><div class="tank-title">Tenk ${i}</div><div class="tank-sub">Tap om te aktiveer</div></div>
       </div>
-      ${(()=>{if(!act)return '';const lwc=sv.lastWaterChange;const dae=lwc?Math.floor((new Date()-new Date(lwc))/86400000):null;const cls=dae===null?'':dae>=14?'bad':dae>=7?'warn':'';const lbl=dae===null?'Geen rekord nie':dae===0?'Vandag vervang':dae+' dae gelede vervang';return `<div class="water-chip ${cls}"><div class="water-chip-tekste">💧 Water<span>${lbl}</span></div><button class="btn-water-vervang" onclick="vervangWater(${i})">Vervang Vandag</button></div>`;})()}
+      ${(()=>{if(!act)return '';const lwc=sv.lastWaterChange;const dae=lwc?Math.floor((new Date()-new Date(lwc))/86400000):null;const cls=dae===null?'':dae>=14?'bad':dae>=7?'warn':'';const lbl=dae===null?'Geen rekord nie':dae===0?'Vandag vervang':dae+' dae gelede vervang';return `<div class="water-chip ${cls}"><div class="water-chip-tekste">💧 Water<span>${lbl}</span></div><div style="display:flex;gap:6px"><button class="btn-water-vervang" onclick="vervangWater(${i})">Vervang</button><button class="btn-nuwe-siklus" onclick="wysNuweSiklus(${i})">🔄 Nuwe Siklus</button></div></div>`;})()}
       <div class="tank-body">
         <label class="tank-toggle">
           <input type="checkbox" id="t${i}-active" ${act?'checked':''} onchange="toggleTank(${i})">
@@ -930,6 +1045,55 @@ function genereerOesVerslag(n){
   el.style.display='block';
 }
 
+// ── HELP ────────────────────────────────────────────────────────────────────
+function wysHelp(){document.getElementById('help-paneel').classList.add('oop');document.body.style.overflow='hidden';}
+function sluitHelp(){document.getElementById('help-paneel').classList.remove('oop');document.body.style.overflow='';}
+
+// ── NUWE SIKLUS ──────────────────────────────────────────────────────────────
+let _siklusTenk=1;
+function sluitModal(){document.getElementById('modal-siklus').classList.remove('oop');document.body.style.overflow='';}
+
+function wysNuweSiklus(n){
+  _siklusTenk=n;
+  const data=loadData();
+  const td=data[`t${n}`]||{};
+  const crop=CROPS[td.crop];
+  document.getElementById('modal-siklus-tenk').textContent=`Tenk ${n} · ${crop?crop.emoji+' '+crop.name:''}`;
+  document.getElementById('siklus-oesdatum').value=today();
+  document.getElementById('siklus-plantdatum').value=today();
+  document.getElementById('siklus-oes-gram').value='';
+  if(crop)document.getElementById('siklus-nuwe-gewas').value=td.crop;
+  document.getElementById('modal-siklus').classList.add('oop');
+  document.body.style.overflow='hidden';
+}
+
+function bevestigNuweSiklus(){
+  const n=_siklusTenk;
+  const oesdatum=document.getElementById('siklus-oesdatum').value;
+  const gram=parseInt(document.getElementById('siklus-oes-gram').value)||0;
+  const kwaliteit=document.getElementById('siklus-kwaliteit').value;
+  const nuweGewas=document.getElementById('siklus-nuwe-gewas').value;
+  const plantdatum=document.getElementById('siklus-plantdatum').value;
+  const data=loadData();
+  const td=data[`t${n}`]||{};
+  // Stoor oesrekord
+  if(!td.oesrekords)td.oesrekords=[];
+  const age=td.plantDate?plantAge(td.plantDate):0;
+  td.oesrekords.push({datum:oesdatum,gewas:td.crop||nuweGewas,gram,kwaliteit,groeidae:age||0});
+  // Reset vir nuwe siklus
+  td.crop=nuweGewas;
+  td.plantDate=plantdatum;
+  td.readings=[];
+  td.fotos={};
+  td.lastWaterChange=null;
+  data[`t${n}`]=td;
+  saveData(data);
+  sluitModal();
+  buildTankCards();
+  renderHistory(n);
+  alert(`✅ Nuwe siklus begin vir Tenk ${n}!\n🌾 Oes gestoor: ${gram}g ${kwaliteit}`);
+}
+
 // ── WATERKOSTE ───────────────────────────────────────────────────────────────
 function berekeningKoste(){
   const kosWater=parseFloat(document.getElementById('kos-water').value)||0;
@@ -1150,6 +1314,18 @@ function renderHistory(n){
         </tr>`;
       }).join('')}</tbody>
     </table></div>
+    ${(()=>{
+      const oes=td.oesrekords&&td.oesrekords.length?`
+        <div style="margin-top:16px;background:#111827;border:1px solid rgba(255,193,7,.2);border-radius:12px;overflow:hidden">
+          <div style="padding:10px 14px;background:rgba(255,193,7,.08);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#FFD54F">🌾 Oes Rekords</div>
+          ${td.oesrekords.slice().reverse().map(r=>`
+            <div class="oes-rek-ry">
+              <div><div class="oes-rek-gewas">${CROPS[r.gewas]?CROPS[r.gewas].emoji+' '+CROPS[r.gewas].name:r.gewas}</div><div class="oes-rek-detail">${r.datum} · ${r.kwaliteit} · ${r.groeidae} dae</div></div>
+              <div class="oes-rek-kg">${r.gram>=1000?(r.gram/1000).toFixed(1)+'kg':r.gram+'g'}</div>
+            </div>`).join('')}
+        </div>`:'';
+      return oes;
+    })()}
     <button class="btn-csv" onclick="exportCSV(${n})">📥 Laai Tenk ${n} Geskiedenis af as CSV</button>
     <button class="btn-clear" onclick="clearHist(${n})">🗑️ Vee Tenk ${n} Geskiedenis Uit</button>`;
 }
