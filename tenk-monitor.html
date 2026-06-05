@@ -140,6 +140,8 @@ canvas{max-width:100%}
 .btn-modal-bevestig{flex:1;background:linear-gradient(135deg,#1B5E20,#4CAF50);color:#fff;border:none;border-radius:12px;padding:13px;font-family:'Montserrat',sans-serif;font-size:14px;font-weight:900;cursor:pointer}
 .btn-modal-kanselleer{flex:1;background:rgba(255,255,255,.07);color:rgba(255,255,255,.6);border:1.5px solid rgba(255,255,255,.1);border-radius:12px;padding:13px;font-family:'Montserrat',sans-serif;font-size:14px;font-weight:700;cursor:pointer}
 /* Help */
+.tuis-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);border-radius:20px;color:rgba(255,255,255,.5);font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;padding:6px 14px;cursor:pointer;margin-bottom:12px;transition:all .15s}
+.tuis-btn:active{background:rgba(76,175,80,.15);border-color:rgba(76,175,80,.3);color:#81C784}
 .help-btn{position:fixed;bottom:24px;right:20px;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#1565C0,#42A5F5);border:none;color:#fff;font-size:22px;font-weight:900;cursor:pointer;z-index:200;box-shadow:0 4px 16px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center}
 .help-paneel{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:600;overflow-y:auto;padding:20px}
 .help-paneel.oop{display:block}
@@ -284,12 +286,14 @@ canvas{max-width:100%}
 </div>
 
 <div class="page" id="page-geskiedenis">
+  <button class="tuis-btn" onclick="showPage('lesings',document.querySelector('.nav-tab'))">🏠 Tuis</button>
   <div class="header"><h1>📋 Geskiedenis</h1><p>Al jou gestoorte lesings per tenk</p></div>
   <div class="tank-selector" id="hist-tank-sel"></div>
   <div id="hist-content"><div class="hist-empty">Geen lesings gestoor nie.</div></div>
 </div>
 
 <div class="page" id="page-grafieke">
+  <button class="tuis-btn" onclick="showPage('lesings',document.querySelector('.nav-tab'))">🏠 Tuis</button>
   <div class="header"><h1>📈 Grafieke</h1><p>Tendense oor tyd per tenk</p></div>
   <div class="chart-tank-sel" id="chart-tank-sel"></div>
   <div id="age-section"></div>
@@ -443,6 +447,7 @@ canvas{max-width:100%}
 
 <!-- ═══ GROEI-DAGBOEK ═══ -->
 <div class="page" id="page-groei">
+  <button class="tuis-btn" onclick="showPage('lesings',document.querySelector('.nav-tab'))">🏠 Tuis</button>
   <div class="header">
     <h1>📷 <span>Groei</span>Dagboek</h1>
     <p>Weeklikse foto-progressie · Plant &amp; Wortel</p>
@@ -458,6 +463,7 @@ canvas{max-width:100%}
 </div>
 
 <div class="page" id="page-doseer">
+  <button class="tuis-btn" onclick="showPage('lesings',document.querySelector('.nav-tab'))">🏠 Tuis</button>
   <div class="header">
     <h1>🧪 <span>Doseer</span>rekenaar</h1>
     <p>EC · pH aanpassings per tenk</p>
