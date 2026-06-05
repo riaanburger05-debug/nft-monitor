@@ -1584,9 +1584,9 @@ function doseerBereken(){
       <div class="doseer-stap"><div class="doseer-stap-num">2</div><div class="doseer-stap-txt">Roer goed, wag 5 min en meet EC weer.</div></div>`;
     } else {
       // ~5ml A + 5ml B per 10L verhoog EC met ±0.3 mS/cm
-      // Akkurate berekeninge gebaseer op produk-spesifikasies:
-      // Kalsiumnitraat Omnica: ~0.75 mS/cm per g/L → gram = delta × vol / 0.75
-      // Hydroflow: ~0.60 mS/cm per g/L → gram = delta × vol / 0.60
+      // Gebaseer op produk-spesifikasies (word gekalibreer na kraanwater-toets)
+      // Kalsiumnitraat Omnica: 0.75 mS/cm per g/L
+      // Hydroflow: 0.60 mS/cm per g/L
       const gKN=Math.ceil(delta*vol/0.75);
       const gHF=Math.ceil(delta*vol/0.60);
       const teiken_lbl=crop?`${crop.ec.min}–${crop.ec.max} mS/cm`:ecT+' mS/cm';
