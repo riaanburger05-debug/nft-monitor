@@ -318,6 +318,37 @@ canvas{max-width:100%}
 </div>
 
 <!-- ═══ DOSEER ═══ -->
+<!-- ═══ TEKEN OES AAN MODAL ═══ -->
+<div class="modal-orl" id="modal-oes" onclick="if(event.target===this)sluitOesModal()">
+  <div class="modal-boks">
+    <div class="modal-titel">🌾 Teken Oes Aan</div>
+    <div id="modal-oes-tenk" style="font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;color:#81C784;margin-bottom:14px"></div>
+    <div class="modal-veld">
+      <label>Datum</label>
+      <input type="date" id="oes-datum">
+    </div>
+    <div class="modal-veld">
+      <label>Hoeveelheid (gram)</label>
+      <input type="number" id="oes-gram" placeholder="bv. 500" step="1" inputmode="numeric">
+    </div>
+    <div class="modal-veld">
+      <label>Oes Tipe</label>
+      <select id="oes-tipe">
+        <option value="Gedeeltelik">✂️ Gedeeltelik (sny-en-groei-weer)</option>
+        <option value="Volledig">🌾 Volledig (hele plant)</option>
+      </select>
+    </div>
+    <div class="modal-veld">
+      <label>Nota (opsioneel)</label>
+      <input type="text" id="oes-nota" placeholder="bv. boonste blare gesny">
+    </div>
+    <div class="modal-knoppe">
+      <button class="btn-modal-kanselleer" onclick="sluitOesModal()">Kanselleer</button>
+      <button class="btn-modal-bevestig" onclick="bevestigTekenOes()">✅ Stoor Oes</button>
+    </div>
+  </div>
+</div>
+
 <!-- ═══ NUWE SIKLUS MODAL ═══ -->
 <div class="modal-orl" id="modal-siklus" onclick="if(event.target===this)sluitModal()">
   <div class="modal-boks">
@@ -676,7 +707,27 @@ function buildTankCards(){
         <div class="tank-num" style="background:${c.grad}">${i}</div>
         <div><div class="tank-title">Tenk ${i}</div><div class="tank-sub">Tap om te aktiveer</div></div>
       </div>
-      ${(()=>{if(!act)return '';const lwc=sv.lastWaterChange;const dae=lwc?Math.floor((new Date()-new Date(lwc))/86400000):null;const cls=dae===null?'':dae>=14?'bad':dae>=7?'warn':'';const lbl=dae===null?'Geen rekord nie':dae===0?'Vandag vervang':dae+' dae gelede vervang';return `<div class="water-chip ${cls}"><div class="water-chip-tekste">💧 Water<span>${lbl}</span></div><div style="display:flex;gap:6px"><button class="btn-water-vervang" onclick="vervangWater(${i})">Vervang</button><button class="btn-nuwe-siklus" onclick="wysNuweSiklus(${i})">🔄 Nuwe Siklus</button></div></div>`;})()}
+      ${(()=>{if(!act)return '';
+        const lwc=sv.lastWaterChange;
+        const dae=lwc?Math.floor((new Date()-new Date(lwc))/86400000):null;
+        const cls=dae===null?'':dae>=14?'bad':dae>=7?'warn':'';
+        const lbl=dae===null?'Geen rekord nie':dae===0?'Vandag vervang':dae+' dae gelede vervang';
+        // Lopende oes totaal vir hierdie siklus
+        const siklus=(sv.oesrekords||[]).filter(r=>!r.siklus_oes);
+        const totGram=siklus.reduce((s,r)=>s+(r.gram||0),0);
+        const oesLbl=totGram>0?(totGram>=1000?(totGram/1000).toFixed(1)+'kg':totGram+'g')+' geoes':'Geen oes nog';
+        return `<div class="water-chip ${cls}">
+          <div class="water-chip-tekste">💧 Water<span>${lbl}</span></div>
+          <div style="display:flex;gap:6px">
+            <button class="btn-water-vervang" onclick="vervangWater(${i})">Vervang</button>
+            <button class="btn-nuwe-siklus" onclick="wysNuweSiklus(${i})">🔄 Nuwe Siklus</button>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin:4px 14px 10px;padding:8px 12px;border-radius:10px;border:1.5px solid rgba(76,175,80,.2);background:rgba(76,175,80,.04)">
+          <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;color:rgba(76,175,80,.7)">🌾 Oes<span style="display:block;font-size:11px;color:rgba(255,255,255,.5);margin-top:1px">${oesLbl}</span></div>
+          <button class="btn-water-vervang" style="background:rgba(76,175,80,.15);border-color:rgba(76,175,80,.3);color:#81C784" onclick="wysTekenOes(${i})">+ Teken Oes Aan</button>
+        </div>`;
+      })()}
       <div class="tank-body">
         <label class="tank-toggle">
           <input type="checkbox" id="t${i}-active" ${act?'checked':''} onchange="toggleTank(${i})">
@@ -1051,7 +1102,40 @@ function sluitHelp(){document.getElementById('help-paneel').classList.remove('oo
 
 // ── NUWE SIKLUS ──────────────────────────────────────────────────────────────
 let _siklusTenk=1;
+let _oesTenk=1;
+
 function sluitModal(){document.getElementById('modal-siklus').classList.remove('oop');document.body.style.overflow='';}
+function sluitOesModal(){document.getElementById('modal-oes').classList.remove('oop');document.body.style.overflow='';}
+
+function wysTekenOes(n){
+  _oesTenk=n;
+  const data=loadData();
+  const td=data[`t${n}`]||{};
+  const crop=CROPS[td.crop];
+  document.getElementById('modal-oes-tenk').textContent=`Tenk ${n} · ${crop?crop.emoji+' '+crop.name:''}`;
+  document.getElementById('oes-datum').value=today();
+  document.getElementById('oes-gram').value='';
+  document.getElementById('oes-nota').value='';
+  document.getElementById('modal-oes').classList.add('oop');
+  document.body.style.overflow='hidden';
+}
+
+function bevestigTekenOes(){
+  const n=_oesTenk;
+  const datum=document.getElementById('oes-datum').value;
+  const gram=parseInt(document.getElementById('oes-gram').value)||0;
+  const tipe=document.getElementById('oes-tipe').value;
+  const nota=document.getElementById('oes-nota').value;
+  if(!gram){alert('Voer die oes hoeveelheid in gram in.');return;}
+  const data=loadData();
+  if(!data[`t${n}`])data[`t${n}`]={};
+  if(!data[`t${n}`].oesrekords)data[`t${n}`].oesrekords=[];
+  data[`t${n}`].oesrekords.push({datum,gewas:data[`t${n}`].crop,gram,tipe,nota,groeidae:plantAge(data[`t${n}`].plantDate)||0});
+  saveData(data);
+  sluitOesModal();
+  buildTankCards();
+  renderHistory(histTank);
+}
 
 function wysNuweSiklus(n){
   _siklusTenk=n;
@@ -1320,9 +1404,13 @@ function renderHistory(n){
           <div style="padding:10px 14px;background:rgba(255,193,7,.08);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#FFD54F">🌾 Oes Rekords</div>
           ${td.oesrekords.slice().reverse().map(r=>`
             <div class="oes-rek-ry">
-              <div><div class="oes-rek-gewas">${CROPS[r.gewas]?CROPS[r.gewas].emoji+' '+CROPS[r.gewas].name:r.gewas}</div><div class="oes-rek-detail">${r.datum} · ${r.kwaliteit} · ${r.groeidae} dae</div></div>
-              <div class="oes-rek-kg">${r.gram>=1000?(r.gram/1000).toFixed(1)+'kg':r.gram+'g'}</div>
+              <div><div class="oes-rek-gewas">${CROPS[r.gewas]?CROPS[r.gewas].emoji+' '+CROPS[r.gewas].name:r.gewas||''} <span style="font-size:9px;color:rgba(255,255,255,.3)">${r.tipe||''}</span></div><div class="oes-rek-detail">${r.datum}${r.kwaliteit?' · '+r.kwaliteit:''}${r.nota?' · '+r.nota:''} · Dag ${r.groeidae}</div></div>
+              <div class="oes-rek-kg">${(r.gram||0)>=1000?((r.gram||0)/1000).toFixed(1)+'kg':(r.gram||0)+'g'}</div>
             </div>`).join('')}
+          <div class="oes-rek-ry" style="background:rgba(76,175,80,.05)">
+            <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;color:rgba(76,175,80,.7)">Totaal</div>
+            <div class="oes-rek-kg" style="font-size:18px">${(()=>{const t=td.oesrekords.reduce((s,r)=>s+(r.gram||0),0);return t>=1000?(t/1000).toFixed(1)+'kg':t+'g';})()}</div>
+          </div>
         </div>`:'';
       return oes;
     })()}
