@@ -263,7 +263,7 @@ canvas{max-width:100%}
 <body>
 
 <nav class="nav">
-  <button class="nav-tab active" onclick="showPage('lesings',this)"><span class="tab-icon">📊</span>Lesings</button>
+  <button class="nav-tab active" onclick="showPage('lesings',this)"><span class="tab-icon">🏠</span>Tuis</button>
   <button class="nav-tab" onclick="showPage('geskiedenis',this)"><span class="tab-icon">📋</span>Geskiedenis</button>
   <button class="nav-tab" onclick="showPage('grafieke',this)"><span class="tab-icon">📈</span>Grafieke</button>
   <button class="nav-tab" onclick="showPage('doseer',this)"><span class="tab-icon">🧪</span>Doseer</button>
@@ -941,6 +941,20 @@ function wysLigbak(src){
 }
 function sluitLigbak(){document.getElementById('ligbak').classList.remove('oop');}
 
+// ── ALLES SLUIT (Android terug-knoppie + tuis) ───────────────────────────────
+function sluitAlles(){
+  document.getElementById('ligbak').classList.remove('oop');
+  document.getElementById('help-paneel').classList.remove('oop');
+  document.getElementById('modal-siklus').classList.remove('oop');
+  document.getElementById('modal-oes').classList.remove('oop');
+  document.body.style.overflow='';
+}
+
+// Android terug-knoppie onderskep
+window.addEventListener('popstate',function(){sluitAlles();history.pushState(null,'',location.href);});
+history.pushState(null,'',location.href);
+
+
 function bouGroeiInhoud(){
   const cont=document.getElementById('groei-inhoud');
   if(!cont)return;
@@ -1105,7 +1119,7 @@ function genereerOesVerslag(n){
 }
 
 // ── HELP ────────────────────────────────────────────────────────────────────
-function wysHelp(){document.getElementById('help-paneel').classList.add('oop');document.body.style.overflow='hidden';}
+function wysHelp(){document.getElementById('help-paneel').classList.add('oop');document.body.style.overflow='hidden';history.pushState({modal:'help'},'',location.href);}
 function sluitHelp(){document.getElementById('help-paneel').classList.remove('oop');document.body.style.overflow='';}
 
 // ── NUWE SIKLUS ──────────────────────────────────────────────────────────────
@@ -1142,6 +1156,7 @@ function wysTekenOes(n){
   document.getElementById('oes-waarde-voorskou').style.display='none';
   document.getElementById('modal-oes').classList.add('oop');
   document.body.style.overflow='hidden';
+  history.pushState({modal:'oes'},'',location.href);
 }
 
 function bevestigTekenOes(){
@@ -1175,6 +1190,7 @@ function wysNuweSiklus(n){
   if(crop)document.getElementById('siklus-nuwe-gewas').value=td.crop;
   document.getElementById('modal-siklus').classList.add('oop');
   document.body.style.overflow='hidden';
+  history.pushState({modal:'siklus'},'',location.href);
 }
 
 function bevestigNuweSiklus(){
