@@ -394,7 +394,7 @@ canvas{max-width:100%}
         <input type="number" id="kos-kn" placeholder="bv. 25" step="0.01" inputmode="decimal" oninput="berekeningKoste()">
       </div>
       <div class="doseer-field">
-        <label>Aquaponics (R/liter)</label>
+        <label>Hydroflow (R/liter)</label>
         <input type="number" id="kos-aq" placeholder="bv. 35" step="0.01" inputmode="decimal" oninput="berekeningKoste()">
       </div>
       <div class="doseer-field">
@@ -409,7 +409,7 @@ canvas{max-width:100%}
     <span style="font-family:'Montserrat',sans-serif;font-weight:700;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#90caf9;display:block;margin-bottom:6px">💡 Moet ek elke dag kunsmis ingooi?</span>
     Nie noodwendig nie. In 'n NFT-stelsel gebeur twee dinge gelyktydig: water verdamp (EC <strong style="color:#fff">styg</strong>) en plante drink voedingstowwe (EC <strong style="color:#fff">daal</strong>).<br><br>
     • As EC <strong style="color:#FFD54F">te hoog</strong> is → voeg <strong style="color:#fff">skoon water</strong> by, geen kunsmis nie<br>
-    • As EC <strong style="color:#EF9A9A">te laag</strong> is → voeg <strong style="color:#fff">kunsmis</strong> by (Kalsiumnitraat dan Aquaponics)<br>
+    • As EC <strong style="color:#EF9A9A">te laag</strong> is → voeg <strong style="color:#fff">kunsmis</strong> by (Kalsiumnitraat dan Hydroflow)<br>
     • As EC <strong style="color:#81C784">binne reeks</strong> is → niks nodig nie<br><br>
     Gebruik hierdie rekenaar slegs <strong style="color:#fff">wanneer EC of pH buite reeks is</strong>.
   </div>
@@ -440,7 +440,7 @@ const COLORS = [
 
 const CROPS = {
   slaai:           {name:'Slaai',          emoji:'🥬',harvestDays:35,
-    ec:{min:1.2,max:2.0,low:'Voeg Kalsiumnitraat dan Aquaponics by. Mik op 1.4–1.8 mS/cm.',high:'Verdun met skoon water. Mik op 1.4–1.8 mS/cm.'},
+    ec:{min:1.2,max:2.0,low:'Voeg Kalsiumnitraat dan Hydroflow by. Mik op 1.4–1.8 mS/cm.',high:'Verdun met skoon water. Mik op 1.4–1.8 mS/cm.'},
     ph:{min:5.5,max:6.5,low:'Voeg Koeksoda druppel vir druppel by. Mik op 5.8–6.2.',high:'Voeg Swembadsuur druppel vir druppel by. Mik op 5.8–6.2.'},
     tds:{min:600,max:1000},temp:{min:16,max:24,low:'Water te koud — groei vertraag.',high:'Water te warm — suurstof daal. Skadu die tenk.'}},
   spinasie:        {name:'Spinasie',        emoji:'🌿',harvestDays:40,
@@ -456,7 +456,7 @@ const CROPS = {
     ph:{min:5.5,max:6.5,low:'Voeg Koeksoda by. Mik op 5.8–6.2.',high:'Voeg Swembadsuur by. Mik op 5.8–6.2.'},
     tds:{min:900,max:1300},temp:{min:16,max:22,low:'Water te koud.',high:'Water te warm. Skadu die tenk.'}},
   basilie:         {name:'Basilie',           emoji:'🌿',harvestDays:30,
-    ec:{min:1.6,max:2.2,low:'Voeg Kalsiumnitraat dan Aquaponics by. Mik op 1.8–2.0 mS/cm.',high:'Verdun met skoon water. Mik op 1.8–2.0 mS/cm.'},
+    ec:{min:1.6,max:2.2,low:'Voeg Kalsiumnitraat dan Hydroflow by. Mik op 1.8–2.0 mS/cm.',high:'Verdun met skoon water. Mik op 1.8–2.0 mS/cm.'},
     ph:{min:5.5,max:6.5,low:'Voeg Koeksoda by. Mik op 5.8–6.2.',high:'Voeg Swembadsuur by. Mik op 5.8–6.2.'},
     tds:{min:800,max:1100},temp:{min:18,max:26,low:'Basilie is warmteliewend — groei vertraag onder 18°C.',high:'Water te warm — suurstof daal. Skadu die tenk.'}},
   rucola:          {name:'Rucola',            emoji:'🥗',harvestDays:28,
@@ -998,7 +998,7 @@ function buildResult(n,cropKey,ecRaw,ph,tds,temp,tLug,plantDate,prev,trendWaarsk
   if(phR==='bad-low')  actions.push({u:true,t:`<strong>pH ↑ Dringend (${ph.toFixed(2)}):</strong> Voeg Koeksoda stadig by. Roer, wag 3–5 min. Mik op ${crop.ph.min}–${crop.ph.max}.`});
   if(phR==='warn-high')actions.push({u:false,t:`<strong>pH effens hoog (${ph.toFixed(2)}):</strong> Klein bietjie Swembadsuur. Wag en meet.`});
   if(phR==='warn-low') actions.push({u:false,t:`<strong>pH effens laag (${ph.toFixed(2)}):</strong> Klein bietjie Koeksoda. Wag en meet.`});
-  if(ecR==='bad-low')  actions.push({u:true,t:`<strong>EC te laag (${ec.toFixed(3)} mS/cm):</strong> Voeg voedingstof by — eers Kalsiumnitraat, dan Aquaponics apart. Mik op ${crop.ec.min}–${crop.ec.max} mS/cm.`});
+  if(ecR==='bad-low')  actions.push({u:true,t:`<strong>EC te laag (${ec.toFixed(3)} mS/cm):</strong> Voeg voedingstof by — eers Kalsiumnitraat, dan Hydroflow apart. Mik op ${crop.ec.min}–${crop.ec.max} mS/cm.`});
   if(ecR==='bad-high') actions.push({u:true,t:`<strong>EC te hoog (${ec.toFixed(3)} mS/cm):</strong> Verdun met skoon water. Mik op ${crop.ec.min}–${crop.ec.max} mS/cm.`});
   if(ecR==='warn-low') actions.push({u:false,t:`<strong>EC effens laag (${ec.toFixed(3)} mS/cm):</strong> Bietjie voedingstof (A dan B). Mik op ${crop.ec.min}–${crop.ec.max} mS/cm.`});
   if(ecR==='warn-high')actions.push({u:false,t:`<strong>EC effens hoog (${ec.toFixed(3)} mS/cm):</strong> Verdun met bietjie skoon water.`});
@@ -1399,10 +1399,11 @@ function bouOnttrekking(){
     } else if(delta<0){
       kaartKlas='voeg-by';deltaKleur='#EF9A9A';
       status='Voedingstowwe Onttrek';
-      const mlA=vol?Math.ceil((Math.abs(delta)/0.3)*5*(vol/10)):null;
+      const gKNont=vol?Math.ceil(Math.abs(delta)*vol/0.75):null;
+      const gHFont=vol?Math.ceil(Math.abs(delta)*vol/0.60):null;
       aanbeveling=`<strong>🌿 Plante het voedingstowwe verwyder.</strong> EC het gedaal van <strong>${vorige.ec}</strong> na <strong>${laaste.ec}</strong> mS/cm.<br><br>`
-        +(mlA?`Voeg by: 🧂 Kalsiumnitraat <strong>~${mlA}ml</strong> + 🌿 Aquaponics <strong>~${mlA}ml</strong> in ${vol}L.<br><br>`:'Stel tenkvolume in om ml-hoeveelheid te bereken.<br><br>')
-        +`Voeg <strong>eers Kalsiumnitraat</strong> by, roer, dan Aquaponics apart.`;
+        +(gKNont?`Voeg by:<br>🧂 Kalsiumnitraat Omnica: <strong>~${gKNont}g</strong><br>🌿 Hydroflow: <strong>~${gHFont}g</strong> in ${vol}L.<br><br>`:'Stel tenkvolume in om gram-hoeveelheid te bereken.<br><br>')
+        +`Los elke produk <strong>apart</strong> in water op voor jy dit byvoeg — eers Kalsiumnitraat, dan Hydroflow.`;
     } else {
       kaartKlas='vul-water';deltaKleur='#FFD54F';
       status='Water Verdamp';
@@ -1583,11 +1584,17 @@ function doseerBereken(){
       <div class="doseer-stap"><div class="doseer-stap-num">2</div><div class="doseer-stap-txt">Roer goed, wag 5 min en meet EC weer.</div></div>`;
     } else {
       // ~5ml A + 5ml B per 10L verhoog EC met ±0.3 mS/cm
-      const mlPerPart=Math.ceil((delta/0.3)*5*(vol/10));
+      // Akkurate berekeninge gebaseer op produk-spesifikasies:
+      // Kalsiumnitraat Omnica: ~0.75 mS/cm per g/L → gram = delta × vol / 0.75
+      // Hydroflow: ~0.60 mS/cm per g/L → gram = delta × vol / 0.60
+      const gKN=Math.ceil(delta*vol/0.75);
+      const gHF=Math.ceil(delta*vol/0.60);
       const teiken_lbl=crop?`${crop.ec.min}–${crop.ec.max} mS/cm`:ecT+' mS/cm';
-      ecRes.innerHTML=`<div class="doseer-stap"><div class="doseer-stap-num">1</div><div class="doseer-stap-txt">EC moet van ${ecH} na ${ecT} gaan. Voeg by:<br><strong>🧂 Kalsiumnitraat: <span class="getal">~${mlPerPart}ml</span></strong><br><strong>🌿 Aquaponics: <span class="getal">~${mlPerPart}ml</span></strong></div></div>
-      <div class="doseer-stap"><div class="doseer-stap-num">2</div><div class="doseer-stap-txt">Voeg <strong>eers Kalsiumnitraat</strong> by en roer goed. Wag 1 min. Voeg dan <strong>Aquaponics</strong> apart by en roer weer. <strong style="color:#FFD54F">Moenie die twee gekonsentreerde oplossings direk meng nie</strong> — dit veroorsaak 'n reaksie.</div></div>
-      <div class="doseer-stap"><div class="doseer-stap-num">3</div><div class="doseer-stap-txt">Wag 5 min en meet EC. Herhaal in klein stappe tot teiken (${teiken_lbl}) bereik is.</div></div>`;
+      ecRes.innerHTML=`<div class="doseer-stap"><div class="doseer-stap-num">1</div><div class="doseer-stap-txt">EC moet van ${ecH} na ${ecT} mS/cm gaan (Δ ${delta.toFixed(2)} mS/cm in ${vol}L).<br><br>
+        🧂 <strong>Kalsiumnitraat Omnica: <span class="getal">${gKN}g</span></strong><br>
+        🌿 <strong>Hydroflow: <span class="getal">${gHF}g</span></strong></div></div>
+      <div class="doseer-stap"><div class="doseer-stap-num">2</div><div class="doseer-stap-txt">Los <strong>Kalsiumnitraat eers</strong> in 'n beker water op. Gooi dit in die tenk en roer. Wag 1 min.<br>Los dan <strong>Hydroflow apart</strong> in 'n beker water op en gooi dit in. Roer goed.<br><strong style="color:#FFD54F">⚠️ Moenie die twee gekonsentreerde oplossings direk meng nie</strong> — dit veroorsaak 'n wit neerslag.</div></div>
+      <div class="doseer-stap"><div class="doseer-stap-num">3</div><div class="doseer-stap-txt">Wag 5 min, roer en meet EC. Herhaal in klein stappe tot teiken (${teiken_lbl}) bereik is.<br><span style="color:rgba(255,255,255,.4);font-size:10px">Berekeninge gebaseer op: KN Omnica 15.5% N / 19.6% Ca · Hydroflow Water Soluble Mix</span></div></div>`;
     }
   } else {
     ecRes.classList.remove('show');
