@@ -549,6 +549,7 @@ canvas{max-width:100%}
       </div>
     </div>
   </div>
+  <div class="gewas-param-blok" id="dos-gewas-params"></div>
 
   <div class="doseer-seksie">
     <div class="doseer-seksie-titel">⚡ EC Aanpassing</div>
@@ -2033,11 +2034,15 @@ function exportCSV(n){
 function doseerGewasVerander(){
   const gewas=document.getElementById('dos-gewas').value;
   const crop=CROPS[gewas];
+  const blok=document.getElementById('dos-gewas-params');
   if(crop){
     const ecTeiken=+((crop.ec.min+crop.ec.max)/2).toFixed(2);
     const phTeiken=+((crop.ph.min+crop.ph.max)/2).toFixed(2);
     document.getElementById('dos-ec-teiken').value=ecTeiken;
     document.getElementById('dos-ph-teiken').value=phTeiken;
+    if(blok){blok.innerHTML=bougGewasParamHTML(gewas);blok.classList.add('oop');}
+  } else {
+    if(blok){blok.innerHTML='';blok.classList.remove('oop');}
   }
   doseerBereken();
 }
@@ -2073,6 +2078,9 @@ function doseerLaaiTenk(n){
   // Invul optimale teiken-waardes
   document.getElementById('dos-ec-teiken').value=+((crop.ec.min+crop.ec.max)/2).toFixed(2);
   document.getElementById('dos-ph-teiken').value=+((crop.ph.min+crop.ph.max)/2).toFixed(2);
+  // Wys gewas-params blok
+  const blok=document.getElementById('dos-gewas-params');
+  if(blok){blok.innerHTML=bougGewasParamHTML(td.crop);blok.classList.add('oop');}
   doseerBereken();
 }
 
