@@ -761,11 +761,19 @@ async function laaiData() {
         if(nw > ou){ nuweOes = true; break; }
       }
       _data = nuut;
-      const banner = document.getElementById('nuwe-data-banner');
-      banner.textContent = nuweOes
-        ? '🌾 Riaan het nuwe oes aangeteken — tik hier om te sien!'
-        : '📢 Riaan het nuwe data gestoor — tik hier om op te dateer';
-      banner.classList.add('oop');
+      _lastTs = nuut._ts || 0;
+      setLastUpdate();
+      // As leerder tans op lesings-bladsy is, opdateer stilweg
+      const opLesings = document.getElementById('page-lesings')?.classList.contains('active');
+      if(opLesings && !nuweOes){
+        herbou();
+      } else {
+        const banner = document.getElementById('nuwe-data-banner');
+        banner.textContent = nuweOes
+          ? '🌾 Riaan het nuwe oes aangeteken — tik hier om te sien!'
+          : '📢 Riaan het nuwe data gestoor — tik hier om op te dateer';
+        banner.classList.add('oop');
+      }
     }
   } catch (e) {
     setSyncBar('⚠️ Kan nie Firebase bereik nie — probeer weer...');
@@ -775,9 +783,7 @@ async function laaiData() {
 function pasOp(){
   const banner = document.getElementById('nuwe-data-banner');
   const isOes = banner.textContent.includes('oes');
-  _lastTs = _data._ts || 0;
   banner.classList.remove('oop');
-  setLastUpdate();
   herbou();
   if(isOes){
     const oesTab = document.querySelector('.nav-tab:last-child');
