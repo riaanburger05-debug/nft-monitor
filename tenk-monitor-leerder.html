@@ -1222,12 +1222,13 @@ function sluitLigbak(){document.getElementById('ligbak').classList.remove('oop')
 
 function bouLeerderGroeiSelektors(){
   const sel=document.getElementById('groei-tank-sel');
-  if(!sel||sel.children.length)return;
+  if(!sel)return;
+  sel.innerHTML='';
   for(let i=1;i<=4;i++){
     const b=document.createElement('button');
-    b.className='ts-btn'+(i===1?' active':'');
+    b.className='ts-btn'+(i===_groeiTankL?' active':'');
     b.textContent=`Tenk ${i}`;
-    b.onclick=()=>{_groeiTankL=i;document.querySelectorAll('#groei-tank-sel .ts-btn').forEach((x,j)=>x.classList.toggle('active',j+1===i));bouLeerderGroeiInhoud();};
+    b.onclick=(function(ti){return function(){_groeiTankL=ti;document.querySelectorAll('#groei-tank-sel .ts-btn').forEach((x,j)=>x.classList.toggle('active',j+1===ti));bouLeerderGroeiInhoud();};})(i);
     sel.appendChild(b);
   }
 }
@@ -1335,6 +1336,8 @@ function herbou() {
   bouTenkkarte();
   if (document.getElementById('page-geskiedenis').classList.contains('active')) bouGeskiedenis();
   if (document.getElementById('page-grafieke').classList.contains('active')) { bouGrafiekSelektors(); renderAllCharts(); }
+  if (document.getElementById('page-groei').classList.contains('active')) { bouLeerderGroeiSelektors(); bouLeerderGroeiInhoud(); }
+  if (document.getElementById('page-oes').classList.contains('active')) { bouOes(); bouKosteBlok(); }
 }
 
 function bouKosteBlok(){
@@ -1947,11 +1950,15 @@ function renderAllCharts() {
 
 // ── INIT ─────────────────────────────────────────────────────────────────────
 window.onerror = function(msg, src, line) {
-  document.body.innerHTML = '<div style="padding:30px;color:#EF9A9A;font-family:monospace;background:#0a0f1a;min-height:100vh">'
-    + '<h2 style="color:#EF9A9A;margin-bottom:12px">⚠️ JavaScript Fout</h2>'
-    + '<p><strong>Fout:</strong> ' + msg + '</p>'
-    + '<p><strong>Lyn:</strong> ' + line + '</p>'
-    + '</div>';
+  console.error('JS Fout lyn '+line+': '+msg);
+  // Moenie body vervang nie — wys 'n klein overlay sodat app bly werk
+  let div=document.getElementById('_fout_overlay');
+  if(!div){div=document.createElement('div');div.id='_fout_overlay';
+    div.style.cssText='position:fixed;bottom:60px;left:10px;right:10px;background:#1a0a0a;border:1px solid #EF9A9A;border-radius:10px;padding:10px 14px;font-size:11px;color:#EF9A9A;z-index:9999;cursor:pointer;';
+    div.onclick=function(){this.remove();};
+    document.body.appendChild(div);}
+  div.innerHTML='⚠️ JS Fout lyn '+line+': '+String(msg).slice(0,120)+' <span style="color:rgba(255,255,255,.4)">(tik om toe te maak)</span>';
+  return false;
 };
 
 document.addEventListener('DOMContentLoaded', function() {
