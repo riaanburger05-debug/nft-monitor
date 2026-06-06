@@ -524,17 +524,26 @@ body{background:#0a0f1a;font-family:'Inter',sans-serif;color:#fff;min-height:100
     <div class="leer-seksie-titel">🌱 Van Saailing tot Oes</div>
     <div style="position:relative;padding-left:24px">
       <div style="position:absolute;left:10px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,#4CAF50,#FFD54F,#81C784)"></div>
-      ${[
-        {dag:'Dag 1–7',kleur:'#4CAF50',ikon:'🌱',titel:'Saailing fase',teks:'Plant saailinge in die gatjies. Wortels begin soek na water. Vloei moet al op 1–2 L/min wees. EC laag (0.8–1.2) — jong wortels is sensitief.'},
-        {dag:'Dag 7–14',kleur:'#66BB6A',ikon:'🌿',titel:'Vestiging',teks:'Wortels bereik die waterfilm. Plant begin aktief voedingstowwe opneem. EC sal begin daal — goeie teken! Monitor pH daagliks.'},
-        {dag:'Dag 14–28',kleur:'#81C784',ikon:'💪',titel:'Aktiewe Groei',teks:'Vinnigste groeifase. Hoë voedingstofbehoefte. EC kan vinnig daal — doseer elke 2–3 dae. Wortels word groot — begin weeklikse vloei-meting.'},
-        {dag:'Dag 28–35+',kleur:'#FFD54F',ikon:'🎉',titel:'Naby Oes',teks:'Plant bereik volwassenheid. Vertraag dosering effens. Kontroleer vloei elke paar dae — wortels is nou op hul grootste. Oes wanneer gewas vol en fris lyk.'},
-      ].map(f=>`
-      <div style="position:relative;margin-bottom:16px;padding:12px 14px;background:rgba(255,255,255,.04);border-radius:10px;border-left:3px solid ${f.kleur}">
-        <div style="font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;color:${f.kleur};margin-bottom:4px">${f.dag}</div>
-        <div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:6px">${f.ikon} ${f.titel}</div>
-        <div style="font-size:11px;color:rgba(255,255,255,.55);line-height:1.6">${f.teks}</div>
-      </div>`).join('')}
+      <div style="position:relative;margin-bottom:16px;padding:12px 14px;background:rgba(255,255,255,.04);border-radius:10px;border-left:3px solid #4CAF50">
+        <div style="font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;color:#4CAF50;margin-bottom:4px">Dag 1–7</div>
+        <div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:6px">🌱 Saailing fase</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.55);line-height:1.6">Plant saailinge in die gatjies. Wortels begin soek na water. Vloei moet al op 1–2 L/min wees. EC laag (0.8–1.2) — jong wortels is sensitief.</div>
+      </div>
+      <div style="position:relative;margin-bottom:16px;padding:12px 14px;background:rgba(255,255,255,.04);border-radius:10px;border-left:3px solid #66BB6A">
+        <div style="font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;color:#66BB6A;margin-bottom:4px">Dag 7–14</div>
+        <div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:6px">🌿 Vestiging</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.55);line-height:1.6">Wortels bereik die waterfilm. Plant begin aktief voedingstowwe opneem. EC sal begin daal — goeie teken! Monitor pH daagliks.</div>
+      </div>
+      <div style="position:relative;margin-bottom:16px;padding:12px 14px;background:rgba(255,255,255,.04);border-radius:10px;border-left:3px solid #81C784">
+        <div style="font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;color:#81C784;margin-bottom:4px">Dag 14–28</div>
+        <div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:6px">💪 Aktiewe Groei</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.55);line-height:1.6">Vinnigste groeifase. Hoë voedingstofbehoefte. EC kan vinnig daal — doseer elke 2–3 dae. Wortels word groot — begin weeklikse vloei-meting.</div>
+      </div>
+      <div style="position:relative;margin-bottom:16px;padding:12px 14px;background:rgba(255,255,255,.04);border-radius:10px;border-left:3px solid #FFD54F">
+        <div style="font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;color:#FFD54F;margin-bottom:4px">Dag 28–35+</div>
+        <div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:6px">🎉 Naby Oes</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.55);line-height:1.6">Plant bereik volwassenheid. Vertraag dosering effens. Kontroleer vloei elke paar dae — wortels is nou op hul grootste. Oes wanneer gewas vol en fris lyk.</div>
+      </div>
     </div>
   </div>
 
@@ -542,27 +551,84 @@ body{background:#0a0f1a;font-family:'Inter',sans-serif;color:#fff;min-height:100
   <div class="leer-seksie">
     <div class="leer-seksie-titel">🔧 Wat Gaan Fout? Diagnose en Oplos</div>
     <div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:12px">Tik op 'n scenario om te sien wat dit beteken en hoe om dit reg te stel.</div>
-    ${[
-      {id:'f1',ikon:'📉',kleur:'#EF9A9A',titel:'EC daal vinnig elke dag',oorsaak:'Plante is in aktiewe groei en gebruik voedingstowwe vinnig. Dit is normaal in die groeifase.',oplossing:'Doseer met Kalsiumnitraat (eers) dan Hydroflow. Gebruik die Doseer-rekenaar vir die regte hoeveelheid. Moenie te veel op een slag byvoeg nie — geleidelik is beter.'},
-      {id:'f2',ikon:'📈',kleur:'#FFD54F',titel:'EC styg alhoewel ek niks bygevoeg het',oorsaak:'Water verdamp maar voedingstowwe bly agter. Veral warm dae of in 'n warm ruimte.',oplossing:'Voeg skoon, pH-gebalanseerde water by. Meet EC voor en na elke byvoeging. Moenie voedingstowwe bysit nie — dit sal die EC verder verhoog.'},
-      {id:'f3',ikon:'🔴',kleur:'#EF9A9A',titel:'pH styg na 7.0 of hoër',oorsaak:'Alkalies water (hoë karbonaat), of bakteriese aktiwiteit in die stelsel. Sommige kunsmisse verhoog ook pH.',oplossing:'Voeg swembadsuur (fosforsuur) druppel-vir-druppel by. Meet elke 15 min. Teiken: 5.8–6.2. Moenie oorkorrekteer nie — te laag is ook sleg.'},
-      {id:'f4',ikon:'🔵',kleur:'#90caf9',titel:'pH daal onder 5.5',oorsaak:'Plante onttrek basiese ione, of te veel suur bygevoeg.',oplossing:'Voeg koeksoda-oplossing stadig by. 1 teelepel per 50L as beginpunt. Meet gereeld.'},
-      {id:'f5',ikon:'🌊',kleur:'#FFD54F',titel:'Vloei het gedaal (onder 1 L/min)',oorsaak:'Wortels groei in die pypkanaal en versper vloei. Kan ook 'n gedeeltelik geblokkeerde filter of pompprobleem wees.',oplossing:'1) Kontroleer pompfilter — skoonmaak as nodig. 2) Kyk in die pype vir wortelverstopping. 3) Sny oorgroei wortels versigtig terug. 4) Oorweeg om plante vroeg te oes as te erg.'},
-      {id:'f6',ikon:'🟤',kleur:'#BCAAA4',titel:'Wortels word bruin en slymerig',oorsaak:'Pythium (wortelvrot) — 'n waterskimmel wat gedei in warm, stagnante, suurstof-arm water. Die ergste NFT-probleem.',oplossing:'1) Verlaag watertemperatuur onder 22°C dringend. 2) Verseker vloei is bo 1 L/min. 3) Verwijder swaar aangepakte plante. 4) Dreineer en reinig die stelsel met 'n swak waterstofperoksied-oplossing (3ml/L van 3% H₂O₂). 5) Herplant indien nodig.'},
-    ].map(f=>`
     <div class="leer-blok" style="margin-bottom:8px">
-      <div class="leer-blok-kop" onclick="wisselLeerBlok('${f.id}')">
-        <span class="leer-blok-ikon">${f.ikon}</span>
-        <div><div class="leer-blok-naam" style="color:${f.kleur}">${f.titel}</div></div>
-        <span class="leer-blok-pyl" id="pyl-${f.id}">▼</span>
+      <div class="leer-blok-kop" onclick="wisselLeerBlok('f1')">
+        <span class="leer-blok-ikon">📉</span>
+        <div><div class="leer-blok-naam" style="color:#EF9A9A">EC daal vinnig elke dag</div></div>
+        <span class="leer-blok-pyl" id="pyl-f1">▼</span>
       </div>
-      <div class="leer-blok-inhoud" id="blok-${f.id}">
+      <div class="leer-blok-inhoud" id="blok-f1">
         <div class="leer-blok-teks">
-          <strong style="color:rgba(255,255,255,.5)">🔍 Oorsaak:</strong> ${f.oorsaak}<br><br>
-          <strong style="color:#81C784">✅ Oplossing:</strong> ${f.oplossing}
+          <strong style="color:rgba(255,255,255,.5)">🔍 Oorsaak:</strong> Plante is in aktiewe groei en gebruik voedingstowwe vinnig. Dit is normaal in die groeifase.<br><br>
+          <strong style="color:#81C784">✅ Oplossing:</strong> Doseer met Kalsiumnitraat (eers) dan Hydroflow. Gebruik die Doseer-rekenaar vir die regte hoeveelheid. Moenie te veel op een slag byvoeg nie — geleidelik is beter.
         </div>
       </div>
-    </div>`).join('')}
+    </div>
+    <div class="leer-blok" style="margin-bottom:8px">
+      <div class="leer-blok-kop" onclick="wisselLeerBlok('f2')">
+        <span class="leer-blok-ikon">📈</span>
+        <div><div class="leer-blok-naam" style="color:#FFD54F">EC styg alhoewel ek niks bygevoeg het</div></div>
+        <span class="leer-blok-pyl" id="pyl-f2">▼</span>
+      </div>
+      <div class="leer-blok-inhoud" id="blok-f2">
+        <div class="leer-blok-teks">
+          <strong style="color:rgba(255,255,255,.5)">🔍 Oorsaak:</strong> Water verdamp maar voedingstowwe bly agter. Veral warm dae of in 'n warm ruimte.<br><br>
+          <strong style="color:#81C784">✅ Oplossing:</strong> Voeg skoon, pH-gebalanseerde water by. Meet EC voor en na elke byvoeging. Moenie voedingstowwe bysit nie — dit sal die EC verder verhoog.
+        </div>
+      </div>
+    </div>
+    <div class="leer-blok" style="margin-bottom:8px">
+      <div class="leer-blok-kop" onclick="wisselLeerBlok('f3')">
+        <span class="leer-blok-ikon">🔴</span>
+        <div><div class="leer-blok-naam" style="color:#EF9A9A">pH styg na 7.0 of hoër</div></div>
+        <span class="leer-blok-pyl" id="pyl-f3">▼</span>
+      </div>
+      <div class="leer-blok-inhoud" id="blok-f3">
+        <div class="leer-blok-teks">
+          <strong style="color:rgba(255,255,255,.5)">🔍 Oorsaak:</strong> Alkalies water (hoë karbonaat), of bakteriese aktiwiteit in die stelsel. Sommige kunsmisse verhoog ook pH.<br><br>
+          <strong style="color:#81C784">✅ Oplossing:</strong> Voeg swembadsuur (fosforsuur) druppel-vir-druppel by. Meet elke 15 min. Teiken: 5.8–6.2. Moenie oorkorrekteer nie — te laag is ook sleg.
+        </div>
+      </div>
+    </div>
+    <div class="leer-blok" style="margin-bottom:8px">
+      <div class="leer-blok-kop" onclick="wisselLeerBlok('f4')">
+        <span class="leer-blok-ikon">🔵</span>
+        <div><div class="leer-blok-naam" style="color:#90caf9">pH daal onder 5.5</div></div>
+        <span class="leer-blok-pyl" id="pyl-f4">▼</span>
+      </div>
+      <div class="leer-blok-inhoud" id="blok-f4">
+        <div class="leer-blok-teks">
+          <strong style="color:rgba(255,255,255,.5)">🔍 Oorsaak:</strong> Plante onttrek basiese ione, of te veel suur bygevoeg.<br><br>
+          <strong style="color:#81C784">✅ Oplossing:</strong> Voeg koeksoda-oplossing stadig by. 1 teelepel per 50L as beginpunt. Meet gereeld.
+        </div>
+      </div>
+    </div>
+    <div class="leer-blok" style="margin-bottom:8px">
+      <div class="leer-blok-kop" onclick="wisselLeerBlok('f5')">
+        <span class="leer-blok-ikon">🌊</span>
+        <div><div class="leer-blok-naam" style="color:#FFD54F">Vloei het gedaal (onder 1 L/min)</div></div>
+        <span class="leer-blok-pyl" id="pyl-f5">▼</span>
+      </div>
+      <div class="leer-blok-inhoud" id="blok-f5">
+        <div class="leer-blok-teks">
+          <strong style="color:rgba(255,255,255,.5)">🔍 Oorsaak:</strong> Wortels groei in die pypkanaal en versper vloei. Kan ook 'n gedeeltelik geblokkeerde filter of pompprobleem wees.<br><br>
+          <strong style="color:#81C784">✅ Oplossing:</strong> 1) Kontroleer pompfilter — skoonmaak as nodig. 2) Kyk in die pype vir wortelverstopping. 3) Sny oorgroei wortels versigtig terug. 4) Oorweeg om plante vroeg te oes as te erg.
+        </div>
+      </div>
+    </div>
+    <div class="leer-blok" style="margin-bottom:8px">
+      <div class="leer-blok-kop" onclick="wisselLeerBlok('f6')">
+        <span class="leer-blok-ikon">🟤</span>
+        <div><div class="leer-blok-naam" style="color:#BCAAA4">Wortels word bruin en slymerig</div></div>
+        <span class="leer-blok-pyl" id="pyl-f6">▼</span>
+      </div>
+      <div class="leer-blok-inhoud" id="blok-f6">
+        <div class="leer-blok-teks">
+          <strong style="color:rgba(255,255,255,.5)">🔍 Oorsaak:</strong> Pythium (wortelvrot) — 'n waterskimmel wat gedei in warm, stagnante, suurstof-arm water. Die ergste NFT-probleem.<br><br>
+          <strong style="color:#81C784">✅ Oplossing:</strong> 1) Verlaag watertemperatuur onder 22°C dringend. 2) Verseker vloei is bo 1 L/min. 3) Verwyder swaar aangepakte plante. 4) Dreineer en reinig die stelsel met 'n swak waterstofperoksied-oplossing (3ml/L van 3% H₂O₂). 5) Herplant indien nodig.
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Gewas verwysingtabel -->
