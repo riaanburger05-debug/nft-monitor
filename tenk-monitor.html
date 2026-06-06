@@ -11,8 +11,8 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%}
-body{background:#0a0f1a;font-family:'Inter',sans-serif;color:#fff;min-height:100vh;display:flex;flex-direction:column}
-.nav{display:flex;background:#0d1520;border-bottom:1px solid rgba(255,255,255,.08);position:sticky;top:0;z-index:100;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+body{background:#0a0f1a;font-family:'Inter',sans-serif;color:#fff;min-height:100vh;display:flex;flex-direction:column;padding-top:52px}
+.nav{display:flex;background:#0d1520;border-bottom:1px solid rgba(255,255,255,.08);position:fixed;top:0;left:0;right:0;z-index:100;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .nav::-webkit-scrollbar{display:none}
 .nav-tab{flex:0 0 auto;min-width:64px;padding:14px 10px 12px;text-align:center;cursor:pointer;border:none;background:none;color:rgba(255,255,255,.4);font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;border-bottom:3px solid transparent;transition:all .15s;white-space:nowrap}
 .nav-tab.active{color:#4CAF50;border-bottom-color:#4CAF50}
@@ -1430,14 +1430,14 @@ function berekeningKoste(){
   let totWaterL=0,aktief=0;
   for(let i=1;i<=4;i++){
     const td=data[`t${i}`];
-    if(!td||!td.active||!td.aantalPlante)continue;
+    if(!td||!td.aantalPlante)continue;
     const age=plantAge(td.plantDate)||14;
     aktief++;
     totWaterL+=waterGebruikPerPlant(td.crop,age)*td.aantalPlante/1000*7*weke;
   }
   if(!aktief){res.innerHTML='<div style="font-size:12px;color:rgba(255,255,255,.3);text-align:center;padding:12px">Geen aktiewe tenke met plante-telling nie.</div>';return;}
   // Nutrient gebruik: ~10ml per 10L per week per tank (rough estimate)
-  const totVolume=Object.values(data).filter(t=>t.active&&t.tenkVolume).reduce((s,t)=>s+(t.tenkVolume||0),0);
+  const totVolume=Object.values(data).filter(t=>t&&t.tenkVolume).reduce((s,t)=>s+(t.tenkVolume||0),0);
   // ~1g KN + 1g Hydroflow per liter per week (beraamde dosis)
   const gKN=totVolume*1*weke;
   const gHF=totVolume*1*weke;
