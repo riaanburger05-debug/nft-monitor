@@ -2201,13 +2201,34 @@ function bouOes(){
     return;
   }
   const gramTeks=totGram>=1000?(totGram/1000).toFixed(2)+' kg':totGram+' g';
+  const kosteResultaat=(data.koste||{}).resultaat||null;
+  const totKoste=kosteResultaat?kosteResultaat.totaal:null;
+  const wins=totKoste!==null?+(totRand-totKoste).toFixed(2):null;
+  const winsKleur=wins===null?'#fff':wins>=0?'#81C784':'#EF9A9A';
+  const winsLbl=wins===null?'—':wins>=0?`🟢 Wins: R ${wins}`:`🔴 Verlies: R ${Math.abs(wins)}`;
   totBlok.innerHTML=`
     <div class="oes-totaal-kaart">
       <div class="oes-totaal-lbl">TOTALE OES</div>
       <div class="oes-totaal-getal">${gramTeks}</div>
       ${totRand>0?`<div class="oes-totaal-rand">R ${totRand.toFixed(2)}</div>`:''}
       <div class="oes-totaal-lbl" style="margin-top:8px">oor alle tenke saam</div>
-    </div>`;
+    </div>
+    ${totKoste!==null?`
+    <div style="background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.08);border-radius:14px;padding:16px;margin-bottom:18px">
+      <div style="font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:12px">📊 Wins &amp; Verlies</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px">
+        <div style="flex:1;min-width:90px;background:rgba(255,193,7,.07);border-radius:10px;padding:10px 12px">
+          <div style="font-size:10px;color:rgba(255,255,255,.35);margin-bottom:2px">💰 Verkope</div>
+          <div style="font-size:20px;font-weight:700;color:#FFD54F">R ${totRand.toFixed(2)}</div>
+        </div>
+        <div style="flex:1;min-width:90px;background:rgba(239,154,154,.07);border-radius:10px;padding:10px 12px">
+          <div style="font-size:10px;color:rgba(255,255,255,.35);margin-bottom:2px">🧾 Koste</div>
+          <div style="font-size:20px;font-weight:700;color:#EF9A9A">R ${totKoste}</div>
+          <div style="font-size:9px;color:rgba(255,255,255,.25)">Water + Voeding (${kosteResultaat.weke}w)</div>
+        </div>
+      </div>
+      <div style="border-top:1px solid rgba(255,255,255,.08);padding-top:10px;font-family:'Montserrat',sans-serif;font-size:18px;font-weight:900;color:${winsKleur}">${winsLbl}</div>
+    </div>`:''}` ;
   let html='';
   for(let i=1;i<=4;i++){
     const sv=data[`t${i}`]||{};
