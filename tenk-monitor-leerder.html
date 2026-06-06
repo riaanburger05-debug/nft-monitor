@@ -1305,6 +1305,28 @@ function bouTenkkarte() {
         </div>`;
     }
 
+    // Vloei
+    if (last.vloei != null) {
+      const vloeiKleur = last.vloei < 0.8 ? '#EF9A9A' : last.vloei < 1.0 ? '#FFD54F' : '#81C784';
+      const vloeiAdvies = last.vloei < 0.8
+        ? `<div class="param-advice" style="color:#EF9A9A">⚠️ Vloei baie laag — kontroleer pomp en wortels dadelik!</div>`
+        : last.vloei < 1.0
+        ? `<div class="param-advice" style="color:#FFD54F">Vloei effens laag — hou dop vir wortelverstopping.</div>`
+        : '';
+      params += `
+        <div class="param-row">
+          <div class="param-icon">🌊</div>
+          <div class="param-info">
+            <div class="param-top">
+              <span class="param-name">Vloei</span>
+              <span class="param-val" style="color:${vloeiKleur}">${last.vloei} L/min</span>
+            </div>
+            <div class="param-range">Teiken: 1–2 L/min per kant</div>
+            ${vloeiAdvies}
+          </div>
+        </div>`;
+    }
+
     const sessLabel    = last.session === 'nm' ? '☀️ Namiddag' : '🌅 Vooroggend';
     const notaTxt      = last.notes || '';
     const notaHtml     = notaTxt

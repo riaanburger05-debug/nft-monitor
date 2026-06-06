@@ -804,6 +804,34 @@ function checkWaarskuwings(){
     kontroleer('ec',crop.ec,'EC','mS/cm');
     kontroleer('ph',crop.ph,'pH','');
     kontroleer('temp',crop.temp,'Watertemp','°C');
+    // Vloei-waarskuwings
+    const vloeiLesings=readings.filter(r=>r.vloei!=null);
+    if(vloeiLesings.length){
+      const laaste=vloeiLesings[vloeiLesings.length-1];
+      if(laaste.vloei<0.8){
+        html+=`<div class="waarsku-kaart">
+          <div class="waarsku-ikoon">🚰</div>
+          <div class="waarsku-inhoud">
+            <div class="waarsku-titel">Tenk ${i} — LAAT VLOEI (${laaste.vloei} L/min)</div>
+            <div class="waarsku-boodskap">Vloei is onder 0.8 L/min — wortels kan die pypkanaal blokkeer.</div>
+            <div class="waarsku-advies">👉 Kontroleer pomp, pypfilter en wortelontwikkeling dadelik.</div>
+          </div>
+        </div>`;
+      }
+    }
+    // Waarskuwing as vloei nie die afgelope 7 dae gemeet is nie
+    const seweDeTerug=new Date(Date.now()-7*24*60*60*1000).toISOString().slice(0,10);
+    const onlangseVloei=readings.filter(r=>r.vloei!=null&&(r.date||'')>=seweDeTerug);
+    if(!onlangseVloei.length){
+      html+=`<div class="waarsku-kaart" style="border-left-color:#FFD54F">
+        <div class="waarsku-ikoon">⏰</div>
+        <div class="waarsku-inhoud">
+          <div class="waarsku-titel" style="color:#FFD54F">Tenk ${i} — Vloei nie gemeet die afgelope 7 dae nie</div>
+          <div class="waarsku-boodskap">Meet weekliks die vloeisnelheid (teiken: 1–2 L/min per kant).</div>
+          <div class="waarsku-advies">👉 Meet vandag se vloei en teken dit aan as 'n nuwe lesing.</div>
+        </div>
+      </div>`;
+    }
   }
   blok.innerHTML=html?`<div class="waarsku-blok">${html}</div>`:'';
 }
@@ -898,6 +926,7 @@ function buildTankCards(){
             <div class="field"><label>TDS</label><input type="number" id="t${i}-tds" placeholder="bv. 800" step="1" inputmode="numeric"><div class="unit">ppm</div></div>
             <div class="field"><label>Water Temp</label><input type="number" id="t${i}-temp" placeholder="bv. 20" step="0.1" inputmode="decimal"><div class="unit">°C</div></div>
             <div class="field"><label>Lug Temp</label><input type="number" id="t${i}-tempLug" placeholder="bv. 25" step="0.1" inputmode="decimal"><div class="unit">°C</div></div>
+            <div class="field"><label>Vloei</label><input type="number" id="t${i}-vloei" placeholder="bv. 1.5" step="0.1" inputmode="decimal"><div class="unit">L/min</div></div>
           </div>
         </div>
       </div>
@@ -1572,11 +1601,13 @@ function analyze(){
     const tds=parseFloat(document.getElementById(`t${i}-tds`).value);
     const temp=parseFloat(document.getElementById(`t${i}-temp`).value);
     const tLug=parseFloat(document.getElementById(`t${i}-tempLug`).value);
+    const vloei=parseFloat(document.getElementById(`t${i}-vloei`).value);
     const plantDate=document.getElementById(`t${i}-date`).value;
     const lesingDatum=document.getElementById(`t${i}-lesingDatum`).value||today();
     if(!cropKey){alert(`Tenk ${i}: Kies 'n gewas.`);return;}
     if(isNaN(ecRaw)||isNaN(ph)||isNaN(tds)||isNaN(temp)){alert(`Tenk ${i}: Voer alle 4 lesings in.`);return;}
     if(isNaN(tLug)){alert(`Tenk ${i}: Voer lug temperatuur in.`);return;}
+    // Vloei is opsioneel — geen alert as leeg
     const ec=parseEC(ecRaw);
     if(!data[`t${i}`])data[`t${i}`]={};
     data[`t${i}`].active=true;
@@ -1588,7 +1619,9 @@ function analyze(){
     if(!isNaN(volVal)&&volVal>0)data[`t${i}`].tenkVolume=volVal;
     if(!data[`t${i}`].readings)data[`t${i}`].readings=[];
     const prev=data[`t${i}`].readings.length?data[`t${i}`].readings[data[`t${i}`].readings.length-1]:null;
-    data[`t${i}`].readings.push({date:lesingDatum,session:getSess(i),seisoen:getSeisoen(i),ec:+ec.toFixed(4),ph:+ph.toFixed(2),tds:Math.round(tds),temp:+temp.toFixed(1),tempLug:+tLug.toFixed(1)});
+    const lesingObj={date:lesingDatum,session:getSess(i),seisoen:getSeisoen(i),ec:+ec.toFixed(4),ph:+ph.toFixed(2),tds:Math.round(tds),temp:+temp.toFixed(1),tempLug:+tLug.toFixed(1)};
+    if(!isNaN(vloei)&&vloei>0)lesingObj.vloei=+vloei.toFixed(2);
+    data[`t${i}`].readings.push(lesingObj);
     const tw=checkTendense(data[`t${i}`].readings,cropKey);
     html+=buildResult(i,cropKey,ecRaw,ph,tds,temp,tLug,plantDate,prev,tw);
     count++;
@@ -1598,7 +1631,7 @@ function analyze(){
   checkWaarskuwings();
   for(let i=1;i<=4;i++){
     if(!document.getElementById(`t${i}-active`).checked)continue;
-    ['ec','ph','tds','temp','tempLug'].forEach(f=>{const el=document.getElementById(`t${i}-${f}`);if(el)el.value='';});
+    ['ec','ph','tds','temp','tempLug','vloei'].forEach(f=>{const el=document.getElementById(`t${i}-${f}`);if(el)el.value='';});
     const ld=document.getElementById(`t${i}-lesingDatum`);if(ld)ld.value=today();
   }
   const el=document.getElementById('results');
@@ -1638,7 +1671,7 @@ function renderHistory(n){
       </div>`;
     })()}
     <div class="hist-table-wrap"><table class="hist-table">
-      <thead><tr><th></th><th>Datum</th><th>Sessie</th><th>EC mS/cm</th><th>pH</th><th>TDS ppm</th><th>Water °C</th><th>Lug °C</th><th>Δ °C</th><th></th></tr></thead>
+      <thead><tr><th></th><th>Datum</th><th>Sessie</th><th>EC mS/cm</th><th>pH</th><th>TDS ppm</th><th>Water °C</th><th>Lug °C</th><th>Δ °C</th><th>Vloei L/m</th><th></th></tr></thead>
       <tbody>${readings.map((r,di)=>{
         const origIdx=td.readings.length-1-di;
         const prev=origIdx>0?td.readings[origIdx-1]:null;
@@ -1671,6 +1704,7 @@ function renderHistory(n){
           <td class="${cls(tR)}">${r.temp}${ht(r.temp,prev?.temp)}</td>
           <td>${r.tempLug!=null?r.tempLug:'—'}</td>
           <td class="${dc}">${delta>0?'+':''}${delta}</td>
+          <td style="${r.vloei!=null&&r.vloei<0.8?'color:#EF9A9A;font-weight:700':''}">${r.vloei!=null?r.vloei+' L/m':'—'}</td>
           <td><button onclick="deleteReading(${n},${origIdx})" style="background:none;border:none;cursor:pointer;font-size:13px;padding:2px 4px;opacity:.5">🗑️</button></td>
         </tr>
         <tr id="det-${n}-${origIdx}" style="display:none">
@@ -2062,9 +2096,9 @@ function exportCSV(n){
   const td=d[`t${n}`];
   if(!td||!td.readings||!td.readings.length){alert('Geen lesings om af te laai nie.');return;}
   const crop=CROPS[td.crop]||{};
-  const kop=['Datum','Sessie','EC (mS/cm)','pH','TDS (ppm)','Water Temp (°C)','Lug Temp (°C)','Nota'];
+  const kop=['Datum','Sessie','EC (mS/cm)','pH','TDS (ppm)','Water Temp (°C)','Lug Temp (°C)','Vloei (L/min)','Nota'];
   const rye=td.readings.map(r=>[
-    r.date||'',r.session||'',r.ec||'',r.ph||'',r.tds||'',r.temp||'',r.tempLug||'',(r.notes||'').replace(/,/g,' ')
+    r.date||'',r.session||'',r.ec||'',r.ph||'',r.tds||'',r.temp||'',r.tempLug||'',r.vloei||'',(r.notes||'').replace(/,/g,' ')
   ].join(','));
   const inhoud=[`NFT Tenk ${n} — ${crop.name||''} — GroeiWys`,kop.join(','),...rye].join('\n');
   const blob=new Blob(['﻿'+inhoud],{type:'text/csv;charset=utf-8;'});
