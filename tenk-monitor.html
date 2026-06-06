@@ -599,11 +599,11 @@ canvas{max-width:100%}
         <input type="number" id="kos-water" placeholder="bv. 0.05" step="0.01" inputmode="decimal" oninput="berekeningKoste()">
       </div>
       <div class="doseer-field">
-        <label>Kalsiumnitraat (R/liter)</label>
-        <input type="number" id="kos-kn" placeholder="bv. 25" step="0.01" inputmode="decimal" oninput="berekeningKoste()">
+        <label>Kalsiumnitraat (R/kg)</label>
+        <input type="number" id="kos-kn" placeholder="bv. 80" step="0.01" inputmode="decimal" oninput="berekeningKoste()">
       </div>
       <div class="doseer-field">
-        <label>Hydroflow (R/liter)</label>
+        <label>Hydroflow (R/kg)</label>
         <input type="number" id="kos-aq" placeholder="bv. 35" step="0.01" inputmode="decimal" oninput="berekeningKoste()">
       </div>
       <div class="doseer-field">
@@ -1438,9 +1438,11 @@ function berekeningKoste(){
   if(!aktief){res.innerHTML='<div style="font-size:12px;color:rgba(255,255,255,.3);text-align:center;padding:12px">Geen aktiewe tenke met plante-telling nie.</div>';return;}
   // Nutrient gebruik: ~10ml per 10L per week per tank (rough estimate)
   const totVolume=Object.values(data).filter(t=>t.active&&t.tenkVolume).reduce((s,t)=>s+(t.tenkVolume||0),0);
-  const mlNutr=totVolume*1*weke; // ~1ml/L/week
+  // ~1g KN + 1g Hydroflow per liter per week (beraamde dosis)
+  const gKN=totVolume*1*weke;
+  const gHF=totVolume*1*weke;
   const kosWaterTot=+(totWaterL*kosWater).toFixed(2);
-  const kosNutrTot=+(mlNutr/1000*((kosKN+kosAQ)/2)).toFixed(2);
+  const kosNutrTot=+(gKN/1000*kosKN + gHF/1000*kosAQ).toFixed(2);
   const totaal=+(kosWaterTot+kosNutrTot).toFixed(2);
   res.innerHTML=`<div class="koste-totaal">
     <div class="koste-bedrag">R ${totaal}</div>
