@@ -596,19 +596,19 @@ canvas{max-width:100%}
     <div class="doseer-grid">
       <div class="doseer-field">
         <label>Water (R per liter)</label>
-        <input type="number" id="kos-water" placeholder="bv. 0.05" step="0.01" inputmode="decimal" oninput="berekeningKoste()">
+        <input type="number" id="kos-water" placeholder="bv. 0.05" step="0.01" inputmode="decimal" oninput="stoorKoste()">
       </div>
       <div class="doseer-field">
         <label>Kalsiumnitraat (R/kg)</label>
-        <input type="number" id="kos-kn" placeholder="bv. 80" step="0.01" inputmode="decimal" oninput="berekeningKoste()">
+        <input type="number" id="kos-kn" placeholder="bv. 80" step="0.01" inputmode="decimal" oninput="stoorKoste()">
       </div>
       <div class="doseer-field">
         <label>Hydroflow (R/kg)</label>
-        <input type="number" id="kos-aq" placeholder="bv. 35" step="0.01" inputmode="decimal" oninput="berekeningKoste()">
+        <input type="number" id="kos-aq" placeholder="bv. 35" step="0.01" inputmode="decimal" oninput="stoorKoste()">
       </div>
       <div class="doseer-field">
         <label>Tydperk (weke)</label>
-        <input type="number" id="kos-weke" placeholder="bv. 5" step="1" inputmode="numeric" value="5" oninput="berekeningKoste()">
+        <input type="number" id="kos-weke" placeholder="bv. 5" step="1" inputmode="numeric" value="5" oninput="stoorKoste()">
       </div>
     </div>
     <div id="koste-resultaat"></div>
@@ -1419,6 +1419,25 @@ function bevestigNuweSiklus(){
 }
 
 // ── WATERKOSTE ───────────────────────────────────────────────────────────────
+function stoorKoste(){
+  localStorage.setItem('nft_koste',JSON.stringify({
+    water:document.getElementById('kos-water').value,
+    kn:document.getElementById('kos-kn').value,
+    aq:document.getElementById('kos-aq').value,
+    weke:document.getElementById('kos-weke').value
+  }));
+  berekeningKoste();
+}
+function laaiKoste(){
+  try{
+    const k=JSON.parse(localStorage.getItem('nft_koste')||'{}');
+    if(k.water)document.getElementById('kos-water').value=k.water;
+    if(k.kn)document.getElementById('kos-kn').value=k.kn;
+    if(k.aq)document.getElementById('kos-aq').value=k.aq;
+    if(k.weke)document.getElementById('kos-weke').value=k.weke;
+  }catch(e){}
+  berekeningKoste();
+}
 function berekeningKoste(){
   const kosWater=parseFloat(document.getElementById('kos-water').value)||0;
   const kosKN=parseFloat(document.getElementById('kos-kn').value)||0;
@@ -2221,7 +2240,7 @@ function showPage(id,btn){
       const tt=dd[`t${i}`];
       if(tt&&(tt.active||tt.readings?.length||tt.crop)){doseerLaaiTenk(i);break;}
     }
-    bouOnttrekking();bouWaterverbruik();berekeningKoste();
+    bouOnttrekking();bouWaterverbruik();laaiKoste();
   }
   if(id==='groei'){
     bouGroeiSelektors();
