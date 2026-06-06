@@ -1440,6 +1440,14 @@ function laaiKoste(){
     if(k.kn)document.getElementById('kos-kn').value=k.kn;
     if(k.aq)document.getElementById('kos-aq').value=k.aq;
     if(k.weke)document.getElementById('kos-weke').value=k.weke;
+    // Stuur na Firebase as dit nog nie daar is nie
+    if(k.water||k.kn||k.aq){
+      const d=loadData();
+      if(!d.koste||d.koste.water!==k.water||d.koste.kn!==k.kn||d.koste.aq!==k.aq){
+        d.koste=k;
+        saveData(d);
+      }
+    }
   }catch(e){}
   berekeningKoste();
 }
