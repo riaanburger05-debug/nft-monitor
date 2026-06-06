@@ -188,6 +188,14 @@ canvas{max-width:100%}
 .oes-ry-gram{font-family:'Montserrat',sans-serif;font-weight:900;font-size:15px;color:#81C784}
 .oes-ry-rand{font-family:'Montserrat',sans-serif;font-weight:700;font-size:11px;color:#FFD54F;margin-top:2px}
 .oes-leeg{padding:30px 14px;text-align:center;color:rgba(255,255,255,.25);font-size:12px}
+/* Outomatiese waarskuwings */
+.waarsku-blok{margin-bottom:14px}
+.waarsku-kaart{background:linear-gradient(135deg,rgba(211,47,47,.15),rgba(244,67,54,.08));border:1.5px solid rgba(244,67,54,.5);border-radius:14px;padding:13px 14px;margin-bottom:8px;display:flex;align-items:flex-start;gap:10px}
+.waarsku-ikoon{font-size:22px;line-height:1;flex-shrink:0}
+.waarsku-inhoud{flex:1}
+.waarsku-titel{font-family:'Montserrat',sans-serif;font-weight:900;font-size:12px;color:#EF9A9A;margin-bottom:3px}
+.waarsku-boodskap{font-size:11px;color:rgba(255,255,255,.6);line-height:1.5}
+.waarsku-advies{font-size:11px;color:#FFD54F;margin-top:4px;font-weight:600}
 .oes-stat-ry strong{color:#fff}
 /* Waterkoste */
 .koste-totaal{background:rgba(76,175,80,.07);border:1.5px solid rgba(76,175,80,.2);border-radius:12px;padding:14px;margin-top:12px;text-align:center}
@@ -295,6 +303,7 @@ canvas{max-width:100%}
     <h1><span>Groei</span>Gids · Tenk Monitor</h1>
     <p>EC · pH · TDS · Temperatuur · Aanbevelings</p>
   </div>
+  <div id="waarsku-blok"></div>
   <div class="tanks" id="tank-grid"></div>
   <div class="btn-row">
     <button class="btn-analyze" onclick="analyze()">🔍 Stoor &amp; Ontleed</button>
@@ -736,6 +745,58 @@ async function saveData(d) {
 function today(){return new Date().toISOString().slice(0,10);}
 function plantAge(d){if(!d)return null;return Math.max(0,Math.floor((new Date()-new Date(d))/86400000));}
 
+function checkWaarskuwings(){
+  const blok=document.getElementById('waarsku-blok');
+  if(!blok)return;
+  const data=loadData();
+  let html='';
+  for(let i=1;i<=4;i++){
+    const td=data[`t${i}`];
+    if(!td||!td.active||!td.crop)continue;
+    const crop=CROPS[td.crop];
+    if(!crop)continue;
+    const readings=(td.readings||[]);
+    if(readings.length<2)continue;
+    // Kyk laaste N lesings agtereenvolgens
+    const MIN_REEKS=2;
+    const kontroleer=(param,reeks,naam,eenheid)=>{
+      let aantalLaag=0,aantalHoog=0;
+      for(let r=readings.length-1;r>=0&&(aantalLaag<readings.length||aantalHoog<readings.length);r--){
+        const v=readings[r][param];
+        if(v===undefined||v===null||v==='')break;
+        if(v<reeks.min)aantalLaag++;
+        else if(v>reeks.max)aantalHoog++;
+        else break; // Reeks verbreek — stop telling
+      }
+      if(aantalLaag>=MIN_REEKS){
+        const laaste=readings[readings.length-1][param];
+        html+=`<div class="waarsku-kaart">
+          <div class="waarsku-ikoon">🚨</div>
+          <div class="waarsku-inhoud">
+            <div class="waarsku-titel">Tenk ${i} — ${naam} TE LAAG vir ${aantalLaag} lesings</div>
+            <div class="waarsku-boodskap">${naam} is tans ${laaste}${eenheid} (reeks: ${reeks.min}–${reeks.max}${eenheid})</div>
+            <div class="waarsku-advies">👉 ${reeks.low||'Korrigeer dadelik.'}</div>
+          </div>
+        </div>`;
+      } else if(aantalHoog>=MIN_REEKS){
+        const laaste=readings[readings.length-1][param];
+        html+=`<div class="waarsku-kaart">
+          <div class="waarsku-ikoon">🚨</div>
+          <div class="waarsku-inhoud">
+            <div class="waarsku-titel">Tenk ${i} — ${naam} TE HOOG vir ${aantalHoog} lesings</div>
+            <div class="waarsku-boodskap">${naam} is tans ${laaste}${eenheid} (reeks: ${reeks.min}–${reeks.max}${eenheid})</div>
+            <div class="waarsku-advies">👉 ${reeks.high||'Korrigeer dadelik.'}</div>
+          </div>
+        </div>`;
+      }
+    };
+    kontroleer('ec',crop.ec,'EC','mS/cm');
+    kontroleer('ph',crop.ph,'pH','');
+    kontroleer('temp',crop.temp,'Watertemp','°C');
+  }
+  blok.innerHTML=html?`<div class="waarsku-blok">${html}</div>`:'';
+}
+
 function buildTankCards(){
   const grid=document.getElementById('tank-grid');
   grid.innerHTML='';
@@ -847,7 +908,7 @@ function toggleTank(n){
   }
   d[`t${n}`].active=act;
   saveData(d);
-  buildTankCards(); // Herbou sodat oes-knoppie dadelik wys/versteek
+  buildTankCards();checkWaarskuwings(); // Herbou sodat oes-knoppie dadelik wys/versteek
 }
 
 function setSess(n,btn){
@@ -1237,7 +1298,7 @@ function bevestigTekenOes(){
   data[`t${n}`].oesrekords.push({datum,gewas:data[`t${n}`].crop,gram,tipe,nota,prysPerKg:prys||null,randWaarde,groeidae:plantAge(data[`t${n}`].plantDate)||0});
   saveData(data);
   sluitOesModal();
-  buildTankCards();
+  buildTankCards();checkWaarskuwings();
   renderHistory(histTank);
 }
 
@@ -1278,7 +1339,7 @@ function bevestigNuweSiklus(){
   data[`t${n}`]=td;
   saveData(data);
   sluitModal();
-  buildTankCards();
+  buildTankCards();checkWaarskuwings();
   renderHistory(n);
   alert(`✅ Nuwe siklus begin vir Tenk ${n}!\n🌾 Oes gestoor: ${gram}g ${kwaliteit}`);
 }
@@ -1414,6 +1475,7 @@ function analyze(){
   }
   if(!count){alert('Aktiveer ten minste een tenk.');return;}
   saveData(data);
+  checkWaarskuwings();
   for(let i=1;i<=4;i++){
     if(!document.getElementById(`t${i}-active`).checked)continue;
     ['ec','ph','tds','temp','tempLug'].forEach(f=>{const el=document.getElementById(`t${i}-${f}`);if(el)el.value='';});
@@ -1871,7 +1933,7 @@ function vervangWater(n){
   if(!d[`t${n}`])d[`t${n}`]={};
   d[`t${n}`].lastWaterChange=today();
   saveData(d);
-  buildTankCards();
+  buildTankCards();checkWaarskuwings();
 }
 
 // ── CSV UITVOER ─────────────────────────────────────────────────────────────
@@ -2100,7 +2162,7 @@ document.getElementById('tank-grid').innerHTML=
   '<div style="grid-column:1/-1;text-align:center;padding:40px;color:rgba(255,255,255,.4);font-family:Montserrat,sans-serif;font-size:12px;letter-spacing:1px">⏳ Laai data...</div>';
 loadDataRemote().then(()=>{
   document.getElementById('tank-grid').innerHTML='';
-  buildTankCards();
+  buildTankCards();checkWaarskuwings();
 });
 </script>
 </body>
