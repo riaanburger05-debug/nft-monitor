@@ -803,11 +803,22 @@ function buildTankCards(){
 
 function toggleTank(n){
   const act=document.getElementById(`t${n}-active`).checked;
-  document.getElementById(`t${n}-inputs`).classList.toggle('active',act);
   const d=loadData();
-  if(!d[`t${n}`])d[`t${n}`]={};
+  // Stoor alle huidige vorm-waardes voor herbou sodat niks verlore gaan nie
+  for(let i=1;i<=4;i++){
+    if(!d[`t${i}`])d[`t${i}`]={};
+    const cropEl=document.getElementById(`t${i}-crop`);
+    if(cropEl&&cropEl.value)d[`t${i}`].crop=cropEl.value;
+    const dateEl=document.getElementById(`t${i}-date`);
+    if(dateEl&&dateEl.value)d[`t${i}`].plantDate=dateEl.value;
+    const planteEl=document.getElementById(`t${i}-plante`);
+    if(planteEl&&planteEl.value){const v=parseInt(planteEl.value);if(!isNaN(v)&&v>0)d[`t${i}`].aantalPlante=v;}
+    const volEl=document.getElementById(`t${i}-volume`);
+    if(volEl&&volEl.value){const v=parseFloat(volEl.value);if(!isNaN(v)&&v>0)d[`t${i}`].tenkVolume=v;}
+  }
   d[`t${n}`].active=act;
   saveData(d);
+  buildTankCards(); // Herbou sodat oes-knoppie dadelik wys/versteek
 }
 
 function setSess(n,btn){
@@ -956,8 +967,16 @@ function sluitAlles(){
   document.body.style.overflow='';
 }
 
-// Android terug-knoppie onderskep
-window.addEventListener('popstate',function(){sluitAlles();history.pushState(null,'',location.href);});
+// Android terug-knoppie: sluit oop modals; as niks oop is nie, laat navigasie gebeur
+window.addEventListener('popstate',function(){
+  const modalOop=(
+    document.getElementById('ligbak').classList.contains('oop')||
+    document.getElementById('help-paneel').classList.contains('oop')||
+    document.getElementById('modal-siklus').classList.contains('oop')||
+    document.getElementById('modal-oes').classList.contains('oop')
+  );
+  if(modalOop){sluitAlles();history.pushState(null,'',location.href);}
+});
 history.pushState(null,'',location.href);
 
 
