@@ -305,6 +305,11 @@ body{background:#0a0f1a;font-family:'Inter',sans-serif;color:#fff;min-height:100
       <canvas id="chart-kombinasie"></canvas>
       <div class="chart-empty" id="empty-kombinasie" style="display:none">Geen gewas gekies of geen data nie.</div>
     </div>
+    <div class="chart-wrap">
+      <div class="chart-label">🌊 Vloei (L/min) — Teiken: 1–2 L/min</div>
+      <canvas id="chart-vloei"></canvas>
+      <div class="chart-empty" id="empty-vloei" style="display:none">Geen vloei-lesings gestoor nie.</div>
+    </div>
   </div>
 </div>
 
@@ -328,6 +333,38 @@ body{background:#0a0f1a;font-family:'Inter',sans-serif;color:#fff;min-height:100
   </div>
   <div class="tank-selector" id="groei-tank-sel"></div>
   <div id="groei-inhoud"></div>
+
+  <!-- Wortel-gesondheid gids -->
+  <div class="leer-seksie" style="margin-top:24px">
+    <div class="leer-seksie-titel">🌿 Wortelgesondheid — Wat om te soek</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+      <div style="background:rgba(129,199,132,.08);border:1.5px solid rgba(129,199,132,.3);border-radius:12px;padding:14px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;color:#81C784;margin-bottom:8px">✅ GESONDE WORTELS</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.6);line-height:1.8">
+          ⬜ Wit of crème kleur<br>
+          🌾 Digte, dradige struktuur<br>
+          💧 Nat maar nie slymrig<br>
+          📏 Groei lank en dens<br>
+          👃 Fris, aarderige reuk
+        </div>
+      </div>
+      <div style="background:rgba(239,154,154,.08);border:1.5px solid rgba(239,154,154,.3);border-radius:12px;padding:14px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;color:#EF9A9A;margin-bottom:8px">⚠️ SIEK WORTELS</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.6);line-height:1.8">
+          🟤 Bruin of swart kleur<br>
+          🦠 Slymrige tekstuur<br>
+          💀 Afsterwende, los dele<br>
+          📉 Plant lyk slap en vaal<br>
+          👃 Suur, rotstende reuk
+        </div>
+      </div>
+    </div>
+    <div style="background:rgba(255,255,255,.04);border-radius:12px;padding:14px;font-size:11px;color:rgba(255,255,255,.55);line-height:1.7">
+      <strong style="color:#fff;display:block;margin-bottom:6px">🔬 Hoekom word wortels bruin?</strong>
+      Pythium is 'n waterskimmel wat gedei in warm (bo 22°C), lae-suurstof water. Dit val wortels aan en versprei vinnig deur die hele stelsel. Bruin wortels kan EC-lesings normaal laat lyk terwyl die plant al beskadig is — vandaar die waarde van gereelde visuele inspeksie.<br><br>
+      <strong style="color:#FFD54F">Vroegste teken:</strong> Wortelpunte word bruin terwyl die res nog wit is. Dit is jou kans om in te gryp voor dit erg raak.
+    </div>
+  </div>
 </div>
 
 <!-- Ligbak -->
@@ -435,6 +472,97 @@ body{background:#0a0f1a;font-family:'Inter',sans-serif;color:#fff;min-height:100
         </div>
       </div>
     </div>
+
+    <div class="leer-blok">
+      <div class="leer-blok-kop" onclick="wisselLeerBlok('vloei')">
+        <span class="leer-blok-ikon">🌊</span>
+        <div><div class="leer-blok-naam">Vloei — Waterbeweging in die Pype</div><div class="leer-blok-eenheid">L/min (liter per minuut)</div></div>
+        <span class="leer-blok-pyl" id="pyl-vloei">▼</span>
+      </div>
+      <div class="leer-blok-inhoud" id="blok-vloei">
+        <div class="leer-blok-teks">
+          <strong>Wat meet dit?</strong> Vloeisnelheid meet hoeveel liter water per minuut deur elke pyp beweeg. In NFT moet dit 'n dun, konstante film bly — nie 'n stroom nie.<br><br>
+          <strong>Hoekom is dit so belangrik?</strong> As die vloei te stadig raak, begin wortels die pypkanaal blokkeer. Die water word dan stagnant — suurstof daal, bakterieë groei, en Pythium (wortelvrot) kan binne 24 uur begin.<br><br>
+          <strong>Hoekom verander vloei oor tyd?</strong> Wortels groei elke week groter. In week 1 is die kanaal oop. Teen week 4–5 kan wortels van al die plante mekaar raak en die vloei stadig beperk — soms sonder dat jy dit van buite kan sien.<br><br>
+          <strong>Wat gebeur as vloei stop?</strong> Sonder watervloei het wortels geen suurstof nie. Plante kan binne 2–4 uur begin verdroog en binne 'n dag beskadig raak.<br><br>
+          <span class="hoogtepunt">Teiken:</span> 1–2 L/min per kant van die stelsel. Meet weekliks — veral van week 3 af wanneer wortels groot raak.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hoekom EC laag/hoog -->
+  <div class="leer-seksie">
+    <div class="leer-seksie-titel">🔍 Hoekom verander EC?</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+      <div style="background:rgba(239,154,154,.08);border:1.5px solid rgba(239,154,154,.25);border-radius:12px;padding:14px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;color:#EF9A9A;margin-bottom:8px">📉 EC DAAL</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.6);line-height:1.6">
+          <strong style="color:#fff">Plante eet voedingstowwe op.</strong><br>
+          Wortels absorbeer minerale aktief — EC daal omdat voedingstowwe uit die water verwyder word.<br><br>
+          <span style="color:#81C784">✅ Goeie nuus</span> — dit beteken aktiewe groei!<br><br>
+          <strong style="color:#fff">Wat om te doen:</strong> Voeg Kalsiumnitraat, dan Hydroflow by. Los elke produk apart op voor jy byvoeg.
+        </div>
+      </div>
+      <div style="background:rgba(255,213,79,.08);border:1.5px solid rgba(255,213,79,.25);border-radius:12px;padding:14px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;color:#FFD54F;margin-bottom:8px">📈 EC STYG</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.6);line-height:1.6">
+          <strong style="color:#fff">Water verdamp, voedingstowwe bly.</strong><br>
+          Plante gebruik water maar laat minerale agter. EC konsentreer — soos sout in 'n pot wat droogkook.<br><br>
+          <span style="color:#FFD54F">⚠️ Pas op</span> — hoë EC stres plante!<br><br>
+          <strong style="color:#fff">Wat om te doen:</strong> Voeg skoon water by tot EC normaliseer. Moenie meer voedingstowwe bysit nie.
+        </div>
+      </div>
+    </div>
+    <div style="background:rgba(144,202,249,.07);border:1px solid rgba(144,202,249,.15);border-radius:12px;padding:14px;font-size:11px;color:rgba(255,255,255,.6);line-height:1.6">
+      <strong style="color:#90caf9">💡 Die sleutel verskil:</strong> As EC daal = plante eet. As EC styg = water verdamp. Jy reageer anders op elkeen — dit is die kern van NFT-bestuur.
+    </div>
+  </div>
+
+  <!-- Siklus-oorsig -->
+  <div class="leer-seksie">
+    <div class="leer-seksie-titel">🌱 Van Saailing tot Oes</div>
+    <div style="position:relative;padding-left:24px">
+      <div style="position:absolute;left:10px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,#4CAF50,#FFD54F,#81C784)"></div>
+      ${[
+        {dag:'Dag 1–7',kleur:'#4CAF50',ikon:'🌱',titel:'Saailing fase',teks:'Plant saailinge in die gatjies. Wortels begin soek na water. Vloei moet al op 1–2 L/min wees. EC laag (0.8–1.2) — jong wortels is sensitief.'},
+        {dag:'Dag 7–14',kleur:'#66BB6A',ikon:'🌿',titel:'Vestiging',teks:'Wortels bereik die waterfilm. Plant begin aktief voedingstowwe opneem. EC sal begin daal — goeie teken! Monitor pH daagliks.'},
+        {dag:'Dag 14–28',kleur:'#81C784',ikon:'💪',titel:'Aktiewe Groei',teks:'Vinnigste groeifase. Hoë voedingstofbehoefte. EC kan vinnig daal — doseer elke 2–3 dae. Wortels word groot — begin weeklikse vloei-meting.'},
+        {dag:'Dag 28–35+',kleur:'#FFD54F',ikon:'🎉',titel:'Naby Oes',teks:'Plant bereik volwassenheid. Vertraag dosering effens. Kontroleer vloei elke paar dae — wortels is nou op hul grootste. Oes wanneer gewas vol en fris lyk.'},
+      ].map(f=>`
+      <div style="position:relative;margin-bottom:16px;padding:12px 14px;background:rgba(255,255,255,.04);border-radius:10px;border-left:3px solid ${f.kleur}">
+        <div style="font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;color:${f.kleur};margin-bottom:4px">${f.dag}</div>
+        <div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:6px">${f.ikon} ${f.titel}</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.55);line-height:1.6">${f.teks}</div>
+      </div>`).join('')}
+    </div>
+  </div>
+
+  <!-- Wat gaan fout -->
+  <div class="leer-seksie">
+    <div class="leer-seksie-titel">🔧 Wat Gaan Fout? Diagnose en Oplos</div>
+    <div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:12px">Tik op 'n scenario om te sien wat dit beteken en hoe om dit reg te stel.</div>
+    ${[
+      {id:'f1',ikon:'📉',kleur:'#EF9A9A',titel:'EC daal vinnig elke dag',oorsaak:'Plante is in aktiewe groei en gebruik voedingstowwe vinnig. Dit is normaal in die groeifase.',oplossing:'Doseer met Kalsiumnitraat (eers) dan Hydroflow. Gebruik die Doseer-rekenaar vir die regte hoeveelheid. Moenie te veel op een slag byvoeg nie — geleidelik is beter.'},
+      {id:'f2',ikon:'📈',kleur:'#FFD54F',titel:'EC styg alhoewel ek niks bygevoeg het',oorsaak:'Water verdamp maar voedingstowwe bly agter. Veral warm dae of in 'n warm ruimte.',oplossing:'Voeg skoon, pH-gebalanseerde water by. Meet EC voor en na elke byvoeging. Moenie voedingstowwe bysit nie — dit sal die EC verder verhoog.'},
+      {id:'f3',ikon:'🔴',kleur:'#EF9A9A',titel:'pH styg na 7.0 of hoër',oorsaak:'Alkalies water (hoë karbonaat), of bakteriese aktiwiteit in die stelsel. Sommige kunsmisse verhoog ook pH.',oplossing:'Voeg swembadsuur (fosforsuur) druppel-vir-druppel by. Meet elke 15 min. Teiken: 5.8–6.2. Moenie oorkorrekteer nie — te laag is ook sleg.'},
+      {id:'f4',ikon:'🔵',kleur:'#90caf9',titel:'pH daal onder 5.5',oorsaak:'Plante onttrek basiese ione, of te veel suur bygevoeg.',oplossing:'Voeg koeksoda-oplossing stadig by. 1 teelepel per 50L as beginpunt. Meet gereeld.'},
+      {id:'f5',ikon:'🌊',kleur:'#FFD54F',titel:'Vloei het gedaal (onder 1 L/min)',oorsaak:'Wortels groei in die pypkanaal en versper vloei. Kan ook 'n gedeeltelik geblokkeerde filter of pompprobleem wees.',oplossing:'1) Kontroleer pompfilter — skoonmaak as nodig. 2) Kyk in die pype vir wortelverstopping. 3) Sny oorgroei wortels versigtig terug. 4) Oorweeg om plante vroeg te oes as te erg.'},
+      {id:'f6',ikon:'🟤',kleur:'#BCAAA4',titel:'Wortels word bruin en slymerig',oorsaak:'Pythium (wortelvrot) — 'n waterskimmel wat gedei in warm, stagnante, suurstof-arm water. Die ergste NFT-probleem.',oplossing:'1) Verlaag watertemperatuur onder 22°C dringend. 2) Verseker vloei is bo 1 L/min. 3) Verwijder swaar aangepakte plante. 4) Dreineer en reinig die stelsel met 'n swak waterstofperoksied-oplossing (3ml/L van 3% H₂O₂). 5) Herplant indien nodig.'},
+    ].map(f=>`
+    <div class="leer-blok" style="margin-bottom:8px">
+      <div class="leer-blok-kop" onclick="wisselLeerBlok('${f.id}')">
+        <span class="leer-blok-ikon">${f.ikon}</span>
+        <div><div class="leer-blok-naam" style="color:${f.kleur}">${f.titel}</div></div>
+        <span class="leer-blok-pyl" id="pyl-${f.id}">▼</span>
+      </div>
+      <div class="leer-blok-inhoud" id="blok-${f.id}">
+        <div class="leer-blok-teks">
+          <strong style="color:rgba(255,255,255,.5)">🔍 Oorsaak:</strong> ${f.oorsaak}<br><br>
+          <strong style="color:#81C784">✅ Oplossing:</strong> ${f.oplossing}
+        </div>
+      </div>
+    </div>`).join('')}
   </div>
 
   <!-- Gewas verwysingtabel -->
@@ -1713,6 +1841,42 @@ function renderAllCharts() {
     });
   });
   renderKombinasieGrafiek();
+  // Vloei grafiek
+  const vloeiCanvas=document.getElementById('chart-vloei');
+  const vloeiEmp=document.getElementById('empty-vloei');
+  if(vloeiCanvas){
+    const vloeiPunte=readings.filter(r=>r.vloei!=null&&r.vloei!=='').map(r=>({x:r.date||'',y:Number(r.vloei)}));
+    if(!vloeiPunte.length){
+      vloeiCanvas.style.display='none';
+      if(vloeiEmp)vloeiEmp.style.display='block';
+      if(_chartInstances.vloei){_chartInstances.vloei.destroy();delete _chartInstances.vloei;}
+    } else {
+      vloeiCanvas.style.display='block';
+      if(vloeiEmp)vloeiEmp.style.display='none';
+      if(_chartInstances.vloei)_chartInstances.vloei.destroy();
+      _chartInstances.vloei=new Chart(vloeiCanvas,{
+        type:'line',
+        data:{datasets:[{
+          label:'Vloei (L/min)',
+          data:vloeiPunte,
+          borderColor:'#90caf9',
+          backgroundColor:'rgba(144,202,249,.1)',
+          tension:.3,
+          pointRadius:4,
+          pointBackgroundColor:vloeiPunte.map(p=>p.y<0.8?'#EF9A9A':p.y<1.0?'#FFD54F':'#90caf9'),
+        }]},
+        options:{
+          responsive:true,maintainAspectRatio:false,
+          plugins:{legend:{display:false},
+            annotation:{annotations:{
+              laag:{type:'line',yMin:0.8,yMax:0.8,borderColor:'rgba(239,154,154,.6)',borderWidth:1,borderDash:[4,4],label:{content:'Min 0.8',display:true,color:'#EF9A9A',font:{size:10}}},
+              teiken:{type:'line',yMin:1.0,yMax:1.0,borderColor:'rgba(129,199,132,.4)',borderWidth:1,borderDash:[4,4],label:{content:'Teiken 1.0',display:true,color:'#81C784',font:{size:10}}},
+            }}},
+          scales:{x:{type:'category',ticks:{color:'rgba(255,255,255,.4)',font:{size:10}},grid:{color:'rgba(255,255,255,.05)'}},y:{min:0,ticks:{color:'rgba(255,255,255,.4)'},grid:{color:'rgba(255,255,255,.05)'},title:{display:true,text:'L/min',color:'rgba(255,255,255,.3)'}}}
+        }
+      });
+    }
+  }
 }
 
 // ── INIT ─────────────────────────────────────────────────────────────────────
