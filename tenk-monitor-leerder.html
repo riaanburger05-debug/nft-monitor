@@ -179,6 +179,23 @@ body{background:#0a0f1a;font-family:'Inter',sans-serif;color:#fff;min-height:100
 .oes-chip-gereed{font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;color:#FFD54F}
 .oes-prog-wrap{height:6px;background:rgba(255,255,255,.08);border-radius:3px;margin-top:5px;overflow:hidden}
 .oes-prog-bar{height:100%;border-radius:3px;background:linear-gradient(90deg,#1B5E20,#4CAF50);transition:width .4s}
+/* Oes & Verkope tab */
+.oes-totaal-kaart{background:linear-gradient(135deg,rgba(76,175,80,.12),rgba(255,193,7,.08));border:1.5px solid rgba(76,175,80,.25);border-radius:16px;padding:18px 16px;margin-bottom:18px;text-align:center}
+.oes-totaal-getal{font-family:'Montserrat',sans-serif;font-size:36px;font-weight:900;color:#81C784}
+.oes-totaal-rand{font-family:'Montserrat',sans-serif;font-size:22px;font-weight:900;color:#FFD54F;margin-top:4px}
+.oes-totaal-lbl{font-size:11px;color:rgba(255,255,255,.4);margin-top:6px;letter-spacing:1px}
+.oes-tenk-kaart{background:#111827;border:1px solid rgba(255,255,255,.08);border-radius:14px;margin-bottom:12px;overflow:hidden}
+.oes-tenk-kop{padding:11px 14px;background:rgba(255,193,7,.06);border-bottom:1px solid rgba(255,193,7,.12);display:flex;align-items:center;justify-content:space-between}
+.oes-tenk-naam{font-family:'Montserrat',sans-serif;font-weight:700;font-size:13px;color:#FFD54F}
+.oes-tenk-som{font-family:'Montserrat',sans-serif;font-weight:900;font-size:13px;color:#81C784}
+.oes-ry{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px}
+.oes-ry:last-child{border-bottom:none}
+.oes-ry-gewas{font-family:'Montserrat',sans-serif;font-weight:700;font-size:11px;color:#fff}
+.oes-ry-detail{font-size:10px;color:rgba(255,255,255,.4);margin-top:2px}
+.oes-ry-regs{text-align:right}
+.oes-ry-gram{font-family:'Montserrat',sans-serif;font-weight:900;font-size:15px;color:#81C784}
+.oes-ry-rand{font-family:'Montserrat',sans-serif;font-weight:700;font-size:11px;color:#FFD54F;margin-top:2px}
+.oes-leeg{padding:30px 14px;text-align:center;color:rgba(255,255,255,.25);font-size:12px}
 
 /* Parameter tooltips */
 .param-name{cursor:pointer;border-bottom:1px dotted rgba(255,255,255,.2)}
@@ -236,6 +253,9 @@ body{background:#0a0f1a;font-family:'Inter',sans-serif;color:#fff;min-height:100
   <button class="nav-tab" onclick="showPage('groei',this)">
     <span class="tab-icon">📷</span>Groei
   </button>
+  <button class="nav-tab" onclick="showPage('oes',this)">
+    <span class="tab-icon">🌾</span>Oes
+  </button>
 </nav>
 
 <!-- ═══ LESINGS ═══ -->
@@ -289,6 +309,16 @@ body{background:#0a0f1a;font-family:'Inter',sans-serif;color:#fff;min-height:100
 </div>
 
 <!-- ═══ LEER ═══ -->
+<!-- ═══ OES & VERKOPE ═══ -->
+<div class="page" id="page-oes">
+  <div class="header">
+    <h1>🌾 <span>Oes</span> &amp; Verkope</h1>
+    <p>Wat ons gekweek en verkoop het</p>
+  </div>
+  <div id="oes-totaal-blok"></div>
+  <div id="oes-tenk-lys"></div>
+</div>
+
 <!-- ═══ GROEI-DAGBOEK ═══ -->
 <div class="page" id="page-groei">
   <div class="header">
@@ -723,8 +753,19 @@ async function laaiData() {
       setLastUpdate();
       herbou();
     } else if((nuut._ts||0) > _lastTs){
-      _data = nuut; // stoor nuwe data maar herbou nog nie
-      document.getElementById('nuwe-data-banner').classList.add('oop');
+      // Kyk of nuwe oesrekords bygevoeg is
+      let nuweOes = false;
+      for(let i=1;i<=4;i++){
+        const ou = (_data[`t${i}`]?.oesrekords||[]).length;
+        const nw = (nuut[`t${i}`]?.oesrekords||[]).length;
+        if(nw > ou){ nuweOes = true; break; }
+      }
+      _data = nuut;
+      const banner = document.getElementById('nuwe-data-banner');
+      banner.textContent = nuweOes
+        ? '🌾 Riaan het nuwe oes aangeteken — tik hier om te sien!'
+        : '📢 Riaan het nuwe data gestoor — tik hier om op te dateer';
+      banner.classList.add('oop');
     }
   } catch (e) {
     setSyncBar('⚠️ Kan nie Firebase bereik nie — probeer weer...');
@@ -732,10 +773,16 @@ async function laaiData() {
 }
 
 function pasOp(){
+  const banner = document.getElementById('nuwe-data-banner');
+  const isOes = banner.textContent.includes('oes');
   _lastTs = _data._ts || 0;
-  document.getElementById('nuwe-data-banner').classList.remove('oop');
+  banner.classList.remove('oop');
   setLastUpdate();
   herbou();
+  if(isOes){
+    const oesTab = document.querySelector('.nav-tab:last-child');
+    showPage('oes', oesTab);
+  }
 }
 
 // ── PROBLEEM-PANEEL ─────────────────────────────────────────────────────────
@@ -872,6 +919,63 @@ function histValClass(val, meta) {
 }
 
 // ── NAVIGASIE ───────────────────────────────────────────────────────────────
+function bouOes() {
+  // Totale oor alle tenke
+  let totGram = 0, totRand = 0;
+  for (let i = 1; i <= 4; i++) {
+    const r = _data[`t${i}`]?.oesrekords || [];
+    r.forEach(o => { totGram += o.gram || 0; totRand += o.randWaarde || 0; });
+  }
+
+  const totBlok = document.getElementById('oes-totaal-blok');
+  if (totGram === 0) {
+    totBlok.innerHTML = '<div class="oes-leeg">🌱 Nog geen oes aangeteken nie.<br>Kom terug sodra Riaan die eerste oes stoor!</div>';
+    document.getElementById('oes-tenk-lys').innerHTML = '';
+    return;
+  }
+  const gramTeks = totGram >= 1000 ? (totGram / 1000).toFixed(2) + ' kg' : totGram + ' g';
+  totBlok.innerHTML = `
+    <div class="oes-totaal-kaart">
+      <div class="oes-totaal-lbl">TOTALE OES</div>
+      <div class="oes-totaal-getal">${gramTeks}</div>
+      ${totRand > 0 ? `<div class="oes-totaal-rand">R ${totRand.toFixed(2)}</div>` : ''}
+      <div class="oes-totaal-lbl" style="margin-top:8px">oor alle tenke saam</div>
+    </div>`;
+
+  // Per tenk
+  let html = '';
+  for (let i = 1; i <= 4; i++) {
+    const sv = _data[`t${i}`] || {};
+    const reks = sv.oesrekords || [];
+    if (!reks.length) continue;
+    const c = COLORS[i - 1];
+    const tGram = reks.reduce((s, o) => s + (o.gram || 0), 0);
+    const tRand = reks.reduce((s, o) => s + (o.randWaarde || 0), 0);
+    const gramT = tGram >= 1000 ? (tGram / 1000).toFixed(2) + ' kg' : tGram + ' g';
+    html += `<div class="oes-tenk-kaart">
+      <div class="oes-tenk-kop">
+        <div class="oes-tenk-naam" style="color:${c.solid}">Tenk ${i}</div>
+        <div class="oes-tenk-som">${gramT}${tRand > 0 ? ' · R ' + tRand.toFixed(2) : ''}</div>
+      </div>
+      ${[...reks].reverse().map(o => {
+        const gewas = CROPS[o.gewas] ? CROPS[o.gewas].emoji + ' ' + CROPS[o.gewas].name : (o.gewas || '');
+        const gTeks = (o.gram || 0) >= 1000 ? ((o.gram || 0) / 1000).toFixed(2) + ' kg' : (o.gram || 0) + ' g';
+        return `<div class="oes-ry">
+          <div>
+            <div class="oes-ry-gewas">${gewas}</div>
+            <div class="oes-ry-detail">${o.datum || ''}${o.tipe ? ' · ' + o.tipe : ''}${o.nota ? ' · ' + o.nota : ''}</div>
+          </div>
+          <div class="oes-ry-regs">
+            <div class="oes-ry-gram">${gTeks}</div>
+            ${o.randWaarde ? `<div class="oes-ry-rand">R ${o.randWaarde.toFixed(2)}</div>` : ''}
+          </div>
+        </div>`;
+      }).join('')}
+    </div>`;
+  }
+  document.getElementById('oes-tenk-lys').innerHTML = html;
+}
+
 function showPage(id, tab) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
@@ -880,6 +984,7 @@ function showPage(id, tab) {
   if (id === 'geskiedenis') bouGeskiedenis();
   if (id === 'grafieke') { bouGrafiekSelektors(); renderAllCharts(); }
   if (id === 'groei') { bouLeerderGroeiSelektors(); bouLeerderGroeiInhoud(); }
+  if (id === 'oes') bouOes();
 }
 
 // ── GROEI-DAGBOEK (LEERDER — SLEGS LEES) ────────────────────────────────────
