@@ -871,11 +871,11 @@ function buildTankCards(){
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
             <div class="plant-date-row" style="margin:0">
               <label>Aantal Plante</label>
-              <input type="number" id="t${i}-plante" placeholder="bv. 12" step="1" inputmode="numeric" value="${sv.aantalPlante||''}" style="flex:1;background:#1e2a3a;border:1.5px solid rgba(255,255,255,.1);border-radius:10px;color:#fff;padding:8px 10px;font-size:14px;font-weight:600;outline:none">
+              <input type="number" id="t${i}-plante" placeholder="bv. 12" step="1" inputmode="numeric" value="${sv.aantalPlante||''}" onchange="stoorTenkVeld(${i})" style="flex:1;background:#1e2a3a;border:1.5px solid rgba(255,255,255,.1);border-radius:10px;color:#fff;padding:8px 10px;font-size:14px;font-weight:600;outline:none">
             </div>
             <div class="plant-date-row" style="margin:0">
               <label>Tenk Volume (L)</label>
-              <input type="number" id="t${i}-volume" placeholder="bv. 50" step="1" inputmode="numeric" value="${sv.tenkVolume||''}" style="flex:1;background:#1e2a3a;border:1.5px solid rgba(255,255,255,.1);border-radius:10px;color:#fff;padding:8px 10px;font-size:14px;font-weight:600;outline:none">
+              <input type="number" id="t${i}-volume" placeholder="bv. 50" step="1" inputmode="numeric" value="${sv.tenkVolume||''}" onchange="stoorTenkVeld(${i})" style="flex:1;background:#1e2a3a;border:1.5px solid rgba(255,255,255,.1);border-radius:10px;color:#fff;padding:8px 10px;font-size:14px;font-weight:600;outline:none">
             </div>
           </div>
           <div class="input-grid">
@@ -889,6 +889,16 @@ function buildTankCards(){
       </div>
     </div>`;
   }
+}
+
+function stoorTenkVeld(n){
+  const d=loadData();
+  if(!d[`t${n}`])d[`t${n}`]={};
+  const planteEl=document.getElementById(`t${n}-plante`);
+  if(planteEl&&planteEl.value){const v=parseInt(planteEl.value);if(!isNaN(v)&&v>0)d[`t${n}`].aantalPlante=v;}
+  const volEl=document.getElementById(`t${n}-volume`);
+  if(volEl&&volEl.value){const v=parseFloat(volEl.value);if(!isNaN(v)&&v>0)d[`t${n}`].tenkVolume=v;}
+  saveData(d);
 }
 
 function toggleTank(n){
