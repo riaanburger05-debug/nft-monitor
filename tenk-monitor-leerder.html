@@ -11,22 +11,23 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%}
-body{background:#0a0f1a;font-family:'Inter',sans-serif;color:#fff;min-height:100vh;display:flex;flex-direction:column}
+body{background:#0a0f1a;font-family:'Inter',sans-serif;color:#fff;min-height:100vh;padding-top:82px}
 
-/* Leer-modus-balk bo-aan */
-.leer-banner{background:linear-gradient(90deg,#0d47a1,#1565c0);text-align:center;padding:7px 14px;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#90caf9;position:sticky;top:0;z-index:200}
+/* Leer-modus-balk bo-aan — fixed sodat dit altyd sigbaar bly */
+.leer-banner{background:linear-gradient(90deg,#0d47a1,#1565c0);text-align:center;padding:7px 14px;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#90caf9;position:fixed;top:0;left:0;right:0;z-index:200}
 /* Nuwe-data kennisgewin-balk */
 .nuwe-data-banner{display:none;background:linear-gradient(90deg,#1b5e20,#2e7d32);text-align:center;padding:14px 16px;font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;color:#fff;position:fixed;bottom:0;left:0;right:0;z-index:300;cursor:pointer;animation:puls .9s ease-in-out infinite alternate;box-shadow:0 -2px 12px rgba(0,0,0,.4)}
 .nuwe-data-banner.oop{display:block}
 @keyframes puls{from{background:linear-gradient(90deg,#1b5e20,#2e7d32)}to{background:linear-gradient(90deg,#2e7d32,#43a047)}}
 
-.nav{display:flex;background:#0d1520;border-bottom:1px solid rgba(255,255,255,.08);position:sticky;top:33px;z-index:100;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+/* Nav — fixed sodat dit nooit wegskolol nie, ongeag bladsyhoogte */
+.nav{display:flex;background:#0d1520;border-bottom:1px solid rgba(255,255,255,.08);position:fixed;top:28px;left:0;right:0;z-index:150;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .nav::-webkit-scrollbar{display:none}
 .nav-tab{flex:0 0 auto;min-width:64px;padding:14px 10px 12px;text-align:center;cursor:pointer;border:none;background:none;color:rgba(255,255,255,.4);font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;border-bottom:3px solid transparent;transition:all .15s;white-space:nowrap}
 .nav-tab.active{color:#4CAF50;border-bottom-color:#4CAF50}
 .nav-tab .tab-icon{font-size:18px;display:block;margin-bottom:2px}
 
-.page{display:none;flex:1;padding:18px 14px 32px;max-width:960px;margin:0 auto;width:100%}
+.page{display:none;padding:18px 14px 32px;max-width:960px;margin:0 auto;width:100%}
 .page.active{display:block}
 
 .header{text-align:center;margin-bottom:20px}
