@@ -2290,6 +2290,38 @@ document.getElementById('tank-grid').innerHTML=
 loadDataRemote().then(()=>{
   document.getElementById('tank-grid').innerHTML='';
   buildTankCards();checkWaarskuwings();
+  // Stoor koste-resultaat na Firebase sodat leerder dit kan sien
+  try{
+    const k=JSON.parse(localStorage.getItem('nft_koste')||'{}');
+    const d=loadData();
+    if(!d.koste)d.koste={};
+    if(k.water||k.kn||k.aq){
+      d.koste=Object.assign({},d.koste,k);
+      // Bereken resultaat
+      const kosWater=parseFloat(k.water)||0;
+      const kosKN=parseFloat(k.kn)||0;
+      const kosAQ=parseFloat(k.aq)||0;
+      const weke=parseFloat(k.weke)||5;
+      let totWaterL=0,aktief=0;
+      for(let i=1;i<=4;i++){
+        const td=d[`t${i}`];
+        if(!td||!td.aantalPlante)continue;
+        const age=plantAge(td.plantDate)||14;
+        aktief++;
+        totWaterL+=waterGebruikPerPlant(td.crop,age)*td.aantalPlante/1000*7*weke;
+      }
+      const totVolume=Object.values(d).filter(t=>t&&t.tenkVolume).reduce((s,t)=>s+(t.tenkVolume||0),0);
+      const gKN=totVolume*1*weke;
+      const gHF=totVolume*1*weke;
+      const kosWaterTot=+(totWaterL*kosWater).toFixed(2);
+      const kosNutrTot=+(gKN/1000*kosKN+gHF/1000*kosAQ).toFixed(2);
+      const totaal=+(kosWaterTot+kosNutrTot).toFixed(2);
+      if(totaal>0){
+        d.koste.resultaat={totaal,water:kosWaterTot,nutr:kosNutrTot,waterL:+totWaterL.toFixed(1),weke};
+        saveData(d);
+      }
+    }
+  }catch(e){}
 });
 </script>
 </body>
