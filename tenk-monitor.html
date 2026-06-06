@@ -355,6 +355,11 @@ canvas{max-width:100%}
       <canvas id="chart-kombinasie"></canvas>
       <div class="chart-empty" id="empty-kombinasie" style="display:none">Geen gewas gekies of geen data nie.</div>
     </div>
+    <div class="chart-wrap chart-ec-full">
+      <div class="chart-label">🌊 Vloei (L/min) — Teiken: 1–2 L/min</div>
+      <canvas id="chart-vloei"></canvas>
+      <div class="chart-empty" id="empty-vloei" style="display:none">Geen vloei-lesings gestoor nie.</div>
+    </div>
   </div>
 </div>
 
@@ -1919,6 +1924,38 @@ function renderAllCharts(){
     }});
   });
   renderKombinasieGrafiek();
+  // Vloei grafiek
+  (function(){
+    const td=loadData()[`t${chartTank}`];
+    const canvas=document.getElementById('chart-vloei');
+    const emptyEl=document.getElementById('empty-vloei');
+    if(!canvas)return;
+    const readings=(td&&td.readings||[]).filter(r=>r.vloei!=null);
+    if(!readings.length){if(emptyEl)emptyEl.style.display='block';canvas.style.display='none';return;}
+    if(emptyEl)emptyEl.style.display='none';canvas.style.display='block';
+    const labels=readings.map(r=>r.date||'');
+    const vals=readings.map(r=>r.vloei);
+    const ptColors=vals.map(v=>v<0.8?'#EF9A9A':v<1.0?'#FFD54F':'#64B5F6');
+    if(window._chartVloei){window._chartVloei.destroy();window._chartVloei=null;}
+    window._chartVloei=new Chart(canvas,{
+      type:'line',
+      data:{labels,datasets:[{label:'Vloei L/min',data:vals,borderColor:'#64B5F6',backgroundColor:'rgba(100,181,246,.1)',pointBackgroundColor:ptColors,pointRadius:5,tension:.3,fill:true}]},
+      options:{
+        responsive:true,maintainAspectRatio:true,
+        plugins:{
+          legend:{labels:{color:'rgba(255,255,255,.7)',font:{size:10}}},
+          annotation:{annotations:{
+            low:{type:'line',yMin:0.8,yMax:0.8,borderColor:'#EF9A9A',borderWidth:1,borderDash:[4,4],label:{content:'Min 0.8',enabled:true,color:'#EF9A9A',font:{size:9}}},
+            ok:{type:'line',yMin:1.0,yMax:1.0,borderColor:'#81C784',borderWidth:1,borderDash:[4,4],label:{content:'Teiken 1.0',enabled:true,color:'#81C784',font:{size:9}}}
+          }}
+        },
+        scales:{
+          x:{ticks:{color:'rgba(255,255,255,.35)',maxRotation:45,font:{size:8}},grid:{color:'rgba(255,255,255,.05)'}},
+          y:{min:0,ticks:{color:'rgba(255,255,255,.35)',font:{size:8}},grid:{color:'rgba(255,255,255,.05)'}}
+        }
+      }
+    });
+  })();
 }
 
 function renderAgeBar(td){
