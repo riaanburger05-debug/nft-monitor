@@ -1154,6 +1154,15 @@ let _oesTenk=1;
 function sluitModal(){document.getElementById('modal-siklus').classList.remove('oop');document.body.style.overflow='';}
 function sluitOesModal(){document.getElementById('modal-oes').classList.remove('oop');document.body.style.overflow='';}
 
+function verwyderOes(n,idx){
+  if(!confirm('Verwyder hierdie oes-rekord?'))return;
+  const d=loadData();
+  if(!d[`t${n}`]||!d[`t${n}`].oesrekords)return;
+  d[`t${n}`].oesrekords.splice(idx,1);
+  saveData(d);
+  renderHistory(n);
+}
+
 function berekeningOesWaarde(){
   const gram=parseFloat(document.getElementById('oes-gram').value)||0;
   const prys=parseFloat(document.getElementById('oes-prys').value)||0;
@@ -1469,13 +1478,14 @@ function renderHistory(n){
       const oes=td.oesrekords&&td.oesrekords.length?`
         <div style="margin-top:16px;background:#111827;border:1px solid rgba(255,193,7,.2);border-radius:12px;overflow:hidden">
           <div style="padding:10px 14px;background:rgba(255,193,7,.08);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#FFD54F">🌾 Oes Rekords</div>
-          ${td.oesrekords.slice().reverse().map(r=>`
+          ${td.oesrekords.map((r,idx)=>({r,idx})).reverse().map(({r,idx})=>`
             <div class="oes-rek-ry">
-              <div><div class="oes-rek-gewas">${CROPS[r.gewas]?CROPS[r.gewas].emoji+' '+CROPS[r.gewas].name:r.gewas||''} <span style="font-size:9px;color:rgba(255,255,255,.3)">${r.tipe||''}</span></div><div class="oes-rek-detail">${r.datum}${r.kwaliteit?' · '+r.kwaliteit:''}${r.nota?' · '+r.nota:''} · Dag ${r.groeidae}</div></div>
-              <div style="text-align:right">
+              <div style="flex:1"><div class="oes-rek-gewas">${CROPS[r.gewas]?CROPS[r.gewas].emoji+' '+CROPS[r.gewas].name:r.gewas||''} <span style="font-size:9px;color:rgba(255,255,255,.3)">${r.tipe||''}</span></div><div class="oes-rek-detail">${r.datum}${r.kwaliteit?' · '+r.kwaliteit:''}${r.nota?' · '+r.nota:''} · Dag ${r.groeidae}</div></div>
+              <div style="text-align:right;margin-right:8px">
                 <div class="oes-rek-kg">${(r.gram||0)>=1000?((r.gram||0)/1000).toFixed(1)+'kg':(r.gram||0)+'g'}</div>
                 ${r.randWaarde?`<div style="font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;color:#81C784">R ${r.randWaarde.toFixed(2)}</div>`:''}
               </div>
+              <button onclick="verwyderOes(${n},${idx})" style="background:none;border:none;color:rgba(239,83,80,.6);font-size:16px;cursor:pointer;padding:4px 6px;line-height:1" title="Verwyder hierdie oes-rekord">🗑️</button>
             </div>`).join('')}
           <div class="oes-rek-ry" style="background:rgba(76,175,80,.05)">
             <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;color:rgba(76,175,80,.7)">Totaal</div>
