@@ -1887,7 +1887,7 @@ function bouOnttrekking(){
 
   for(let i=1;i<=4;i++){
     const td=data[`t${i}`];
-    if(!td||!td.active||!td.readings||td.readings.length<2)continue;
+    if(!td||!td.readings||td.readings.length<2)continue;
     gevind=true;
     const col=COLORS[i-1];
     const crop=CROPS[td.crop]||{name:'Onbekend',emoji:'🌱'};
