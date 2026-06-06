@@ -1575,6 +1575,7 @@ function renderHistory(n){
   const age=plantAge(td.plantDate);
   const cls=r=>r==='ok'?'ok-val':r.startsWith('warn')?'warn-val':'bad-val';
   cont.innerHTML=`
+    ${td.crop&&CROPS[td.crop]?`<div class="gewas-param-blok oop">${bougGewasParamHTML(td.crop)}</div>`:''}
     ${(()=>{
       const ecOk=crop.ec?readings.filter(r=>r.ec>=crop.ec.min&&r.ec<=crop.ec.max).length:0;
       const phOk=crop.ph?readings.filter(r=>r.ph>=crop.ph.min&&r.ph<=crop.ph.max).length:0;
