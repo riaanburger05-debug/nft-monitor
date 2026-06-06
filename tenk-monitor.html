@@ -1420,12 +1420,17 @@ function bevestigNuweSiklus(){
 
 // ── WATERKOSTE ───────────────────────────────────────────────────────────────
 function stoorKoste(){
-  localStorage.setItem('nft_koste',JSON.stringify({
+  const k={
     water:document.getElementById('kos-water').value,
     kn:document.getElementById('kos-kn').value,
     aq:document.getElementById('kos-aq').value,
     weke:document.getElementById('kos-weke').value
-  }));
+  };
+  localStorage.setItem('nft_koste',JSON.stringify(k));
+  // Stoor ook na Firebase sodat leerders dit kan sien
+  const d=loadData();
+  d.koste=k;
+  saveData(d);
   berekeningKoste();
 }
 function laaiKoste(){
