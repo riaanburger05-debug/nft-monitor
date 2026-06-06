@@ -1129,15 +1129,20 @@ function bouTenkkarte() {
     const act = sv.active || false;
 
     if (!act) {
-      grid.innerHTML += `
-        <div class="tank-card">
-          <div class="tank-head">
-            <div class="tank-num" style="background:${c.grad}">${i}</div>
-            <div><div class="tank-title">Tenk ${i}</div><div class="tank-sub">Nie in gebruik nie</div></div>
-          </div>
-          <div class="tank-inactive">— Hierdie tenk is tans nie aktief nie —</div>
-        </div>`;
-      continue;
+      const inaktiefLesings = sv.readings || [];
+      const inaktiefLast = inaktiefLesings.length ? inaktiefLesings[inaktiefLesings.length - 1] : null;
+      if (!inaktiefLast) {
+        grid.innerHTML += `
+          <div class="tank-card">
+            <div class="tank-head">
+              <div class="tank-num" style="background:${c.grad}">${i}</div>
+              <div><div class="tank-title">Tenk ${i}</div><div class="tank-sub">Nie in gebruik nie</div></div>
+            </div>
+            <div class="tank-inactive">— Hierdie tenk is tans nie aktief nie —</div>
+          </div>`;
+        continue;
+      }
+      // Tenk het lesings — val deur na die normale kaart maar merk as inaktief
     }
 
     const readings = sv.readings || [];
@@ -1262,12 +1267,12 @@ function bouTenkkarte() {
       : '';
 
     grid.innerHTML += `
-      <div class="tank-card">
+      <div class="tank-card"${!act?` style="opacity:0.75;border-color:rgba(255,255,255,.08)"`:''}>
         <div class="tank-head">
           <div class="tank-num" style="background:${c.grad}">${i}</div>
           <div>
-            <div class="tank-title">Tenk ${i} · ${cropLbl} <span class="sess-chip">${sessLabel}</span></div>
-            <div class="tank-sub">Lesing: ${last.date || '—'}</div>
+            <div class="tank-title">Tenk ${i} · ${cropLbl} <span class="sess-chip">${sessLabel}</span>${!act?` <span class="sess-chip" style="background:rgba(255,100,100,.15);color:#EF9A9A">Inaktief</span>`:''}</div>
+            <div class="tank-sub">Laaste lesing: ${last.date || '—'}</div>
           </div>
         </div>
         ${ageChip}
