@@ -1435,13 +1435,20 @@ function stoorKoste(){
 }
 function laaiKoste(){
   try{
-    const k=JSON.parse(localStorage.getItem('nft_koste')||'{}');
+    // Eerste keuse: aparte localStorage-sleutel
+    let k=JSON.parse(localStorage.getItem('nft_koste')||'{}');
+    // Fallback: hoof-databasis (Firebase-gesinchroniseer)
+    if(!k.water&&!k.kn&&!k.aq){
+      const d=loadData();
+      if(d.koste)k=d.koste;
+    }
     if(k.water)document.getElementById('kos-water').value=k.water;
     if(k.kn)document.getElementById('kos-kn').value=k.kn;
     if(k.aq)document.getElementById('kos-aq').value=k.aq;
     if(k.weke)document.getElementById('kos-weke').value=k.weke;
-    // Stuur na Firebase as dit nog nie daar is nie
+    // Stoor altyd in beide plekke
     if(k.water||k.kn||k.aq){
+      localStorage.setItem('nft_koste',JSON.stringify(k));
       const d=loadData();
       if(!d.koste||d.koste.water!==k.water||d.koste.kn!==k.kn||d.koste.aq!==k.aq){
         d.koste=k;
