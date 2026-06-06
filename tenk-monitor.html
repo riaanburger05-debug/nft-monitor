@@ -1959,11 +1959,10 @@ function bouWaterverbruik(){
   const aktief=[];
   for(let i=1;i<=4;i++){
     const td=data[`t${i}`];
-    if(!td||!td.active||!td.aantalPlante)continue;
+    if(!td||!td.aantalPlante)continue;
     const crop=CROPS[td.crop];
     if(!crop)continue;
-    const age=plantAge(td.plantDate);
-    if(age===null)continue;
+    const age=plantAge(td.plantDate)??0;
     const mlPerPlant=waterGebruikPerPlant(td.crop,age);
     const totaalMl=mlPerPlant*td.aantalPlante;
     const fase=age<=14?'Saailing':age<=28?'Aktiewe Groei':'Naby Oes';
