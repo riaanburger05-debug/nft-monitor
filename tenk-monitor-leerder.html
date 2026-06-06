@@ -271,7 +271,6 @@ body{background:#0a0f1a;font-family:'Inter',sans-serif;color:#fff;min-height:100
     In 'n NFT-stelsel gebruik ons water in plaas van grond — so die water <strong style="color:rgba(255,255,255,.8)">moet</strong> al die voedingstowwe bevat wat die plant nodig het. EC (Elektriese Geleiding) meet presies dit: hoeveel minerale voedingstowwe in die water opgelos is. TDS tel ook ander deeltjies soos sediment en organiese materiaal in — goed wat nie voeding is nie. Daarom is EC die betroubare maatstaf in 'n NFT-stelsel.
   </div>
   <div class="tanks" id="tank-grid"></div>
-  <div id="koste-blok"></div>
 </div>
 
 <!-- ═══ GESKIEDENIS ═══ -->
@@ -318,6 +317,7 @@ body{background:#0a0f1a;font-family:'Inter',sans-serif;color:#fff;min-height:100
   </div>
   <div id="oes-totaal-blok"></div>
   <div id="oes-tenk-lys"></div>
+  <div id="koste-blok"></div>
 </div>
 
 <!-- ═══ GROEI-DAGBOEK ═══ -->
@@ -991,7 +991,7 @@ function showPage(id, tab) {
   if (id === 'geskiedenis') bouGeskiedenis();
   if (id === 'grafieke') { bouGrafiekSelektors(); renderAllCharts(); }
   if (id === 'groei') { bouLeerderGroeiSelektors(); bouLeerderGroeiInhoud(); }
-  if (id === 'oes') bouOes();
+  if (id === 'oes') { bouOes(); bouKosteBlok(); }
 }
 
 // ── GROEI-DAGBOEK (LEERDER — SLEGS LEES) ────────────────────────────────────
@@ -1116,7 +1116,6 @@ function wysLeerderVergelyking(n){
 // ── LESINGS-BLADSY ───────────────────────────────────────────────────────────
 function herbou() {
   bouTenkkarte();
-  bouKosteBlok();
   if (document.getElementById('page-geskiedenis').classList.contains('active')) bouGeskiedenis();
   if (document.getElementById('page-grafieke').classList.contains('active')) { bouGrafiekSelektors(); renderAllCharts(); }
 }
