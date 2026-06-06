@@ -188,6 +188,16 @@ canvas{max-width:100%}
 .oes-ry-gram{font-family:'Montserrat',sans-serif;font-weight:900;font-size:15px;color:#81C784}
 .oes-ry-rand{font-family:'Montserrat',sans-serif;font-weight:700;font-size:11px;color:#FFD54F;margin-top:2px}
 .oes-leeg{padding:30px 14px;text-align:center;color:rgba(255,255,255,.25);font-size:12px}
+/* Gewas-parameter verwysingsblok */
+.gewas-param-blok{margin:0 0 12px;background:linear-gradient(135deg,rgba(76,175,80,.1),rgba(33,150,243,.06));border:1.5px solid rgba(76,175,80,.3);border-radius:14px;padding:12px 14px;display:none}
+.gewas-param-blok.oop{display:block}
+.gewas-param-titel{font-family:'Montserrat',sans-serif;font-weight:900;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(76,175,80,.8);margin-bottom:10px}
+.gewas-param-ry{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:0}
+.gewas-param-sel{background:rgba(0,0,0,.2);border-radius:10px;padding:10px 12px;text-align:center}
+.gewas-param-naam{font-size:9px;font-family:'Montserrat',sans-serif;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:4px}
+.gewas-param-waarde{font-family:'Montserrat',sans-serif;font-weight:900;font-size:17px;color:#fff}
+.gewas-param-eenheid{font-size:9px;color:rgba(255,255,255,.35);margin-top:2px}
+.gewas-param-optimaal{font-size:10px;color:#81C784;font-weight:600;margin-top:3px}
 /* Outomatiese waarskuwings */
 .waarsku-blok{margin-bottom:14px}
 .waarsku-kaart{background:linear-gradient(135deg,rgba(211,47,47,.15),rgba(244,67,54,.08));border:1.5px solid rgba(244,67,54,.5);border-radius:14px;padding:13px 14px;margin-bottom:8px;display:flex;align-items:flex-start;gap:10px}
@@ -838,7 +848,7 @@ function buildTankCards(){
           <span>Hierdie tenk is in gebruik</span>
         </label>
         <div class="tank-inputs ${act?'active':''}" id="t${i}-inputs">
-          <select class="crop-select" id="t${i}-crop">
+          <select class="crop-select" id="t${i}-crop" onchange="wysGewasParams(${i})">
             <option value="">— Kies gewas —</option>
             <option value="slaai" ${sv.crop==='slaai'?'selected':''}>🥬 Slaai</option>
             <option value="spinasie" ${sv.crop==='spinasie'?'selected':''}>🌿 Spinasie</option>
@@ -851,6 +861,9 @@ function buildTankCards(){
             <option value="boerkool" ${sv.crop==='boerkool'?'selected':''}>🥦 Boerkool</option>
             <option value="pietersielie" ${sv.crop==='pietersielie'?'selected':''}>🌱 Pietersielie</option>
           </select>
+          <div class="gewas-param-blok ${sv.crop?'oop':''}" id="t${i}-params">
+            ${sv.crop&&CROPS[sv.crop]?bougGewasParamHTML(sv.crop):''}
+          </div>
           <div class="plant-date-row">
             <label>Plant datum</label>
             <input type="date" id="t${i}-date" value="${sv.plantDate||''}" max="${today()}">
@@ -889,6 +902,56 @@ function buildTankCards(){
       </div>
     </div>`;
   }
+}
+
+function bougGewasParamHTML(cropKey){
+  const c=CROPS[cropKey];
+  if(!c)return '';
+  const optimaalEC=((c.ec.min+c.ec.max)/2).toFixed(1);
+  const optimaalPH=((c.ph.min+c.ph.max)/2).toFixed(1);
+  const optimaalTDS=Math.round((c.tds.min+c.tds.max)/2);
+  const optimaalTemp=Math.round((c.temp.min+c.temp.max)/2);
+  return `
+    <div class="gewas-param-titel">${c.emoji} ${c.name} — Teikenwaardes</div>
+    <div class="gewas-param-ry">
+      <div class="gewas-param-sel">
+        <div class="gewas-param-naam">EC</div>
+        <div class="gewas-param-waarde">${c.ec.min}–${c.ec.max}</div>
+        <div class="gewas-param-eenheid">mS/cm</div>
+        <div class="gewas-param-optimaal">Ideaal: ~${optimaalEC}</div>
+      </div>
+      <div class="gewas-param-sel">
+        <div class="gewas-param-naam">pH</div>
+        <div class="gewas-param-waarde">${c.ph.min}–${c.ph.max}</div>
+        <div class="gewas-param-eenheid">suurheid</div>
+        <div class="gewas-param-optimaal">Ideaal: ~${optimaalPH}</div>
+      </div>
+      <div class="gewas-param-sel">
+        <div class="gewas-param-naam">TDS</div>
+        <div class="gewas-param-waarde">${c.tds.min}–${c.tds.max}</div>
+        <div class="gewas-param-eenheid">ppm</div>
+        <div class="gewas-param-optimaal">Ideaal: ~${optimaalTDS}</div>
+      </div>
+      <div class="gewas-param-sel">
+        <div class="gewas-param-naam">Water Temp</div>
+        <div class="gewas-param-waarde">${c.temp.min}–${c.temp.max}</div>
+        <div class="gewas-param-eenheid">°C</div>
+        <div class="gewas-param-optimaal">Ideaal: ~${optimaalTemp}°C</div>
+      </div>
+    </div>`;
+}
+
+function wysGewasParams(n){
+  const cropKey=document.getElementById(`t${n}-crop`).value;
+  const blok=document.getElementById(`t${n}-params`);
+  if(!blok)return;
+  if(!cropKey||!CROPS[cropKey]){
+    blok.classList.remove('oop');
+    blok.innerHTML='';
+    return;
+  }
+  blok.innerHTML=bougGewasParamHTML(cropKey);
+  blok.classList.add('oop');
 }
 
 function stoorTenkVeld(n){
