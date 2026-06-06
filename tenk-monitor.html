@@ -1491,6 +1491,11 @@ function berekeningKoste(){
       <span>🌿 Voeding: <strong style="color:#81C784">R${kosNutrTot}</strong></span>
     </div>
   </div>`;
+  // Stoor berekende resultaat na Firebase sodat leerder dieselfde syfers sien
+  const d2=loadData();
+  if(!d2.koste)d2.koste={};
+  d2.koste.resultaat={totaal,water:kosWaterTot,nutr:kosNutrTot,waterL:+totWaterL.toFixed(1),weke};
+  saveData(d2);
 }
 
 function trendPyl(huidig,vorig,hoerIsBeter){

@@ -1123,43 +1123,22 @@ function herbou() {
 function bouKosteBlok(){
   const blok=document.getElementById('koste-blok');
   if(!blok)return;
-  const k=_data.koste||{};
-  const kosWater=parseFloat(k.water)||0;
-  const kosKN=parseFloat(k.kn)||0;
-  const kosAQ=parseFloat(k.aq)||0;
-  const weke=parseFloat(k.weke)||5;
-  if(!kosWater&&!kosKN&&!kosAQ){blok.innerHTML='';return;}
-  // Waterverbruik
-  let totWaterL=0,aktief=0;
-  for(let i=1;i<=4;i++){
-    const td=_data[`t${i}`];
-    if(!td||!td.aantalPlante)continue;
-    const age=plantAge(td.plantDate)||14;
-    aktief++;
-    const wu=age<=14?60:age<=28?120:150;
-    totWaterL+=wu*td.aantalPlante/1000*7*weke;
-  }
-  if(!aktief){blok.innerHTML='';return;}
-  const totVolume=Object.values(_data).filter(t=>t&&t.tenkVolume).reduce((s,t)=>s+(t.tenkVolume||0),0);
-  const gKN=totVolume*weke;
-  const gHF=totVolume*weke;
-  const kosWaterTot=+(totWaterL*kosWater).toFixed(2);
-  const kosNutrTot=+(gKN/1000*kosKN+gHF/1000*kosAQ).toFixed(2);
-  const totaal=+(kosWaterTot+kosNutrTot).toFixed(2);
+  const r=(_data.koste||{}).resultaat;
+  if(!r||!r.totaal){blok.innerHTML='';return;}
   blok.innerHTML=`
     <div style="background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.08);border-radius:14px;padding:16px;margin-top:16px">
-      <div style="font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:12px">💰 Beraamde Bedryfskoste — ${weke} Weke</div>
-      <div style="font-family:'Montserrat',sans-serif;font-size:32px;font-weight:900;color:#81C784;margin-bottom:4px">R ${totaal}</div>
-      <div style="font-size:11px;color:rgba(255,255,255,.35);margin-bottom:12px">Totale beraamde koste vir ${weke} weke</div>
+      <div style="font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:12px">💰 Beraamde Bedryfskoste — ${r.weke} Weke</div>
+      <div style="font-family:'Montserrat',sans-serif;font-size:32px;font-weight:900;color:#81C784;margin-bottom:4px">R ${r.totaal}</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.35);margin-bottom:12px">Totale beraamde koste vir ${r.weke} weke</div>
       <div style="display:flex;gap:12px;flex-wrap:wrap">
         <div style="flex:1;min-width:100px;background:rgba(144,202,249,.07);border-radius:10px;padding:10px 12px">
           <div style="font-size:10px;color:rgba(255,255,255,.35);margin-bottom:2px">💧 Water</div>
-          <div style="font-size:18px;font-weight:700;color:#90caf9">R${kosWaterTot}</div>
-          <div style="font-size:10px;color:rgba(255,255,255,.25)">${totWaterL.toFixed(0)}L × R${kosWater}/L</div>
+          <div style="font-size:18px;font-weight:700;color:#90caf9">R${r.water}</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.25)">${r.waterL}L gebruik</div>
         </div>
         <div style="flex:1;min-width:100px;background:rgba(129,199,132,.07);border-radius:10px;padding:10px 12px">
           <div style="font-size:10px;color:rgba(255,255,255,.35);margin-bottom:2px">🌿 Voedingstowwe</div>
-          <div style="font-size:18px;font-weight:700;color:#81C784">R${kosNutrTot}</div>
+          <div style="font-size:18px;font-weight:700;color:#81C784">R${r.nutr}</div>
           <div style="font-size:10px;color:rgba(255,255,255,.25)">KN + HF beraming</div>
         </div>
       </div>
