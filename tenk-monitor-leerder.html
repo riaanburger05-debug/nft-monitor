@@ -15,6 +15,10 @@ body{background:#0a0f1a;font-family:'Inter',sans-serif;color:#fff;min-height:100
 
 /* Leer-modus-balk bo-aan */
 .leer-banner{background:linear-gradient(90deg,#0d47a1,#1565c0);text-align:center;padding:7px 14px;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#90caf9;position:sticky;top:0;z-index:200}
+/* Nuwe-data kennisgewin-balk */
+.nuwe-data-banner{display:none;background:linear-gradient(90deg,#1b5e20,#2e7d32);text-align:center;padding:11px 16px;font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;color:#fff;position:sticky;top:27px;z-index:199;cursor:pointer;animation:puls .9s ease-in-out infinite alternate}
+.nuwe-data-banner.oop{display:block}
+@keyframes puls{from{background:linear-gradient(90deg,#1b5e20,#2e7d32)}to{background:linear-gradient(90deg,#2e7d32,#43a047)}}
 
 .nav{display:flex;background:#0d1520;border-bottom:1px solid rgba(255,255,255,.08);position:sticky;top:33px;z-index:100;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .nav::-webkit-scrollbar{display:none}
@@ -212,7 +216,8 @@ body{background:#0a0f1a;font-family:'Inter',sans-serif;color:#fff;min-height:100
 </head>
 <body>
 
-<div class="leer-banner">👁️ Leer-Modus — Slegs Lees &nbsp;|&nbsp; Data word outomaties verfris</div>
+<div class="leer-banner">👁️ Leer-Modus — Slegs Lees</div>
+<div class="nuwe-data-banner" id="nuwe-data-banner" onclick="pasOp()">📢 Riaan het nuwe data gestoor — tik hier om op te dateer</div>
 
 <nav class="nav">
   <button class="nav-tab active" onclick="showPage('lesings',this)">
@@ -700,18 +705,36 @@ function setLastUpdate() {
   }
 }
 
+let _lastTs = 0;
+let _eerstelaai = true;
+
 async function laaiData() {
   setSyncBar('⏳ Data laai...');
   try {
-    const res = await fetch(DB_URL + '?t=' + Date.now()); // cache-buster
+    const res = await fetch(DB_URL + '?t=' + Date.now());
     if (!res.ok) throw new Error('Netwerk fout');
-    _data = (await res.json()) || {};
+    const nuut = (await res.json()) || {};
     setSyncBar('');
-    setLastUpdate();
-    herbou();
+    if(_eerstelaai){
+      _data = nuut;
+      _lastTs = nuut._ts || 0;
+      _eerstelaai = false;
+      setLastUpdate();
+      herbou();
+    } else if((nuut._ts||0) > _lastTs){
+      _data = nuut; // stoor nuwe data maar herbou nog nie
+      document.getElementById('nuwe-data-banner').classList.add('oop');
+    }
   } catch (e) {
     setSyncBar('⚠️ Kan nie Firebase bereik nie — probeer weer...');
   }
+}
+
+function pasOp(){
+  _lastTs = _data._ts || 0;
+  document.getElementById('nuwe-data-banner').classList.remove('oop');
+  setLastUpdate();
+  herbou();
 }
 
 // ── PROBLEEM-PANEEL ─────────────────────────────────────────────────────────
