@@ -660,11 +660,11 @@ const CROPS = {
   spinasie:        {name:'Spinasie',        emoji:'🌿',harvestDays:40,
     ec:{min:1.8,max:2.3,low:'Voeg voedingstof by. Mik op 1.9–2.1 mS/cm.',high:'Verdun met skoon water. Mik op 1.9–2.1 mS/cm.'},
     ph:{min:6.0,max:7.0,low:'Voeg Koeksoda by. Mik op 6.0–6.8.',high:'Voeg Swembadsuur by. Mik op 6.0–6.8.'},
-    tds:{min:900,max:1150},temp:{min:15,max:22,low:'Water te koud.',high:'Water te warm. Skadu die tenk.'}},
+    tds:{min:900,max:1150},temp:{min:7,max:22,low:'Spinasie verdra koue — groei vertraag onder 10°C maar oorleef.',high:'Water te warm. Skadu die tenk.'}},
   mosterdspinasie: {name:'Mosterdspinasie', emoji:'🌱',harvestDays:35,
     ec:{min:1.5,max:2.0,low:'Voeg voedingstof by. Mik op 1.6–1.9 mS/cm.',high:'Verdun met skoon water. Mik op 1.6–1.9 mS/cm.'},
-    ph:{min:6.0,max:7.0,low:'Voeg Koeksoda by. Mik op 6.0–6.8.',high:'Voeg Swembadsuur by. Mik op 6.0–6.8.'},
-    tds:{min:750,max:1000},temp:{min:15,max:22,low:'Water te koud.',high:'Water te warm. Skadu die tenk.'}},
+    ph:{min:6.0,max:6.5,low:'Voeg Koeksoda by. Mik op 6.0–6.5.',high:'Voeg Swembadsuur by. Mik op 6.0–6.5. Bo 7.0 word yster onoplosbaar — geel blare volg.'},
+    tds:{min:750,max:1000},temp:{min:5,max:20,low:'Mosterdspinasie kan koue verduur — monitor groeitempo.',high:'Water te warm. Skadu die tenk.'}},
   aarbeie:         {name:'Aarbeie',          emoji:'🍓',harvestDays:90,
     ec:{min:1.8,max:2.6,low:'Voeg voedingstof by. Mik op 2.0–2.4 mS/cm.',high:'Verdun met skoon water. Mik op 2.0–2.4 mS/cm.'},
     ph:{min:5.5,max:6.5,low:'Voeg Koeksoda by. Mik op 5.8–6.2.',high:'Voeg Swembadsuur by. Mik op 5.8–6.2.'},
@@ -809,6 +809,56 @@ function checkWaarskuwings(){
     kontroleer('ec',crop.ec,'EC','mS/cm');
     kontroleer('ph',crop.ph,'pH','');
     kontroleer('temp',crop.temp,'Watertemp','°C');
+    // pH stygende tendens (3 agtereenvolgende stygings)
+    if(readings.length>=3){
+      const r1=readings[readings.length-3],r2=readings[readings.length-2],r3=readings[readings.length-1];
+      if(r1.ph!=null&&r2.ph!=null&&r3.ph!=null&&r3.ph>r2.ph&&r2.ph>r1.ph){
+        html+=`<div class="waarsku-kaart" style="border-left-color:#FFD54F">
+          <div class="waarsku-ikoon">📈</div>
+          <div class="waarsku-inhoud">
+            <div class="waarsku-titel" style="color:#FFD54F">Tenk ${i} — pH STYGENDE TENDENS (3 lesings)</div>
+            <div class="waarsku-boodskap">pH het gestyg: ${r1.ph} → ${r2.ph} → ${r3.ph}. Sal aanhou styg sonder korreksie.</div>
+            <div class="waarsku-advies">👉 Voeg Swembadsuur/pH Down by. Mik op 5.8–6.2.</div>
+          </div>
+        </div>`;
+      }
+      // pH > 7.0 yster opname geblokkeer
+      if(r3.ph!=null&&r3.ph>7.0){
+        html+=`<div class="waarsku-kaart" style="border-left-color:#EF9A9A">
+          <div class="waarsku-ikoon">🚨</div>
+          <div class="waarsku-inhoud">
+            <div class="waarsku-titel" style="color:#EF9A9A">Tenk ${i} — YSTER OPNAME GEBLOKKEER (pH ${r3.ph})</div>
+            <div class="waarsku-boodskap">Bo pH 7.0 word yster onoplosbaar — nuwe blare sal geel word (chlorose).</div>
+            <div class="waarsku-advies">👉 Bring pH dringend af na 6.0–6.2 met Swembadsuur. Geel nuwe blare is die eerste simptoom.</div>
+          </div>
+        </div>`;
+      }
+    }
+    // Koue water spesifieke waarskuwings
+    if(readings.length){
+      const laasteTmp=readings[readings.length-1];
+      if(laasteTmp.temp!=null){
+        if(laasteTmp.temp<8){
+          html+=`<div class="waarsku-kaart" style="border-left-color:#EF9A9A">
+            <div class="waarsku-ikoon">🥶</div>
+            <div class="waarsku-inhoud">
+              <div class="waarsku-titel" style="color:#EF9A9A">Tenk ${i} — WATER KRITIES KOUD (${laasteTmp.temp}°C)</div>
+              <div class="waarsku-boodskap">Onder 8°C neem wortels feitlik geen voeding op nie — pH sal onstabiel wees en groei stagneer.</div>
+              <div class="waarsku-advies">👉 Akwarium verwarmer (500W) aanbeveel. Warm wateraanvulling as tussentydse oplossing.</div>
+            </div>
+          </div>`;
+        } else if(laasteTmp.temp<12){
+          html+=`<div class="waarsku-kaart" style="border-left-color:#FFD54F">
+            <div class="waarsku-ikoon">❄️</div>
+            <div class="waarsku-inhoud">
+              <div class="waarsku-titel" style="color:#FFD54F">Tenk ${i} — Koue Water (${laasteTmp.temp}°C)</div>
+              <div class="waarsku-boodskap">Onder 12°C vertraag wortelopname en groei aansienlik. pH neig om onstabiel te word.</div>
+              <div class="waarsku-advies">👉 Warm wateraanvulling of akwarium verwarmer aanbeveel. Verlaag EC-teiken effens.</div>
+            </div>
+          </div>`;
+        }
+      }
+    }
     // Vloei-waarskuwings
     const vloeiLesings=readings.filter(r=>r.vloei!=null);
     if(vloeiLesings.length){
@@ -915,6 +965,7 @@ function buildTankCards(){
             <button type="button" class="seisoen-btn" id="t${i}-lente" onclick="setSeisoen(${i},'Lente/Herfs',this)">🌸 Lente/Herfs</button>
             <button type="button" class="seisoen-btn ${[4,5,6,7].includes(new Date().getMonth())?'winter':''}" id="t${i}-winter" onclick="setSeisoen(${i},'Winter',this)">❄️ Winter</button>
           </div>
+          <div id="t${i}-seisoen-nota" style="display:${[4,5,6,7].includes(new Date().getMonth())?'block':'none'};background:rgba(144,202,249,.08);border:1px solid rgba(144,202,249,.25);border-radius:10px;padding:8px 12px;font-size:11px;color:#90caf9;line-height:1.5;margin-bottom:8px">❄️ <strong>Winter Modus:</strong> Teikenwaardes is aangepas vir kouetolerante gewasse. Vertraagde groei en pH-skommeling is normaal.</div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
             <div style="display:flex;flex-direction:column;gap:4px">
               <label style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.4);font-family:'Montserrat',sans-serif">Aantal Plante</label>
@@ -1288,6 +1339,21 @@ function setSeisoen(n,s,btn){
   document.querySelectorAll(`#t${n}-somer,#t${n}-lente,#t${n}-winter`).forEach(b=>{b.classList.remove('somer','winter');});
   if(s==='Somer')btn.classList.add('somer');
   else if(s==='Winter')btn.classList.add('winter');
+  // Stoor seisoen in data
+  const data=loadData();
+  if(!data[`t${n}`])data[`t${n}`]={};
+  data[`t${n}`].seisoen=s;
+  saveData(data);
+  // Wys winter nota
+  const nota=document.getElementById(`t${n}-seisoen-nota`);
+  if(nota){
+    if(s==='Winter'){
+      nota.innerHTML='❄️ <strong>Winter Modus:</strong> Teikenwaardes is aangepas vir kouetolerante gewasse. Vertraagde groei en pH-skommeling is normaal.';
+      nota.style.display='block';
+    } else {
+      nota.innerHTML='';nota.style.display='none';
+    }
+  }
 }
 function getSeisoen(n){
   if(document.getElementById(`t${n}-somer`).classList.contains('somer'))return 'Somer';
@@ -1664,15 +1730,18 @@ function renderHistory(n){
     ${(()=>{
       const ecOk=crop.ec?readings.filter(r=>r.ec>=crop.ec.min&&r.ec<=crop.ec.max).length:0;
       const phOk=crop.ph?readings.filter(r=>r.ph>=crop.ph.min&&r.ph<=crop.ph.max).length:0;
+      const phHoog=crop.ph?readings.filter(r=>r.ph!=null&&r.ph>crop.ph.max).length:0;
+      const phLaag=crop.ph?readings.filter(r=>r.ph!=null&&r.ph<crop.ph.min).length:0;
       const pctEC=crop.ec?Math.round(ecOk/readings.length*100):null;
       const pctPH=crop.ph?Math.round(phOk/readings.length*100):null;
       const kleurEC=pctEC>=80?'#81C784':pctEC>=60?'#FFD54F':'#EF9A9A';
       const kleurPH=pctPH>=80?'#81C784':pctPH>=60?'#FFD54F':'#EF9A9A';
+      const phRede=pctPH!==null&&pctPH<100?(phHoog>phLaag?`↑ Te hoog: ${phHoog} lesings`:(phLaag>phHoog?`↓ Te laag: ${phLaag} lesings`:`↑${phHoog} ↓${phLaag} lesings`)):'';
       return `<div class="hist-stats">
         <div class="hstat"><div class="hstat-num" style="color:#81C784">${readings.length}</div><span class="hstat-lbl">Lesings</span></div>
         <div class="hstat"><div class="hstat-num" style="color:#81C784">${age!==null?'Dag '+age:'—'}</div><span class="hstat-lbl">Plant Ouderdom</span></div>
         <div class="hstat"><div class="hstat-num" style="color:${kleurEC}">${pctEC!==null?pctEC+'%':'—'}</div><span class="hstat-lbl">EC Optimaal</span></div>
-        <div class="hstat"><div class="hstat-num" style="color:${kleurPH}">${pctPH!==null?pctPH+'%':'—'}</div><span class="hstat-lbl">pH Optimaal</span></div>
+        <div class="hstat"><div class="hstat-num" style="color:${kleurPH}">${pctPH!==null?pctPH+'%':'—'}</div><span class="hstat-lbl">pH Optimaal</span>${phRede?`<span style="font-size:9px;color:${kleurPH};margin-top:2px;display:block">${phRede}</span>`:''}</div>
       </div>`;
     })()}
     <div class="hist-table-wrap"><table class="hist-table">
