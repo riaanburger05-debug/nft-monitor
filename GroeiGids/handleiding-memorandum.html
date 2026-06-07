@@ -1,0 +1,483 @@
+﻿<!DOCTYPE html>
+<html lang="af">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GroeiGids — Memorandum</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#1a1a2e;font-family:'Inter',sans-serif;padding:20px}
+.page{width:794px;min-height:1123px;background:#fff;margin:0 auto 32px;position:relative;overflow:visible;box-shadow:0 8px 40px rgba(0,0,0,.45);page-break-after:always}
+
+/* BOOK HEADER & FOOTER */
+.book-header{color:#fff;padding:10px 24px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,#1B5E20,#2E7D32)}
+.book-header .left{font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;opacity:.9}
+.book-header .right{font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;opacity:.9}
+.book-footer{position:absolute;bottom:0;left:0;right:0;padding:8px 24px;display:flex;justify-content:space-between;align-items:center;background:#F1F8E9;border-top:3px solid #2E7D32}
+.book-footer span{font-size:10px;font-weight:600;letter-spacing:.5px;color:#2E7D32}
+
+/* COVER */
+.cover-bg{background:linear-gradient(160deg,#0a0a1a 0%,#1a1a2e 40%,#1B5E20 100%);min-height:1123px;color:#fff;display:flex;flex-direction:column}
+.cover-header-bar{background:rgba(0,0,0,.35);padding:14px 32px;display:flex;justify-content:space-between;align-items:center}
+.cover-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center}
+
+/* ANSWER PAGE BODY */
+.page-body{padding:12px 24px 80px}
+
+/* CHAPTER BLOCK */
+.chapter-block{margin-bottom:18px}
+.chapter-header{border-radius:10px 10px 0 0;padding:10px 16px;color:#fff;display:flex;justify-content:space-between;align-items:center}
+.chapter-header .ch-title{font-family:'Montserrat',sans-serif;font-size:15px;font-weight:900}
+.chapter-header .ch-sub{font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;opacity:.8;margin-top:2px}
+.chapter-header .ch-right{font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;opacity:.8;text-align:right}
+
+/* ANSWER TABLE */
+.ans-table{width:100%;border-collapse:collapse;font-size:10px}
+.ans-table th{font-family:'Montserrat',sans-serif;font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:7px 10px;text-align:center;color:#fff;border:1px solid rgba(255,255,255,.2)}
+.ans-table th.left-align{text-align:left}
+.ans-table td{border:1px solid #E0E0E0;padding:5px 9px;vertical-align:middle;font-size:10px;color:#37474F}
+.ans-table td.center{text-align:center}
+.ans-table td.qnum{font-family:'Montserrat',sans-serif;font-weight:800;font-size:10px;color:#263238;text-align:center;width:32px}
+.ans-table td.student-ans{text-align:center;width:60px;font-family:'Montserrat',sans-serif;font-weight:700;font-size:12px;color:#bbb}
+.ans-table td.correct-ans{text-align:left;font-size:10px}
+.ans-table td.correct-ans .letter{font-family:'Montserrat',sans-serif;font-weight:800;font-size:11px;margin-right:5px}
+.ans-table td.pts{text-align:center;width:46px;font-family:'Montserrat',sans-serif;font-weight:700;font-size:11px}
+.subtotaal{border-radius:0 0 10px 10px;padding:7px 14px;text-align:right;font-family:'Montserrat',sans-serif;font-size:12px;font-weight:800;border-top:0}
+
+/* Toets colour themes */
+.t1-bg{background:#0D47A1}
+.t1-alt{background:#E3F2FD}
+.t1-sub{background:#BBDEFB;color:#0D47A1;border-top:2px solid #0D47A1}
+.t2-bg{background:#0D47A1}
+.t2-alt{background:#E3F2FD}
+.t2-sub{background:#BBDEFB;color:#0D47A1;border-top:2px solid #0D47A1}
+.t3-bg{background:#1B5E20}
+.t3-alt{background:#E8F5E9}
+.t3-sub{background:#C8E6C9;color:#1B5E20;border-top:2px solid #1B5E20}
+.t4-bg{background:#B71C1C}
+.t4-alt{background:#FFEBEE}
+.t4-sub{background:#FFCDD2;color:#B71C1C;border-top:2px solid #B71C1C}
+.t5-bg{background:#004D40}
+.t5-alt{background:#E0F2F1}
+.t5-sub{background:#B2DFDB;color:#004D40;border-top:2px solid #004D40}
+.t6-bg{background:#4A0000}
+.t6-alt{background:#FCE4EC}
+.t6-sub{background:#F8BBD0;color:#4A0000;border-top:2px solid #4A0000}
+
+
+
+
+
+@media print {
+  @page { size: A4 portrait; margin: 0; }
+  *, *::before, *::after { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; box-sizing: border-box; }
+  html, body { margin: 0 !important; padding: 0 !important; background: white !important; }
+
+  .page, .page1, .page2 {
+    width: 210mm !important;
+    height: 297mm !important;
+    min-height: unset !important;
+    max-height: 297mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    overflow: hidden !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    display: flex !important;
+    flex-direction: column !important;
+    position: relative !important;
+  }
+
+  /* Inhoud area groei om plek te vul */
+  .page-body, .content {
+    flex: 1 1 auto !important;
+    overflow: hidden !important;
+    padding-bottom: 0 !important;
+  }
+
+  /* Voetbalk LAASTE in die bladsy — altyd onderaan */
+  .book-footer, .book-ftr {
+    flex-shrink: 0 !important;
+    position: relative !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
+    width: 100% !important;
+    margin-top: auto !important;
+  }
+
+  /* Omslag volle hoogte */
+  .cover-bg, .cover {
+    height: 297mm !important;
+    min-height: unset !important;
+    overflow: hidden !important;
+    flex: 1 !important;
+  }
+
+  .print-btn-bar { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 1 — COVER (MEMORANDUM)
+══════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="cover-bg">
+    <div class="cover-header-bar">
+      <span style="font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;opacity:.75">GroeiGids — NFT A-Frame Stelsel</span>
+      <span style="font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;opacity:.75">Memorandum</span>
+    </div>
+    <div class="cover-body">
+
+      <!-- VERTROULIK BADGE -->
+      <div style="background:#B71C1C;border:2px solid #EF9A9A;border-radius:6px;padding:7px 22px;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;letter-spacing:3px;text-transform:uppercase;margin-bottom:28px;display:inline-flex;align-items:center;gap:8px">
+        <span style="font-size:14px">🔒</span> VERTROULIK — SLEGS VIR OPVOEDERS
+      </div>
+
+      <!-- ICON -->
+      <div style="font-size:56px;margin-bottom:16px">📋</div>
+
+      <!-- TITLE -->
+      <div style="font-family:'Montserrat',sans-serif;font-size:52px;font-weight:900;line-height:1.1;margin-bottom:10px;letter-spacing:-1px">MEMORANDUM</div>
+
+      <!-- SUBTITLE -->
+      <div style="font-family:'Montserrat',sans-serif;font-size:18px;font-weight:600;opacity:.75;margin-bottom:8px">GroeiGids — NFT A-Frame Stelsel</div>
+
+      <!-- DIVIDER -->
+      <div style="width:80px;height:4px;background:rgba(255,255,255,.3);border-radius:2px;margin:18px auto 24px"></div>
+
+      <!-- STAT PILLS -->
+      <div style="display:flex;gap:12px;margin-bottom:32px;justify-content:center;flex-wrap:wrap">
+        <div style="background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.3);border-radius:20px;padding:12px 20px;text-align:center">
+          <div style="font-family:'Montserrat',sans-serif;font-size:26px;font-weight:900">6</div>
+          <div style="font-size:10px;opacity:.7;margin-top:3px">Toetse</div>
+        </div>
+        <div style="background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.3);border-radius:20px;padding:12px 20px;text-align:center">
+          <div style="font-family:'Montserrat',sans-serif;font-size:26px;font-weight:900">15</div>
+          <div style="font-size:10px;opacity:.7;margin-top:3px">Vrae Elk</div>
+        </div>
+        <div style="background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.3);border-radius:20px;padding:12px 20px;text-align:center">
+          <div style="font-family:'Montserrat',sans-serif;font-size:26px;font-weight:900">2</div>
+          <div style="font-size:10px;opacity:.7;margin-top:3px">Punte per Vraag</div>
+        </div>
+        <div style="background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.3);border-radius:20px;padding:12px 20px;text-align:center">
+          <div style="font-family:'Montserrat',sans-serif;font-size:26px;font-weight:900">30</div>
+          <div style="font-size:10px;opacity:.7;margin-top:3px">Punte Totaal</div>
+        </div>
+      </div>
+
+      <!-- INFO BOX -->
+      <div style="background:rgba(0,0,0,.25);border-radius:14px;padding:20px 28px;width:100%;max-width:520px;text-align:left">
+        <div style="font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;opacity:.65;margin-bottom:14px;text-transform:uppercase">Inhoud van hierdie Memorandum</div>
+        <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.1);font-size:12px"><span>Toets 1 — EC, pH, TDS &amp; Suurstof</span><span style="opacity:.6;font-weight:600;font-family:'Montserrat',sans-serif">15 Vrae</span></div>
+        <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.1);font-size:12px"><span>Toets 2 — Stelsel Opstelling</span><span style="opacity:.6;font-weight:600;font-family:'Montserrat',sans-serif">15 Vrae</span></div>
+        <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.1);font-size:12px"><span>Toets 3 — Gewasse &amp; Parameters</span><span style="opacity:.6;font-weight:600;font-family:'Montserrat',sans-serif">15 Vrae</span></div>
+        <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.1);font-size:12px"><span>Toets 4 — Do's &amp; Don'ts</span><span style="opacity:.6;font-weight:600;font-family:'Montserrat',sans-serif">15 Vrae</span></div>
+        <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.1);font-size:12px"><span>Toets 5 — Monitering Logboek</span><span style="opacity:.6;font-weight:600;font-family:'Montserrat',sans-serif">15 Vrae</span></div>
+        <div style="display:flex;justify-content:space-between;padding:7px 0;font-size:12px"><span>Toets 6 — Probleemoplossing</span><span style="opacity:.6;font-weight:600;font-family:'Montserrat',sans-serif">15 Vrae</span></div>
+      </div>
+
+      <!-- FOOTER NOTE -->
+      <div style="margin-top:28px;font-size:11px;opacity:.45;font-style:italic">Alle 6 Toetse · 15 Vrae Elk · 2 Punte per Vraag · 30 Punte Totaal</div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 2 — TOETS 1 + TOETS 2
+══════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="book-header">
+    <span class="left">GroeiGids — Memorandum</span>
+    <span class="right">Toets 1 &amp; Toets 2</span>
+  </div>
+  <div class="page-body">
+
+    <!-- TOETS 1 -->
+    <div class="chapter-block">
+      <div class="chapter-header t1-bg">
+        <div>
+          <div class="ch-sub">Toets 1 van 6</div>
+          <div class="ch-title">EC, pH, TDS &amp; Suurstof</div>
+        </div>
+        <div class="ch-right">15 Vrae · 30 Punte</div>
+      </div>
+      <table class="ans-table">
+        <thead>
+          <tr class="t1-bg">
+            <th style="width:32px">V#</th>
+            <th style="width:60px">Antwoord</th>
+            <th class="left-align">Korrekte Antwoord</th>
+            <th style="width:46px">Punte</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="qnum">1</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#0D47A1">B</span> Electrical Conductivity</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t1-alt"><td class="qnum">2</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#0D47A1">B</span> mS/cm (millisiemens per sentimeter)</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">3</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#0D47A1">C</span> pH 5.8–6.2</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t1-alt"><td class="qnum">4</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#0D47A1">B</span> Total Dissolved Solids</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">5</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#0D47A1">B</span> 750 ppm (1.5 × 500 = 750)</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t1-alt"><td class="qnum">6</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#0D47A1">B</span> Deur die lugspasie bo-in die pyp</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">7</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#0D47A1">B</span> 18–24°C</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t1-alt"><td class="qnum">8</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#0D47A1">B</span> Suurstofinhoud in die water daal</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">9</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#0D47A1">C</span> pH 5.5–6.0</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t1-alt"><td class="qnum">10</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#0D47A1">B</span> Voeg skoon water by</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">11</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#0D47A1">C</span> pH 7 is neutraal</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t1-alt"><td class="qnum">12</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#0D47A1">B</span> Water wat te lank in die pyp staan</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">13</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#0D47A1">C</span> Mosterd Spinach (EC 1.6–2.0)</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t1-alt"><td class="qnum">14</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#0D47A1">B</span> 500 of 700</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">15</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#0D47A1">B</span> Bruin slymerige wortels</td><td class="pts" style="color:#1B5E20">2</td></tr>
+        </tbody>
+      </table>
+      <div class="subtotaal t1-sub">Subtotaal: ___ / 30</div>
+    </div>
+
+    <!-- TOETS 2 -->
+    <div class="chapter-block">
+      <div class="chapter-header t2-bg">
+        <div>
+          <div class="ch-sub">Toets 2 van 6</div>
+          <div class="ch-title">Stelsel Opstelling</div>
+        </div>
+        <div class="ch-right">15 Vrae · 30 Punte</div>
+      </div>
+      <table class="ans-table">
+        <thead>
+          <tr class="t2-bg">
+            <th style="width:32px">V#</th>
+            <th style="width:60px">Antwoord</th>
+            <th class="left-align">Korrekte Antwoord</th>
+            <th style="width:46px">Punte</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="qnum">1</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#0D47A1">B</span> In serie van Pyp 1 tot Pyp 5</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t2-alt"><td class="qnum">2</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#0D47A1">B</span> 2–3% helling</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">3</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#0D47A1">C</span> 1–2 L/min</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t2-alt"><td class="qnum">4</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#0D47A1">D</span> 4 kante (2 A-frames × 2 kante elk)</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">5</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#0D47A1">C</span> Aarbeie</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t2-alt"><td class="qnum">6</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#0D47A1">C</span> Tenk A</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">7</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#0D47A1">C</span> Grond</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t2-alt"><td class="qnum">8</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#0D47A1">D</span> 24 uur</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">9</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#0D47A1">B</span> 50 mm</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t2-alt"><td class="qnum">10</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#0D47A1">D</span> 4 pompe (een per kant)</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">11</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#0D47A1">B</span> Water spat en wortels droog uit</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t2-alt"><td class="qnum">12</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#0D47A1">C</span> Eers A dan B</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">13</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#0D47A1">A</span> Om lekkasies en stabiliteit te toets</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t2-alt"><td class="qnum">14</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#0D47A1">B</span> 3–5 dae</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">15</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#0D47A1">B</span> Gooi suur stadig in water</td><td class="pts" style="color:#1B5E20">2</td></tr>
+        </tbody>
+      </table>
+      <div class="subtotaal t2-sub">Subtotaal: ___ / 30</div>
+    </div>
+
+  </div>
+  <div class="book-footer">
+    <span>GroeiGids NFT A-Frame Stelsel</span>
+    <span>MEMORANDUM — VERTROULIK</span>
+    <span>Bladsy 2 van 4</span>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 3 — TOETS 3 + TOETS 4
+══════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="book-header">
+    <span class="left">GroeiGids — Memorandum</span>
+    <span class="right">Toets 3 &amp; Toets 4</span>
+  </div>
+  <div class="page-body">
+
+    <!-- TOETS 3 -->
+    <div class="chapter-block">
+      <div class="chapter-header t3-bg">
+        <div>
+          <div class="ch-sub">Toets 3 van 6</div>
+          <div class="ch-title">Gewasse &amp; Parameters</div>
+        </div>
+        <div class="ch-right">15 Vrae · 30 Punte</div>
+      </div>
+      <table class="ans-table">
+        <thead>
+          <tr class="t3-bg">
+            <th style="width:32px">V#</th>
+            <th style="width:60px">Antwoord</th>
+            <th class="left-align">Korrekte Antwoord</th>
+            <th style="width:46px">Punte</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="qnum">1</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#1B5E20">B</span> EC 1.2–1.8 mS/cm</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t3-alt"><td class="qnum">2</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#1B5E20">C</span> pH 6.0–6.8</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">3</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#1B5E20">B</span> 28–35 dae</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t3-alt"><td class="qnum">4</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#1B5E20">C</span> Aarbeie (EC 1.0–1.4)</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">5</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#1B5E20">A</span> Raam A Kant 1</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t3-alt"><td class="qnum">6</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#1B5E20">B</span> 15–20°C</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">7</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#1B5E20">C</span> 60–90 dae</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t3-alt"><td class="qnum">8</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#1B5E20">B</span> pH 5.5–6.0</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">9</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#1B5E20">D</span> Raam B Kant 2</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t3-alt"><td class="qnum">10</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#1B5E20">C</span> EC 1.6–2.0 mS/cm</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">11</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#1B5E20">C</span> Tenk C</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t3-alt"><td class="qnum">12</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#1B5E20">B</span> Elke kant het sy eie aparte tenk</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">13</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#1B5E20">B</span> 30–40 dae</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t3-alt"><td class="qnum">14</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#1B5E20">C</span> Voeg skoon water by</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">15</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#1B5E20">B</span> Spinasie word op Tenk B gekweek</td><td class="pts" style="color:#1B5E20">2</td></tr>
+        </tbody>
+      </table>
+      <div class="subtotaal t3-sub">Subtotaal: ___ / 30</div>
+    </div>
+
+    <!-- TOETS 4 -->
+    <div class="chapter-block">
+      <div class="chapter-header t4-bg">
+        <div>
+          <div class="ch-sub">Toets 4 van 6</div>
+          <div class="ch-title">Do's &amp; Don'ts</div>
+        </div>
+        <div class="ch-right">15 Vrae · 30 Punte</div>
+      </div>
+      <table class="ans-table">
+        <thead>
+          <tr class="t4-bg">
+            <th style="width:32px">V#</th>
+            <th style="width:60px">Antwoord</th>
+            <th class="left-align">Korrekte Antwoord</th>
+            <th style="width:46px">Punte</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="qnum">1</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#B71C1C">C</span> Herstel vloei onmiddellik</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t4-alt"><td class="qnum">2</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#B71C1C">C</span> Daagliks — oggend en aand</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">3</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#B71C1C">B</span> Grondgebaseerde groeimedium</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t4-alt"><td class="qnum">4</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#B71C1C">C</span> Lees etiket en dra beskermende toerusting</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">5</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#B71C1C">D</span> Minder as 30 minute</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t4-alt"><td class="qnum">6</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#B71C1C">B</span> Daaglikse EC en pH monitor</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">7</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#B71C1C">C</span> Voedingsoplossing van verskillende kante meng</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t4-alt"><td class="qnum">8</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#B71C1C">B</span> Bruin slymerige wortels en hangende blare</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">9</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#B71C1C">B</span> EC en pH meet en aanteken</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t4-alt"><td class="qnum">10</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#B71C1C">C</span> Elke kant het sy eie tenk — moenie meng nie</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">11</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#B71C1C">B</span> Druppel vir druppel terwyl jy roer</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t4-alt"><td class="qnum">12</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#B71C1C">C</span> Behandel dadelik en blokkeer ligindringing</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">13</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#B71C1C">B</span> Eers nadat die stelsel 24 uur gestabiliseer het</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t4-alt"><td class="qnum">14</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#B71C1C">C</span> Neerslagreaksie wat voedingstowwe verwoes</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">15</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#B71C1C">C</span> Handskoene EN veiligheidsbril</td><td class="pts" style="color:#1B5E20">2</td></tr>
+        </tbody>
+      </table>
+      <div class="subtotaal t4-sub">Subtotaal: ___ / 30</div>
+    </div>
+
+  </div>
+  <div class="book-footer">
+    <span>GroeiGids NFT A-Frame Stelsel</span>
+    <span>MEMORANDUM — VERTROULIK</span>
+    <span>Bladsy 3 van 4</span>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 4 — TOETS 5 + TOETS 6
+══════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="book-header">
+    <span class="left">GroeiGids — Memorandum</span>
+    <span class="right">Toets 5 &amp; Toets 6</span>
+  </div>
+  <div class="page-body">
+
+    <!-- TOETS 5 -->
+    <div class="chapter-block">
+      <div class="chapter-header t5-bg">
+        <div>
+          <div class="ch-sub">Toets 5 van 6</div>
+          <div class="ch-title">Monitering Logboek</div>
+        </div>
+        <div class="ch-right">15 Vrae · 30 Punte</div>
+      </div>
+      <table class="ans-table">
+        <thead>
+          <tr class="t5-bg">
+            <th style="width:32px">V#</th>
+            <th style="width:60px">Antwoord</th>
+            <th class="left-align">Korrekte Antwoord</th>
+            <th style="width:46px">Punte</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="qnum">1</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#004D40">B</span> Twee keer — oggend en aand</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t5-alt"><td class="qnum">2</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#004D40">C</span> EC, pH, watertemperatuur en status</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">3</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#004D40">B</span> 'n Aksie was nodig — waarde was buite norm</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t5-alt"><td class="qnum">4</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#004D40">D</span> 4 kante</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">5</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#004D40">C</span> EC 1.2–1.8 mS</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t5-alt"><td class="qnum">6</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#004D40">D</span> Raam B Kant 1</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">7</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#004D40">C</span> pH 6.0–6.8</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t5-alt"><td class="qnum">8</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#004D40">C</span> Teken dit aan en tree op in ingrypingsrekord</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">9</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#004D40">B</span> Een week</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t5-alt"><td class="qnum">10</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#004D40">B</span> Datum, gewas, hoeveelheid en kwaliteit</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">11</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#004D40">C</span> 18–24°C</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t5-alt"><td class="qnum">12</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#004D40">D</span> EC 1.0–1.4 mS</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">13</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#004D40">B</span> 15–20°C</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t5-alt"><td class="qnum">14</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#004D40">B</span> Vroegtydige opsporing van probleme</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">15</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#004D40">C</span> pH 5.5–6.0</td><td class="pts" style="color:#1B5E20">2</td></tr>
+        </tbody>
+      </table>
+      <div class="subtotaal t5-sub">Subtotaal: ___ / 30</div>
+    </div>
+
+    <!-- TOETS 6 -->
+    <div class="chapter-block">
+      <div class="chapter-header t6-bg">
+        <div>
+          <div class="ch-sub">Toets 6 van 6</div>
+          <div class="ch-title">Probleemoplossing</div>
+        </div>
+        <div class="ch-right">15 Vrae · 30 Punte</div>
+      </div>
+      <table class="ans-table">
+        <thead>
+          <tr class="t6-bg">
+            <th style="width:32px">V#</th>
+            <th style="width:60px">Antwoord</th>
+            <th class="left-align">Korrekte Antwoord</th>
+            <th style="width:46px">Punte</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="qnum">1</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#4A0000">B</span> Vaal geel blare — plante lyk swak</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t6-alt"><td class="qnum">2</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#4A0000">B</span> Voeg pH-aanpasser druppel vir druppel by</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">3</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#4A0000">B</span> Pythium (wortelvrot)</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t6-alt"><td class="qnum">4</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#4A0000">C</span> Gedeeltelike watervervanging met skoon water</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">5</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#4A0000">D</span> Bo 26°C</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t6-alt"><td class="qnum">6</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#4A0000">C</span> Ystergebrek (dikwels as gevolg van te hoë pH)</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">7</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#4A0000">B</span> Ligindringing tot die voedingsoplossing</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t6-alt"><td class="qnum">8</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#4A0000">B</span> Herstel die vloei onmiddellik</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">9</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#4A0000">C</span> Water wat poel in plaas van vloei</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t6-alt"><td class="qnum">10</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#4A0000">B</span> Insekseep of biologiese beheer</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">11</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#4A0000">C</span> 2.5 mS/cm (buite slaai se reeks van 1.2–1.8)</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t6-alt"><td class="qnum">12</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#4A0000">B</span> Nutriëntbrand of te hoë EC</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">13</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#4A0000">B</span> Meet EC en pH en pas aan tot teikenreeks</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr class="t6-alt"><td class="qnum">14</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#4A0000">C</span> EC-meter (geleidingsvermoëmeter)</td><td class="pts" style="color:#1B5E20">2</td></tr>
+          <tr><td class="qnum">15</td><td class="student-ans"></td><td class="correct-ans"><span class="letter" style="color:#4A0000">C</span> Wit of ligroom</td><td class="pts" style="color:#1B5E20">2</td></tr>
+        </tbody>
+      </table>
+      <div class="subtotaal t6-sub">Subtotaal: ___ / 30</div>
+    </div>
+
+  </div>
+  <div class="book-footer">
+    <span>GroeiGids NFT A-Frame Stelsel</span>
+    <span>MEMORANDUM — VERTROULIK</span>
+    <span>Bladsy 4 van 4</span>
+  </div>
+</div>
+
+</body>
+</html>
