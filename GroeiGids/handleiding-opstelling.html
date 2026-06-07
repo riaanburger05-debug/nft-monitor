@@ -1,0 +1,907 @@
+﻿<!DOCTYPE html>
+<html lang="af">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NFT Handleiding — Stelsel Opstelling</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#f2f5f2;font-family:'Montserrat',sans-serif;padding:30px 0}
+.page{width:794px;min-height:1123px;background:#fff;margin:0 auto 32px;position:relative;overflow:visible;box-shadow:0 8px 40px rgba(0,0,0,.45);page-break-after:always;color:#37474F}
+.book-header{background:linear-gradient(135deg,#e3f2fd,#bbdefb);border-bottom:2px solid #90caf9;color:#1a237e;padding:10px 24px;display:flex;justify-content:space-between;align-items:center}
+.book-header .chapter{font-family:'Montserrat',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#1a237e}
+.book-header .page-num{font-family:'Montserrat',sans-serif;font-size:14px;font-weight:700;color:#1a237e}
+.book-footer{position:absolute;bottom:0;left:0;right:0;background:#1b3a1b;border-top:none;padding:8px 24px;display:flex;justify-content:space-between;align-items:center}
+.book-footer span{font-size:12px;color:rgba(255,255,255,.85);font-weight:600;letter-spacing:.5px}
+.page-body{padding:0 24px 55px}
+
+/* COVER */
+.cover-bg{background:linear-gradient(160deg,#f3f7ff 0%,#f1f8e9 60%,#ffffff 100%);min-height:1123px;color:#263238;display:flex;flex-direction:column}
+.cover-header-bar{background:rgba(27,94,32,.08);padding:14px 32px;display:flex;justify-content:space-between;align-items:center}
+.cover-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center}
+
+/* STEP CARD */
+.step-card{display:flex;gap:0;border-radius:12px;overflow:hidden;margin-bottom:5px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.step-num{width:56px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-family:'Montserrat',sans-serif;font-size:31px;font-weight:900;padding:12px 0}
+.step-body{flex:1;padding:8px 14px;background:#F8F9FA;border:1.5px solid #E0E0E0;border-left:none;border-radius:0 12px 12px 0}
+.step-title{font-family:'Montserrat',sans-serif;font-size:15px;font-weight:800;color:#0D47A1;margin-bottom:2px}
+.step-desc{font-size:13px;color:#37474F;line-height:1.45}
+.step-check{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap}
+.step-check-item{display:flex;align-items:center;gap:4px;font-size:12px;color:#546E7A}
+.step-check-item .cb{font-size:16px;color:#1565C0}
+
+/* PHASE LABEL */
+.phase-label{display:flex;align-items:center;gap:10px;margin:8px 0 6px}
+.phase-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;background:#F5F5F5}
+.phase-title{font-family:'Montserrat',sans-serif;font-size:14px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:#0D47A1}
+.phase-rule{flex:1;height:2px;background:linear-gradient(to right,#1565C0,transparent)}
+
+/* WARNING BOX */
+.warn-box{border-radius:6px;padding:5px 8px;display:flex;gap:10px;align-items:flex-start;margin:10px 0}
+.warn-box.amber{background:rgba(255,193,7,.08);border-left:4px solid #FFC107}
+.warn-box.red{background:rgba(183,28,28,.07);border-left:4px solid #EF5350}
+.warn-box.green{background:rgba(27,94,32,.07);border-left:4px solid #4CAF50}
+.warn-box.blue{background:rgba(21,101,192,.07);border-left:4px solid #42A5F5}
+.warn-box .wi{font-size:22px;flex-shrink:0;margin-top:1px}
+.warn-box .wt{font-size:14px;color:#37474F;line-height:1.5}
+.warn-box .wt strong{display:block;margin-bottom:2px;font-size:15px;color:#222}
+
+/* EQUIPMENT TABLE */
+.eq-table{width:100%;border-collapse:collapse;font-size:14px}
+.eq-table th{background:#e8eaf6;color:#1a237e;font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:8px 10px;text-align:left;border:1px solid #c5cae9}
+.eq-table td{border:1px solid #E0E0E0;padding:7px 10px;color:#37474F}
+.eq-table tr:nth-child(even) td{background:#F5F5F5}
+.eq-table td.cb-col{text-align:center;font-size:17px;color:#1565C0;width:40px}
+
+/* RECIPE CARD */
+.recipe-card{background:#F8F9FA;border:2px solid #C8E6C9;border-radius:12px;padding:14px 18px;margin-bottom:10px}
+.recipe-title{font-family:'Montserrat',sans-serif;font-size:15px;font-weight:800;color:#0D47A1;margin-bottom:8px}
+.recipe-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid #E0E0E0;font-size:14px;color:#37474F}
+.recipe-row:last-child{border-bottom:none}
+.recipe-row .val{font-family:'Montserrat',sans-serif;font-weight:700;color:#1565C0}
+
+
+
+
+@media print {
+  @page { size: A4 portrait; margin: 0; }
+  *, *::before, *::after { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; box-sizing: border-box; }
+  html, body { margin: 0 !important; padding: 0 !important; background: white !important; }
+
+  .page, .page1, .page2 {
+    width: 210mm !important;
+    height: 297mm !important;
+    min-height: unset !important;
+    max-height: 297mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    overflow: hidden !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    display: flex !important;
+    flex-direction: column !important;
+    position: relative !important;
+  }
+
+  /* Inhoud area groei om plek te vul */
+  .page-body, .content {
+    flex: 1 1 auto !important;
+    overflow: hidden !important;
+    padding-bottom: 0 !important;
+  }
+
+  /* Voetbalk LAASTE in die bladsy — altyd onderaan */
+  .book-footer, .book-ftr {
+    flex-shrink: 0 !important;
+    position: relative !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
+    width: 100% !important;
+    margin-top: auto !important;
+  }
+
+  /* Omslag volle hoogte */
+  .cover-bg, .cover {
+    height: 297mm !important;
+    min-height: unset !important;
+    overflow: hidden !important;
+    flex: 1 !important;
+  }
+
+  .print-btn-bar { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ PAGE 1 — COVER ═══ -->
+<div class="page">
+  <div class="cover-bg">
+    <div class="cover-header-bar">
+      <span style="font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700;letter-spacing:2px;color:#1b3a1b">NFT A-Raam Handleiding</span>
+      <span style="font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700;letter-spacing:2px;color:#1b3a1b">Hoofstuk 2</span>
+    </div>
+    <div class="cover-body">
+      <div style="background:rgba(27,94,32,.1);border:2px solid rgba(27,94,32,.3);border-radius:40px;padding:6px 20px;font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#1b3a1b;margin-bottom:20px">Hoofstuk 2</div>
+      <div style="font-family:'Montserrat',sans-serif;font-size:49px;font-weight:900;line-height:1.15;margin-bottom:12px;color:#1b3a1b">Stelsel<br>Opstelling</div>
+      <div style="font-size:19px;color:#37474F;margin-bottom:36px;font-weight:300">Stap-vir-stap Gids: Van Leë Raam tot Eerste Plant</div>
+      <div style="width:80px;height:4px;background:rgba(27,94,32,.3);border-radius:2px;margin:0 auto 28px"></div>
+
+      <!-- PHASE PILLS -->
+      <div style="display:flex;flex-direction:column;gap:10px;width:100%;max-width:480px;margin-bottom:32px">
+        <div style="background:rgba(255,255,255,.85);border:1.5px solid rgba(27,94,32,.2);border-radius:10px;padding:10px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 8px rgba(0,0,0,.07)">
+          <span style="font-size:24px">🔧</span>
+          <div style="text-align:left"><div style="font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700">Fase 1 — Fisiese Opstelling</div><div style="font-size:14px;opacity:.7">Raam, pype, pompe en tenks</div></div>
+          <span style="margin-left:auto;font-family:'Montserrat',sans-serif;font-size:14px;font-weight:700;opacity:.7">Bl. 2</span>
+        </div>
+        <div style="background:rgba(255,255,255,.85);border:1.5px solid rgba(27,94,32,.2);border-radius:10px;padding:10px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 8px rgba(0,0,0,.07)">
+          <span style="font-size:24px">💧</span>
+          <div style="text-align:left"><div style="font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700">Fase 2 — Water &amp; Voedingstof</div><div style="font-size:14px;opacity:.7">Tenks vul, meng en kalibreer</div></div>
+          <span style="margin-left:auto;font-family:'Montserrat',sans-serif;font-size:14px;font-weight:700;opacity:.7">Bl. 3</span>
+        </div>
+        <div style="background:rgba(255,255,255,.85);border:1.5px solid rgba(27,94,32,.2);border-radius:10px;padding:10px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 8px rgba(0,0,0,.07)">
+          <span style="font-size:24px">🌱</span>
+          <div style="text-align:left"><div style="font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700">Fase 3 — Plante Inplant</div><div style="font-size:14px;opacity:.7">Saailinge, net potte en ruimte</div></div>
+          <span style="margin-left:auto;font-family:'Montserrat',sans-serif;font-size:14px;font-weight:700;opacity:.7">Bl. 4</span>
+        </div>
+        <div style="background:rgba(255,255,255,.85);border:1.5px solid rgba(27,94,32,.2);border-radius:10px;padding:10px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 8px rgba(0,0,0,.07)">
+          <span style="font-size:24px">✅</span>
+          <div style="text-align:left"><div style="font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700">Toerusting Kontrolelys &amp; Mengresepte</div><div style="font-size:14px;opacity:.7">Alles wat jy nodig het</div></div>
+          <span style="margin-left:auto;font-family:'Montserrat',sans-serif;font-size:14px;font-weight:700;opacity:.7">Bl. 5</span>
+        </div>
+        <div style="background:rgba(255,255,255,.85);border:1.5px solid rgba(27,94,32,.2);border-radius:10px;padding:10px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 8px rgba(0,0,0,.07)">
+          <span style="font-size:24px">🌾</span>
+          <div style="text-align:left"><div style="font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700">Saailinggids, Oeskaart &amp; Nuwe Siklus</div><div style="font-size:14px;opacity:.7">Van saad tot volgende siklus</div></div>
+          <span style="margin-left:auto;font-family:'Montserrat',sans-serif;font-size:14px;font-weight:700;opacity:.7">Bl. 6–7</span>
+        </div>
+      </div>
+    </div>
+    <div style="background:#1b3a1b;padding:10px 32px;display:flex;justify-content:space-between">
+      <span style="font-size:12px;color:rgba(255,255,255,.7)">NFT A-Raam Handleiding · Hoofstuk 2 · Stelsel Opstelling</span>
+      <span style="font-size:12px;color:rgba(255,255,255,.7)">Bladsy 1 van 10</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ PAGE 2 — FASE 1: FISIESE OPSTELLING ═══ -->
+<div class="page">
+  <div class="book-header">
+    <span class="chapter">NFT Handleiding · Hoofstuk 2 · Stelsel Opstelling</span>
+    <span class="page-num">Bladsy 2 van 10</span>
+  </div>
+  <div class="page-body">
+
+    <div class="phase-label" style="margin-top:18px">
+      <div class="phase-icon" style="background:#E3F2FD">🔧</div>
+      <span class="phase-title">Fase 1 — Fisiese Opstelling (A-Raam Raam &amp; Pype)</span>
+      <div class="phase-rule"></div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num" style="background:linear-gradient(135deg,#1565C0,#1976D2)">1</div>
+      <div class="step-body">
+        <div class="step-title">Kies en berei die ligging voor</div>
+        <div class="step-desc">Die A-Raam moet op gelyk, vaste grond of 'n stewige vloer geplaas word. Maak seker die ligging kry minstens 6 uur direkte son per dag, of plaas dit naby 'n kragbron vir groeiligte. Grond moet goed gedreineerd wees sodat daar nie waterpoele ontstaan waar lekke voorkom.</div>
+        <div style="margin:8px 0;border:1.5px dashed rgba(144,202,249,.3);border-radius:6px;overflow:hidden">
+          <img src="../Images/opstelling-stap1.png" alt="Ligging voorbereiding" style="width:100%;height:160px;object-fit:contain;display:block;background:#F5F5F5" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div style="display:none;height:80px;align-items:center;justify-content:center;gap:8px;background:#E3F2FD;height:240px">
+            <span style="font-size:24px">📍</span>
+            <span style="font-size:12px;color:#0D47A1;font-weight:600">Skets: Vlak ligging met son, kragbron &amp; watertoevoer</span>
+          </div>
+        </div>
+        <div class="step-check">
+          <div class="step-check-item"><span class="cb">☐</span> Ligging is gelyk</div>
+          <div class="step-check-item"><span class="cb">☐</span> Genoeg son of ligte</div>
+          <div class="step-check-item"><span class="cb">☐</span> Kragbron naby</div>
+          <div class="step-check-item"><span class="cb">☐</span> Watertoevoer naby</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num" style="background:linear-gradient(135deg,#1565C0,#1976D2)">2</div>
+      <div class="step-body">
+        <div class="step-title">Monteer die A-Raam rakke</div>
+        <div class="step-desc">Stel die 2 A-rame op (2 kante per A). Elke kant het 5 pype van 10 m elk. Maak seker die raam is stewig en die helling is 2–3% sodat water van bo na onder vloei.</div>
+        <div style="margin:8px 0;border:1.5px dashed rgba(144,202,249,.3);border-radius:6px;overflow:hidden">
+          <img src="../Images/opstelling-stap2.png" alt="A-Raam monteer" style="width:100%;height:160px;object-fit:contain;display:block;background:#F5F5F5" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div style="display:none;height:80px;align-items:center;justify-content:center;gap:8px;background:#E3F2FD;height:240px">
+            <span style="font-size:24px">🔧</span>
+            <span style="font-size:12px;color:#0D47A1;font-weight:600">Skets: A-Raam met 2–3% helling aangedui</span>
+          </div>
+        </div>
+        <div class="step-check">
+          <div class="step-check-item"><span class="cb">☐</span> 2 A-rame gemonteer</div>
+          <div class="step-check-item"><span class="cb">☐</span> Helling 2–3% bevestig</div>
+          <div class="step-check-item"><span class="cb">☐</span> Raam stewig vasgemaak</div>
+          <div class="step-check-item"><span class="cb">☐</span> 20 pype totaal in posisie</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num" style="background:linear-gradient(135deg,#1565C0,#1976D2)">3</div>
+      <div class="step-body">
+        <div class="step-title">Installeer die NFT pype</div>
+        <div class="step-desc">Plaas die PVC NFT pype (63 mm of 75 mm) op die raam. Sny plantgate van 100 mm elke 20–25 cm vir slaai en mosterd, 75 mm vir aarbeie. Gebruik 'n gatboor. Maak seker gate loop nie reg oor die hegpunt van die pyp nie.</div>
+        <div style="margin:8px 0;border:1.5px dashed rgba(144,202,249,.3);border-radius:6px;overflow:hidden">
+          <img src="../Images/opstelling-stap3.png" alt="NFT pype met gate" style="width:100%;height:160px;object-fit:contain;display:block;background:#F5F5F5" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div style="display:none;height:80px;align-items:center;justify-content:center;gap:8px;background:#E3F2FD;height:240px">
+            <span style="font-size:24px">🔩</span>
+            <span style="font-size:12px;color:#0D47A1;font-weight:600">Skets: PVC pyp met plantgate geboor — 50 mm &amp; 75 mm</span>
+          </div>
+        </div>
+        <div class="step-check">
+          <div class="step-check-item"><span class="cb">☐</span> Pype op raam vasgemaak</div>
+          <div class="step-check-item"><span class="cb">☐</span> Alle gate gemaak</div>
+          <div class="step-check-item"><span class="cb">☐</span> Gate sonder skerp rande</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="book-footer">
+    <span>NFT A-Raam Handleiding</span>
+    <span>Hoofstuk 2 — Stelsel Opstelling</span>
+    <span>Bladsy 2</span>
+  </div>
+</div>
+
+<!-- ═══════════ PAGE 3 — FASE 1 (vervolg): STAPPE 4 & 5 ═══ -->
+<div class="page">
+  <div class="book-header">
+    <span class="chapter">NFT Handleiding · Hoofstuk 2 · Stelsel Opstelling</span>
+    <span class="page-num">Bladsy 3 van 10</span>
+  </div>
+  <div class="page-body">
+
+    <div class="phase-label" style="margin-top:18px">
+      <div class="phase-icon" style="background:#E3F2FD">🔧</div>
+      <span class="phase-title">Fase 1 — Fisiese Opstelling (vervolg)</span>
+      <div class="phase-rule"></div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num" style="background:linear-gradient(135deg,#1565C0,#1976D2)">4</div>
+      <div class="step-body">
+        <div class="step-title">Koppel pype in serie en sluit aan op tenk</div>
+        <div class="step-desc">Die pomp koppel aan die <strong>hoogste punt van die boonste pyp</strong> — dit is waar water ingelei word. Water vloei dan deur elke pyp van bo na onder danksy swaartekrag. <strong>Elke pyp koppel op sy laagste punt aan die pyp direk onder hom</strong> — so beweeg die water in serie van pyp tot pyp af. Die <strong>onderste pyp koppel op sy laagste punt terug aan die tenk</strong> — so sluit die siklus. Elke kant het sy eie aparte tenk — moenie kante met verskillende gewasse se water meng nie.</div>
+        <div style="margin:8px 0;border:1.5px dashed rgba(144,202,249,.3);border-radius:6px;overflow:hidden">
+          <img src="../Images/opstelling-stap4.png" alt="Serie-koppeling diagram" style="width:100%;height:160px;object-fit:contain;display:block;background:#F5F5F5" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div style="display:none;height:80px;align-items:center;justify-content:center;gap:8px;background:#E3F2FD;height:240px">
+            <span style="font-size:24px">🔗</span>
+            <span style="font-size:12px;color:#0D47A1;font-weight:600">Skets: Pomp → boonste pyp → serie-vloei → tenk</span>
+          </div>
+        </div>
+        <div class="step-check">
+          <div class="step-check-item"><span class="cb">☐</span> Tenk A (Raam A Kant 1 — Slaai)</div>
+          <div class="step-check-item"><span class="cb">☐</span> Tenk B (Raam A Kant 2 — Spinasie)</div>
+          <div class="step-check-item"><span class="cb">☐</span> Tenk C (Raam B Kant 1 — Aarbeie)</div>
+          <div class="step-check-item"><span class="cb">☐</span> Tenk D (Raam B Kant 2 — Mosterd Spinasie)</div>
+          <div class="step-check-item"><span class="cb">☐</span> Geen kruisbesmetting</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="book-footer">
+    <span>NFT A-Raam Handleiding</span>
+    <span>Hoofstuk 2 — Stelsel Opstelling</span>
+    <span>Bladsy 3</span>
+  </div>
+</div>
+
+<!-- ═══════════ PAGE 3B — STAP 5 & WAARSKUWINGS ═══ -->
+<div class="page">
+  <div class="book-header">
+    <span class="chapter">NFT Handleiding · Hoofstuk 2 · Stelsel Opstelling</span>
+    <span class="page-num">Bladsy 4 van 10</span>
+  </div>
+  <div class="page-body">
+
+    <div class="phase-label" style="margin-top:14px">
+      <div class="phase-icon" style="background:#E3F2FD">🔧</div>
+      <span class="phase-title">Fase 1 — Stap 5 &amp; Vloeisnelheid</span>
+      <div class="phase-rule"></div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num" style="background:linear-gradient(135deg,#1565C0,#1976D2)">5</div>
+      <div class="step-body">
+        <div class="step-title">Installeer pompe en stel vloeisnelheid in</div>
+        <div class="step-desc">Plaas 'n waterpomp (in tenk) in elke tenk. Die pomp stuur water via 'n toevoerpyp na die bopunt van <strong>Pyp 1</strong>. Die water vloei dan in <strong>serie</strong> deur Pyp 1 → Pyp 2 → Pyp 3 → Pyp 4 → Pyp 5 → terug na die tenk. Dit beteken dieselfde water (en dieselfde voeding) beweeg deur elke pyp agtereenvolgens — so kry alle plante dieselfde konsentrasie voedingstowwe.<br><br>
+        <strong>Vloeisnelheid: 1–2 liter per minuut.</strong> Stel die pompvloeibeheerder of klep so in dat die uitset 1–2 L/min is. Om te toets: hou 'n maatbeker by die uitlaat van enige pyp — jy moet 1–2 liter in een minuut versamel. Dieselfde meting by Pyp 1 of Pyp 5 moet dieselfde resultaat gee, aangesien dit dieselfde vloei is wat deur al die pype loop.<br><br>
+        Toets alle verbindings vir lekkasie.</div>
+        <div style="margin:8px 0;border:1.5px dashed rgba(144,202,249,.3);border-radius:6px;overflow:hidden">
+          <img src="../Images/opstelling-stap5.png" alt="Pomp installasie" style="width:100%;height:160px;object-fit:contain;display:block;background:#F5F5F5" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div style="display:none;height:80px;align-items:center;justify-content:center;gap:8px;background:#E3F2FD;height:240px">
+            <span style="font-size:24px">💧</span>
+            <span style="font-size:12px;color:#0D47A1;font-weight:600">Skets: Waterpomp (in tenk) in tenk, maatbeker vloeitoets</span>
+          </div>
+        </div>
+        <div class="step-check">
+          <div class="step-check-item"><span class="cb">☐</span> 4 pompe geïnstalleer</div>
+          <div class="step-check-item"><span class="cb">☐</span> Serie-koppeling: Pyp 1→2→3→4→5→Tenk</div>
+          <div class="step-check-item"><span class="cb">☐</span> Vloei gemeet: 1–2 L/min by enige pyp</div>
+          <div class="step-check-item"><span class="cb">☐</span> Droogloop getoets (skoon water)</div>
+          <div class="step-check-item"><span class="cb">☐</span> Geen lekkasies</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="warn-box amber">
+      <span class="wi">⚠️</span>
+      <div class="wt">
+        <strong>Helling is krities — moenie hierdie stap oorslaan nie</strong>
+        Sonder die regte helling (2–3%) sal water in die pype versamel in plaas van te vloei. Dit veroorsaak suurstofgebrek in die wortels en wortelvrot binne 48 uur. Gebruik 'n waterpas om die helling te bevestig.
+      </div>
+    </div>
+
+    <div class="warn-box red">
+      <span class="wi">🫧</span>
+      <div class="wt" style="flex:1">
+        <strong>Verkeerde vloeisnelheid veroorsaak suurstofgebrek in die wortels</strong>
+        In 'n NFT-stelsel kry wortels hul suurstof uit die dunfilm water én uit die lugspasie bo-in die pyp. As die vloei <strong>te stadig is (&lt;1 L/min)</strong>, staan die water te lank in die pyp, die lugspasie verdwyn en wortels stik — suurstofgebrek lei tot wortelvrot (Pythium) binne 24–48 uur. As die vloei <strong>te vinnig is (&gt;2 L/min)</strong>, spat die water in plaas van om as 'n dunfilm te vloei, die wortels word nat en droog afwisselend, en die lugspasie word verswak. Meet gereeld en hou vloei presies tussen 1–2 L/min.
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px">
+          <div style="border:1.5px dashed rgba(239,83,80,.4);border-radius:6px;overflow:hidden;text-align:center">
+            <img src="../Images/vloei-te-stadig.png" alt="Vloei te stadig" style="width:100%;height:120px;object-fit:contain;display:block;background:#FFF5F5" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div style="display:none;height:120px;align-items:center;justify-content:center;flex-direction:column;gap:4px;background:#FFF5F5">
+              <span style="font-size:31px">🐌</span>
+              <span style="font-size:12px;color:#C62828;font-weight:600">Skets: water versamel, wortelvrot</span>
+            </div>
+            <div style="font-size:12px;color:#C62828;padding:3px 6px;background:#FFEBEE;font-weight:600">Te stadig — &lt;1 L/min — wortelvrot</div>
+          </div>
+          <div style="border:1.5px dashed rgba(239,83,80,.4);border-radius:6px;overflow:hidden;text-align:center">
+            <img src="../Images/vloei-te-vinnig.png" alt="Vloei te vinnig" style="width:100%;height:120px;object-fit:contain;display:block;background:#FFF5F5" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div style="display:none;height:120px;align-items:center;justify-content:center;flex-direction:column;gap:4px;background:#FFF5F5">
+              <span style="font-size:31px">💨</span>
+              <span style="font-size:12px;color:#C62828;font-weight:600">Skets: water spat, wortels droog</span>
+            </div>
+            <div style="font-size:12px;color:#C62828;padding:3px 6px;background:#FFEBEE;font-weight:600">Te vinnig — &gt;2 L/min — lugspasie verswak</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="book-footer">
+    <span>NFT A-Raam Handleiding</span>
+    <span>Hoofstuk 2 — Stelsel Opstelling</span>
+    <span>Bladsy 4</span>
+  </div>
+</div>
+
+<!-- ═══════════ PAGE 3 — FASE 2: WATER & VOEDINGSTOF ═══ -->
+<div class="page">
+  <div class="book-header">
+    <span class="chapter">NFT Handleiding · Hoofstuk 2 · Stelsel Opstelling</span>
+    <span class="page-num">Bladsy 5 van 10</span>
+  </div>
+  <div class="page-body">
+
+    <div class="phase-label" style="margin-top:18px">
+      <div class="phase-icon" style="background:#E3F2FD">💧</div>
+      <span class="phase-title">Fase 2 — Water &amp; Voedingstof Voorbereiding</span>
+      <div class="phase-rule"></div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num" style="background:linear-gradient(135deg,#00695C,#00897B)">6</div>
+      <div class="step-body">
+        <div class="step-title">Vul die tenks met skoon water</div>
+        <div class="step-desc">Gebruik skoon kraanwater of reënwater. Vul elke tenk tot 3/4 vol — laat ruimte vir die voedingstowwe wat jy gaan byvoeg. Meet die volume sodat jy weet hoeveel voedingstof om by te voeg.</div>
+        <div class="step-check">
+          <div class="step-check-item"><span class="cb">☐</span> Tenk A (Slaai): _____ liter gevul</div>
+          <div class="step-check-item"><span class="cb">☐</span> Tenk B (Spinasie): _____ liter gevul</div>
+          <div class="step-check-item"><span class="cb">☐</span> Tenk C (Aarbeie): _____ liter gevul</div>
+          <div class="step-check-item"><span class="cb">☐</span> Tenk D (Mosterd Spinasie): _____ liter gevul</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num" style="background:linear-gradient(135deg,#00695C,#00897B)">7</div>
+      <div class="step-body">
+        <div class="step-title">Meet die begin EC en pH van die water</div>
+        <div class="step-desc">Voor jy voedingstowwe byvoeg, meet die EC en pH van die skoon water. Gewone kraanwater het EC ≈ 0.3–0.6 en pH ≈ 7.0–8.0. Skryf hierdie begin-waardes neer — dit help jou om te bereken hoeveel voedingstof en pH-aanpassing nodig is.</div>
+        <div class="step-check">
+          <div class="step-check-item"><span class="cb">☐</span> Begin EC gemeet: ___ mS/cm</div>
+          <div class="step-check-item"><span class="cb">☐</span> Begin pH gemeet: ___</div>
+          <div class="step-check-item"><span class="cb">☐</span> Waardes aangeteken</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num" style="background:linear-gradient(135deg,#00695C,#00897B)">8</div>
+      <div class="step-body">
+        <div class="step-title">Voeg voedingstof A en B by (elke tenk apart)</div>
+        <div class="step-desc">Voeg Voedingstof A eers by, roer goed, dan Voedingstof B. Moenie A en B saamgooi sonder water nie — dit veroorsaak neerslagreaksie. Gebruik die mengresepte op bl. 5. Meet EC na elke byvoeging totdat jy die teikenreeks bereik.</div>
+        <div class="step-check">
+          <div class="step-check-item"><span class="cb">☐</span> A bygevoeg, geroer</div>
+          <div class="step-check-item"><span class="cb">☐</span> B bygevoeg, geroer</div>
+          <div class="step-check-item"><span class="cb">☐</span> EC binne teikenreeks</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num" style="background:linear-gradient(135deg,#00695C,#00897B)">9</div>
+      <div class="step-body">
+        <div class="step-title">Pas pH aan tot teikenreeks</div>
+        <div class="step-desc">Na toediening van voedingstowwe sal die pH gewoonlik styg. Voeg pH-daler (fosforsuur verdun in water — ALTYD suur in water, nooit water in suur!) druppel vir druppel by terwyl jy meng. Wag 2 minute, meet weer. Herhaal tot binne reeks.</div>
+        <div class="step-check">
+          <div class="step-check-item"><span class="cb">☐</span> pH Tenk A: 5.8–6.2 (Slaai)</div>
+          <div class="step-check-item"><span class="cb">☐</span> pH Tenk B: 6.0–7.0 (Spinasie)</div>
+          <div class="step-check-item"><span class="cb">☐</span> pH Tenk C: 5.5–6.0 (Aarbeie)</div>
+          <div class="step-check-item"><span class="cb">☐</span> pH Tenk D: 6.0–6.8 (Mosterd Spinasie)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num" style="background:linear-gradient(135deg,#00695C,#00897B)">10</div>
+      <div class="step-body">
+        <div class="step-title">Laat die stelsel 24 uur sirkuleer (sonder plante)</div>
+        <div class="step-desc">Skakel die pompe aan en laat die voedingsoplossing vir 24 uur deur die pype sirkuleer. Kontroleer vir lekkasies, meet EC en pH na 12 uur en na 24 uur. Dit verseker die stelsel is stabiel voor plante ingesit word.</div>
+        <div class="step-check">
+          <div class="step-check-item"><span class="cb">☐</span> Na 12 uur EC/pH bevestig</div>
+          <div class="step-check-item"><span class="cb">☐</span> Na 24 uur EC/pH bevestig</div>
+          <div class="step-check-item"><span class="cb">☐</span> Geen lekkasies</div>
+          <div class="step-check-item"><span class="cb">☐</span> Pompe werk korrek</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="warn-box red">
+      <span class="wi">🚫</span>
+      <div class="wt">
+        <strong>VEILIGHEID: pH-daler is 'n suur — beskerm jouself</strong>
+        Dra altyd handskoene en veiligheidsbril wanneer jy pH-daler hanteer. Gooi ALTYD suur stadig in water — NOOIT water in suur nie. As jou vel of oë kontak maak, was dadelik met baie skoon water.
+      </div>
+    </div>
+
+  </div>
+  <div class="book-footer">
+    <span>NFT A-Raam Handleiding</span>
+    <span>Hoofstuk 2 — Stelsel Opstelling</span>
+    <span>Bladsy 5</span>
+  </div>
+</div>
+
+<!-- ═══════════ PAGE 4 — FASE 3: PLANTE INPLANT ═══ -->
+<div class="page">
+  <div class="book-header">
+    <span class="chapter">NFT Handleiding · Hoofstuk 2 · Stelsel Opstelling</span>
+    <span class="page-num">Bladsy 6 van 10</span>
+  </div>
+  <div class="page-body">
+
+    <div class="phase-label" style="margin-top:18px">
+      <div class="phase-icon" style="background:#E8F5E9">🌱</div>
+      <span class="phase-title">Fase 3 — Saailinge Inplant</span>
+      <div class="phase-rule"></div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num" style="background:linear-gradient(135deg,#1B5E20,#2E7D32)">11</div>
+      <div class="step-body">
+        <div class="step-title">Berei saailinge voor</div>
+        <div class="step-desc">Gebruik saailinge wat reeds 1–2 ware blare het (±7–14 dae oud). Die saailinge kan in klipwol, kokosvesels of perliet gegroei wees. Moenie saailinge gebruik wat grond bevat nie — grond blokkeer die pype en voer siektes in.</div>
+        <div class="step-check">
+          <div class="step-check-item"><span class="cb">☐</span> Slaai saailinge gereed (Raam A Kant 1)</div>
+          <div class="step-check-item"><span class="cb">☐</span> Spinasie saailinge gereed (Raam A Kant 2)</div>
+          <div class="step-check-item"><span class="cb">☐</span> Aarbeie stoelons gereed (Raam B Kant 1)</div>
+          <div class="step-check-item"><span class="cb">☐</span> Mosterd Spinasie saailinge gereed (Raam B Kant 2)</div>
+          <div class="step-check-item"><span class="cb">☐</span> Geen grondbesmetting</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num" style="background:linear-gradient(135deg,#1B5E20,#2E7D32)">12</div>
+      <div class="step-body">
+        <div class="step-title">Plaas saailinge in net potte</div>
+        <div class="step-desc">Sit elke saailing in 'n net pot — slaai en mosterd in 50 mm potte, aarbeie in 75 mm potte. Vul rondom die plant met perliet of klipwol. Die groeimedium hou die plant regop — die wortels groei onderdeur die pot in die dunfilm water. Die water moet nooit die groeimedium self raak nie.</div>
+        <div class="step-check">
+          <div class="step-check-item"><span class="cb">☐</span> 50 mm potte vir slaai/mosterd</div>
+          <div class="step-check-item"><span class="cb">☐</span> 75 mm potte vir aarbeie</div>
+          <div class="step-check-item"><span class="cb">☐</span> Perliet of klipwol gebruik</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num" style="background:linear-gradient(135deg,#1B5E20,#2E7D32)">13</div>
+      <div class="step-body">
+        <div class="step-title">Plaas net potte in pypgate</div>
+        <div class="step-desc">Sit die gevulde net potte in die gate van die NFT pype. Die pot hang vrý in die lugspasie binne die pyp — dit mag nie die water raak nie. Die wortels groei self al hoe langer onderdeur die pot totdat hulle die dunfilm water bereik.</div>
+        <div class="step-check">
+          <div class="step-check-item"><span class="cb">☐</span> Potte sit stewig in gate</div>
+          <div class="step-check-item"><span class="cb">☐</span> Wortels raak water</div>
+          <div class="step-check-item"><span class="cb">☐</span> Plante regop gestaan</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num" style="background:linear-gradient(135deg,#1B5E20,#2E7D32)">14</div>
+      <div class="step-body">
+        <div class="step-title">Eerste 48 uur — konstante aandag</div>
+        <div class="step-desc">Gedurende die eerste 2 dae na inplanting monitor elke 4 uur. Plante ondergaan oorplantingskok — hul blare kan effens hang. Dit is normaal. Verseker water vloei oor die wortels. Kontroleer EC en pH 2× per dag.</div>
+        <div class="step-check">
+          <div class="step-check-item"><span class="cb">☐</span> 4-uurlikse kontrole (dag 1–2)</div>
+          <div class="step-check-item"><span class="cb">☐</span> EC stabiel binne reeks</div>
+          <div class="step-check-item"><span class="cb">☐</span> pH stabiel binne reeks</div>
+          <div class="step-check-item"><span class="cb">☐</span> Nuwe groei sigbaar na 48 uur</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num" style="background:linear-gradient(135deg,#1B5E20,#2E7D32)">15</div>
+      <div class="step-body">
+        <div class="step-title">Gaan oor na normale moniteringsskedule</div>
+        <div class="step-desc">Sodra plante nuwe groei toon (gewoonlik dag 3–5), kan jy oorgaan na die normale daaglikse moniteringskedule in Hoofstuk 5. Voltooi die weeklikse loglêer elke dag oggend en aand.</div>
+        <div class="step-check">
+          <div class="step-check-item"><span class="cb">☐</span> Nuwe groei bevestig</div>
+          <div class="step-check-item"><span class="cb">☐</span> Logboek begin (Hfst. 5)</div>
+          <div class="step-check-item"><span class="cb">☐</span> Plantdatum aangeteken</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="warn-box green">
+      <span class="wi">✅</span>
+      <div class="wt">
+        <strong>Geluk! Jou NFT-stelsel is nou in werking.</strong>
+        Volg die daaglikse roetine in Hoofstuk 5 en die Moets en Moenies in Hoofstuk 4. Oes slaai na 28–35 dae, mosterd spinasie na 30–40 dae, spinasie na 35–45 dae, en aarbeie 60–90 dae na inplanting.
+      </div>
+    </div>
+
+  </div>
+  <div class="book-footer">
+    <span>NFT A-Raam Handleiding</span>
+    <span>Hoofstuk 2 — Stelsel Opstelling</span>
+    <span>Bladsy 6</span>
+  </div>
+</div>
+
+<!-- ═══════════ PAGE 5 — TOERUSTING & MENGRESEPTE ═══ -->
+<div class="page">
+  <div class="book-header">
+    <span class="chapter">NFT Handleiding · Hoofstuk 2 · Stelsel Opstelling</span>
+    <span class="page-num">Bladsy 7 van 10</span>
+  </div>
+  <div class="page-body">
+
+    <div class="phase-label" style="margin-top:18px">
+      <div class="phase-icon" style="background:#FFF8E1">📦</div>
+      <span class="phase-title">Toerusting Kontrolelys</span>
+      <div class="phase-rule"></div>
+    </div>
+
+    <table class="eq-table" style="margin-bottom:18px">
+      <thead>
+        <tr>
+          <th class="cb-col">✓</th>
+          <th>Item</th>
+          <th style="width:120px">Spesifikasie</th>
+          <th style="width:80px">Hoeveelheid</th>
+          <th style="width:90px">Doel</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="cb-col">☐</td><td>NFT PVC pype</td><td>63 mm of 75 mm</td><td>20 × 6 m</td><td>Groeikanale</td></tr>
+        <tr><td class="cb-col">☐</td><td>A-Raam rakke</td><td>Staal of hout, 2–3% helling</td><td>2 (4 kante totaal)</td><td>Pyp-ondersteuning</td></tr>
+        <tr><td class="cb-col">☐</td><td>Waterpomp (in tenk) (verstelbaar)</td><td>Min. 60 L/uur; verstelbare vloei 1–2 L/min (60–120 L/uur)</td><td>4 (een per tenk)</td><td>Water sirkulasie in serie</td></tr>
+        <tr><td class="cb-col">☐</td><td>Watertenks</td><td>100–200 liter</td><td>4 (A, B, C, D)</td><td>Voedingsoplossing</td></tr>
+        <tr><td class="cb-col">☐</td><td>Netpotte (50 mm)</td><td>Plastiek net pot</td><td>80+ stuks</td><td>Slaai &amp; Mosterd</td></tr>
+        <tr><td class="cb-col">☐</td><td>Netpotte (75 mm)</td><td>Plastiek net pot</td><td>20+ stuks</td><td>Aarbeie</td></tr>
+        <tr><td class="cb-col">☐</td><td>EC-meter</td><td>Digitaal, 0–5 mS/cm</td><td>1 minimum</td><td>EC meting</td></tr>
+        <tr><td class="cb-col">☐</td><td>pH-meter of druppeltoets</td><td>0–14 bereik</td><td>1 minimum</td><td>pH meting</td></tr>
+        <tr><td class="cb-col">☐</td><td>Watertemperatuurmeter</td><td>Digitaal, 0–50°C</td><td>1 per tenk</td><td>Watertemperatuur meting</td></tr>
+        <tr><td class="cb-col">☐</td><td>Min/maks temperatuurmeter</td><td>Digitaal met min/maks geheue</td><td>1</td><td>Lug­temperatuur monitering</td></tr>
+        <tr><td class="cb-col">☐</td><td>Voedingstof A (stikstof-ryk)</td><td>Hidroponies A-deel</td><td>5 liter</td><td>Makronutriënte</td></tr>
+        <tr><td class="cb-col">☐</td><td>Voedingstof B (mikro-ryk)</td><td>Hidroponies B-deel</td><td>5 liter</td><td>Mikronutriënte</td></tr>
+        <tr><td class="cb-col">☐</td><td>pH-daler (fosforsuur 10%)</td><td>Verdun oplossing</td><td>1 liter</td><td>pH verlaag</td></tr>
+        <tr><td class="cb-col">☐</td><td>pH-verhoger (kaliumhidroksied)</td><td>Verdun oplossing</td><td>500 ml</td><td>pH verhoog</td></tr>
+        <tr><td class="cb-col">☐</td><td>Perliet of klipwol</td><td>Klipwol of perliet</td><td>5 liter</td><td>Groeimedium</td></tr>
+
+        <tr><td class="cb-col">☐</td><td>Handskoene &amp; veiligheidsbril</td><td>Suur-bestand</td><td>1 stel</td><td>Veiligheid</td></tr>
+      </tbody>
+    </table>
+
+  </div>
+  <div class="book-footer">
+    <span>NFT A-Raam Handleiding</span>
+    <span>Hoofstuk 2 — Stelsel Opstelling</span>
+    <span>Bladsy 7</span>
+  </div>
+</div>
+
+<!-- ═══════════ PAGE 5B — MENGRESEPTE ═══ -->
+<div class="page">
+  <div class="book-header">
+    <span class="chapter">NFT Handleiding · Hoofstuk 2 · Stelsel Opstelling</span>
+    <span class="page-num">Bladsy 8 van 10</span>
+  </div>
+  <div class="page-body">
+    <div class="phase-label" style="margin-top:14px">
+      <div class="phase-icon" style="background:#E8F5E9">🧪</div>
+      <span class="phase-title">Mengresepte — Voedingsoplossing (per 100 liter water)</span>
+      <div class="phase-rule"></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="recipe-card">
+        <div class="recipe-title">🥬 Slaai — Tenk A (Raam A Kant 1)</div>
+        <div class="recipe-row"><span>Skoon water</span><span class="val">100 L</span></div>
+        <div class="recipe-row"><span>Voedingstof A</span><span class="val">250 ml</span></div>
+        <div class="recipe-row"><span>Voedingstof B</span><span class="val">250 ml</span></div>
+        <div class="recipe-row"><span>Teiken EC</span><span class="val">1.2–1.8</span></div>
+        <div class="recipe-row"><span>Teiken pH</span><span class="val">5.8–6.2</span></div>
+      </div>
+      <div class="recipe-card" style="border-color:#F48FB1">
+        <div class="recipe-title" style="color:#2E7D32">🌱 Spinasie — Tenk B (Raam A Kant 2)</div>
+        <div class="recipe-row"><span>Skoon water</span><span class="val" style="color:#880E4F">100 L</span></div>
+        <div class="recipe-row"><span>Voedingstof A</span><span class="val" style="color:#880E4F">200 ml</span></div>
+        <div class="recipe-row"><span>Voedingstof B</span><span class="val" style="color:#880E4F">200 ml</span></div>
+        <div class="recipe-row"><span>Teiken EC</span><span class="val" style="color:#880E4F">1.0–1.4</span></div>
+        <div class="recipe-row"><span>Teiken pH</span><span class="val" style="color:#880E4F">5.5–6.0</span></div>
+      </div>
+      <div class="recipe-card">
+        <div class="recipe-title" style="color:#880E4F">🍓 Aarbeie — Tenk C (Raam B Kant 1)</div>
+        <div class="recipe-row"><span>Skoon water</span><span class="val">100 L</span></div>
+        <div class="recipe-row"><span>Voedingstof A</span><span class="val">320 ml</span></div>
+        <div class="recipe-row"><span>Voedingstof B</span><span class="val">320 ml</span></div>
+        <div class="recipe-row"><span>Teiken EC</span><span class="val">1.6–2.0</span></div>
+        <div class="recipe-row"><span>Teiken pH</span><span class="val">6.0–6.8</span></div>
+      </div>
+      <div class="recipe-card" style="border-color:#A5D6A7">
+        <div class="recipe-title">🌿 Mosterd Spinasie — Tenk D (Raam B Kant 2)</div>
+        <div class="recipe-row"><span>Skoon water</span><span class="val">100 L</span></div>
+        <div class="recipe-row"><span>Voedingstof A</span><span class="val">360 ml</span></div>
+        <div class="recipe-row"><span>Voedingstof B</span><span class="val">360 ml</span></div>
+        <div class="recipe-row"><span>Teiken EC</span><span class="val">1.8–2.3</span></div>
+        <div class="recipe-row"><span>Teiken pH</span><span class="val">6.0–7.0</span></div>
+      </div>
+    </div>
+
+    <div class="warn-box blue" style="margin-top:12px">
+      <span class="wi">💡</span>
+      <div class="wt">
+        <strong>Nota: Hoeveelhede is benaderd — altyd EC-meter gebruik om te bevestig</strong>
+        Verskillende handelsmerk voedingstowwe het verskillende konsentrasies. Voeg altyd 'n bietjie op 'n slag by en meet tussendeur totdat jy die teiken-EC bereik. Die bostaande hoeveelhede is beginpunte, nie vaste reëls nie.
+      </div>
+    </div>
+
+  </div>
+  <div class="book-footer">
+    <span>NFT A-Raam Handleiding</span>
+    <span>Hoofstuk 2 — Stelsel Opstelling</span>
+    <span>Bladsy 8</span>
+  </div>
+</div>
+
+<!-- ══════════════════ PAGE 6 — SAAILINGGIDS ══════════════════ -->
+<div class="page">
+  <div class="book-header">
+    <span class="chapter">NFT Handleiding · Hoofstuk 2 · Stelsel Opstelling</span>
+    <span class="page-num">Bladsy 9 van 10</span>
+  </div>
+  <div class="page-body">
+
+    <div class="section-label" style="margin-top:14px">
+      <div class="section-icon" style="background:#E8F5E9">🌱</div>
+      <span class="section-title">Saailinggids — Hoe om Saailinge te Kweek</span>
+      <div class="section-rule"></div>
+    </div>
+
+    <!-- STAP-VIR-STAP -->
+    <div style="background:#F8F9FA;border:1.5px solid #E0E0E0;border-radius:12px;padding:14px 16px;margin-bottom:12px">
+      <div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:800;color:#1B5E20;margin-bottom:10px">📋 Stap-vir-Stap: Slaai, Spinasie &amp; Mosterd (uit saad)</div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px">
+        <div style="background:#E8F5E9;border-radius:8px;padding:10px;text-align:center">
+          <div style="font-size:20px;margin-bottom:4px">1️⃣</div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;color:#1B5E20;margin-bottom:4px">VUL NETPOT</div>
+          <div style="font-size:10px;color:#37474F;line-height:1.5">Vul 'n 50mm netpot ¾ vol met <strong>rokwol of perliet</strong>. Maak nat met skoon water.</div>
+        </div>
+        <div style="background:#E8F5E9;border-radius:8px;padding:10px;text-align:center">
+          <div style="font-size:20px;margin-bottom:4px">2️⃣</div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;color:#1B5E20;margin-bottom:4px">PLANT SAAD</div>
+          <div style="font-size:10px;color:#37474F;line-height:1.5">Druk <strong>1–2 sade</strong> 0.5 cm diep in die medium. Bedek liggies.</div>
+        </div>
+        <div style="background:#E8F5E9;border-radius:8px;padding:10px;text-align:center">
+          <div style="font-size:20px;margin-bottom:4px">3️⃣</div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;color:#1B5E20;margin-bottom:4px">VOGTIG HOU</div>
+          <div style="font-size:10px;color:#37474F;line-height:1.5">Hou medium <strong>vogtig maar nie waterversadig</strong>. Bespuit saggies 2× per dag.</div>
+        </div>
+        <div style="background:#E8F5E9;border-radius:8px;padding:10px;text-align:center">
+          <div style="font-size:20px;margin-bottom:4px">4️⃣</div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;color:#1B5E20;margin-bottom:4px">SAAILING GROEI</div>
+          <div style="font-size:10px;color:#37474F;line-height:1.5">Plaas in helder lig, <strong>nie direkte son</strong>. Kiem na 3–7 dae. Wortels groei onderdeur.</div>
+        </div>
+        <div style="background:#C8E6C9;border-radius:8px;padding:10px;text-align:center">
+          <div style="font-size:20px;margin-bottom:4px">5️⃣</div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;color:#1B5E20;margin-bottom:4px">UITPLANT</div>
+          <div style="font-size:10px;color:#37474F;line-height:1.5">As wortels <strong>2–3 cm lank</strong> is en wit lyk, is die saailing gereed vir die stelsel.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AARBEIE SPESIAAL + WORTEL GIDS -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+
+      <div style="background:#FCE4EC;border:1.5px solid #F48FB1;border-radius:12px;padding:14px 16px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:800;color:#880E4F;margin-bottom:8px">🍓 Aarbeie — Stoelons (geen saad)</div>
+        <div style="font-size:12px;color:#37474F;line-height:1.75">
+          Aarbeie word <strong>nie uit saad</strong> gekweek nie — gebruik <strong>stoelons</strong> (uitlopers).<br><br>
+          'n <strong>Stoelon</strong> is 'n lang dun stingel wat 'n moederplant uitstuur. Aan die punt vorm 'n nuwe plantjie.<br><br>
+          <strong>Hoe om te gebruik:</strong><br>
+          1. Sny die stoelon af wanneer die nuwe plantjie 3–4 blare het<br>
+          2. Sit die plantjie in 'n 75mm netpot met perliet<br>
+          3. Hou vogtig totdat wortels <strong>3–5 cm</strong> lank is<br>
+          4. Dan uitplant in die NFT-stelsel
+        </div>
+      </div>
+
+      <div style="background:#F8F9FA;border:1.5px solid #E0E0E0;border-radius:12px;padding:14px 16px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:800;color:#1B5E20;margin-bottom:8px">🔍 Wortelgereedheid — Wat om te soek</div>
+        <table style="width:100%;font-size:11px;border-collapse:collapse">
+          <thead>
+            <tr>
+              <th style="background:#1B5E20;color:#fff;padding:5px 8px;font-family:'Montserrat',sans-serif;font-size:9px;border:1px solid #388E3C">Gewas</th>
+              <th style="background:#1B5E20;color:#fff;padding:5px 8px;text-align:center;font-family:'Montserrat',sans-serif;font-size:9px;border:1px solid #388E3C">Min. Lengte</th>
+              <th style="background:#1B5E20;color:#fff;padding:5px 8px;text-align:center;font-family:'Montserrat',sans-serif;font-size:9px;border:1px solid #388E3C">Kleur</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background:#E8F5E9"><td style="padding:5px 8px;border:1px solid #C8E6C9;font-weight:600">🥬 Slaai</td><td style="padding:5px 8px;border:1px solid #C8E6C9;text-align:center">2–3 cm</td><td style="padding:5px 8px;border:1px solid #C8E6C9;text-align:center">Wit/crème</td></tr>
+            <tr><td style="padding:5px 8px;border:1px solid #E0E0E0;font-weight:600">🌱 Spinasie</td><td style="padding:5px 8px;border:1px solid #E0E0E0;text-align:center">2–3 cm</td><td style="padding:5px 8px;border:1px solid #E0E0E0;text-align:center">Wit/crème</td></tr>
+            <tr style="background:#FCE4EC"><td style="padding:5px 8px;border:1px solid #F48FB1;font-weight:600">🍓 Aarbeie</td><td style="padding:5px 8px;border:1px solid #F48FB1;text-align:center">3–5 cm</td><td style="padding:5px 8px;border:1px solid #F48FB1;text-align:center">Wit/crème</td></tr>
+            <tr style="background:#F1F8E9"><td style="padding:5px 8px;border:1px solid #DCEDC8;font-weight:600">🌿 Mosterd</td><td style="padding:5px 8px;border:1px solid #DCEDC8;text-align:center">2–3 cm</td><td style="padding:5px 8px;border:1px solid #DCEDC8;text-align:center">Wit/crème</td></tr>
+          </tbody>
+        </table>
+        <div style="margin-top:8px;padding:8px 10px;background:#FFEBEE;border-left:3px solid #EF5350;border-radius:4px;font-size:11px;color:#37474F">
+          ❌ <strong>Moenie uitplant as wortels bruin of slymrig is nie</strong> — die saailing is siek. Begin oor met nuwe medium en saad.
+        </div>
+        <div style="margin-top:6px;padding:8px 10px;background:#E8F5E9;border-left:3px solid #4CAF50;border-radius:4px;font-size:11px;color:#37474F">
+          ✅ <strong>Eerste 48 uur:</strong> Blare kan effens hang (oorplantingskok) — dit is normaal. Nuwe groei na 48–72 uur = sukses.
+        </div>
+      </div>
+    </div>
+
+    <!-- OESKAAR compact -->
+    <div class="section-label" style="margin-top:4px">
+      <div class="section-icon" style="background:#FFF8E1">🌾</div>
+      <span class="section-title">Oeskaart</span>
+      <div class="section-rule"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px">
+      <div style="background:#E8F5E9;border:1.5px solid #A5D6A7;border-radius:10px;padding:10px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;color:#1B5E20;margin-bottom:4px">🥬 Slaai</div>
+        <div style="font-size:10px;color:#37474F;line-height:1.6"><strong>28–35 dae</strong> · Blare 15–20 cm<br>Sny buitenste blare, laat hart staan</div>
+      </div>
+      <div style="background:#E8F5E9;border:1.5px solid #A5D6A7;border-radius:10px;padding:10px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;color:#1B5E20;margin-bottom:4px">🌱 Spinasie</div>
+        <div style="font-size:10px;color:#37474F;line-height:1.6"><strong>35–45 dae</strong> · Blare 10–15 cm<br>Sny buitenste blare · oes voor blom</div>
+      </div>
+      <div style="background:#FCE4EC;border:1.5px solid #F48FB1;border-radius:10px;padding:10px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;color:#880E4F;margin-bottom:4px">🍓 Aarbeie</div>
+        <div style="font-size:10px;color:#37474F;line-height:1.6"><strong>60–90 dae</strong> · Vrug volledig rooi<br>Sny steel 1 cm bo vrug</div>
+      </div>
+      <div style="background:#F1F8E9;border:1.5px solid #DCEDC8;border-radius:10px;padding:10px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;color:#33691E;margin-bottom:4px">🌿 Mosterd</div>
+        <div style="font-size:10px;color:#37474F;line-height:1.6"><strong>30–40 dae</strong> · Blare 15–25 cm<br>Sny buitenste blare · 8–10 weke prod.</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="book-footer">
+    <span>NFT A-Raam Handleiding</span>
+    <span>Hoofstuk 2 — Stelsel Opstelling</span>
+    <span>Bladsy 9</span>
+  </div>
+</div>
+
+<!-- ══════════════════ PAGE 7 — NUWE SIKLUS ══════════════════ -->
+<div class="page">
+  <div class="book-header">
+    <span class="chapter">NFT Handleiding · Hoofstuk 2 · Stelsel Opstelling</span>
+    <span class="page-num">Bladsy 10 van 10</span>
+  </div>
+  <div class="page-body">
+
+    <div class="section-label" style="margin-top:14px">
+      <div class="section-icon" style="background:#E8EAF6">🔄</div>
+      <span class="section-title">Nuwe Siklus — Wat Doen Jy na 'n Oes?</span>
+      <div class="section-rule"></div>
+    </div>
+
+    <p style="font-size:13px;color:#546E7A;font-family:'Inter',sans-serif;margin-bottom:8px;line-height:1.65">
+      Na elke oes moet die stelsel <strong>gereinig en herbegin</strong> word voor nuwe saailinge ingeplant word. Hierdie proses neem gewoonlik <strong>3–5 dae</strong> en is noodsaaklik om siekte te voorkom.
+    </p>
+
+    <!-- TYDLYN -->
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:16px">
+      <div style="background:#E3F2FD;border:1.5px solid #90CAF9;border-radius:10px;padding:12px;text-align:center">
+        <div style="font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;color:#1565C0;margin-bottom:6px">DAG 1<br>Oes & Verwyder</div>
+        <div style="font-size:10px;color:#37474F;line-height:1.6">Oes alle plante. Verwyder alle netpotte en wortels. Dreineer die tenk volledig.</div>
+      </div>
+      <div style="background:#FFF8E1;border:1.5px solid #FFE082;border-radius:10px;padding:12px;text-align:center">
+        <div style="font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;color:#F57F17;margin-bottom:6px">DAG 1–2<br>Skoonmaak</div>
+        <div style="font-size:10px;color:#37474F;line-height:1.6">Skrop pype en tenk. Spoel met skoon water. Ontsmet met waterstofperoksied (3%).</div>
+      </div>
+      <div style="background:#F3E5F5;border:1.5px solid #CE93D8;border-radius:10px;padding:12px;text-align:center">
+        <div style="font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;color:#6A1B9A;margin-bottom:6px">DAG 2–3<br>Spoel & Droog</div>
+        <div style="font-size:10px;color:#37474F;line-height:1.6">Spoel alle chemikalieë uit. Laat pype en tenk volledig droog. Kontroleer vir skade.</div>
+      </div>
+      <div style="background:#E8F5E9;border:1.5px solid #A5D6A7;border-radius:10px;padding:12px;text-align:center">
+        <div style="font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;color:#1B5E20;margin-bottom:6px">DAG 3–4<br>Vars Oplossing</div>
+        <div style="font-size:10px;color:#37474F;line-height:1.6">Vul tenk met vars water. Meng nuwe voedingstof. Kalibreer EC en pH. Sirkuleer 24 uur.</div>
+      </div>
+      <div style="background:#C8E6C9;border:1.5px solid #66BB6A;border-radius:10px;padding:12px;text-align:center">
+        <div style="font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;color:#1B5E20;margin-bottom:6px">DAG 4–5<br>Inplant</div>
+        <div style="font-size:10px;color:#37474F;line-height:1.6">Plant voorbereide saailinge. Kontroleer water raak nie groeimedium nie. Monitor elke 4 uur.</div>
+      </div>
+    </div>
+
+    <!-- KONTROLELYS -->
+    <div class="section-label">
+      <div class="section-icon" style="background:#E8F5E9">✅</div>
+      <span class="section-title">Nuwe Siklus Kontrolelys</span>
+      <div class="section-rule"></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px">
+      <div>
+        <div style="font-family:'Montserrat',sans-serif;font-size:12px;font-weight:800;color:#C62828;margin-bottom:8px">🧹 Skoonmaak &amp; Ontsmet</div>
+        <div style="font-size:12px;color:#37474F;line-height:1.9">
+          <div>☐ Alle plante en netpotte verwyder</div>
+          <div>☐ Tenk volledig leeg gedreineer</div>
+          <div>☐ Tenk binnekant met sponse afgeskrop</div>
+          <div>☐ Pype binnekant gespoel met druk</div>
+          <div>☐ Pomp uitgehaal en skoongemaak</div>
+          <div>☐ Waterstofperoksied (3%) oplossing gebruik</div>
+          <div>☐ Alles met skoon water gespoel</div>
+          <div>☐ Stelsel laat droog voor hervul</div>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:'Montserrat',sans-serif;font-size:12px;font-weight:800;color:#1B5E20;margin-bottom:8px">💧 Nuwe Oplossing &amp; Inplanting</div>
+        <div style="font-size:12px;color:#37474F;line-height:1.9">
+          <div>☐ Tenk gevul met vars skoon water</div>
+          <div>☐ Voedingstof A bygevoeg en geroer</div>
+          <div>☐ Voedingstof B bygevoeg en geroer</div>
+          <div>☐ EC gemeet en binne reeks</div>
+          <div>☐ pH gemeet en aangepas</div>
+          <div>☐ Stelsel 24 uur sirkuleer en stabiel</div>
+          <div>☐ Saailinge: wortels wit en 2–3 cm lank</div>
+          <div>☐ Netpotte styf in pypgate geplaas</div>
+          <div>☐ Water raak nie groeimedium nie</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WENK -->
+    <div style="background:#E8F5E9;border:1.5px solid #A5D6A7;border-radius:10px;padding:12px 16px;display:flex;gap:12px;align-items:flex-start">
+      <span style="font-size:22px;flex-shrink:0">💡</span>
+      <div style="font-size:12px;color:#37474F;line-height:1.65">
+        <strong style="color:#1B5E20;font-family:'Montserrat',sans-serif">Pro-wenk:</strong> Begin jou saailinge kweek <strong>7–14 dae voor</strong> jy beplan om die vorige oes te verwyder. So is nuwe saailinge gereed wanneer die stelsel skoon is — geen stilstandtyd nie!
+      </div>
+    </div>
+
+  </div>
+  <div class="book-footer">
+    <span>NFT A-Raam Handleiding</span>
+    <span>Hoofstuk 2 — Stelsel Opstelling</span>
+    <span>Bladsy 10</span>
+  </div>
+</div>
+
+</body>
+</html>

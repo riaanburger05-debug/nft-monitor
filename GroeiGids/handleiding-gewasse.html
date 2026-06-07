@@ -1,0 +1,1155 @@
+﻿<!DOCTYPE html>
+<html lang="af">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NFT Handleiding — Gewasse & Parameters</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#f2f5f2;font-family:'Montserrat',sans-serif;padding:30px 0}
+.page{width:794px;min-height:1123px;background:#fff;margin:0 auto 32px;position:relative;overflow:visible;box-shadow:0 8px 40px rgba(0,0,0,.45);page-break-after:always;color:#37474F}
+.book-header{background:linear-gradient(135deg,#e3f2fd,#bbdefb);border-bottom:2px solid #90caf9;color:#1a237e;padding:10px 24px;display:flex;justify-content:space-between;align-items:center}
+.book-header .chapter{font-family:'Montserrat',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#1a237e}
+.book-header .page-num{font-family:'Montserrat',sans-serif;font-size:14px;font-weight:700;color:#1a237e}
+.book-footer{position:absolute;bottom:0;left:0;right:0;background:#1b3a1b;border-top:none;padding:8px 24px;display:flex;justify-content:space-between;align-items:center}
+.book-footer span{font-size:12px;color:rgba(255,255,255,.85);font-weight:600;letter-spacing:.5px}
+.cover-bg{background:linear-gradient(160deg,#f3f7ff 0%,#f1f8e9 60%,#ffffff 100%);min-height:1123px;color:#263238;display:flex;flex-direction:column;padding:0}
+.cover-header-bar{background:rgba(27,94,32,.08);padding:14px 32px;display:flex;justify-content:space-between;align-items:center}
+.cover-header-bar .sys{font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700;letter-spacing:2px;color:#1b3a1b}
+.cover-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center}
+.cover-chapter-badge{background:rgba(27,94,32,.1);border:2px solid rgba(27,94,32,.3);border-radius:40px;padding:6px 20px;font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#1b3a1b;margin-bottom:20px}
+.cover-title{font-family:'Montserrat',sans-serif;font-size:49px;font-weight:900;line-height:1.15;margin-bottom:12px;color:#1b3a1b}
+.cover-subtitle{font-size:19px;opacity:.75;margin-bottom:36px;font-weight:300}
+.cover-crop-row{display:flex;gap:16px;margin-bottom:40px;justify-content:center;flex-wrap:wrap}
+.crop-pill{background:rgba(255,255,255,.85);border:1.5px solid rgba(27,94,32,.2);border-radius:24px;padding:10px 22px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.07)}
+.crop-pill .emoji{font-size:24px;display:block;margin-bottom:4px}
+.crop-pill .name{font-family:'Montserrat',sans-serif;font-size:16px;font-weight:700}
+.crop-pill .ec{font-size:14px;opacity:.7;margin-top:2px}
+.cover-divider{width:80px;height:4px;background:rgba(27,94,32,.3);border-radius:2px;margin:0 auto 28px}
+.cover-toc{background:rgba(27,94,32,.07);border:1px solid rgba(27,94,32,.15);border-radius:12px;padding:20px 28px;width:100%;max-width:500px;text-align:left}
+.cover-toc h4{font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700;letter-spacing:2px;opacity:.7;margin-bottom:8px;text-transform:uppercase}
+.toc-item{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(27,94,32,.15);font-size:16px}
+.toc-item:last-child{border-bottom:none}
+.toc-item .pg{opacity:.6;font-weight:600}
+.page-body{padding:0 28px 80px}
+.section-label{display:flex;align-items:center;gap:10px;margin:20px 0 14px}
+.section-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;background:#F5F5F5}
+.section-title{font-family:'Montserrat',sans-serif;font-size:14px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:#1B5E20}
+.section-rule{flex:1;height:2px;background:linear-gradient(to right,#2E7D32,transparent)}
+.crop-card{border-radius:14px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.4);margin-bottom:22px}
+.crop-card-header{padding:16px 20px 14px;display:flex;align-items:center;gap:14px;color:#fff}
+.crop-icon-box{width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0}
+.crop-name{font-family:'Montserrat',sans-serif;font-size:24px;font-weight:900}
+.crop-sci{font-size:15px;opacity:.75;font-style:italic;margin-top:2px}
+.crop-badge{margin-left:auto;background:rgba(255,255,255,.2);border:1.5px solid rgba(255,255,255,.4);border-radius:20px;padding:4px 12px;font-size:14px;font-weight:700;font-family:'Montserrat',sans-serif}
+.crop-card-body{padding:18px 20px;background:#F8F9FA}
+.range-row{margin-bottom:8px}
+.range-label-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px}
+.range-title{font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700;color:#1B5E20;text-transform:uppercase;letter-spacing:1px}
+.range-value{font-family:'Montserrat',sans-serif;font-size:22px;font-weight:900;color:#2E7D32}
+.range-unit{font-size:14px;font-weight:400;color:#546E7A;margin-left:2px}
+.range-track-wrap{position:relative;height:26px;margin-bottom:4px}
+.range-track{position:absolute;top:50%;transform:translateY(-50%);left:0;right:0;height:16px;border-radius:8px}
+.ec-track{background:linear-gradient(to right,#B71C1C 0%,#EF5350 14%,#FF9800 28%,#4CAF50 34%,#4CAF50 57%,#FF9800 71%,#EF5350 86%,#B71C1C 100%)}
+.ph-track{background:linear-gradient(to right,#B71C1C 0%,#EF5350 12.5%,#FF9800 25%,#FDD835 37.5%,#4CAF50 50%,#FDD835 62.5%,#FF9800 75%,#EF5350 87.5%,#B71C1C 100%)}
+.range-optimal{position:absolute;top:50%;transform:translateY(-50%);height:22px;border-radius:6px;border:3px solid #fff;box-shadow:0 0 0 2px rgba(0,0,0,.3),0 2px 8px rgba(0,0,0,.4);z-index:2}
+.range-ticks{display:flex;justify-content:space-between;font-size:12px;color:#666;padding:0 2px;margin-top:2px}
+.info-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:14px 0}
+.info-box{background:#F8F9FA;border:1.5px solid #E0E0E0;border-radius:10px;padding:10px 12px}
+.info-box .ib-label{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#1B5E20;margin-bottom:3px}
+.info-box .ib-val{font-family:'Montserrat',sans-serif;font-size:18px;font-weight:800;color:#2E7D32}
+.info-box .ib-sub{font-size:12px;color:#546E7A;margin-top:1px}
+.tip-box{border-radius:10px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;margin-top:10px}
+.tip-box.green{background:#F1F8E9;border-left:4px solid #4CAF50}
+.tip-box.amber{background:#FFF8E1;border-left:4px solid #FFC107}
+.tip-box.red{background:#FFEBEE;border-left:4px solid #EF5350}
+.tip-box .tip-icon{font-size:22px;flex-shrink:0}
+.tip-box .tip-text{font-size:14px;color:#37474F;line-height:1.5}
+.tip-box .tip-text strong{color:#222;display:block;margin-bottom:2px;font-size:15px}
+.compare-table{width:100%;border-collapse:collapse;font-size:15px;margin-top:10px}
+.compare-table th{background:#e8eaf6;color:#1a237e;font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:9px 12px;text-align:left;border:1px solid #c5cae9}
+.compare-table td{padding:8px 12px;border:1px solid #E0E0E0;color:#37474F}
+.compare-table tr:last-child td{border-bottom:1px solid #E0E0E0}
+.compare-table tr:nth-child(even) td{background:#F5F5F5}
+.badge-green{background:#E8F5E9;color:#2E7D32;border-radius:12px;padding:2px 8px;font-size:12px;font-weight:700;white-space:nowrap}
+.badge-amber{background:#FFF8E1;color:#E65100;border-radius:12px;padding:2px 8px;font-size:12px;font-weight:700;white-space:nowrap}
+.badge-red{background:#FFEBEE;color:#C62828;border-radius:12px;padding:2px 8px;font-size:12px;font-weight:700;white-space:nowrap}
+.legend-bar{display:flex;gap:6px;flex-wrap:wrap;align-items:center;background:#F5F5F5;border:1px solid #E0E0E0;border-radius:8px;padding:4px 8px;margin-bottom:8px}
+.legend-bar span{font-size:12px;color:#555;font-weight:500}
+.legend-item{display:flex;align-items:center;gap:4px;font-size:12px;color:#555}
+.legend-dot{width:10px;height:10px;border-radius:2px}
+
+
+
+@media print {
+  @page { size: A4 portrait; margin: 0; }
+  *, *::before, *::after { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; box-sizing: border-box; }
+  html, body { margin: 0 !important; padding: 0 !important; background: white !important; }
+
+  .page, .page1, .page2 {
+    width: 210mm !important;
+    height: 297mm !important;
+    min-height: unset !important;
+    max-height: 297mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    overflow: hidden !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    display: flex !important;
+    flex-direction: column !important;
+    position: relative !important;
+  }
+
+  /* Inhoud area groei om plek te vul */
+  .page-body, .content {
+    flex: 1 1 auto !important;
+    overflow: hidden !important;
+    padding-bottom: 0 !important;
+  }
+
+  /* Voetbalk LAASTE in die bladsy — altyd onderaan */
+  .book-footer, .book-ftr {
+    flex-shrink: 0 !important;
+    position: relative !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
+    width: 100% !important;
+    margin-top: auto !important;
+  }
+
+  /* Omslag volle hoogte */
+  .cover-bg, .cover {
+    height: 297mm !important;
+    min-height: unset !important;
+    overflow: hidden !important;
+    flex: 1 !important;
+  }
+
+  .print-btn-bar { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════ PAGE 1 — COVER ═══ -->
+<div class="page">
+  <div class="cover-bg">
+    <div class="cover-header-bar">
+      <span class="sys">NFT A-Raam Handleiding</span>
+      <span class="sys">Hoofstuk 3</span>
+    </div>
+    <div class="cover-body">
+      <div class="cover-chapter-badge">Hoofstuk 3</div>
+      <div class="cover-title">Gewasse &amp;<br>Parameters</div>
+      <div class="cover-subtitle">EC, pH, TDS en Nutriënt Vereistes per Gewas</div>
+      <div class="cover-divider"></div>
+      <div class="cover-crop-row">
+        <div class="crop-pill"><span class="emoji">🥬</span><div class="name">Slaai</div><div class="ec">EC 1.2–1.8</div></div>
+        <div class="crop-pill"><span class="emoji">🍓</span><div class="name">Aarbeie</div><div class="ec">EC 1.0–1.4</div></div>
+        <div class="crop-pill"><span class="emoji">🌿</span><div class="name">Mosterd Spinasie</div><div class="ec">EC 1.6–2.0</div></div>
+        <div class="crop-pill"><span class="emoji">🌱</span><div class="name">Spinasie</div><div class="ec">EC 1.8–2.3</div></div>
+      </div>
+      <div class="cover-toc">
+        <h4>Inhoud van hierdie hoofstuk</h4>
+        <div class="toc-item"><span>Slaai (Lactuca sativa) — Raam A Kant 1</span><span class="pg">Bl. 2</span></div>
+        <div class="toc-item"><span>Spinasie (Spinacia oleracea) — Raam A Kant 2</span><span class="pg">Bl. 3</span></div>
+        <div class="toc-item"><span>Aarbeie (Fragaria) — Raam B Kant 1</span><span class="pg">Bl. 4</span></div>
+        <div class="toc-item"><span>Mosterd Spinasie (Brassica rapa) — Raam B Kant 2</span><span class="pg">Bl. 5</span></div>
+        <div class="toc-item"><span>Vinnige vergelykingstabel — alle gewasse</span><span class="pg">Bl. 6</span></div>
+      </div>
+    </div>
+    <div style="background:#1b3a1b;padding:10px 32px;display:flex;justify-content:space-between">
+      <span style="font-size:12px;color:rgba(255,255,255,.7)">NFT A-Raam Handleiding · Hoofstuk 3 · Gewasse &amp; Parameters</span>
+      <span style="font-size:12px;color:rgba(255,255,255,.7)">Bladsy 1 van 9</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ PAGE 2 — SLAAI ═══ -->
+<div class="page">
+  <div class="book-header">
+    <span class="chapter">NFT Handleiding · Hoofstuk 3 · Gewasse &amp; Parameters</span>
+    <span class="page-num">Bladsy 2 van 9</span>
+  </div>
+
+  <div class="page-body">
+
+    <!-- crop card header -->
+    <div style="margin:18px 0 0">
+      <div class="crop-card">
+        <div class="crop-card-header" style="background:linear-gradient(135deg,#1B5E20,#388E3C)">
+          <div class="crop-icon-box">🥬</div>
+          <div>
+            <div class="crop-name">Slaai</div>
+            <div class="crop-sci">Lactuca sativa</div>
+          </div>
+          <div class="crop-badge">Raam A Kant 1</div>
+        </div>
+        <div class="crop-card-body">
+
+          <!-- LEGEND -->
+          <div class="legend-bar">
+            <span style="font-weight:700;margin-right:4px">Kleurskaal:</span>
+            <div class="legend-item"><div class="legend-dot" style="background:#EF5350"></div> Te laag / te hoog</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#FF9800"></div> Grensgebied</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#4CAF50"></div> Optimaal</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#fff;border:2px solid #333;width:12px;height:12px;border-radius:2px"></div> Optimale venster</div>
+          </div>
+
+          <!-- EC RANGE -->
+          <div class="range-row">
+            <div class="range-label-row">
+              <span class="range-title">⚡ EC — Elektriese Geleidingsvermoë</span>
+              <span class="range-value">1.2 – 1.8<span class="range-unit">mS/cm</span></span>
+            </div>
+            <div class="range-track-wrap">
+              <div class="range-track ec-track"></div>
+              <!-- Slaai EC: 1.2/3.5=34.3%, width=0.6/3.5=17.1% -->
+              <div class="range-optimal" style="left:34.3%;width:17.1%"></div>
+            </div>
+            <div class="range-ticks">
+              <span>0</span><span>0.5</span><span>1.0</span><span>1.2▲</span><span>1.8▲</span><span>2.5</span><span>3.0</span><span>3.5</span>
+            </div>
+            <div style="text-align:right;font-size:12px;color:#546E7A;margin-top:3px">📟 TDS ekwivalent: <strong style="color:#1B5E20">600 – 900 ppm</strong></div>
+          </div>
+
+          <!-- pH RANGE -->
+          <div class="range-row">
+            <div class="range-label-row">
+              <span class="range-title">🧪 pH — Suurgraad</span>
+              <span class="range-value">5.8 – 6.2<span class="range-unit">pH</span></span>
+            </div>
+            <div class="range-track-wrap">
+              <div class="range-track ph-track"></div>
+              <!-- Slaai pH: (5.8-4.0)/4.0=45%, width=0.4/4.0=10% -->
+              <div class="range-optimal" style="left:45%;width:10%"></div>
+            </div>
+            <div class="range-ticks">
+              <span>4.0</span><span>4.5</span><span>5.0</span><span>5.8▲</span><span>6.2▲</span><span>7.0</span><span>7.5</span><span>8.0</span>
+            </div>
+          </div>
+
+          <!-- INFO GRID -->
+          <div class="info-grid">
+            <div class="info-box">
+              <div class="ib-label">🌡 Watertemperatuur</div>
+              <div class="ib-val">18–22°C</div>
+              <div class="ib-sub">Ideaal vir wortels</div>
+            </div>
+            <div class="info-box">
+              <div class="ib-label">⏱ Oesduur</div>
+              <div class="ib-val">28–35 dae</div>
+              <div class="ib-sub">Saailing tot oes</div>
+            </div>
+            <div class="info-box">
+              <div class="ib-label">💧 Vloei</div>
+              <div class="ib-val">24 uur</div>
+              <div class="ib-sub">Deurlopend, pomp stop nie</div>
+            </div>
+            <div class="info-box">
+              <div class="ib-label">☀️ Lig (uur/dag)</div>
+              <div class="ib-val">12–16 uur</div>
+              <div class="ib-sub">Vol son of LED</div>
+            </div>
+            <div class="info-box">
+              <div class="ib-label">🌱 Plantgat</div>
+              <div class="ib-val">50 mm</div>
+              <div class="ib-sub">Netpot deursnee</div>
+            </div>
+            <div class="info-box">
+              <div class="ib-label">📏 Plantspasie</div>
+              <div class="ib-val">20–25 cm</div>
+              <div class="ib-sub">Tussen plante</div>
+            </div>
+          </div>
+
+          <!-- TIPS -->
+          <div class="tip-box green">
+            <span class="tip-icon">✅</span>
+            <div class="tip-text" style="flex:1">
+              <strong>Wenk: Hou EC laag in die somer</strong>
+              Gedurende warm maande kan EC verhoog na 2.0 mS/cm sonder skade, maar hou pH streng binne 5.8–6.2 — pH buite reeks blokkeer mangaan en yster opname, wat lei tot bleek ou blare.
+            </div>
+            <img src="../Images/slaai-wenk-ec-somer.png" onerror="this.style.display='none'" style="width:90px;height:70px;object-fit:contain;border-radius:6px;flex-shrink:0;align-self:center">
+          </div>
+          <div class="tip-box amber" style="margin-top:8px">
+            <span class="tip-icon">⚠️</span>
+            <div class="tip-text" style="flex:1">
+              <strong>Waarskuwing: EC &gt; 2.2 mS/cm</strong>
+              Hoë EC veroorsaak sout-stres by slaai — blare word bitter, groeipunt brand, en opbrengs daal. Verdun dadelik met skoon water tot 1.5 mS/cm.
+            </div>
+            <img src="../Images/slaai-waarsku-ec-hoog.png" onerror="this.style.display='none'" style="width:90px;height:70px;object-fit:contain;border-radius:6px;flex-shrink:0;align-self:center">
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- NUTRIENT NOTES -->
+    <div class="section-label">
+      <div class="section-icon" style="background:#E8F5E9">🧬</div>
+      <span class="section-title">Nutriënt Prioriteite vir Slaai</span>
+      <div class="section-rule"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:14px;color:#37474F">
+      <div style="background:#F8F9FA;border:1.5px solid #E0E0E0;border-radius:8px;padding:10px 12px">
+        <strong style="color:#1B5E20;display:block;margin-bottom:4px">Makronutriënte (hoog)</strong>
+        Stikstof (N) · Kalium (K) · Kalsium (Ca) · Fosfaat (P)
+      </div>
+      <div style="background:#F8F9FA;border:1.5px solid #E0E0E0;border-radius:8px;padding:10px 12px">
+        <strong style="color:#1B5E20;display:block;margin-bottom:4px">Mikronutriënte (laag)</strong>
+        Yster (Fe) · Mangaan (Mn) · Sink (Zn) · Koper (Cu)
+      </div>
+    </div>
+
+  </div>
+
+  <div class="book-footer">
+    <span>NFT A-Raam Handleiding</span>
+    <span>Hoofstuk 3 — Gewasse &amp; Parameters</span>
+    <span>Bladsy 2</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ PAGE 3 — SPINASIE ═══ -->
+<div class="page">
+  <div class="book-header">
+    <span class="chapter">NFT Handleiding · Hoofstuk 3 · Gewasse &amp; Parameters</span>
+    <span class="page-num">Bladsy 3 van 9</span>
+  </div>
+  <div class="page-body">
+    <div style="margin:18px 0 0">
+      <div class="crop-card">
+        <div class="crop-card-header" style="background:linear-gradient(135deg,#1B5E20,#2E7D32)">
+          <div class="crop-icon-box">🌱</div>
+          <div>
+            <div class="crop-name">Spinasie</div>
+            <div class="crop-sci">Spinacia oleracea</div>
+          </div>
+          <div class="crop-badge">Raam A Kant 2</div>
+        </div>
+        <div class="crop-card-body">
+          <div class="legend-bar">
+            <span style="font-weight:700;margin-right:4px">Kleurskaal:</span>
+            <div class="legend-item"><div class="legend-dot" style="background:#EF5350"></div> Te laag / te hoog</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#FF9800"></div> Grensgebied</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#4CAF50"></div> Optimaal</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#fff;border:2px solid #333;width:12px;height:12px;border-radius:2px"></div> Optimale venster</div>
+          </div>
+          <div class="range-row">
+            <div class="range-label-row">
+              <span class="range-title">⚡ EC — Elektriese Geleidingsvermoë</span>
+              <span class="range-value">1.8 – 2.3<span class="range-unit">mS/cm</span></span>
+            </div>
+            <div class="range-track-wrap">
+              <div class="range-track ec-track"></div>
+              <!-- Spinasie EC: 1.8/3.5=51.4%, width=0.5/3.5=14.3% -->
+              <div class="range-optimal" style="left:51.4%;width:14.3%"></div>
+            </div>
+            <div class="range-ticks">
+              <span>0</span><span>0.5</span><span>1.0</span><span>1.8▲</span><span>2.3▲</span><span>2.5</span><span>3.0</span><span>3.5</span>
+            </div>
+            <div style="text-align:right;font-size:12px;color:#546E7A;margin-top:3px">📟 TDS ekwivalent: <strong style="color:#1B5E20">900 – 1 150 ppm</strong></div>
+          </div>
+          <div class="range-row">
+            <div class="range-label-row">
+              <span class="range-title">🧪 pH — Suurgraad</span>
+              <span class="range-value">6.0 – 7.0<span class="range-unit">pH</span></span>
+            </div>
+            <div class="range-track-wrap">
+              <div class="range-track ph-track"></div>
+              <!-- Spinasie pH: (6.0-4.0)/4.0=50%, width=1.0/4.0=25% -->
+              <div class="range-optimal" style="left:50%;width:25%"></div>
+            </div>
+            <div class="range-ticks">
+              <span>4.0</span><span>4.5</span><span>5.0</span><span>6.0▲</span><span>7.0▲</span><span>7.5</span><span>8.0</span><span>—</span>
+            </div>
+          </div>
+          <div class="info-grid">
+            <div class="info-box"><div class="ib-label">🌡 Watertemperatuur</div><div class="ib-val">18–24°C</div><div class="ib-sub">Tolereer effens warmer</div></div>
+            <div class="info-box"><div class="ib-label">⏱ Oesduur</div><div class="ib-val">35–45 dae</div><div class="ib-sub">Saailing tot oes</div></div>
+            <div class="info-box"><div class="ib-label">💧 Vloei</div><div class="ib-val">24 uur</div><div class="ib-sub">Deurlopend, pomp stop nie</div></div>
+            <div class="info-box"><div class="ib-label">☀️ Lig (uur/dag)</div><div class="ib-val">10–14 uur</div><div class="ib-sub">Halfskadu verdra</div></div>
+            <div class="info-box"><div class="ib-label">🌱 Plantgat</div><div class="ib-val">50 mm</div><div class="ib-sub">Netpot deursnee</div></div>
+            <div class="info-box"><div class="ib-label">📏 Plantspasie</div><div class="ib-val">20–25 cm</div><div class="ib-sub">Tussen plante</div></div>
+          </div>
+          <div class="tip-box green">
+            <span class="tip-icon">✅</span>
+            <div class="tip-text" style="flex:1">
+              <strong>Wenk: Gereelde oes verleng produksie</strong>
+              Sny buitenste blare elke 7–10 dae — die plant bly produktief vir 6–8 weke. Moenie die groeipunt verwyder nie. Spinasie groei vinniger in koeler seisoene.
+            </div>
+            <img src="../Images/spinasie-wenk-oes.png" onerror="this.style.display='none'" style="width:90px;height:70px;object-fit:contain;border-radius:6px;flex-shrink:0;align-self:center">
+          </div>
+          <div class="tip-box amber" style="margin-top:8px">
+            <span class="tip-icon">⚠️</span>
+            <div class="tip-text" style="flex:1">
+              <strong>Hoë EC veroorsaak bitter blare</strong>
+              EC bo 2.5 mS/cm maak spinasie bitter en taai. Hou EC binne 1.8–2.3 vir sagte, smaaklike blare. Verdun dadelik met skoon water as EC te hoog is.
+            </div>
+            <img src="../Images/spinasie-waarsku-bitter.png" onerror="this.style.display='none'" style="width:90px;height:70px;object-fit:contain;border-radius:6px;flex-shrink:0;align-self:center">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section-label">
+      <div class="section-icon">🧬</div>
+      <span class="section-title">Nutriënt Prioriteite vir Spinasie</span>
+      <div class="section-rule"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:14px;color:#37474F">
+      <div style="background:#F8F9FA;border:1.5px solid #E0E0E0;border-radius:8px;padding:10px 12px">
+        <strong style="color:#1B5E20;display:block;margin-bottom:4px">Makronutriënte (hoog)</strong>
+        Stikstof (N) · Kalsium (Ca) · Magnesium (Mg) · Kalium (K)
+      </div>
+      <div style="background:#F8F9FA;border:1.5px solid #E0E0E0;border-radius:8px;padding:10px 12px">
+        <strong style="color:#1B5E20;display:block;margin-bottom:4px">Yster &amp; Mangaan opname</strong>
+        Spinasie benodig goeie Fe en Mn vlakke. pH bo 7.0 blokkeer hierdie opname — hou pH onder 7.0.
+      </div>
+    </div>
+  </div>
+  <div class="book-footer">
+    <span>NFT A-Raam Handleiding</span>
+    <span>Hoofstuk 3 — Gewasse &amp; Parameters</span>
+    <span>Bladsy 3</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ PAGE 4 — AARBEIE ═══ -->
+<div class="page">
+  <div class="book-header">
+    <span class="chapter">NFT Handleiding · Hoofstuk 3 · Gewasse &amp; Parameters</span>
+    <span class="page-num">Bladsy 4 van 9</span>
+  </div>
+
+  <div class="page-body">
+
+    <div style="margin:18px 0 0">
+      <div class="crop-card">
+        <div class="crop-card-header" style="background:linear-gradient(135deg,#880E4F,#C62828)">
+          <div class="crop-icon-box">🍓</div>
+          <div>
+            <div class="crop-name">Aarbeie</div>
+            <div class="crop-sci">Fragaria × ananassa</div>
+          </div>
+          <div class="crop-badge">Raam B Kant 1</div>
+        </div>
+        <div class="crop-card-body">
+
+          <div class="legend-bar">
+            <span style="font-weight:700;margin-right:4px">Kleurskaal:</span>
+            <div class="legend-item"><div class="legend-dot" style="background:#EF5350"></div> Te laag / te hoog</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#FF9800"></div> Grensgebied</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#4CAF50"></div> Optimaal</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#fff;border:2px solid #333;width:12px;height:12px;border-radius:2px"></div> Optimale venster</div>
+          </div>
+
+          <!-- EC RANGE -->
+          <div class="range-row">
+            <div class="range-label-row">
+              <span class="range-title">⚡ EC — Elektriese Geleidingsvermoë</span>
+              <span class="range-value">1.0 – 1.4<span class="range-unit">mS/cm</span></span>
+            </div>
+            <div class="range-track-wrap">
+              <div class="range-track ec-track"></div>
+              <!-- Aarbeie EC: 1.0/3.5=28.6%, width=0.4/3.5=11.4% -->
+              <div class="range-optimal" style="left:28.6%;width:11.4%"></div>
+            </div>
+            <div class="range-ticks">
+              <span>0</span><span>0.5</span><span>1.0▲</span><span>1.4▲</span><span>2.0</span><span>2.5</span><span>3.0</span><span>3.5</span>
+            </div>
+            <div style="text-align:right;font-size:12px;color:#546E7A;margin-top:3px">📟 TDS ekwivalent: <strong style="color:#1B5E20">500 – 700 ppm</strong></div>
+          </div>
+
+          <!-- pH RANGE -->
+          <div class="range-row">
+            <div class="range-label-row">
+              <span class="range-title">🧪 pH — Suurgraad</span>
+              <span class="range-value">5.5 – 6.5<span class="range-unit">pH</span></span>
+            </div>
+            <div class="range-track-wrap">
+              <div class="range-track ph-track"></div>
+              <!-- Aarbeie pH: (5.5-4.0)/4.0=37.5%, width=1.0/4.0=25% -->
+              <div class="range-optimal" style="left:37.5%;width:25%"></div>
+            </div>
+            <div class="range-ticks">
+              <span>4.0</span><span>4.5</span><span>5.5▲</span><span>6.5▲</span><span>6.5</span><span>7.0</span><span>7.5</span><span>8.0</span>
+            </div>
+          </div>
+
+          <!-- INFO GRID -->
+          <div class="info-grid">
+            <div class="info-box">
+              <div class="ib-label">🌡 Watertemperatuur</div>
+              <div class="ib-val">15–20°C</div>
+              <div class="ib-sub">Koel vir bessie-kwaliteit</div>
+            </div>
+            <div class="info-box">
+              <div class="ib-label">⏱ Eerste vrug</div>
+              <div class="ib-val">60–90 dae</div>
+              <div class="ib-sub">Van saailing tot vrug</div>
+            </div>
+            <div class="info-box">
+              <div class="ib-label">💧 Vloei</div>
+              <div class="ib-val">24 uur</div>
+              <div class="ib-sub">Deurlopend, pomp stop nie</div>
+            </div>
+            <div class="info-box">
+              <div class="ib-label">☀️ Lig (uur/dag)</div>
+              <div class="ib-val">8–12 uur</div>
+              <div class="ib-sub">Kort dag bevorder blom</div>
+            </div>
+            <div class="info-box">
+              <div class="ib-label">🌱 Plantgat</div>
+              <div class="ib-val">75 mm</div>
+              <div class="ib-sub">Groter pot vir wortels</div>
+            </div>
+            <div class="info-box">
+              <div class="ib-label">📏 Plantspasie</div>
+              <div class="ib-val">25–30 cm</div>
+              <div class="ib-sub">Uitlopers benodig ruimte</div>
+            </div>
+          </div>
+
+          <div class="tip-box green">
+            <span class="tip-icon">✅</span>
+            <div class="tip-text" style="flex:1">
+              <strong>Wenk: Verhoog EC tydens vrugset</strong>
+              Sodra blomme verskyn (week 6–8), verhoog EC stadig na 1.3–1.4 mS/cm vir soeter, groter bessies. Verlaag terug na 1.0–1.2 na oes.
+            </div>
+            <img src="../Images/aarbei-wenk-vrugset.png" onerror="this.style.display='none'" style="width:90px;height:70px;object-fit:contain;border-radius:6px;flex-shrink:0;align-self:center">
+          </div>
+          <div class="tip-box amber" style="margin-top:8px">
+            <span class="tip-icon">⚠️</span>
+            <div class="tip-text" style="flex:1">
+              <strong>Aarbeie is die sensitiefste gewas</strong>
+              Aarbeie reageer vinnigste op verkeerde pH — pH &gt; 6.5 blokkeer fosfaat opname en veroorsaak donker, geharde wortels. Kontroleer pH twee keer per dag tydens blomtyd.
+            </div>
+            <img src="../Images/aarbei-waarsku-ph.png" onerror="this.style.display='none'" style="width:90px;height:70px;object-fit:contain;border-radius:6px;flex-shrink:0;align-self:center">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label">
+      <div class="section-icon" style="background:#FCE4EC">🧬</div>
+      <span class="section-title">Nutriënt Prioriteite vir Aarbeie</span>
+      <div class="section-rule"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:14px;color:#37474F">
+      <div style="background:#FCE4EC;border:1.5px solid #F48FB1;border-radius:8px;padding:10px 12px">
+        <strong style="color:#880E4F;display:block;margin-bottom:4px">Blom- &amp; Vrugfase (week 6+)</strong>
+        Verhoog Kalium (K) en Kalsium (Ca) · Fosfaat (P) vir blomknop · Verminder N effens
+      </div>
+      <div style="background:#FFF8E1;border:1.5px solid #FFE082;border-radius:8px;padding:10px 12px">
+        <strong style="color:#E65100;display:block;margin-bottom:4px">Aparte tenk — baie belangrik</strong>
+        Aarbeie benodig hulle eie tenk.
+      </div>
+    </div>
+  </div>
+
+  <div class="book-footer">
+    <span>NFT A-Raam Handleiding</span>
+    <span>Hoofstuk 3 — Gewasse &amp; Parameters</span>
+    <span>Bladsy 4</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ PAGE 5 — MOSTERD ═══ -->
+<div class="page">
+  <div class="book-header">
+    <span class="chapter">NFT Handleiding · Hoofstuk 3 · Gewasse &amp; Parameters</span>
+    <span class="page-num">Bladsy 5 van 9</span>
+  </div>
+  <div class="page-body">
+    <div style="margin:18px 0 0">
+      <div class="crop-card">
+        <div class="crop-card-header" style="background:linear-gradient(135deg,#33691E,#689F38)">
+          <div class="crop-icon-box">🌿</div>
+          <div>
+            <div class="crop-name">Mosterd Spinasie</div>
+            <div class="crop-sci">Brassica rapa</div>
+          </div>
+          <div class="crop-badge">Raam B Kant 2</div>
+        </div>
+        <div class="crop-card-body">
+          <div class="legend-bar">
+            <span style="font-weight:700;margin-right:4px">Kleurskaal:</span>
+            <div class="legend-item"><div class="legend-dot" style="background:#EF5350"></div> Te laag / te hoog</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#FF9800"></div> Grensgebied</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#4CAF50"></div> Optimaal</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#fff;border:2px solid #333;width:12px;height:12px;border-radius:2px"></div> Optimale venster</div>
+          </div>
+          <div class="range-row">
+            <div class="range-label-row">
+              <span class="range-title">⚡ EC — Elektriese Geleidingsvermoë</span>
+              <span class="range-value">1.8 – 2.3<span class="range-unit">mS/cm</span></span>
+            </div>
+            <div class="range-track-wrap">
+              <div class="range-track ec-track"></div>
+              <!-- Mosterd EC: 1.6/3.5=45.7%, width=0.4/3.5=11.4% -->
+              <div class="range-optimal" style="left:45.7%;width:11.4%"></div>
+            </div>
+            <div class="range-ticks">
+              <span>0</span><span>0.5</span><span>1.0</span><span>1.6▲</span><span>2.0▲</span><span>2.5</span><span>3.0</span><span>3.5</span>
+            </div>
+            <div style="text-align:right;font-size:12px;color:#546E7A;margin-top:3px">📟 TDS ekwivalent: <strong style="color:#1B5E20">800 – 1 000 ppm</strong></div>
+          </div>
+          <div class="range-row">
+            <div class="range-label-row">
+              <span class="range-title">🧪 pH — Suurgraad</span>
+              <span class="range-value">6.0 – 6.8<span class="range-unit">pH</span></span>
+            </div>
+            <div class="range-track-wrap">
+              <div class="range-track ph-track"></div>
+              <!-- Mosterd pH: (6.0-4.0)/4.0=50%, width=0.8/4.0=20% -->
+              <div class="range-optimal" style="left:50%;width:20%"></div>
+            </div>
+            <div class="range-ticks">
+              <span>4.0</span><span>4.5</span><span>5.0</span><span>6.0▲</span><span>6.8▲</span><span>7.0</span><span>7.5</span><span>8.0</span>
+            </div>
+          </div>
+          <div class="info-grid">
+            <div class="info-box"><div class="ib-label">🌡 Watertemperatuur</div><div class="ib-val">18–24°C</div><div class="ib-sub">Tolereer effens warmer</div></div>
+            <div class="info-box"><div class="ib-label">⏱ Oesduur</div><div class="ib-val">30–40 dae</div><div class="ib-sub">Saailing tot eerste oes</div></div>
+            <div class="info-box"><div class="ib-label">💧 Vloei</div><div class="ib-val">24 uur</div><div class="ib-sub">Deurlopend, pomp stop nie</div></div>
+            <div class="info-box"><div class="ib-label">☀️ Lig (uur/dag)</div><div class="ib-val">10–14 uur</div><div class="ib-sub">Halfskadu verdra</div></div>
+            <div class="info-box"><div class="ib-label">🌱 Plantgat</div><div class="ib-val">50 mm</div><div class="ib-sub">Netpot deursnee</div></div>
+            <div class="info-box"><div class="ib-label">📏 Plantspasie</div><div class="ib-val">20–30 cm</div><div class="ib-sub">Groter blare benodig meer ruimte</div></div>
+          </div>
+          <div class="tip-box green">
+            <span class="tip-icon">✅</span>
+            <div class="tip-text" style="flex:1">
+              <strong>Wenk: Gereelde sny verhoog opbrengs</strong>
+              Sny buitenste blare elke 7–10 dae — die plant bly produktief vir 8–10 weke in NFT. Moenie die groeipunt sny nie.
+            </div>
+            <img src="../Images/mosterd-wenk-sny.png" onerror="this.style.display='none'" style="width:90px;height:70px;object-fit:contain;border-radius:6px;flex-shrink:0;align-self:center">
+          </div>
+          <div class="tip-box red" style="margin-top:8px">
+            <span class="tip-icon">🚫</span>
+            <div class="tip-text" style="flex:1">
+              <strong>Moenie EC onder 1.4 laat sak nie</strong>
+              Mosterd Spinasie benodig 'n sterker voedingoplossing as slaai. EC &lt; 1.4 lei tot bleekgroen blare en stadige groei. Voeg A+B voedingstof by.
+            </div>
+            <img src="../Images/mosterd-waarsku-ec-laag.png" onerror="this.style.display='none'" style="width:90px;height:70px;object-fit:contain;border-radius:6px;flex-shrink:0;align-self:center">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section-label">
+      <div class="section-icon" style="background:#F1F8E9">🧬</div>
+      <span class="section-title">Nutriënt Prioriteite vir Mosterd Spinasie</span>
+      <div class="section-rule"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:14px;color:#37474F">
+      <div style="background:#F8F9FA;border:1.5px solid #E0E0E0;border-radius:8px;padding:10px 12px">
+        <strong style="color:#1B5E20;display:block;margin-bottom:4px">Makronutriënte (hoog)</strong>
+        Stikstof (N) · Kalsium (Ca) · Magnesium (Mg) · Kalium (K)
+      </div>
+      <div style="background:#F8F9FA;border:1.5px solid #E0E0E0;border-radius:8px;padding:10px 12px">
+        <strong style="color:#1B5E20;display:block;margin-bottom:4px">Let op: Yster opname</strong>
+        pH &gt; 6.8 blokkeer Fe-opname — blare word geel. Verlaag pH dadelik met fosforsuur.
+      </div>
+    </div>
+  </div>
+  <div class="book-footer">
+    <span>NFT A-Raam Handleiding</span>
+    <span>Hoofstuk 3 — Gewasse &amp; Parameters</span>
+    <span>Bladsy 5</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ PAGE 6 — COMPARISON TABLE ═══ -->
+<div class="page">
+  <div class="book-header">
+    <span class="chapter">NFT Handleiding · Hoofstuk 3 · Gewasse &amp; Parameters</span>
+    <span class="page-num">Bladsy 6 van 9</span>
+  </div>
+
+  <div class="page-body">
+
+    <div class="section-label" style="margin-top:20px">
+      <div class="section-icon" style="background:#E3F2FD">📊</div>
+      <span class="section-title">Vinnige Vergelykingstabel — Alle Gewasse</span>
+      <div class="section-rule"></div>
+    </div>
+
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Gewas</th>
+          <th>EC (mS/cm)</th>
+          <th>TDS (ppm)</th>
+          <th>pH</th>
+          <th>Watertemp</th>
+          <th>Oesduur</th>
+          <th>Pype</th>
+          <th>Moeilikheid</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>🥬 <strong>Slaai</strong></td>
+          <td><span class="badge-green">1.2 – 1.8</span></td>
+          <td><span class="badge-green">600 – 900</span></td>
+          <td><span class="badge-green">5.8 – 6.2</span></td>
+          <td>18–22°C</td>
+          <td>28–35 dae</td>
+          <td>Raam A Kant 1</td>
+          <td><span class="badge-green">Maklik</span></td>
+        </tr>
+        <tr>
+          <td>🍓 <strong>Aarbeie</strong></td>
+          <td><span class="badge-green">1.0 – 1.4</span></td>
+          <td><span class="badge-green">500 – 700</span></td>
+          <td><span class="badge-amber">5.5 – 6.5</span></td>
+          <td>15–20°C</td>
+          <td>60–90 dae</td>
+          <td>Raam B Kant 1</td>
+          <td><span class="badge-amber">Gemiddeld</span></td>
+        </tr>
+        <tr>
+          <td>🌿 <strong>Mosterd Spinasie</strong></td>
+          <td><span class="badge-green">1.6 – 2.0</span></td>
+          <td><span class="badge-green">800 – 1 000</span></td>
+          <td><span class="badge-green">6.0 – 6.8</span></td>
+          <td>18–24°C</td>
+          <td>30–40 dae</td>
+          <td>Raam B Kant 2</td>
+          <td><span class="badge-green">Maklik</span></td>
+        </tr>
+        <tr>
+          <td>🌱 <strong>Spinasie</strong></td>
+          <td><span class="badge-green">1.8 – 2.3</span></td>
+          <td><span class="badge-green">900 – 1 150</span></td>
+          <td><span class="badge-green">6.0 – 7.0</span></td>
+          <td>18–24°C</td>
+          <td>35–45 dae</td>
+          <td>Raam A Kant 2</td>
+          <td><span class="badge-green">Maklik</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+  <div class="book-footer">
+    <span>NFT A-Raam Handleiding</span>
+    <span>Hoofstuk 3 — Gewasse &amp; Parameters</span>
+    <span>Bladsy 6</span>
+  </div>
+</div>
+
+<!-- ══════════ PAGE 6B — VISUELE REEKS ══════════ -->
+<div class="page">
+  <div class="book-header">
+    <span class="chapter">NFT Handleiding · Hoofstuk 3 · Gewasse &amp; Parameters</span>
+    <span class="page-num">Bladsy 8 van 9</span>
+  </div>
+  <div class="page-body">
+
+    <!-- EC & pH SIDE BY SIDE VISUAL REFERENCE -->
+    <div class="section-label" style="margin-top:14px">
+      <div class="section-icon" style="background:#E8F5E9">📉</div>
+      <span class="section-title">Visuele Reeks — Vergelyking</span>
+      <div class="section-rule"></div>
+    </div>
+
+    <!-- EC comparison -->
+    <div style="margin-bottom:20px">
+      <div style="font-family:'Montserrat',sans-serif;font-size:14px;font-weight:700;letter-spacing:1px;color:#1B5E20;text-transform:uppercase;margin-bottom:8px">⚡ EC Reeks per Gewas (0 – 3.5 mS/cm)</div>
+
+      <div style="margin-bottom:8px">
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:#546E7A;margin-bottom:3px"><span>🥬 Slaai</span><span>1.2 – 1.8 mS/cm</span></div>
+        <div class="range-track-wrap" style="height:20px">
+          <div class="range-track ec-track" style="height:12px;top:50%"></div>
+          <div class="range-optimal" style="left:34.3%;width:17.1%;height:18px"></div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:8px">
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:#546E7A;margin-bottom:3px"><span>🍓 Aarbeie</span><span>1.0 – 1.4 mS/cm</span></div>
+        <div class="range-track-wrap" style="height:20px">
+          <div class="range-track ec-track" style="height:12px;top:50%"></div>
+          <div class="range-optimal" style="left:28.6%;width:11.4%;height:18px"></div>
+        </div>
+      </div>
+      <div style="margin-bottom:8px">
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:#546E7A;margin-bottom:3px"><span>🌿 Mosterd Spinasie</span><span>1.6 – 2.0 mS/cm</span></div>
+        <div class="range-track-wrap" style="height:20px">
+          <div class="range-track ec-track" style="height:12px;top:50%"></div>
+          <div class="range-optimal" style="left:45.7%;width:11.4%;height:18px"></div>
+        </div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:#546E7A;margin-bottom:3px"><span>🌱 Spinasie</span><span>1.8 – 2.3 mS/cm</span></div>
+        <div class="range-track-wrap" style="height:20px">
+          <div class="range-track ec-track" style="height:12px;top:50%"></div>
+          <div class="range-optimal" style="left:51.4%;width:14.3%;height:18px"></div>
+        </div>
+      </div>
+      <div class="range-ticks">
+        <span>0</span><span>0.5</span><span>1.0</span><span>1.5</span><span>2.0</span><span>2.5</span><span>3.0</span><span>3.5</span>
+      </div>
+    </div>
+
+    <!-- pH comparison -->
+    <div>
+      <div style="font-family:'Montserrat',sans-serif;font-size:14px;font-weight:700;letter-spacing:1px;color:#1B5E20;text-transform:uppercase;margin-bottom:8px">🧪 pH Reeks per Gewas (4.0 – 8.0)</div>
+
+      <div style="margin-bottom:8px">
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:#546E7A;margin-bottom:3px"><span>🥬 Slaai</span><span>pH 5.8 – 6.2</span></div>
+        <div class="range-track-wrap" style="height:20px">
+          <div class="range-track ph-track" style="height:12px;top:50%"></div>
+          <div class="range-optimal" style="left:45%;width:10%;height:18px"></div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:8px">
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:#546E7A;margin-bottom:3px"><span>🍓 Aarbeie</span><span>pH 5.5 – 6.5</span></div>
+        <div class="range-track-wrap" style="height:20px">
+          <div class="range-track ph-track" style="height:12px;top:50%"></div>
+          <div class="range-optimal" style="left:37.5%;width:25%;height:18px"></div>
+        </div>
+      </div>
+      <div style="margin-bottom:8px">
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:#546E7A;margin-bottom:3px"><span>🌿 Mosterd Spinasie</span><span>pH 6.0 – 6.8</span></div>
+        <div class="range-track-wrap" style="height:20px">
+          <div class="range-track ph-track" style="height:12px;top:50%"></div>
+          <div class="range-optimal" style="left:50%;width:20%;height:18px"></div>
+        </div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:#546E7A;margin-bottom:3px"><span>🌱 Spinasie</span><span>pH 6.0 – 7.0</span></div>
+        <div class="range-track-wrap" style="height:20px">
+          <div class="range-track ph-track" style="height:12px;top:50%"></div>
+          <div class="range-optimal" style="left:50%;width:25%;height:18px"></div>
+        </div>
+      </div>
+      <div class="range-ticks">
+        <span>4.0</span><span>4.5</span><span>5.0</span><span>5.5</span><span>6.0</span><span>6.5</span><span>7.0</span><span>7.5</span><span>8.0</span>
+      </div>
+    </div>
+
+    <!-- CRITICAL REMINDER BOX -->
+    <div style="background:#E8F5E9;border:2px solid #2E7D32;border-radius:12px;padding:14px 18px;margin-top:20px;display:flex;gap:14px;align-items:flex-start">
+      <span style="font-size:34px">💡</span>
+      <div>
+        <div style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:16px;color:#1B5E20;margin-bottom:4px">Onthou: Elke kant het sy EIE tenk</div>
+        <div style="font-size:14px;color:#37474F;line-height:1.6">
+          Raam A Kant 1 (Slaai) → EC 1.2–1.8 · TDS 600–900 ppm · pH 5.8–6.2 · Tenk A<br>
+          Raam A Kant 2 (Spinasie) → EC 1.8–2.3 · TDS 900–1 150 ppm · pH 6.0–7.0 · Tenk B<br>
+          Raam B Kant 1 (Aarbeie) → EC 1.0–1.4 · TDS 500–700 ppm · pH 5.5–6.5 · Tenk C<br>
+          Raam B Kant 2 (Mosterd Spinasie) → EC 1.6–2.0 · TDS 800–1 000 ppm · pH 6.0–6.8 · Tenk D
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="book-footer">
+    <span>NFT A-Raam Handleiding</span>
+    <span>Hoofstuk 3 — Gewasse &amp; Parameters</span>
+    <span>Bladsy 6</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ PAGE 7 — SEISOENSKALENDER ═══ -->
+<div class="page">
+  <div class="book-header">
+    <span class="chapter">NFT Handleiding · Hoofstuk 3 · Gewasse &amp; Parameters</span>
+    <span class="page-num">Bladsy 8 van 9</span>
+  </div>
+  <div class="page-body">
+
+    <div class="section-label" style="margin-top:18px">
+      <div class="section-icon" style="background:#E8F5E9">📅</div>
+      <span class="section-title">Seisoenskalender — Wanneer om te Plant (Noord-Vrystaat)</span>
+      <div class="section-rule"></div>
+    </div>
+
+    <!-- KLEURLEGENDE -->
+    <div style="display:flex;gap:16px;align-items:center;margin-bottom:8px;padding:8px 14px;background:#F8F9FA;border-radius:8px;font-size:12px">
+      <strong style="font-family:'Montserrat',sans-serif;font-size:11px">Kleurskaal:</strong>
+      <div style="display:flex;align-items:center;gap:6px"><div style="width:18px;height:18px;background:#2E7D32;border-radius:4px"></div><span>Ideaal — plant nou</span></div>
+      <div style="display:flex;align-items:center;gap:6px"><div style="width:18px;height:18px;background:#F9A825;border-radius:4px"></div><span>Moontlik — monitor hitte</span></div>
+      <div style="display:flex;align-items:center;gap:6px"><div style="width:18px;height:18px;background:#EF5350;border-radius:4px"></div><span>Vermy — te warm / skiet in blom</span></div>
+      <div style="display:flex;align-items:center;gap:6px"><div style="width:18px;height:18px;background:#E3F2FD;border-radius:4px;border:1.5px solid #90CAF9"></div><span>Oes verwag</span></div>
+    </div>
+
+    <!-- KALENDER TABEL -->
+    <div style="overflow-x:auto;margin-bottom:8px">
+    <table style="width:100%;border-collapse:collapse;font-size:11px;font-family:'Inter',sans-serif">
+      <thead>
+        <tr>
+          <th style="background:#1B5E20;color:#fff;padding:7px 10px;text-align:left;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;border:1px solid #388E3C;width:120px">Gewas</th>
+          <th style="background:#1B5E20;color:#fff;padding:7px 6px;text-align:center;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;border:1px solid #388E3C">Jan</th>
+          <th style="background:#1B5E20;color:#fff;padding:7px 6px;text-align:center;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;border:1px solid #388E3C">Feb</th>
+          <th style="background:#1B5E20;color:#fff;padding:7px 6px;text-align:center;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;border:1px solid #388E3C">Mrt</th>
+          <th style="background:#1B5E20;color:#fff;padding:7px 6px;text-align:center;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;border:1px solid #388E3C">Apr</th>
+          <th style="background:#1B5E20;color:#fff;padding:7px 6px;text-align:center;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;border:1px solid #388E3C">Mei</th>
+          <th style="background:#1B5E20;color:#fff;padding:7px 6px;text-align:center;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;border:1px solid #388E3C">Jun</th>
+          <th style="background:#1B5E20;color:#fff;padding:7px 6px;text-align:center;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;border:1px solid #388E3C">Jul</th>
+          <th style="background:#1B5E20;color:#fff;padding:7px 6px;text-align:center;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;border:1px solid #388E3C">Aug</th>
+          <th style="background:#1B5E20;color:#fff;padding:7px 6px;text-align:center;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;border:1px solid #388E3C">Sep</th>
+          <th style="background:#1B5E20;color:#fff;padding:7px 6px;text-align:center;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;border:1px solid #388E3C">Okt</th>
+          <th style="background:#1B5E20;color:#fff;padding:7px 6px;text-align:center;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;border:1px solid #388E3C">Nov</th>
+          <th style="background:#1B5E20;color:#fff;padding:7px 6px;text-align:center;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;border:1px solid #388E3C">Des</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- SLAAI -->
+        <tr>
+          <td style="padding:8px 10px;border:1px solid #E0E0E0;font-weight:700;color:#1B5E20;background:#F8F9FA">🥬 Slaai</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#FFEBEE;text-align:center;font-size:9px;color:#C62828;font-weight:600">✗ Warm</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#FFF8E1;text-align:center;font-size:9px;color:#E65100;font-weight:600">~ Hitte</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#E8F5E9;text-align:center;font-size:9px;color:#1B5E20;font-weight:700">✓ Plant</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#E8F5E9;text-align:center;font-size:9px;color:#1B5E20;font-weight:700">✓ Plant</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#E8F5E9;text-align:center;font-size:9px;color:#1B5E20;font-weight:700">✓ Plant</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#E8F5E9;text-align:center;font-size:9px;color:#1B5E20;font-weight:700">✓ Plant</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#E8F5E9;text-align:center;font-size:9px;color:#1B5E20;font-weight:700">✓ Plant</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#E8F5E9;text-align:center;font-size:9px;color:#1B5E20;font-weight:700">✓ Plant</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#E8F5E9;text-align:center;font-size:9px;color:#1B5E20;font-weight:700">✓ Plant</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#FFF8E1;text-align:center;font-size:9px;color:#E65100;font-weight:600">~ Hitte</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#FFF8E1;text-align:center;font-size:9px;color:#E65100;font-weight:600">~ Hitte</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#FFEBEE;text-align:center;font-size:9px;color:#C62828;font-weight:600">✗ Warm</td>
+        </tr>
+        <!-- SPINASIE -->
+        <tr>
+          <td style="padding:8px 10px;border:1px solid #E0E0E0;font-weight:700;color:#1B5E20;background:#F8F9FA">🌱 Spinasie</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#FFEBEE;text-align:center;font-size:9px;color:#C62828;font-weight:600">✗ Warm</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#FFEBEE;text-align:center;font-size:9px;color:#C62828;font-weight:600">✗ Warm</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#E8F5E9;text-align:center;font-size:9px;color:#1B5E20;font-weight:700">✓ Plant</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#E8F5E9;text-align:center;font-size:9px;color:#1B5E20;font-weight:700">✓ Plant</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#E8F5E9;text-align:center;font-size:9px;color:#1B5E20;font-weight:700">✓ Plant</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#E8F5E9;text-align:center;font-size:9px;color:#1B5E20;font-weight:700">✓ Plant</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#E8F5E9;text-align:center;font-size:9px;color:#1B5E20;font-weight:700">✓ Plant</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#E8F5E9;text-align:center;font-size:9px;color:#1B5E20;font-weight:700">✓ Plant</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#E8F5E9;text-align:center;font-size:9px;color:#1B5E20;font-weight:700">✓ Plant</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#FFEBEE;text-align:center;font-size:9px;color:#C62828;font-weight:600">✗ Warm</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#FFEBEE;text-align:center;font-size:9px;color:#C62828;font-weight:600">✗ Warm</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#FFEBEE;text-align:center;font-size:9px;color:#C62828;font-weight:600">✗ Warm</td>
+        </tr>
+        <!-- AARBEIE -->
+        <tr>
+          <td style="padding:8px 10px;border:1px solid #E0E0E0;font-weight:700;color:#880E4F;background:#F8F9FA">🍓 Aarbeie</td>
+          <td style="padding:8px 6px;border:1px solid #E3F2FD;background:#E3F2FD;text-align:center;font-size:9px;color:#1565C0;font-weight:600">Oes</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#FFEBEE;text-align:center;font-size:9px;color:#C62828;font-weight:600">✗ Warm</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#FFEBEE;text-align:center;font-size:9px;color:#C62828;font-weight:600">✗ Warm</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#E8F5E9;text-align:center;font-size:9px;color:#1B5E20;font-weight:700">✓ Plant</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#E8F5E9;text-align:center;font-size:9px;color:#1B5E20;font-weight:700">✓ Plant</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#E8F5E9;text-align:center;font-size:9px;color:#1B5E20;font-weight:700">✓ Plant</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#E8F5E9;text-align:center;font-size:9px;color:#1B5E20;font-weight:700">✓ Plant</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#FFF8E1;text-align:center;font-size:9px;color:#E65100;font-weight:600">~ Blom</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#FFF8E1;text-align:center;font-size:9px;color:#E65100;font-weight:600">~ Blom</td>
+          <td style="padding:8px 6px;border:1px solid #E3F2FD;background:#E3F2FD;text-align:center;font-size:9px;color:#1565C0;font-weight:600">Oes</td>
+          <td style="padding:8px 6px;border:1px solid #E3F2FD;background:#E3F2FD;text-align:center;font-size:9px;color:#1565C0;font-weight:600">Oes</td>
+          <td style="padding:8px 6px;border:1px solid #E3F2FD;background:#E3F2FD;text-align:center;font-size:9px;color:#1565C0;font-weight:600">Oes</td>
+        </tr>
+        <!-- MOSTERD -->
+        <tr>
+          <td style="padding:8px 10px;border:1px solid #E0E0E0;font-weight:700;color:#33691E;background:#F8F9FA">🌿 Mosterd</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#FFEBEE;text-align:center;font-size:9px;color:#C62828;font-weight:600">✗ Warm</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#FFF8E1;text-align:center;font-size:9px;color:#E65100;font-weight:600">~ Hitte</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#E8F5E9;text-align:center;font-size:9px;color:#1B5E20;font-weight:700">✓ Plant</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#E8F5E9;text-align:center;font-size:9px;color:#1B5E20;font-weight:700">✓ Plant</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#E8F5E9;text-align:center;font-size:9px;color:#1B5E20;font-weight:700">✓ Plant</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#E8F5E9;text-align:center;font-size:9px;color:#1B5E20;font-weight:700">✓ Plant</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#E8F5E9;text-align:center;font-size:9px;color:#1B5E20;font-weight:700">✓ Plant</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#E8F5E9;text-align:center;font-size:9px;color:#1B5E20;font-weight:700">✓ Plant</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#E8F5E9;text-align:center;font-size:9px;color:#1B5E20;font-weight:700">✓ Plant</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#FFF8E1;text-align:center;font-size:9px;color:#E65100;font-weight:600">~ Hitte</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#FFF8E1;text-align:center;font-size:9px;color:#E65100;font-weight:600">~ Hitte</td>
+          <td style="padding:8px 6px;border:1px solid #E0E0E0;background:#FFEBEE;text-align:center;font-size:9px;color:#C62828;font-weight:600">✗ Warm</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <!-- SKOOL KWARTAAL GIDS -->
+    <div class="section-label" style="margin-top:4px">
+      <div class="section-icon" style="background:#E8EAF6">🏫</div>
+      <span class="section-title">Skool Kwartaal Plantgids</span>
+      <div class="section-rule"></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:8px">
+      <div style="background:#FFEBEE;border:2px solid #FFCDD2;border-radius:10px;padding:12px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:900;color:#C62828;margin-bottom:3px">⚠️ Kwartaal 1<br><span style="font-size:10px;font-weight:600">Jan – Mrt</span></div>
+        <div style="font-size:10px;color:#37474F;line-height:1.5">
+          <strong>Probleem:</strong> Warm somer<br>
+          Blaargroente skiet vinnig in blom<br><br>
+          <strong>Opsie:</strong> Wag tot Maart vir planting, of gebruik skadudoek (30–50%) om temperature te verlaag
+        </div>
+      </div>
+      <div style="background:#E8F5E9;border:2px solid #A5D6A7;border-radius:10px;padding:12px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:900;color:#1B5E20;margin-bottom:3px">✅ Kwartaal 2<br><span style="font-size:10px;font-weight:600">Apr – Jun</span></div>
+        <div style="font-size:10px;color:#37474F;line-height:1.5">
+          <strong>Ideaal vir:</strong><br>
+          🥬 Slaai, 🌱 Spinasie<br>
+          🌿 Mosterd<br>
+          🍓 Aarbeie inplant (Apr–Mei)<br><br>
+          Beste seisoen vir skoolprojekte
+        </div>
+      </div>
+      <div style="background:#E8F5E9;border:2px solid #A5D6A7;border-radius:10px;padding:12px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:900;color:#1B5E20;margin-bottom:3px">✅ Kwartaal 3<br><span style="font-size:10px;font-weight:600">Jul – Sep</span></div>
+        <div style="font-size:10px;color:#37474F;line-height:1.5">
+          <strong>Ideaal vir:</strong><br>
+          🥬 Slaai, 🌱 Spinasie<br>
+          🌿 Mosterd<br>
+          🍓 Aarbeie begin blom (Aug–Sep)<br><br>
+          Perfekte wintergroente seisoen
+        </div>
+      </div>
+      <div style="background:#FFF8E1;border:2px solid #FFE082;border-radius:10px;padding:12px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:900;color:#F57F17;margin-bottom:3px">~ Kwartaal 4<br><span style="font-size:10px;font-weight:600">Okt – Nov</span></div>
+        <div style="font-size:10px;color:#37474F;line-height:1.5">
+          <strong>Moontlik:</strong><br>
+          🥬 Slaai (vroeg Okt)<br>
+          🍓 Aarbeie oes (Okt–Nov)<br><br>
+          Temperatuur styg teen Nov — monitor noukeurig
+        </div>
+      </div>
+    </div>
+
+    <!-- WENK BOKS -->
+    <div style="background:#E8F5E9;border:1.5px solid #A5D6A7;border-radius:10px;padding:4px 8px;display:flex;gap:12px;align-items:flex-start">
+      <span style="font-size:22px;flex-shrink:0">💡</span>
+      <div style="font-size:12px;color:#37474F;line-height:1.65">
+        <strong style="color:#1B5E20;font-family:'Montserrat',sans-serif">NFT-stelsels kan die seisoen verleng</strong> — aangesien water temperature beheer kan word, is dit moontlik om blaargroente in die somer te kweek mét 'n skadudoek (30–50%) en koue water (onder 22°C). In die Noord-Vrystaat waar somertemperature 35–38°C bereik, is hierdie beheer noodsaaklik — sonder dit sal plante vinnig saadskiet. <strong>Vir skoolprojekte: Begin altyd aan die begin van Kwartaal 2 of 3 vir die beste resultate.</strong>
+      </div>
+    </div>
+
+  </div>
+  <div class="book-footer">
+    <span>NFT A-Raam Handleiding</span>
+    <span>Hoofstuk 3 — Gewasse &amp; Parameters</span>
+    <span>Bladsy 8</span>
+  </div>
+</div>
+
+<!-- ══════════════════ PAGE 8 — BYKOMENDE GEWASSE ══════════════════ -->
+<div class="page">
+  <div class="book-header">
+    <span class="chapter">NFT Handleiding · Hoofstuk 3 · Gewasse &amp; Parameters</span>
+    <span class="page-num">Bladsy 9 van 9</span>
+  </div>
+  <div class="page-body">
+
+    <div class="section-label" style="margin-top:14px">
+      <div class="section-icon" style="background:#E8F5E9">🌿</div>
+      <span class="section-title">Bykomende Gewasse — Toekomstige Uitbreidings</span>
+      <div class="section-rule"></div>
+    </div>
+
+    <p style="font-size:12px;color:#546E7A;font-family:'Inter',sans-serif;margin-bottom:8px;line-height:1.65">
+      Sodra jy gemaklik is met die vier hoofgewasse, kan jy hierdie gewasse ook in jou NFT-stelsel probeer. Hulle groei op dieselfde wyse — die enigste verskil is die EC, pH en groeityd.
+    </p>
+
+    <!-- TABEL MET EC EN PH -->
+    <table style="width:100%;border-collapse:collapse;font-size:12px;margin-bottom:8px">
+      <thead>
+        <tr>
+          <th style="background:#1B5E20;color:#fff;padding:3px 6px;text-align:left;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;border:1px solid #388E3C;width:130px">Gewas</th>
+          <th style="background:#1B5E20;color:#fff;padding:8px 10px;text-align:center;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;border:1px solid #388E3C">EC (mS/cm)</th>
+          <th style="background:#1B5E20;color:#fff;padding:8px 10px;text-align:center;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;border:1px solid #388E3C">pH</th>
+          <th style="background:#1B5E20;color:#fff;padding:8px 10px;text-align:center;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;border:1px solid #388E3C">Groeityd</th>
+          <th style="background:#1B5E20;color:#fff;padding:8px 10px;text-align:center;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;border:1px solid #388E3C">Temp °C</th>
+          <th style="background:#1B5E20;color:#fff;padding:3px 6px;text-align:left;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;border:1px solid #388E3C">Nota</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="background:#F1F8E9">
+          <td style="padding:8px 10px;border:1px solid #DCEDC8;font-weight:700;color:#1B5E20">🌿 Basilikum</td>
+          <td style="padding:8px 10px;border:1px solid #DCEDC8;text-align:center;font-weight:700">1.0 – 1.6</td>
+          <td style="padding:8px 10px;border:1px solid #DCEDC8;text-align:center;font-weight:700">5.5 – 6.5</td>
+          <td style="padding:8px 10px;border:1px solid #DCEDC8;text-align:center">25–35 dae</td>
+          <td style="padding:8px 10px;border:1px solid #DCEDC8;text-align:center">20–25</td>
+          <td style="padding:8px 10px;border:1px solid #DCEDC8;font-size:11px">Hou warm — koue water vertraag groei. Oes voor blom.</td>
+        </tr>
+        <tr>
+          <td style="padding:8px 10px;border:1px solid #E0E0E0;font-weight:700;color:#1B5E20">🌱 Kruisement (Mint)</td>
+          <td style="padding:8px 10px;border:1px solid #E0E0E0;text-align:center;font-weight:700">2.0 – 2.4</td>
+          <td style="padding:8px 10px;border:1px solid #E0E0E0;text-align:center;font-weight:700">5.5 – 6.5</td>
+          <td style="padding:8px 10px;border:1px solid #E0E0E0;text-align:center">30–40 dae</td>
+          <td style="padding:8px 10px;border:1px solid #E0E0E0;text-align:center">18–24</td>
+          <td style="padding:8px 10px;border:1px solid #E0E0E0;font-size:11px">Groei vinnig en aggressief. Hou apart van ander gewasse.</td>
+        </tr>
+        <tr style="background:#F1F8E9">
+          <td style="padding:8px 10px;border:1px solid #DCEDC8;font-weight:700;color:#1B5E20">🌿 Koljander (Dhania)</td>
+          <td style="padding:8px 10px;border:1px solid #DCEDC8;text-align:center;font-weight:700">1.2 – 1.8</td>
+          <td style="padding:8px 10px;border:1px solid #DCEDC8;text-align:center;font-weight:700">6.0 – 7.0</td>
+          <td style="padding:8px 10px;border:1px solid #DCEDC8;text-align:center">30–40 dae</td>
+          <td style="padding:8px 10px;border:1px solid #DCEDC8;text-align:center">18–24</td>
+          <td style="padding:8px 10px;border:1px solid #DCEDC8;font-size:11px">Saadskiet vinnig in hitte. Plant in koeler seisoene.</td>
+        </tr>
+        <tr>
+          <td style="padding:8px 10px;border:1px solid #E0E0E0;font-weight:700;color:#1B5E20">🌿 Pietersielie</td>
+          <td style="padding:8px 10px;border:1px solid #E0E0E0;text-align:center;font-weight:700">0.8 – 1.8</td>
+          <td style="padding:8px 10px;border:1px solid #E0E0E0;text-align:center;font-weight:700">5.5 – 6.5</td>
+          <td style="padding:8px 10px;border:1px solid #E0E0E0;text-align:center">40–50 dae</td>
+          <td style="padding:8px 10px;border:1px solid #E0E0E0;text-align:center">18–24</td>
+          <td style="padding:8px 10px;border:1px solid #E0E0E0;font-size:11px">Stadige ontkieming (14–21 dae). Wees geduldig. Produseer lank.</td>
+        </tr>
+        <tr style="background:#E3F2FD">
+          <td style="padding:8px 10px;border:1px solid #90CAF9;font-weight:700;color:#1565C0">🥬 Pakchoi (Bok Choy)</td>
+          <td style="padding:8px 10px;border:1px solid #90CAF9;text-align:center;font-weight:700">1.5 – 2.5</td>
+          <td style="padding:8px 10px;border:1px solid #90CAF9;text-align:center;font-weight:700">6.0 – 7.0</td>
+          <td style="padding:8px 10px;border:1px solid #90CAF9;text-align:center">30–45 dae</td>
+          <td style="padding:8px 10px;border:1px solid #90CAF9;text-align:center">18–24</td>
+          <td style="padding:8px 10px;border:1px solid #90CAF9;font-size:11px">Soortgelyk aan slaai. Geskik vir dieselfde kant as slaai.</td>
+        </tr>
+        <tr>
+          <td style="padding:8px 10px;border:1px solid #E0E0E0;font-weight:700;color:#1B5E20">🥬 Blaarkool (Kale)</td>
+          <td style="padding:8px 10px;border:1px solid #E0E0E0;text-align:center;font-weight:700">1.25 – 1.5</td>
+          <td style="padding:8px 10px;border:1px solid #E0E0E0;text-align:center;font-weight:700">5.5 – 6.5</td>
+          <td style="padding:8px 10px;border:1px solid #E0E0E0;text-align:center">40–55 dae</td>
+          <td style="padding:8px 10px;border:1px solid #E0E0E0;text-align:center">15–24</td>
+          <td style="padding:8px 10px;border:1px solid #E0E0E0;font-size:11px">Koue-bestand. Goeie winter-opsie. Sny buitenste blare.</td>
+        </tr>
+        <tr style="background:#F1F8E9">
+          <td style="padding:8px 10px;border:1px solid #DCEDC8;font-weight:700;color:#1B5E20">🌿 Rocket (Arugula)</td>
+          <td style="padding:8px 10px;border:1px solid #DCEDC8;text-align:center;font-weight:700">0.8 – 1.6</td>
+          <td style="padding:8px 10px;border:1px solid #DCEDC8;text-align:center;font-weight:700">6.0 – 7.0</td>
+          <td style="padding:8px 10px;border:1px solid #DCEDC8;text-align:center">25–35 dae</td>
+          <td style="padding:8px 10px;border:1px solid #DCEDC8;text-align:center">15–22</td>
+          <td style="padding:8px 10px;border:1px solid #DCEDC8;font-size:11px">Baie vinnig. Effens peperagtige smaak. Saadskiet gou in hitte.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- WENKE -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div style="background:#E8F5E9;border:1.5px solid #A5D6A7;border-radius:10px;padding:12px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:12px;font-weight:800;color:#1B5E20;margin-bottom:8px">✅ Wanneer Bykomende Gewasse Probeer</div>
+        <div style="font-size:10px;color:#37474F;line-height:1.5">
+          ☐ Jou vier hoofgewasse loop stabiel vir minstens 1 siklus<br>
+          ☐ Jy verstaan EC en pH aanpassings<br>
+          ☐ Jy het 'n aparte tenk beskikbaar<br>
+          ☐ Die seisoen is geskik (sien Bladsy 7)<br>
+          ☐ Begin met een nuwe gewas op 'n slag
+        </div>
+      </div>
+      <div style="background:#FFF8E1;border:1.5px solid #FFE082;border-radius:10px;padding:12px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:12px;font-weight:800;color:#E65100;margin-bottom:8px">⚠️ Belangrike Nota</div>
+        <div style="font-size:10px;color:#37474F;line-height:1.5">
+          Moenie verskillende gewasse <strong>met verskillende EC/pH vereistes</strong> in dieselfde tenk meng nie — elke kant het sy eie tenk juis hiervoor.<br><br>
+          <strong>Kruisement</strong> is besonder aggressief — dit kan ander plante se wortels verstik. Hou dit in sy eie pyp.
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="book-footer">
+    <span>NFT A-Raam Handleiding</span>
+    <span>Hoofstuk 3 — Gewasse &amp; Parameters</span>
+    <span>Bladsy 9</span>
+  </div>
+</div>
+
+</body>
+</html>

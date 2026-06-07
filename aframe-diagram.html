@@ -1,0 +1,268 @@
+﻿<!DOCTYPE html>
+<html lang="af">
+<head>
+<meta charset="UTF-8">
+<title>NFT A-Frame</title>
+<style>
+  * { margin:0; padding:0; }
+  body { background:#111; display:flex; align-items:center; justify-content:center; min-height:100vh; }
+  canvas { border-radius:8px; box-shadow:0 0 50px rgba(0,0,0,.8); }
+</style>
+</head>
+<body>
+<canvas id="c" width="1080" height="580"></canvas>
+<script>
+const cv = document.getElementById('c');
+const g  = cv.getContext('2d');
+const W=1080, H=580;
+
+/* ═══════════════════════════════════════
+   BACKGROUND
+═══════════════════════════════════════ */
+// Sky
+const sky = g.createLinearGradient(0,0,0,H*.55);
+sky.addColorStop(0,'#5BA3C9'); sky.addColorStop(.7,'#B8DFF0'); sky.addColorStop(1,'#D9EFF8');
+g.fillStyle=sky; g.fillRect(0,0,W,H*.55);
+
+// Ground / water trough area
+const grd = g.createLinearGradient(0,H*.55,0,H);
+grd.addColorStop(0,'#7B8B6F'); grd.addColorStop(.3,'#9C8560'); grd.addColorStop(1,'#6B5A3E');
+g.fillStyle=grd; g.fillRect(0,H*.55,W,H*.45);
+
+// Water channel at bottom
+const wc = g.createLinearGradient(0,H*.8,0,H);
+wc.addColorStop(0,'#2196F3'); wc.addColorStop(.5,'#1565C0'); wc.addColorStop(1,'#0D47A1');
+g.fillStyle=wc; g.fillRect(0,H*.8,W,H*.2);
+// water shine
+g.fillStyle='rgba(255,255,255,.12)';
+for(let x=0;x<W;x+=120){
+  g.beginPath(); g.ellipse(x+60,H*.83,45,6,0,0,Math.PI*2); g.fill();
+}
+
+// Clouds
+function cloud(cx,cy,r){
+  g.fillStyle='rgba(255,255,255,.82)';
+  [[0,0,r],[r*.7,r*-.2,r*.65],[r*1.35,r*-.05,r*.5],[-r*.5,r*.1,r*.55]].forEach(([dx,dy,rr])=>{
+    g.beginPath(); g.arc(cx+dx,cy+dy,rr,0,Math.PI*2); g.fill();
+  });
+}
+cloud(180,55,28); cloud(580,38,22); cloud(880,50,32);
+
+/* ═══════════════════════════════════════
+   PIPE DATA — perspective: near=LEFT, far=RIGHT
+   Each pipe: {yn=near-y, yf=far-y, rn=near-radius, rf=far-radius, crop}
+═══════════════════════════════════════ */
+const XN=55, XF=1020; // near x, far x
+
+const PIPES = [
+  { yn:90,  yf:170, rn:28, rf:17, crop:'slaai'   }, // pipe 1 — top
+  { yn:185, yf:223, rn:28, rf:17, crop:'slaai'   }, // pipe 2
+  { yn:280, yf:273, rn:29, rf:17, crop:'mosterd' }, // pipe 3 — middle
+  { yn:375, yf:320, rn:29, rf:18, crop:'mosterd' }, // pipe 4
+  { yn:465, yf:365, rn:30, rf:18, crop:'aarbei'  }, // pipe 5 — bottom
+];
+
+/* ═══════════════════════════════════════
+   FRAME STRUCTURE (draw before pipes)
+═══════════════════════════════════════ */
+function drawFrame(){
+  // Main longitudinal beams (run left to right along top & bottom of pipe array)
+  const topNear=PIPES[0].yn-PIPES[0].rn-12, topFar=PIPES[0].yf-PIPES[0].rf-8;
+  const botNear=PIPES[4].yn+PIPES[4].rn+12, botFar=PIPES[4].yf+PIPES[4].rf+8;
+
+  function beam(x1,y1,x2,y2,w,c1,c2){
+    const bg=g.createLinearGradient(x1,y1,x1,y1+w);
+    bg.addColorStop(0,c1); bg.addColorStop(1,c2);
+    g.strokeStyle=bg; g.lineWidth=w; g.lineCap='round';
+    g.beginPath(); g.moveTo(x1,y1); g.lineTo(x2,y2); g.stroke();
+  }
+
+  // Shadow under beams
+  g.shadowColor='rgba(0,0,0,.35)'; g.shadowBlur=6; g.shadowOffsetY=3;
+
+  // Main beams (long ones running with the pipes)
+  beam(XN,topNear, XF,topFar, 14,'#A0784A','#6B5230');
+  beam(XN,botNear, XF,botFar, 14,'#A0784A','#6B5230');
+
+  // Cross supports at each pipe position
+  PIPES.forEach(({yn,yf,rn,rf},i)=>{
+    const t=(i)/(PIPES.length-1);
+    const cx=XN+(XF-XN)*t*.12+XN+(XF-XN)*t; // approximate
+    // Vertical posts (near and far end)
+    const x1=XN+160*i*.04, x2=XF-80*i*.04;
+    const sy=yn+rn+5, ey=botNear+(botFar-botNear)*(x1-XN)/(XF-XN);
+    beam(x1+20*i, yn+rn+4, x1+20*i, botNear-20, 10,'#8B6343','#5D3E2A');
+    beam(x2-15*i, yf+rf+4, x2-15*i, botFar-15, 8,'#7A5535','#4E3320');
+  });
+
+  // Diagonal cross-brace on the frame face
+  g.strokeStyle='rgba(100,70,40,.55)'; g.lineWidth=5; g.lineCap='round';
+  g.shadowBlur=0; g.shadowOffsetY=0;
+  g.beginPath(); g.moveTo(XN+30,topNear+10); g.lineTo(XF-40,botFar-10); g.stroke();
+  g.beginPath(); g.moveTo(XN+30,botNear-10); g.lineTo(XF-40,topFar+10); g.stroke();
+
+  g.shadowBlur=0; g.shadowOffsetY=0;
+}
+
+/* ═══════════════════════════════════════
+   PLANTS
+═══════════════════════════════════════ */
+function drawPlant(px, py, type, sz){
+  sz=sz||1;
+  // stem
+  g.strokeStyle='#2E6B1E'; g.lineWidth=1.8*sz;
+  g.beginPath(); g.moveTo(px,py); g.lineTo(px,py-16*sz); g.stroke();
+
+  if(type==='slaai'){
+    const leaves=[['#4CAF50',-7,-9,8,4.5,-.3],['#81C784',6,-11,7,4,.3],
+                  ['#A5D6A7',-4,-14,6,3.5,-.1],['#66BB6A',3,-7,7,4,.2]];
+    leaves.forEach(([col,dx,dy,rx,ry,rot])=>{
+      g.fillStyle=col; g.beginPath(); g.ellipse(px+dx*sz,py+dy*sz,rx*sz,ry*sz,rot,0,Math.PI*2); g.fill();
+    });
+  } else if(type==='mosterd'){
+    g.fillStyle='#558B2F';
+    [[-6,-8,7,3.5,-.4],[6,-10,7,3.5,.4],[0,-14,5,3,0],[-5,-13,5,3,-.2],[5,-7,6,3,.2]].forEach(([dx,dy,rx,ry,rot])=>{
+      g.beginPath(); g.ellipse(px+dx*sz,py+dy*sz,rx*sz,ry*sz,rot,0,Math.PI*2); g.fill();
+    });
+    g.fillStyle='#8BC34A';
+    g.beginPath(); g.ellipse(px,py-16*sz,4*sz,2.5*sz,0,0,Math.PI*2); g.fill();
+  } else { // aarbei
+    g.fillStyle='#388E3C';
+    [[-5,-9,6,3.5,-.4],[5,-11,6,3.5,.4]].forEach(([dx,dy,rx,ry,rot])=>{
+      g.beginPath(); g.ellipse(px+dx*sz,py+dy*sz,rx*sz,ry*sz,rot,0,Math.PI*2); g.fill();
+    });
+    // berry
+    g.fillStyle='#C62828';
+    g.beginPath(); g.arc(px,py-5*sz,4*sz,0,Math.PI*2); g.fill();
+    g.fillStyle='#E53935';
+    g.beginPath(); g.arc(px,py-6.5*sz,3*sz,0,Math.PI*2); g.fill();
+    g.fillStyle='rgba(255,255,255,.55)';
+    g.beginPath(); g.arc(px-1.2*sz,py-7.5*sz,1.5*sz,0,Math.PI*2); g.fill();
+    // seeds dots
+    g.fillStyle='#FFF9C4'; g.font=`${4*sz}px Arial`;
+    [[-2,-5],[2,-4],[0,-7]].forEach(([dx,dy])=>{
+      g.beginPath(); g.arc(px+dx*sz,py+dy*sz,.8*sz,0,Math.PI*2); g.fill();
+    });
+  }
+}
+
+/* ═══════════════════════════════════════
+   PIPE DRAWING
+═══════════════════════════════════════ */
+function drawPipe({yn,yf,rn,rf,crop}, idx){
+  const cropCol = {
+    slaai:   ['#FFFFFF','#DDF0FF','#9FCFE8','#6AAFC9'],
+    mosterd: ['#FFFFFF','#FFFFF0','#D4E8A0','#A8C870'],
+    aarbei:  ['#FFFFFF','#FFF0F5','#F0B8C8','#D88098'],
+  }[crop];
+
+  // ── Body trapezoid ──
+  g.beginPath();
+  g.moveTo(XN, yn-rn); g.lineTo(XF, yf-rf);
+  g.lineTo(XF, yf+rf); g.lineTo(XN, yn+rn);
+  g.closePath();
+  const pg=g.createLinearGradient(XN,yn-rn,XN,yn+rn*1.8);
+  pg.addColorStop(0,cropCol[0]);
+  pg.addColorStop(.18,cropCol[1]);
+  pg.addColorStop(.55,cropCol[2]);
+  pg.addColorStop(.85,cropCol[3]);
+  pg.addColorStop(1,'#4A7090');
+  g.fillStyle=pg; g.fill();
+  g.strokeStyle='rgba(80,120,150,.4)'; g.lineWidth=1; g.stroke();
+
+  // ── Top highlight stripe ──
+  g.beginPath();
+  g.moveTo(XN,yn-rn); g.lineTo(XF,yf-rf);
+  g.lineTo(XF,yf-rf+5); g.lineTo(XN,yn-rn+7);
+  g.closePath();
+  g.fillStyle='rgba(255,255,255,.55)'; g.fill();
+
+  // ── Near-end cap ──
+  g.shadowColor='rgba(0,0,0,.25)'; g.shadowBlur=8; g.shadowOffsetX=-3;
+  const capGN=g.createRadialGradient(XN-rn*.3,yn-rn*.3,0,XN,yn,rn);
+  capGN.addColorStop(0,'#FFFFFF'); capGN.addColorStop(.6,cropCol[1]); capGN.addColorStop(1,'#6A9AB0');
+  g.fillStyle=capGN;
+  g.beginPath(); g.ellipse(XN,yn,rn,rn*.32,0,0,Math.PI*2); g.fill();
+  g.strokeStyle='rgba(80,120,150,.5)'; g.lineWidth=1; g.stroke();
+  g.shadowBlur=0; g.shadowOffsetX=0;
+
+  // ── Far-end cap ──
+  g.fillStyle='rgba(80,110,130,.4)';
+  g.beginPath(); g.ellipse(XF,yf,rf*.9,rf*.28,0,0,Math.PI*2); g.fill();
+
+  // ── Water inside visible at near end (inner ellipse) ──
+  g.fillStyle='rgba(30,120,200,.3)';
+  g.beginPath(); g.ellipse(XN,yn,rn*.6,rn*.18,0,0,Math.PI*2); g.fill();
+
+  // ── Plants in holes ──
+  const nPlants=5;
+  for(let p=0;p<nPlants;p++){
+    const t=(p+.65)/(nPlants+.2);
+    const px=XN+(XF-XN)*t;
+    const py_c=yn+(yf-yn)*t;
+    const pr=rn+(rf-rn)*t;
+    // hole circle
+    g.fillStyle='#2C3E50';
+    g.beginPath(); g.ellipse(px,py_c-pr*.85,pr*.28,pr*.1,0,0,Math.PI*2); g.fill();
+    // plant
+    drawPlant(px, py_c-pr*.9, crop, (.85-t*.25));
+  }
+
+  // ── Pipe label at near end ──
+  g.fillStyle='rgba(255,255,255,.9)'; g.font=`bold ${11+rn*.1}px Arial`;
+  g.textAlign='left';
+  g.fillText(`Pyp ${idx+1}`, XN+rn+6, yn+4);
+}
+
+/* ═══════════════════════════════════════
+   DRAW EVERYTHING
+═══════════════════════════════════════ */
+drawFrame();
+// Draw pipes back-to-front (pipe 1 first so pipe 5 is on top)
+PIPES.forEach((p,i)=>drawPipe(p,i));
+
+/* ═══════════════════════════════════════
+   TITLE BANNER
+═══════════════════════════════════════ */
+const ban=g.createLinearGradient(0,0,W,0);
+ban.addColorStop(0,'#D84315'); ban.addColorStop(.5,'#FF8F00'); ban.addColorStop(1,'#D84315');
+g.fillStyle=ban; g.beginPath(); g.roundRect(180,8,W-360,42,6); g.fill();
+g.strokeStyle='rgba(255,255,255,.3)'; g.lineWidth=1.5; g.stroke();
+g.fillStyle='#FFF8E1'; g.font='bold 20px Georgia,serif'; g.textAlign='center';
+g.fillText('NFT A-Frame Stelsel — Een Kant (5 Pype × 6m)', W/2,34);
+
+/* ═══════════════════════════════════════
+   CROP LEGEND + LABELS
+═══════════════════════════════════════ */
+// Side label (which kant this is)
+g.fillStyle='rgba(0,0,0,.65)'; g.beginPath(); g.roundRect(8,8,155,70,7); g.fill();
+g.fillStyle='#38BDF8'; g.font='bold 14px Arial'; g.textAlign='left';
+g.fillText('Kant 1 — Slaai', 18,30);
+g.fillStyle='#94A3B8'; g.font='12px Arial';
+g.fillText('EC: 1.2–1.8 mS/cm', 18,48);
+g.fillText('pH: 5.8–6.2', 18,65);
+
+// Crop key
+g.fillStyle='rgba(0,0,0,.65)'; g.beginPath(); g.roundRect(8,H-92,W-16,84,7); g.fill();
+
+const lgnd=[
+  {col:'#4CAF50',lbl:'Slaai',ec:'EC 1.2–1.8 · pH 5.8–6.2', pipes:'Pype 1 & 2'},
+  {col:'#8BC34A',lbl:'Mosterd Spinach',ec:'EC 1.6–2.0 · pH 6.0–6.8', pipes:'Pype 3 & 4'},
+  {col:'#E53935',lbl:'Aarbeie',ec:'EC 1.0–1.4 · pH 5.5–6.0', pipes:'Pyp 5'},
+];
+lgnd.forEach(({col,lbl,ec,pipes},i)=>{
+  const lx=24+i*340;
+  g.fillStyle=col; g.beginPath(); g.roundRect(lx,H-82,16,16,3); g.fill();
+  g.fillStyle='#F1F5F9'; g.font='bold 13px Arial'; g.textAlign='left';
+  g.fillText(lbl,lx+22,H-69);
+  g.fillStyle='#94A3B8'; g.font='11px Arial';
+  g.fillText(ec,lx+22,H-54);
+  g.fillStyle='#64748B'; g.font='10px Arial';
+  g.fillText(pipes,lx+22,H-40);
+});
+
+g.fillStyle='#475569'; g.font='11px Arial'; g.textAlign='center';
+g.fillText('Elke A-Frame het 2 kante — totaal 4 kante × 5 pype = 20 pype × 6m = 120m pyp | 4 onafhanklike tenks & pompe', W/2,H-18);
+</script>
+</body>
+</html>

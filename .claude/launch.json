@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "nft-preview",
+      "runtimeExecutable": "C:\\Users\\riaan\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+      "runtimeArgs": ["-m", "http.server", "3000"],
+      "port": 3000,
+      "cwd": "C:\\Users\\riaan\\OneDrive\\Desktop\\Agent\\nft"
+    }
+  ]
+}

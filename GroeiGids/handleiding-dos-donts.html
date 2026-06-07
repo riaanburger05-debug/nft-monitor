@@ -1,0 +1,731 @@
+﻿<!DOCTYPE html>
+<html lang="af">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NFT Handleiding — Moets &amp; Moenies</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#f2f5f2;font-family:'Montserrat',sans-serif;padding:30px 0}
+.page{width:794px;min-height:1123px;background:#fff;margin:0 auto 36px;box-shadow:0 8px 40px rgba(0,0,0,.45);position:relative;overflow:visible;display:flex;flex-direction:column;color:#37474F}
+
+
+/* BOOK HEADER */
+.book-hdr{height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 32px;background:linear-gradient(135deg,#e3f2fd,#bbdefb);border-bottom:2px solid #90caf9;color:#1a237e;print-color-adjust:exact}
+.book-hdr-title{font-size:10px;font-weight:700;color:#1a237e;text-transform:uppercase;letter-spacing:2px}
+.book-hdr-chapter{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#1a237e}
+
+/* BOOK FOOTER */
+.book-ftr{margin-top:auto;height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 32px;background:#1b3a1b;border-top:none}
+.book-ftr-text{font-size:10px;color:rgba(255,255,255,.85);font-family:'Inter',sans-serif}
+.page-num{font-size:12px;font-weight:800;color:rgba(255,255,255,.85)}
+
+/* CONTENT */
+.content{padding:28px 36px;flex:1}
+
+/* SECTION HEADING */
+.s-head{display:flex;align-items:center;gap:12px;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid}
+.s-head-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;background:#F5F5F5}
+.s-head h2{font-size:20px;font-weight:900;line-height:1;color:#B71C1C}
+.s-head p{font-size:12px;color:#546E7A;margin-top:3px;font-family:'Inter',sans-serif}
+
+/* PRIORITY BADGES */
+.pri{display:inline-block;font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:3px 9px;border-radius:20px}
+.pri-crit {background:#FFEBEE;color:#C62828;border:1px solid #FFCDD2}
+.pri-imp  {background:#FFF8E1;color:#E65100;border:1px solid #FFE082}
+.pri-setup{background:#E3F2FD;color:#1565C0;border:1px solid #90CAF9}
+.pri-rout {background:#E8F5E9;color:#2E7D32;border:1px solid #A5D6A7}
+
+/* COVER */
+.cover{background:linear-gradient(160deg,#f3f7ff 0%,#f1f8e9 60%,#ffffff 100%);min-height:1123px;display:flex;flex-direction:column;position:relative;overflow:hidden;color:#263238}
+.cover::before{content:'';position:absolute;top:-100px;right:-100px;width:350px;height:350px;border-radius:50%;background:rgba(27,94,32,.04)}
+.cover::after{content:'';position:absolute;bottom:-120px;left:20%;width:400px;height:400px;border-radius:50%;background:rgba(27,94,32,.03)}
+.cover-top{padding:52px 52px 0;flex:1}
+.cover-eyebrow{font-size:12px;font-weight:700;letter-spacing:4px;color:rgba(27,94,32,.6);text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.cover-eyebrow::after{content:'';flex:1;height:1px;background:rgba(27,94,32,.2)}
+.cover-title{font-size:49px;font-weight:900;color:#1b3a1b;line-height:.95;letter-spacing:-3px;margin-bottom:8px}
+.cover-title em{color:#2E7D32;font-style:normal;display:block}
+.cover-sub{font-size:15px;color:#546E7A;font-family:'Inter',sans-serif;font-weight:400;margin-bottom:36px}
+.cover-illo{margin:0 52px 36px;background:rgba(27,94,32,.06);border:1px solid rgba(27,94,32,.15);border-radius:18px;padding:28px 32px;display:flex;gap:32px;align-items:center}
+.cover-illo-text{flex:1}
+.cover-illo-text h3{font-size:15px;font-weight:800;color:#1b3a1b;margin-bottom:10px}
+.cover-illo-text p{font-size:13px;color:#546E7A;font-family:'Inter',sans-serif;line-height:1.65}
+.cover-stats{display:flex;flex-wrap:wrap;gap:10px;margin:28px 52px}
+.cover-stat{background:rgba(27,94,32,.08);border:1px solid rgba(27,94,32,.2);border-radius:50px;padding:10px 20px;display:flex;align-items:center;gap:10px}
+.cover-stat-num{font-size:22px;font-weight:900;color:#1b3a1b;line-height:1}
+.cover-stat-num small{font-size:13px}
+.cover-stat-lbl{font-size:11px;font-weight:700;color:#546E7A;text-transform:uppercase;letter-spacing:1px}
+.cover-contents{margin:0 52px 36px}
+.cover-contents h4{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(27,94,32,.6);margin-bottom:12px}
+.cover-toc{display:flex;flex-direction:column;gap:8px}
+.cover-toc-item{display:flex;align-items:center;gap:12px;padding:10px 16px;border-radius:10px;background:rgba(27,94,32,.06)}
+.cover-toc-page{font-size:12px;font-weight:800;color:#1b3a1b;width:24px;flex-shrink:0}
+.cover-toc-title{font-size:13px;font-weight:600;color:#37474F}
+.cover-toc-icon{font-size:16px;margin-left:auto}
+.cover-ftr{padding:20px 52px;border-top:1px solid rgba(27,94,32,.2);display:flex;justify-content:space-between;align-items:center}
+.cover-ftr-brand{font-size:13px;font-weight:900;color:#1b3a1b}
+.cover-ftr-brand em{color:#2E7D32;font-style:normal}
+.cover-ftr-dots{display:flex;gap:7px}
+.cover-ftr-dot{width:9px;height:9px;border-radius:50%}
+
+/* CRITICAL CARDS */
+.crit-card{border-radius:14px;overflow:hidden;box-shadow:0 4px 18px rgba(0,0,0,.12);margin-bottom:18px;display:flex;background:#fff;border:1.5px solid #E0E0E0}
+.crit-card-accent{width:8px;flex-shrink:0;background:#B71C1C}
+.crit-card-body{padding:14px 16px;flex:1}
+.crit-card-top{display:flex;align-items:flex-start;gap:16px;margin-bottom:12px}
+.crit-icon{font-size:34px;line-height:1;flex-shrink:0}
+.crit-title{font-size:17px;font-weight:900;color:#37474F;margin-bottom:4px}
+.crit-rule{font-size:13px;color:#546E7A;font-family:'Inter',sans-serif;line-height:1.65}
+.crit-consequence{margin-top:14px;padding:12px 16px;border-radius:10px;background:#FFEBEE;border-left:4px solid #EF5350;display:flex;gap:10px;align-items:flex-start}
+.crit-consequence-icon{font-size:18px;flex-shrink:0}
+.crit-consequence-text{font-size:13px;color:#C62828;font-family:'Inter',sans-serif;line-height:1.55;font-weight:500}
+
+/* RULES GRID */
+.rules-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.rule-card{border-radius:13px;overflow:hidden;box-shadow:0 3px 14px rgba(0,0,0,.1);background:#fff;border:1.5px solid #E0E0E0}
+.rule-card-top{padding:10px 14px 8px;display:flex;gap:12px;align-items:flex-start}
+.rule-icon{font-size:28px;flex-shrink:0;line-height:1}
+.rule-hd{flex:1}
+.rule-title{font-size:14px;font-weight:800;margin-top:6px;line-height:1.25}
+.rule-card-body{padding:0 14px 10px}
+.rule-desc{font-size:12px;color:#546E7A;font-family:'Inter',sans-serif;line-height:1.5}
+.rule-tip{margin-top:10px;padding:9px 12px;border-radius:8px;font-size:12px;font-family:'Inter',sans-serif;font-weight:500;display:flex;gap:7px;align-items:flex-start}
+.rule-tip-icon{flex-shrink:0}
+.do-card .rule-card-top{background:#E8F5E9}
+.do-card .rule-title{color:#2E7D32}
+.do-card .rule-tip{background:#F1F8E9;color:#2E7D32}
+.dont-card .rule-card-top{background:#FFEBEE}
+.dont-card .rule-title{color:#C62828}
+.dont-card .rule-tip{background:#FFF5F5;color:#C62828}
+
+/* WARN CARDS */
+.warn-card{border-radius:13px;background:#fff;border:1.5px solid #E0E0E0;border-left:5px solid #FF8F00;padding:10px 14px;display:flex;gap:10px;align-items:flex-start;margin-bottom:6px}
+.warn-icon{font-size:28px;flex-shrink:0}
+.warn-symptom{font-size:12px;font-weight:700;color:#E65100;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}
+.warn-title{font-size:14px;font-weight:900;color:#E65100;margin-bottom:6px}
+.warn-action{font-size:13px;color:#37474F;font-family:'Inter',sans-serif;line-height:1.55}
+
+/* WARN PHOTO SLOT */
+.warn-photo{width:130px;flex-shrink:0;border-radius:10px;overflow:hidden;background:#F5F5F5;border:1.5px dashed #BDBDBD;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:10px;min-height:90px}
+.warn-photo img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.warn-photo-icon{font-size:28px;opacity:0.35}
+.warn-photo-label{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#9E9E9E;text-align:center;line-height:1.4}
+
+/* CHECKLIST TABLE */
+.check-table{width:100%;border-collapse:collapse;font-size:12px;border-radius:12px;overflow:hidden;box-shadow:0 3px 14px rgba(0,0,0,.1)}
+.check-table thead{background:#e8eaf6;print-color-adjust:exact}
+.check-table thead th{padding:11px 12px;text-align:left;color:#1a237e;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;border:1px solid #c5cae9}
+.check-table tbody tr:nth-child(even){background:#F5F5F5}
+.check-table tbody td{padding:10px 12px;border:1px solid #E0E0E0;font-family:'Inter',sans-serif;color:#37474F}
+.check-table tbody td:first-child{font-weight:600;color:#1a237e;font-family:'Montserrat',sans-serif}
+.check-box{width:20px;height:20px;border:2px solid #BDBDBD;border-radius:5px;flex-shrink:0;display:inline-block}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;font-family:'Montserrat',sans-serif}
+.badge-red  {background:#FFEBEE;color:#C62828}
+.badge-amber{background:#FFF8E1;color:#E65100}
+.badge-green{background:#E8F5E9;color:#2E7D32}
+
+
+@media print {
+  @page { size: A4 portrait; margin: 0; }
+  *, *::before, *::after { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; box-sizing: border-box; }
+  html, body { margin: 0 !important; padding: 0 !important; background: white !important; }
+
+  .page, .page1, .page2 {
+    width: 210mm !important;
+    height: 297mm !important;
+    min-height: unset !important;
+    max-height: 297mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    overflow: hidden !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    display: flex !important;
+    flex-direction: column !important;
+    position: relative !important;
+  }
+
+  /* Inhoud area groei om plek te vul */
+  .page-body, .content {
+    flex: 1 1 auto !important;
+    overflow: hidden !important;
+    padding-bottom: 0 !important;
+  }
+
+  /* Voetbalk LAASTE in die bladsy — altyd onderaan */
+  .book-footer, .book-ftr {
+    flex-shrink: 0 !important;
+    position: relative !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
+    width: 100% !important;
+    margin-top: auto !important;
+  }
+
+  /* Omslag volle hoogte */
+  .cover-bg, .cover {
+    height: 297mm !important;
+    min-height: unset !important;
+    overflow: hidden !important;
+    flex: 1 !important;
+  }
+
+  .print-btn-bar { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════ BLADSY 1 — VOORBLAD ═══ -->
+<div class="page cover">
+  <div class="cover-top">
+    <div class="cover-eyebrow">NFT A-Raam Handleiding · Hoofstuk 4</div>
+    <div class="cover-title">
+      Moets &amp;
+      <em>Moenies</em>
+    </div>
+    <div class="cover-sub">'n Praktiese veldgids vir 'n gesonde NFT A-Raam hidroponiese stelsel</div>
+
+    <!-- TWEE KOLOM: MOETS vs MOENIES -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:28px 0 24px">
+
+      <!-- MOETS -->
+      <div style="background:#E8F5E9;border:2px solid #A5D6A7;border-radius:14px;padding:20px 18px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+          <div style="width:36px;height:36px;background:#2E7D32;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">✅</div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:18px;font-weight:900;color:#1B5E20">MOETS</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="font-size:18px;flex-shrink:0">💧</span>
+            <div style="font-size:13px;color:#2E7D32;font-family:'Inter',sans-serif;line-height:1.5"><strong>Pomp 24/7 aan</strong><br>Wortels sterf binne 30 minute sonder water</div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="font-size:18px;flex-shrink:0">📏</span>
+            <div style="font-size:13px;color:#2E7D32;font-family:'Inter',sans-serif;line-height:1.5"><strong>2–3% helling</strong><br>Sonder helling versamel water en stik wortels</div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="font-size:18px;flex-shrink:0">🧪</span>
+            <div style="font-size:13px;color:#2E7D32;font-family:'Inter',sans-serif;line-height:1.5"><strong>Een aanpassing op 'n slag</strong><br>EC óf pH — nooit albei gelyktydig nie</div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="font-size:18px;flex-shrink:0">🌡</span>
+            <div style="font-size:13px;color:#2E7D32;font-family:'Inter',sans-serif;line-height:1.5"><strong>Water onder 24°C</strong><br>Warm water hou minder suurstof</div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="font-size:18px;flex-shrink:0">🔒</span>
+            <div style="font-size:13px;color:#2E7D32;font-family:'Inter',sans-serif;line-height:1.5"><strong>Tenke toegemaak</strong><br>Lig veroorsaak alge en temperatuurstygings</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MOENIES -->
+      <div style="background:#FFEBEE;border:2px solid #FFCDD2;border-radius:14px;padding:20px 18px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+          <div style="width:36px;height:36px;background:#C62828;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">🚫</div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:18px;font-weight:900;color:#C62828">MOENIES</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="font-size:18px;flex-shrink:0">🌊</span>
+            <div style="font-size:13px;color:#C62828;font-family:'Inter',sans-serif;line-height:1.5"><strong>Wortels volledig onder water</strong><br>NFT = dunfilm, nie 'n diep tenk nie</div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="font-size:18px;flex-shrink:0">🚿</span>
+            <div style="font-size:13px;color:#C62828;font-family:'Inter',sans-serif;line-height:1.5"><strong>Afvoer blokkeer deur wortels</strong><br>Kontroleer afvoer weekliks</div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="font-size:18px;flex-shrink:0">🌱</span>
+            <div style="font-size:13px;color:#C62828;font-family:'Inter',sans-serif;line-height:1.5"><strong>Verkeerde gewasse in stelsel</strong><br>Net slaai, spinasie, aarbeie &amp; mosterd</div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="font-size:18px;flex-shrink:0">🔀</span>
+            <div style="font-size:13px;color:#C62828;font-family:'Inter',sans-serif;line-height:1.5"><strong>Kante se water meng</strong><br>Elke kant het sy eie tenk en resep</div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="font-size:18px;flex-shrink:0">🌿</span>
+            <div style="font-size:13px;color:#C62828;font-family:'Inter',sans-serif;line-height:1.5"><strong>Plant sonder skoon stelsel</strong><br>Ontsmet pype en tenks tussen gewasse</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLEUTELSTATS -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px">
+      <div style="background:#fff;border:1.5px solid #E0E0E0;border-radius:12px;padding:16px;text-align:center">
+        <div style="font-family:'Montserrat',sans-serif;font-size:28px;font-weight:900;color:#C62828;line-height:1">30<span style="font-size:14px">min</span></div>
+        <div style="font-size:11px;color:#546E7A;margin-top:4px;font-family:'Inter',sans-serif;">Tot wortels sterf as pomp stop</div>
+      </div>
+      <div style="background:#fff;border:1.5px solid #E0E0E0;border-radius:12px;padding:16px;text-align:center">
+        <div style="font-family:'Montserrat',sans-serif;font-size:28px;font-weight:900;color:#1B5E20;line-height:1">24<span style="font-size:14px">/7</span></div>
+        <div style="font-size:11px;color:#546E7A;margin-top:4px;font-family:'Inter',sans-serif;">Pomp moet deurlopend loop</div>
+      </div>
+      <div style="background:#fff;border:1.5px solid #E0E0E0;border-radius:12px;padding:16px;text-align:center">
+        <div style="font-family:'Montserrat',sans-serif;font-size:28px;font-weight:900;color:#E65100;line-height:1">4–6<span style="font-size:14px">wk</span></div>
+        <div style="font-size:11px;color:#546E7A;margin-top:4px;font-family:'Inter',sans-serif;">Tenk skoonmaak siklus</div>
+      </div>
+    </div>
+
+    <!-- INHOUDSOPGAWE -->
+    <div class="cover-contents">
+      <h4>Inhoud</h4>
+      <div class="cover-toc">
+        <div class="cover-toc-item"><span class="cover-toc-page">2</span><span class="cover-toc-title">Die 3 Reëls Wat Jy Nie Mag Breek Nie</span><span class="cover-toc-icon">⚠️</span></div>
+        <div class="cover-toc-item"><span class="cover-toc-page">3</span><span class="cover-toc-title">Wat Jy Altyd Moet Doen (6 Reëls)</span><span class="cover-toc-icon">✅</span></div>
+        <div class="cover-toc-item"><span class="cover-toc-page">4</span><span class="cover-toc-title">Wat Jy Nooit Mag Doen Nie (6 Reëls)</span><span class="cover-toc-icon">❌</span></div>
+        <div class="cover-toc-item"><span class="cover-toc-page">5</span><span class="cover-toc-title">Waarskuwingstekens + Oggend Kontrolelys</span><span class="cover-toc-icon">📋</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cover-ftr">
+    <div class="cover-ftr-brand">NFT A-Raam <em>Handleiding</em></div>
+    <div class="cover-ftr-dots">
+      <div class="cover-ftr-dot" style="background:#69F0AE"></div>
+      <div class="cover-ftr-dot" style="background:#FF8F00"></div>
+      <div class="cover-ftr-dot" style="background:#EF5350"></div>
+    </div>
+    <div style="font-size:10px;color:#546E7A;font-family:'Inter',sans-serif;">Hoofstuk 4 · Bladsye 1–5</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ BLADSY 2 — KRITIEKE REËLS ═══ -->
+<div class="page">
+  <div class="book-hdr">
+    <span class="book-hdr-title">NFT A-Raam Handleiding · Hoofstuk 4</span>
+    <span class="book-hdr-chapter" style="color:#1a237e;">⚠️ Kritieke Reëls</span>
+  </div>
+
+  <div class="content">
+    <div class="s-head" style="border-color:#FFCDD2">
+      <div class="s-head-icon">⚠️</div>
+      <div>
+        <h2 style="color:#EF5350;">Die 3 Reëls Wat Jy Nie Mag Breek Nie</h2>
+        <p>Hierdie reëls beskerm jou hele stelsel. Die breek van enige een kan jou gewas binne ure vernietig.</p>
+      </div>
+    </div>
+
+    <!-- Reël 1 -->
+    <div class="crit-card">
+      <div class="crit-card-accent"></div>
+      <div class="crit-card-body">
+        <div class="crit-card-top">
+          <div class="crit-icon">⚙️</div>
+          <div>
+            <span class="pri pri-crit">Kritiek — Reël 1 van 3</span>
+            <div class="crit-title">Die pomp loop 24 uur per dag, 7 dae per week — geen uitsonderings nie</div>
+          </div>
+        </div>
+        <div class="crit-rule">In 'n NFT-stelsel is plantwortels altyd blootgestel aan lug binne die pyp. Die enigste vog wat hulle ontvang, is van die dun film water wat die pomp deur die pyp stoot. Die oomblik dat die pomp stop, verdwyn daardie film. Wortels begin binne minute uitdroog en sterf binne 30 minute — daar is geen herstel sodra wortels dood is nie. Hou altyd 'n reserwepomp in voorraad. Wanneer 'n pomp breek, het jy 30 minute om dit te vervang.</div>
+        <div class="crit-consequence">
+          <div class="crit-consequence-icon">💀</div>
+          <div class="crit-consequence-text"><strong>Sonder watervloei:</strong> Wortels droog uit en sterf binne 30 minute. Dooie wortels kan nie herleef word nie. Die hele plant moet vervang word.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reël 2 -->
+    <div class="crit-card">
+      <div class="crit-card-accent"></div>
+      <div class="crit-card-body">
+        <div class="crit-card-top">
+          <div class="crit-icon">🧪</div>
+          <div>
+            <span class="pri pri-crit">Kritiek — Reël 2 van 3</span>
+            <div class="crit-title">EC en pH moet nooit gelyktydig verstel word nie — een verandering op 'n slag</div>
+          </div>
+        </div>
+        <div class="crit-rule">EC (voedingsterkte) en pH (suurgraad) is albei belangrik, maar moet altyd een op 'n slag reggestel word. As jy albei gelyktydig aanpas, sal jy nie weet watter verandering watter uitwerking veroorsaak het nie. Stel altyd eers pH reg, wag 30 minute, meet weer, en pas dan EC aan as dit steeds nodig is.</div>
+        <div class="crit-consequence">
+          <div class="crit-consequence-icon">⚠️</div>
+          <div class="crit-consequence-text"><strong>Dubbele korreksierisiko:</strong> Oorkorreksie in albei rigtings gelyktydig stres plante baie meer as die oorspronklike probleem. Geduld en een-stap-aanpassings is noodsaaklik.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reël 3 -->
+    <div class="crit-card">
+      <div class="crit-card-accent"></div>
+      <div class="crit-card-body">
+        <div class="crit-card-top">
+          <div class="crit-icon">💧</div>
+          <div>
+            <span class="pri pri-crit">Kritiek — Reël 3 van 3</span>
+            <div class="crit-title">Laat nooit die reservoir-tenk droogloop nie</div>
+          </div>
+        </div>
+        <div class="crit-rule">Wanneer die tenk droogloop, oorverhit die pomp. Dit skep 'n dubbele breekking: geen pomp EN geen water. Tenkvlakke daal vinniger op warm dae as gevolg van verdamping en wanneer plante swaar voed. Kontroleer al 4 tenks elke oggend sonder versuim. As 'n tenk leeg word, vul dit aan met 'n voorafgemengde voedingoplossing — nie net skoon water nie.</div>
+        <div class="crit-consequence">
+          <div class="crit-consequence-icon">💀</div>
+          <div class="crit-consequence-text"><strong>Leë tenk probleem-breekking:</strong> Droë pomp → verbrande motor → geen vloei → dooie wortels. Twee gelyktydige breekkings wat albei vervang moet word.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="book-ftr">
+    <span class="book-ftr-text">NFT A-Raam Handleiding — Moets &amp; Moenies</span>
+    <span class="page-num">Bladsy 2 van 6</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ BLADSY 3 — DOEN DIT ALTYD ═══ -->
+<div class="page">
+  <div class="book-hdr">
+    <span class="book-hdr-title">NFT A-Raam Handleiding · Hoofstuk 4</span>
+    <span class="book-hdr-chapter" style="color:#1a237e;">✅ Doen Dit Altyd</span>
+  </div>
+
+  <div class="content">
+    <div class="s-head" style="border-color:#A5D6A7">
+      <div class="s-head-icon">✅</div>
+      <div>
+        <h2 style="color:#2E7D32;">Wat Jy Altyd Moet Doen</h2>
+        <p>Hierdie 6 gewoontes hou jou stelsel gesond, jou water skoon en jou gewasse aan die groei.</p>
+      </div>
+    </div>
+
+    <div class="rules-grid">
+
+      <div class="rule-card do-card">
+        <div class="rule-card-top">
+          <div class="rule-icon">📏</div>
+          <div class="rule-hd"><span class="pri pri-setup">Opstelling</span><div class="rule-title">Hou 'n 2–3% afwaartse helling op alle pype</div></div>
+        </div>
+        <div class="rule-card-body">
+          <div class="rule-desc">Pype moet effens afwaarts hel van die inlaat na die afvoer. Dit laat swaartekrag die voedingfilm langs die pyp trek. Sonder 'n helling versamel water in die pyp, dompel wortels volledig onder en sny hul suurstof af — wat wortelverrotting veroorsaak.</div>
+          <div class="rule-tip"><span class="rule-tip-icon">📐</span>Gebruik 'n waterpas tydens installasie. Kontroleer die helling weer nadat enige pyp beweeg of gestamp is.</div>
+        </div>
+      </div>
+
+      <div class="rule-card do-card">
+        <div class="rule-card-top">
+          <div class="rule-icon">⬜</div>
+          <div class="rule-hd"><span class="pri pri-setup">Opstelling</span><div class="rule-title">Gebruik slegs wit of liggekleurde pype</div></div>
+        </div>
+        <div class="rule-card-body">
+          <div class="rule-desc">Donkergekleurde pype absorbeer hitte van sonlig en verhoog die watertemperatuur binne-in. Water bo 24°C hou minder opgeloste suurstof, wat beteken wortels stik selfs al loop die pomp. Ligte pype verminder ook interne alge groei.</div>
+          <div class="rule-tip"><span class="rule-tip-icon">🌡️</span>Teiken watertemperatuur: 18–22°C. Kontroleer dit elke oggend met jou EC-meter as dit 'n temperatuursensor het.</div>
+        </div>
+      </div>
+
+      <div class="rule-card do-card">
+        <div class="rule-card-top">
+          <div class="rule-icon">🪣</div>
+          <div class="rule-hd"><span class="pri pri-rout">Roetine</span><div class="rule-title">Hou die reservoir-tenk altyd bedek</div></div>
+        </div>
+        <div class="rule-card-body">
+          <div class="rule-desc">'n Onbedekte tenk laat sonlig in, wat alge groei veroorsaak. Alge verbruik die voedingstowwe bedoel vir jou plante, verstop die pompfilter en produseer stowwe wat skadelik vir wortels is. 'n Deksel verminder ook verdamping en verhoed dat vuilgoed inval.</div>
+          <div class="rule-tip"><span class="rule-tip-icon">🌿</span>Selfs 'n klein gaping laat genoeg lig in vir alge. Verseël alle openinge rondom pype wat die tenkdeksel binnegaan.</div>
+        </div>
+      </div>
+
+      <div class="rule-card do-card">
+        <div class="rule-card-top">
+          <div class="rule-icon">🧹</div>
+          <div class="rule-hd"><span class="pri pri-rout">Roetine</span><div class="rule-title">Spoel en maak tenks skoon ná elke oes — voor 'n nuwe gewas</div></div>
+        </div>
+        <div class="rule-card-body">
+          <div class="rule-desc">Maak altyd skoon tussen gewassiklusse — dit is die standaard skedule. Dreineer die tenk, skrop met verdunde witasyn, spoel deeglik met skoon water, en vul met vars voedingoplossing. Maak vroeër skoon as jy enige van die volgende sien: slymerige wortels, bruin neerslae in pype, slegte reuke, alge, pH/EC wat moeilik stabiel bly, of stadige vloei. Vir aarbeie en warm weer bou biofilm en wortelprobleme vinniger op — verwag meer gereelde skoonmaak.</div>
+          <div class="rule-tip"><span class="rule-tip-icon">📅</span>Plant nooit 'n nuwe gewas in 'n ongereinigde stelsel nie. Die siklus-einde is die minimum — toestand bepaal die werklike skedule.</div>
+        </div>
+      </div>
+
+      <div class="rule-card do-card">
+        <div class="rule-card-top">
+          <div class="rule-icon">🌡️</div>
+          <div class="rule-hd"><span class="pri pri-rout">Roetine</span><div class="rule-title">Meet water- en lugtemperatuur elke oggend</div></div>
+        </div>
+        <div class="rule-card-body">
+          <div class="rule-desc">Watertemperatuur bepaal hoeveel suurstof in die water opgelos bly — warmer water hou minder suurstof en bevoordeel Pythium (wortelverrotting). Lugtemperatuur beïnvloed hoe vinnig plante groei en verdamp. Tree dringend op as water bo 24°C styg.</div>
+          <div class="rule-tip"><span class="rule-tip-icon">🎯</span>Optimaal: water 18–22°C · lug 18–26°C. Gebruik 'n digitale watertemperatuurmeter en 'n min/maks lugtemperatuurmeter by die stelsel.</div>
+        </div>
+      </div>
+
+      <div class="rule-card do-card">
+        <div class="rule-card-top">
+          <div class="rule-icon">📓</div>
+          <div class="rule-hd"><span class="pri pri-imp">Belangrik</span><div class="rule-title">Teken EC en pH-lesings elke oggend aan</div></div>
+        </div>
+        <div class="rule-card-body">
+          <div class="rule-desc">'n Enkele lesing vertel jou die toestand nou. 'n Geskrewe log vertel jou die tendens — of jou stelsel stabiel, drywend of versleg is. Tendense laat jou probleme opvang voordat plante enige sigbare simptome toon, en red gewasse voor skade plaasvind.</div>
+          <div class="rule-tip"><span class="rule-tip-icon">📈</span>Gebruik die moniteringslog in hierdie handleiding. Noteer datum, EC, pH, watertemperatuur en enige waarnemings per tenk.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="book-ftr">
+    <span class="book-ftr-text">NFT A-Raam Handleiding — Moets &amp; Moenies</span>
+    <span class="page-num">Bladsy 3 van 6</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ BLADSY 4 — DOEN DIT NOOIT ═══ -->
+<div class="page">
+  <div class="book-hdr">
+    <span class="book-hdr-title">NFT A-Raam Handleiding · Hoofstuk 4</span>
+    <span class="book-hdr-chapter" style="color:#1a237e;">❌ Doen Dit Nooit</span>
+  </div>
+
+  <div class="content">
+    <div class="s-head" style="border-color:#FFCDD2">
+      <div class="s-head-icon">❌</div>
+      <div>
+        <h2 style="color:#EF5350;">Wat Jy Nooit Mag Doen Nie</h2>
+        <p>Hierdie 6 foute is die mees algemene oorsake van gewasverliese, pomp probleme en wortelsiekte in NFT-stelsels.</p>
+      </div>
+    </div>
+
+    <div class="rules-grid">
+
+      <div class="rule-card dont-card">
+        <div class="rule-card-top">
+          <div class="rule-icon">🌊</div>
+          <div class="rule-hd"><span class="pri pri-crit">Kritiek</span><div class="rule-title">Wortels moet nooit volledig onder die water wees nie</div></div>
+        </div>
+        <div class="rule-card-body">
+          <div class="rule-desc">NFT staan vir Voedingfilm-tegniek — die water is bedoel as 'n dun film, nie 'n poel nie. Wortels moet oop lug bo die film hê. Volledig ondergedompelde wortels het geen toegang tot suurstof nie en sal wortelverrotting ontwikkel binne 2–3 dae, selfs al is die water skoon.</div>
+          <div class="rule-tip"><span class="rule-tip-icon">💡</span>As water in die pyp versamel ondersoek stelsel vir verstopte pype of pype se helling wat verkeerd is.</div>
+        </div>
+      </div>
+
+      <div class="rule-card dont-card">
+        <div class="rule-card-top">
+          <div class="rule-icon">🪵</div>
+          <div class="rule-hd"><span class="pri pri-crit">Kritiek</span><div class="rule-title">Laat nooit wortels die afvoer ingroei en blokkeer nie</div></div>
+        </div>
+        <div class="rule-card-body">
+          <div class="rule-desc">Gesonde wortels groei kragtig en kan die hele pyp vul, die afvoer-opening bereik en dit blokkeer. Opgedamde water oorstroom die pyp en verdrink alle wortels daarin. Kontroleer afvoer-openinge weekliks, veral in die 3de en 4de week van 'n siklus wanneer wortels die grootste is.</div>
+          <div class="rule-tip"><span class="rule-tip-icon">🔍</span>Kyk in die afvoerkant van elke pyp weekliks. Sny wortels terug wat die opening nader.</div>
+        </div>
+      </div>
+
+      <div class="rule-card dont-card">
+        <div class="rule-card-top">
+          <div class="rule-icon">⚗️</div>
+          <div class="rule-hd"><span class="pri pri-imp">Belangrik</span><div class="rule-title">Meng nooit Deel A en Deel B voedingstowwe direk saam nie</div></div>
+        </div>
+        <div class="rule-card-body">
+          <div class="rule-desc">Die meeste hidroponiese voedingstowwe kom in twee dele (A en B) wat afsonderlik by die tenk gevoeg moet word. Om dit saam in gekonsentreerde vorm te meng veroorsaak 'n chemiese reaksie wat 'n wit neerslag vorm — die voedingstowwe reageer en word permanent onbeskikbaar vir plante.</div>
+          <div class="rule-tip"><span class="rule-tip-icon">✅</span>Voeg Deel A eers by die tenkwater, roer goed, voeg dan Deel B by. Moet hulle nooit onverdund saam ingooi nie.</div>
+        </div>
+      </div>
+
+      <div class="rule-card dont-card">
+        <div class="rule-card-top">
+          <div class="rule-icon">💊</div>
+          <div class="rule-hd"><span class="pri pri-imp">Belangrik</span><div class="rule-title">Voeg nooit groot dosisse pH-Op of pH-Af op een slag by nie</div></div>
+        </div>
+        <div class="rule-card-body">
+          <div class="rule-desc">pH-aanpassers is baie gekonsentreerd. 'n Enkele groot dosis kan die pH 2–3 eenhede verby die teiken swaai. Voeg 'n klein hoeveelheid by — ongeveer 1ml per 20 liter — roer, wag 10–15 minute, meet weer voor jy meer byvoeg.</div>
+          <div class="rule-tip"><span class="rule-tip-icon">⏱️</span>pH neem tyd om in oplossing te stabiliseer. Wag altyd 10–15 minute na elke byvoeging voordat jy weer meet.</div>
+        </div>
+      </div>
+
+      <div class="rule-card dont-card">
+        <div class="rule-card-top">
+          <div class="rule-icon">🍅</div>
+          <div class="rule-hd"><span class="pri pri-setup">Opstelling</span><div class="rule-title">Kweek nie swaar of groot-wortel gewasse sonder behoorlike opstelling nie</div></div>
+        </div>
+        <div class="rule-card-body">
+          <div class="rule-desc">Gewasse soos tamaties, komkommers en soetrissies produseer baie groot wortelmassas wat watervloei binne die pyp blokkeer. Hul swaar vrugte plaas ook fisieke druk op die pype. Standaard NFT-pype (50mm) is nie vir hierdie gewasse nie.</div>
+          <div class="rule-tip"><span class="rule-tip-icon">✅</span>Standaard NFT is ideaal vir slaai, spinasie, kruie en aarbeie — dit is jou beste opsies vir hierdie stelsel.</div>
+        </div>
+      </div>
+
+      <div class="rule-card dont-card">
+        <div class="rule-card-top">
+          <div class="rule-icon">🍂</div>
+          <div class="rule-hd"><span class="pri pri-rout">Roetine</span><div class="rule-title">Plant nooit 'n nuwe gewas in 'n ongereinigde stelsel nie</div></div>
+        </div>
+        <div class="rule-card-body">
+          <div class="rule-desc">Ou wortelmateriaal wat agtergelaat word in pype na oes, verrot en voed Pythium — die waterswam wat wortelverrotting veroorsaak. Pythium-spore versprei vinnig deur 'n gedeelde waterstelsel. Na elke oes, verwyder alle wortelmateriaal, spoel pype en ontsmet met verdunde 3% waterstofperoksied.</div>
+          <div class="rule-tip"><span class="rule-tip-icon">🧼</span>Ontsmet: vul pype met 3% waterstofperoksied-oplossing, laat staan 30 min, spoel dan deeglik met vars water voor plant.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="book-ftr">
+    <span class="book-ftr-text">NFT A-Raam Handleiding — Moets &amp; Moenies</span>
+    <span class="page-num">Bladsy 4 van 6</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ BLADSY 5 — WAARSKUWINGS + KONTROLELYS ═══ -->
+<div class="page">
+  <div class="book-hdr">
+    <span class="book-hdr-title">NFT A-Raam Handleiding · Hoofstuk 4</span>
+    <span class="book-hdr-chapter" style="color:#1a237e;">⚠️ Waarskuwings &amp; Kontrolelys</span>
+  </div>
+
+  <div class="content">
+    <div class="s-head" style="border-color:#FFE082;margin-bottom:16px">
+      <div class="s-head-icon">⚠️</div>
+      <div>
+        <h2 style="color:#E65100;">Waarskuwingstekens — Tree Onmiddellik Op</h2>
+        <p>As jy enige van hierdie tekens sien, stop wat jy doen en ondersoek dit dadelik.</p>
+      </div>
+    </div>
+
+    <div class="warn-card">
+      <div class="warn-icon">🟤</div>
+      <div style="flex:1">
+        <div class="warn-symptom">Wat jy sien</div>
+        <div class="warn-title">Bruin, slymrige of stinkende wortels</div>
+        <div class="warn-action"><strong>Oorsaak: Pythium wortelverrotting.</strong> Dreineer die geaffekteerde tenk onmiddellik. Verwyder alle plante en wortelmateriaal. Skrop en ontsmet die tenk en pype met verdunde waterstofperoksied. Kontroleer watertemperatuur — Pythium floreer bo 22°C. Plant slegs terug na volledige ontsmetting.</div>
+      </div>
+      <div class="warn-photo" style="padding:0;position:relative;">
+        <img src="../Images/waarsku-wortels.png" alt="Bruin / Slymrige Wortels">
+      </div>
+    </div>
+
+    <div class="warn-card">
+      <div class="warn-icon">🟡</div>
+      <div style="flex:1">
+        <div class="warn-symptom">Wat jy sien</div>
+        <div class="warn-title">EC is hoog maar plante is geel of swak</div>
+        <div class="warn-action"><strong>Oorsaak: pH is verkeerd, nie EC nie.</strong> Wanneer pH buite grense is, kan plante voedingstowwe nie absorbeer nie, selfs al is EC perfek — dit word voedingstofblokkasie genoem. Stel altyd eers pH reg. Sodra pH korrek is, meet EC weer en pas aan as steeds nodig.</div>
+      </div>
+      <div class="warn-photo" style="padding:0;position:relative;">
+        <img src="../Images/waarsku-geel-blare.png" alt="Geel / Verkleurde Blare">
+      </div>
+    </div>
+
+    <div class="warn-card">
+      <div class="warn-icon">📉</div>
+      <div style="flex:1">
+        <div class="warn-symptom">Wat jy sien</div>
+        <div class="warn-title">EC daal vinniger as verwag</div>
+        <div class="warn-action"><strong>Oorsaak: Welige plantegroei of vinnige verdamping.</strong> Kontroleer eers die tenkvlak — 'n lae vlak beïnvloed lesings. Vul aan met voorafgemengde voedingoplossing, nie net skoon water nie. Skoon water verlaag EC maar vervang nie voedingstowwe nie.</div>
+      </div>
+      <div class="warn-photo" style="padding:0;position:relative;">
+        <img src="../Images/aframe-hero.jpg" alt="Welige Plantegroei in NFT Pype">
+      </div>
+    </div>
+
+    <div class="warn-card">
+      <div class="warn-icon">🌡️</div>
+      <div style="flex:1">
+        <div class="warn-symptom">Wat jy meet</div>
+        <div class="warn-title">Watertemperatuur bo 24°C</div>
+        <div class="warn-action"><strong>Oorsaak: Te warm water hou min suurstof en bevorder Pythium.</strong> Tree dringend op: skuif die stelsel in die skadu, plaas 'n ysblokkie in die tenk as tydelike maatstaf, en bedek die tenkdeksel volledig. Vermy direkte sonlig op pype en tenks. Teiken 18–22°C — bo 26°C is die stelsel in gevaar.</div>
+      </div>
+      <div class="warn-photo" style="padding:0;position:relative;">
+        <img src="../Images/probleem-temp-hoog.png" alt="Watertemperatuur te Hoog">
+      </div>
+    </div>
+
+    <div class="warn-card" style="margin-bottom:20px">
+      <div class="warn-icon">🟢</div>
+      <div style="flex:1">
+        <div class="warn-symptom">Wat jy sien</div>
+        <div class="warn-title">Groen bedekking op pype, tenkwande of binne pype</div>
+        <div class="warn-action"><strong>Oorsaak: Alge groei.</strong> Lig kom iewers in die stelsel in. Vind en bedek alle openinge. Maak geaffekteerde oppervlaktes skoon met verdunde chlooroplossing (1:100), spoel deeglik met skoon water voor herverbinding.</div>
+      </div>
+      <div class="warn-photo" style="padding:0;position:relative;">
+        <img src="../Images/waarsku-alge.png" alt="Alge op Pype / Tenkwande">
+      </div>
+    </div>
+
+  </div>
+  <div class="book-ftr">
+    <span class="book-ftr-text">NFT A-Raam Handleiding — Moets &amp; Moenies</span>
+    <span class="page-num">Bladsy 5 van 6</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ BLADSY 6 — KONTROLELYS ═══ -->
+<div class="page">
+  <div class="book-hdr">
+    <span class="book-hdr-title">NFT A-Raam Handleiding · Hoofstuk 4 · Moets &amp; Moenies</span>
+    <span class="book-hdr-chapter">Bladsy 6 van 6</span>
+  </div>
+  <div class="content">
+
+    <div class="s-head" style="border-color:#90CAF9;margin-bottom:14px">
+      <div class="s-head-icon">📋</div>
+      <div>
+        <h2 style="color:#1565C0;">Oggend Kontrolelys — Doen Dit Elke Dag</h2>
+        <p>Sewe take wat minder as 10 minute neem en die hele stelsel beskerm.</p>
+      </div>
+    </div>
+
+    <table class="check-table">
+      <thead>
+        <tr>
+          <th style="width:32px;">✓</th>
+          <th>Taak</th>
+          <th>Wat om te kontroleer</th>
+          <th>As iets verkeerd is</th>
+          <th>Vlak</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="check-box"></span></td>
+          <td>⚙️ Al 4 pompe loop</td>
+          <td>Bestendige vloei, geen geraas, geen lekkasie</td>
+          <td>Vervang pomp — jy het 30 minute</td>
+          <td><span class="badge badge-red">Kritiek</span></td>
+        </tr>
+        <tr>
+          <td><span class="check-box"></span></td>
+          <td>💧 Tenkvlakke</td>
+          <td>Genoeg water, pomp loop nie droog nie</td>
+          <td>Vul aan met voedingoplossing</td>
+          <td><span class="badge badge-red">Kritiek</span></td>
+        </tr>
+        <tr>
+          <td><span class="check-box"></span></td>
+          <td>⚡ EC per tenk</td>
+          <td>Binne optimale reeks vir daardie gewas</td>
+          <td>Voeg voedingstowwe by (laag) of verdun (hoog)</td>
+          <td><span class="badge badge-amber">Belangrik</span></td>
+        </tr>
+        <tr>
+          <td><span class="check-box"></span></td>
+          <td>🧪 pH per tenk</td>
+          <td>Binne optimale reeks vir daardie gewas</td>
+          <td>Voeg pH-Op of Af by — klein dosisse, wag 15 min</td>
+          <td><span class="badge badge-amber">Belangrik</span></td>
+        </tr>
+        <tr>
+          <td><span class="check-box"></span></td>
+          <td>🌿 Visuele plantkontrole</td>
+          <td>Groen blare, regop, geen verlep</td>
+          <td>Geel = pH/voeding. Verlep = vloeiprobleem</td>
+          <td><span class="badge badge-amber">Belangrik</span></td>
+        </tr>
+        <tr>
+          <td><span class="check-box"></span></td>
+          <td>🌡️ Water- &amp; lugtemperatuur</td>
+          <td>Water 18–22°C · lug 18–26°C</td>
+          <td>Bo 24°C water — tree dringend op: skadu, verkoeling</td>
+          <td><span class="badge badge-red">Kritiek</span></td>
+        </tr>
+        <tr>
+          <td><span class="check-box"></span></td>
+          <td>🔍 Pypafvoer-openinge</td>
+          <td>Water vloei vry, geen wortelverstopping</td>
+          <td>Verwyder verstopping, sny wortels naby opening</td>
+          <td><span class="badge badge-green">Roetine</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="book-ftr">
+    <span class="book-ftr-text">NFT A-Raam Handleiding — Moets &amp; Moenies</span>
+    <span class="page-num">Bladsy 6 van 6</span>
+  </div>
+</div>
+
+</body>
+</html>

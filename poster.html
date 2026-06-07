@@ -1,0 +1,763 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NFT Hydroponic System Poster</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #D1D8D4;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 30px 20px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.poster {
+  width: 860px;
+  background: #F4F7F4;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 30px 90px rgba(0,0,0,.32);
+}
+
+/* ══ HEADER ══════════════════════════════ */
+.hdr {
+  background: linear-gradient(135deg, #0A3D1F 0%, #1B5E20 45%, #145A32 100%);
+  padding: 44px 52px 38px;
+  position: relative;
+  overflow: hidden;
+}
+.hdr::before {
+  content:''; position:absolute;
+  top:-80px; right:-80px; width:280px; height:280px;
+  border-radius:50%; background:rgba(255,255,255,.05);
+}
+.hdr::after {
+  content:''; position:absolute;
+  bottom:-100px; left:30%; width:300px; height:300px;
+  border-radius:50%; background:rgba(255,255,255,.04);
+}
+.hdr-eyebrow {
+  font-size:11px; font-weight:700; letter-spacing:4px;
+  color:rgba(255,255,255,.6); text-transform:uppercase;
+  margin-bottom:12px;
+}
+.hdr-title {
+  font-size:52px; font-weight:900; color:#fff;
+  line-height:1; letter-spacing:-2px;
+}
+.hdr-title em { color:#69F0AE; font-style:normal; }
+.hdr-sub {
+  font-size:14px; color:rgba(255,255,255,.65);
+  margin-top:10px; font-family:'Inter',sans-serif; font-weight:400;
+}
+.hdr-badges { display:flex; gap:10px; margin-top:22px; flex-wrap:wrap; }
+.hdr-badge {
+  display:inline-flex; align-items:center; gap:6px;
+  padding:7px 16px; border-radius:30px; font-size:12px; font-weight:700;
+}
+.hdr-badge.green  { background:#00C853; color:#003300; }
+.hdr-badge.blue   { background:#0091EA; color:#fff; }
+.hdr-badge.yellow { background:#FFD600; color:#3E2000; }
+.hdr-logo {
+  position:absolute; right:52px; top:44px;
+  width:90px; height:90px;
+}
+
+/* ══ SYSTEM STATS ════════════════════════ */
+.stats-row {
+  display:flex;
+  background:#fff;
+  border-bottom: 3px solid #E8F5E9;
+}
+.stat {
+  flex:1;
+  padding:22px 12px;
+  text-align:center;
+  border-right:1px solid #E8F5E9;
+  position:relative;
+}
+.stat:last-child { border-right:none; }
+.stat-icon { font-size:24px; line-height:1; margin-bottom:4px; }
+.stat-num {
+  font-size:38px; font-weight:900;
+  line-height:1; color:#1B5E20;
+}
+.stat-num small { font-size:18px; }
+.stat-lbl { font-size:10px; font-weight:700; color:#78909C; text-transform:uppercase; letter-spacing:1.5px; margin-top:3px; }
+.stat-accent { position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:32px; height:3px; border-radius:3px; }
+
+/* ══ SECTION LABEL ═══════════════════════ */
+.sec-head {
+  display:flex; align-items:center; gap:12px;
+  padding:28px 52px 0;
+}
+.sec-head-icon {
+  width:34px; height:34px; border-radius:10px;
+  display:flex; align-items:center; justify-content:center; font-size:18px;
+  flex-shrink:0;
+}
+.sec-head h2 {
+  font-size:13px; font-weight:800; color:#2E7D32;
+  text-transform:uppercase; letter-spacing:3px;
+}
+.sec-head-line { flex:1; height:1px; background:#C8E6C9; }
+
+/* ══ CROP CARDS ══════════════════════════ */
+.crops { display:flex; gap:16px; padding:16px 52px 32px; }
+
+.card {
+  flex:1; border-radius:16px; overflow:hidden;
+  background:#fff; box-shadow:0 6px 24px rgba(0,0,0,.09);
+}
+.card-hdr {
+  padding:20px 20px 16px;
+  display:flex; align-items:flex-start; gap:14px;
+}
+.card-icon {
+  width:54px; height:54px; border-radius:14px;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+}
+.card-title { font-size:17px; font-weight:900; margin-bottom:2px; }
+.card-sci   { font-size:10px; font-weight:500; opacity:.6; font-style:italic; }
+.card-loc   { display:inline-block; font-size:10px; font-weight:700; padding:2px 9px; border-radius:20px; margin-top:6px; }
+
+.card-body { padding:0 20px 20px; }
+.card-divider { height:1px; background:#F0F4F0; margin:0 0 14px; }
+
+/* ── Range bars ── */
+.range-block { margin-bottom:16px; }
+.range-label-row {
+  display:flex; justify-content:space-between; align-items:center;
+  margin-bottom:6px;
+}
+.range-key   { font-size:11px; font-weight:700; color:#546E7A; text-transform:uppercase; letter-spacing:1px; }
+.range-val   { font-size:13px; font-weight:900; }
+.range-track {
+  position:relative; height:14px; border-radius:7px; overflow:visible;
+  margin-bottom:6px;
+}
+.range-fill  { position:absolute; top:0; left:0; right:0; bottom:0; border-radius:7px; }
+.range-window {
+  position:absolute; top:-3px; height:20px;
+  border-radius:5px; border:3px solid white;
+  box-shadow: 0 0 0 2px rgba(0,0,0,.18), 0 3px 8px rgba(0,0,0,.25);
+}
+.range-tick-row { display:flex; justify-content:space-between; }
+.range-tick { font-size:9px; color:#90A4AE; font-family:'Inter',sans-serif; }
+.range-tick.optimal { color:inherit; font-weight:700; font-size:9.5px; }
+
+/* EC gradient: deep-red → orange → yellow → green → yellow → orange → deep-red */
+.ec-fill {
+  background: linear-gradient(to right,
+    #B71C1C 0%, #EF5350 14%, #FF9800 28%,
+    #4CAF50 34%, #4CAF50 57%,
+    #FF9800 71%, #EF5350 86%, #B71C1C 100%);
+}
+/* pH gradient: red(4) → orange(5) → green(5.5-7) → orange → red(8) */
+.ph-fill {
+  background: linear-gradient(to right,
+    #B71C1C 0%, #EF5350 10%, #FF9800 22%,
+    #FFEE58 33%, #4CAF50 42%,
+    #4CAF50 62%, #FFEE58 72%, #FF9800 84%,
+    #EF5350 92%, #B71C1C 100%);
+}
+
+.card-extras { display:flex; gap:10px; margin-top:2px; }
+.extra-box {
+  flex:1; background:#F8FBF8; border-radius:10px;
+  padding:10px 12px; border:1px solid #E8F5E9;
+}
+.extra-icon { font-size:16px; margin-bottom:4px; }
+.extra-label { font-size:9px; color:#90A4AE; font-weight:700; text-transform:uppercase; letter-spacing:1px; }
+.extra-val   { font-size:12px; font-weight:800; color:#2E3D2E; margin-top:1px; }
+
+.card-tip {
+  margin-top:12px; padding:9px 12px; border-radius:10px;
+  font-size:11px; font-family:'Inter',sans-serif; font-weight:500;
+  display:flex; align-items:flex-start; gap:8px;
+}
+.card-tip-icon { flex-shrink:0; font-size:14px; }
+
+/* ── Lettuce ── */
+.card-lettuce .card-hdr     { background:linear-gradient(135deg,#E8F5E9,#DCEDC8); }
+.card-lettuce .card-icon    { background:#2E7D32; }
+.card-lettuce .card-title   { color:#1B5E20; }
+.card-lettuce .card-loc     { background:#E8F5E9; color:#1B5E20; }
+.card-lettuce .range-val    { color:#2E7D32; }
+.card-lettuce .range-window { border-color:#fff; }
+.card-lettuce .card-tip     { background:#F1F8E9; color:#33691E; }
+/* EC 1.2-1.8 on scale 0-3.5 → 34.3%-51.4% */
+.card-lettuce .ec-window  { left:34.3%; width:17.1%; }
+/* pH 5.8-6.2 on scale 4-8 (range 4) → 45%-55% */
+.card-lettuce .ph-window  { left:45%; width:10%; }
+
+/* ── Mustard Spinach ── */
+.card-mustard .card-hdr    { background:linear-gradient(135deg,#FFFDE7,#FFF9C4); }
+.card-mustard .card-icon   { background:#F9A825; }
+.card-mustard .card-title  { color:#E65100; }
+.card-mustard .card-loc    { background:#FFF8E1; color:#E65100; }
+.card-mustard .range-val   { color:#F57F17; }
+.card-mustard .card-tip    { background:#FFF8E1; color:#BF360C; }
+/* EC 1.6-2.0 → 45.7%-57.1% */
+.card-mustard .ec-window  { left:45.7%; width:11.4%; }
+/* pH 6.0-6.8 → 50%-70% */
+.card-mustard .ph-window  { left:50%; width:20%; }
+
+/* ── Strawberry ── */
+.card-strawberry .card-hdr    { background:linear-gradient(135deg,#FCE4EC,#F8BBD0); }
+.card-strawberry .card-icon   { background:#C62828; }
+.card-strawberry .card-title  { color:#B71C1C; }
+.card-strawberry .card-loc    { background:#FCE4EC; color:#B71C1C; }
+.card-strawberry .range-val   { color:#C62828; }
+.card-strawberry .card-tip    { background:#FFF0F3; color:#880E4F; }
+/* EC 1.0-1.4 → 28.6%-40% */
+.card-strawberry .ec-window  { left:28.6%; width:11.4%; }
+/* pH 5.5-6.0 → 37.5%-50% */
+.card-strawberry .ph-window  { left:37.5%; width:12.5%; }
+
+/* ══ RANGE LEGEND ════════════════════════ */
+.range-legend {
+  margin: 0 52px 28px;
+  background:#fff; border-radius:12px;
+  padding:14px 20px;
+  display:flex; align-items:center; gap:24px;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);
+}
+.rl-title { font-size:10px; font-weight:700; color:#546E7A; text-transform:uppercase; letter-spacing:1.5px; flex-shrink:0; }
+.rl-items { display:flex; align-items:center; gap:16px; }
+.rl-item  { display:flex; align-items:center; gap:6px; font-size:11px; font-weight:600; color:#546E7A; font-family:'Inter',sans-serif; }
+.rl-dot   { width:12px; height:12px; border-radius:3px; flex-shrink:0; }
+.rl-box   { width:28px; height:12px; border-radius:3px; border:2.5px solid rgba(0,0,0,.25); background:transparent; flex-shrink:0; }
+
+/* ══ HOW IT WORKS ════════════════════════ */
+.flow-wrap {
+  margin:0 52px 28px;
+  background:#fff; border-radius:16px;
+  padding:24px 28px;
+  box-shadow:0 4px 16px rgba(0,0,0,.07);
+}
+.flow-steps { display:flex; align-items:flex-start; }
+.flow-step  { flex:1; text-align:center; }
+.flow-step-circle {
+  width:58px; height:58px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:26px; margin:0 auto 10px;
+  box-shadow:0 4px 14px rgba(0,0,0,.12);
+}
+.flow-step-num {
+  font-size:9px; font-weight:800; color:#90A4AE;
+  text-transform:uppercase; letter-spacing:1px;
+  margin-bottom:2px;
+}
+.flow-step-name  { font-size:12px; font-weight:800; color:#1A2E1A; }
+.flow-step-desc  { font-size:10px; color:#78909C; margin-top:3px; font-family:'Inter',sans-serif; }
+.flow-conn {
+  flex-shrink:0; padding-top:20px;
+  color:#C8E6C9; font-size:22px; font-weight:900;
+}
+
+/* ══ MONITORING TABLE ════════════════════ */
+.monitor-wrap {
+  margin:0 52px 28px;
+  border-radius:16px; overflow:hidden;
+  box-shadow:0 4px 16px rgba(0,0,0,.07);
+}
+.monitor-wrap table {
+  width:100%; border-collapse:collapse;
+  background:#fff; font-size:12.5px;
+}
+.monitor-wrap thead { background:#1B5E20; }
+.monitor-wrap thead th {
+  padding:12px 18px; text-align:left; color:white;
+  font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1.2px;
+}
+.monitor-wrap tbody tr:nth-child(even) { background:#F9FBF9; }
+.monitor-wrap tbody td { padding:11px 18px; border-bottom:1px solid #EEF4EE; }
+.monitor-wrap tbody td:first-child { font-weight:700; }
+.badge {
+  display:inline-block; padding:3px 11px;
+  border-radius:20px; font-size:10.5px; font-weight:700;
+}
+.badge-green  { background:#E8F5E9; color:#1B5E20; }
+.badge-yellow { background:#FFF9C4; color:#E65100; }
+.badge-red    { background:#FCE4EC; color:#B71C1C; }
+.badge-blue   { background:#E3F2FD; color:#0D47A1; }
+
+/* ══ FOOTER ══════════════════════════════ */
+.footer {
+  background:#0A2E10; padding:20px 52px;
+  display:flex; justify-content:space-between; align-items:center;
+}
+.footer-brand { font-size:14px; font-weight:900; color:#fff; letter-spacing:-0.5px; }
+.footer-brand em { color:#69F0AE; font-style:normal; }
+.footer-sub { font-size:10px; color:rgba(255,255,255,.45); margin-top:3px; font-family:'Inter',sans-serif; }
+.footer-dots { display:flex; gap:7px; }
+.footer-dot  { width:10px; height:10px; border-radius:50%; }
+</style>
+</head>
+<body>
+<div class="poster">
+
+<!-- ══ HEADER ══════════════════════════════ -->
+<div class="hdr">
+  <!-- logo SVG -->
+  <svg class="hdr-logo" viewBox="0 0 90 90">
+    <circle cx="45" cy="45" r="42" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.2)" stroke-width="1.5"/>
+    <path d="M20 72 L45 22 L70 72" fill="none" stroke="rgba(255,255,255,.9)" stroke-width="3.5" stroke-linejoin="round"/>
+    <line x1="45" y1="22" x2="45" y2="72" stroke="rgba(255,255,255,.25)" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <line x1="27" y1="58" x2="63" y2="58" stroke="#69F0AE" stroke-width="3" stroke-linecap="round"/>
+    <line x1="31" y1="47" x2="59" y2="47" stroke="#69F0AE" stroke-width="3" stroke-linecap="round"/>
+    <line x1="36" y1="36" x2="54" y2="36" stroke="#69F0AE" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="27" cy="58" r="4" fill="#69F0AE"/>
+    <circle cx="31" cy="47" r="4" fill="#69F0AE"/>
+    <circle cx="36" cy="36" r="4" fill="#69F0AE"/>
+  </svg>
+
+  <div class="hdr-eyebrow">Nutrient Film Technique · Hydroponic System</div>
+  <div class="hdr-title">A-Frame<br><em>Crop System</em></div>
+  <div class="hdr-sub">2 A-Frames · 4 Independent Sides · 20 Growing Pipes · 120 m Total Grow Space</div>
+  <div class="hdr-badges">
+    <span class="hdr-badge green">💧 90% Less Water</span>
+    <span class="hdr-badge yellow">⚡ 3× Faster Growth</span>
+    <span class="hdr-badge blue">🌱 No Soil Needed</span>
+    <span class="hdr-badge" style="background:rgba(255,255,255,.15);color:white;">♻️ Closed-Loop System</span>
+  </div>
+</div>
+
+<!-- ══ STATS ROW ═══════════════════════════ -->
+<div class="stats-row">
+  <div class="stat">
+    <div class="stat-icon">🏗️</div>
+    <div class="stat-num">2</div>
+    <div class="stat-lbl">A-Frames</div>
+    <div class="stat-accent" style="background:#2E7D32;"></div>
+  </div>
+  <div class="stat">
+    <div class="stat-icon">🔀</div>
+    <div class="stat-num">4</div>
+    <div class="stat-lbl">Indep. Sides</div>
+    <div class="stat-accent" style="background:#00ACC1;"></div>
+  </div>
+  <div class="stat">
+    <div class="stat-icon">🪈</div>
+    <div class="stat-num">20</div>
+    <div class="stat-lbl">Grow Pipes</div>
+    <div class="stat-accent" style="background:#7B1FA2;"></div>
+  </div>
+  <div class="stat">
+    <div class="stat-icon">📏</div>
+    <div class="stat-num">6<small>m</small></div>
+    <div class="stat-lbl">Per Pipe</div>
+    <div class="stat-accent" style="background:#F57F17;"></div>
+  </div>
+  <div class="stat">
+    <div class="stat-icon">⚙️</div>
+    <div class="stat-num">4</div>
+    <div class="stat-lbl">Pumps &amp; Tanks</div>
+    <div class="stat-accent" style="background:#C62828;"></div>
+  </div>
+  <div class="stat">
+    <div class="stat-icon">🌿</div>
+    <div class="stat-num">120<small>m</small></div>
+    <div class="stat-lbl">Total Grow</div>
+    <div class="stat-accent" style="background:#2E7D32;"></div>
+  </div>
+</div>
+
+<!-- ══ CROPS ════════════════════════════════ -->
+<div class="sec-head">
+  <div class="sec-head-icon" style="background:#E8F5E9;">🌱</div>
+  <h2>Crop Parameters</h2>
+  <div class="sec-head-line"></div>
+</div>
+
+<!-- RANGE LEGEND -->
+<div class="range-legend" style="margin-top:14px;">
+  <div class="rl-title">Range Key</div>
+  <div class="rl-items">
+    <div class="rl-item"><div class="rl-dot" style="background:#B71C1C;"></div>Too Low / High</div>
+    <div class="rl-item"><div class="rl-dot" style="background:#FF9800;"></div>Caution Zone</div>
+    <div class="rl-item"><div class="rl-dot" style="background:#4CAF50;"></div>Safe Range</div>
+    <div class="rl-item"><div class="rl-box"></div>Crop Optimum Window</div>
+  </div>
+</div>
+
+<div class="crops">
+
+  <!-- ── LETTUCE ── -->
+  <div class="card card-lettuce">
+    <div class="card-hdr">
+      <div class="card-icon">
+        <svg width="32" height="32" viewBox="0 0 32 32"><ellipse cx="16" cy="22" rx="12" ry="8" fill="#A5D6A7"/><ellipse cx="11" cy="16" rx="9" ry="6" fill="#66BB6A" transform="rotate(-18,11,16)"/><ellipse cx="21" cy="15" rx="9" ry="6" fill="#4CAF50" transform="rotate(18,21,15)"/><ellipse cx="16" cy="11" rx="7" ry="5" fill="#81C784"/><circle cx="16" cy="21" r="4" fill="#2E7D32"/></svg>
+      </div>
+      <div>
+        <div class="card-title">Lettuce</div>
+        <div class="card-sci">Lactuca sativa</div>
+        <span class="card-loc">Sides 1 &amp; 4 — 10 pipes</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="card-divider"></div>
+
+      <!-- EC Range Bar -->
+      <div class="range-block">
+        <div class="range-label-row">
+          <span class="range-key">⚡ EC Level</span>
+          <span class="range-val">1.2 – 1.8 mS/cm</span>
+        </div>
+        <div class="range-track">
+          <div class="range-fill ec-fill"></div>
+          <div class="range-window ec-window"></div>
+        </div>
+        <div class="range-tick-row">
+          <span class="range-tick">0.0</span>
+          <span class="range-tick optimal" style="color:#2E7D32;">1.2</span>
+          <span class="range-tick optimal" style="color:#2E7D32;">1.8</span>
+          <span class="range-tick">3.5</span>
+        </div>
+      </div>
+
+      <!-- pH Range Bar -->
+      <div class="range-block">
+        <div class="range-label-row">
+          <span class="range-key">🧪 pH Level</span>
+          <span class="range-val">5.8 – 6.2</span>
+        </div>
+        <div class="range-track">
+          <div class="range-fill ph-fill"></div>
+          <div class="range-window ph-window"></div>
+        </div>
+        <div class="range-tick-row">
+          <span class="range-tick">4.0</span>
+          <span class="range-tick optimal" style="color:#2E7D32;">5.8</span>
+          <span class="range-tick optimal" style="color:#2E7D32;">6.2</span>
+          <span class="range-tick">8.0</span>
+        </div>
+      </div>
+
+      <div class="card-extras">
+        <div class="extra-box">
+          <div class="extra-icon">⏱️</div>
+          <div class="extra-label">Harvest</div>
+          <div class="extra-val">30–45 days</div>
+        </div>
+        <div class="extra-box">
+          <div class="extra-icon">🌡️</div>
+          <div class="extra-label">Water Temp</div>
+          <div class="extra-val">18–22°C</div>
+        </div>
+      </div>
+      <div class="card-tip">
+        <span class="card-tip-icon">💡</span>
+        <span>Keep EC toward the <strong>lower end</strong> — lettuce is sensitive to salt stress above 1.8.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MUSTARD SPINACH ── -->
+  <div class="card card-mustard">
+    <div class="card-hdr">
+      <div class="card-icon">
+        <svg width="32" height="32" viewBox="0 0 32 32"><rect x="14" y="20" width="4" height="9" rx="2" fill="#558B2F"/><ellipse cx="10" cy="16" rx="9" ry="5.5" fill="#7CB342" transform="rotate(-15,10,16)"/><ellipse cx="22" cy="15" rx="9" ry="5.5" fill="#8BC34A" transform="rotate(15,22,15)"/><ellipse cx="16" cy="11" rx="6" ry="4" fill="#9CCC65"/><ellipse cx="16" cy="8"  rx="4" ry="3" fill="#AED581"/></svg>
+      </div>
+      <div>
+        <div class="card-title">Mustard Spinach</div>
+        <div class="card-sci">Brassica juncea</div>
+        <span class="card-loc">Side 2 — 5 pipes</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="card-divider"></div>
+
+      <div class="range-block">
+        <div class="range-label-row">
+          <span class="range-key">⚡ EC Level</span>
+          <span class="range-val">1.6 – 2.0 mS/cm</span>
+        </div>
+        <div class="range-track">
+          <div class="range-fill ec-fill"></div>
+          <div class="range-window ec-window"></div>
+        </div>
+        <div class="range-tick-row">
+          <span class="range-tick">0.0</span>
+          <span class="range-tick optimal" style="color:#F57F17;">1.6</span>
+          <span class="range-tick optimal" style="color:#F57F17;">2.0</span>
+          <span class="range-tick">3.5</span>
+        </div>
+      </div>
+
+      <div class="range-block">
+        <div class="range-label-row">
+          <span class="range-key">🧪 pH Level</span>
+          <span class="range-val">6.0 – 6.8</span>
+        </div>
+        <div class="range-track">
+          <div class="range-fill ph-fill"></div>
+          <div class="range-window ph-window"></div>
+        </div>
+        <div class="range-tick-row">
+          <span class="range-tick">4.0</span>
+          <span class="range-tick optimal" style="color:#F57F17;">6.0</span>
+          <span class="range-tick optimal" style="color:#F57F17;">6.8</span>
+          <span class="range-tick">8.0</span>
+        </div>
+      </div>
+
+      <div class="card-extras">
+        <div class="extra-box">
+          <div class="extra-icon">⏱️</div>
+          <div class="extra-label">Harvest</div>
+          <div class="extra-val">25–40 days</div>
+        </div>
+        <div class="extra-box">
+          <div class="extra-icon">🌡️</div>
+          <div class="extra-label">Water Temp</div>
+          <div class="extra-val">18–24°C</div>
+        </div>
+      </div>
+      <div class="card-tip">
+        <span class="card-tip-icon">💡</span>
+        <span>Tolerates <strong>higher EC</strong> than lettuce. Wider pH window makes management easier.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STRAWBERRY ── -->
+  <div class="card card-strawberry">
+    <div class="card-hdr">
+      <div class="card-icon">
+        <svg width="32" height="32" viewBox="0 0 32 32"><path d="M16 28C9 23 6 17 7 11C9 6 13 5 16 7.5C19 5 23 6 25 11C26 17 23 23 16 28Z" fill="#E53935"/><ellipse cx="11" cy="9"  rx="6" ry="3.5" fill="#4CAF50" transform="rotate(-22,11,9)"/><ellipse cx="21" cy="8"  rx="6" ry="3.5" fill="#4CAF50" transform="rotate(22,21,8)"/><ellipse cx="16" cy="6"  rx="4" ry="3" fill="#66BB6A"/><circle cx="12" cy="17" r="1.5" fill="#FFF9C4" opacity=".75"/><circle cx="19" cy="19" r="1.5" fill="#FFF9C4" opacity=".75"/><circle cx="15" cy="13" r="1.5" fill="#FFF9C4" opacity=".75"/><circle cx="20" cy="13" r="1.5" fill="#FFF9C4" opacity=".75"/></svg>
+      </div>
+      <div>
+        <div class="card-title">Strawberry</div>
+        <div class="card-sci">Fragaria × ananassa</div>
+        <span class="card-loc">Side 3 — 5 pipes</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="card-divider"></div>
+
+      <div class="range-block">
+        <div class="range-label-row">
+          <span class="range-key">⚡ EC Level</span>
+          <span class="range-val">1.0 – 1.4 mS/cm</span>
+        </div>
+        <div class="range-track">
+          <div class="range-fill ec-fill"></div>
+          <div class="range-window ec-window"></div>
+        </div>
+        <div class="range-tick-row">
+          <span class="range-tick">0.0</span>
+          <span class="range-tick optimal" style="color:#C62828;">1.0</span>
+          <span class="range-tick optimal" style="color:#C62828;">1.4</span>
+          <span class="range-tick">3.5</span>
+        </div>
+      </div>
+
+      <div class="range-block">
+        <div class="range-label-row">
+          <span class="range-key">🧪 pH Level</span>
+          <span class="range-val">5.5 – 6.0</span>
+        </div>
+        <div class="range-track">
+          <div class="range-fill ph-fill"></div>
+          <div class="range-window ph-window"></div>
+        </div>
+        <div class="range-tick-row">
+          <span class="range-tick">4.0</span>
+          <span class="range-tick optimal" style="color:#C62828;">5.5</span>
+          <span class="range-tick optimal" style="color:#C62828;">6.0</span>
+          <span class="range-tick">8.0</span>
+        </div>
+      </div>
+
+      <div class="card-extras">
+        <div class="extra-box">
+          <div class="extra-icon">⏱️</div>
+          <div class="extra-label">Fruiting</div>
+          <div class="extra-val">Seasonal</div>
+        </div>
+        <div class="extra-box">
+          <div class="extra-icon">🌡️</div>
+          <div class="extra-label">Water Temp</div>
+          <div class="extra-val">16–20°C</div>
+        </div>
+      </div>
+      <div class="card-tip">
+        <span class="card-tip-icon">💡</span>
+        <span><strong>Lowest EC</strong> of all 3 crops. High EC makes fruit small. Cooler water improves fruit set.</span>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /crops -->
+
+<!-- ══ HOW IT WORKS ══════════════════════ -->
+<div class="sec-head">
+  <div class="sec-head-icon" style="background:#E3F2FD;">💧</div>
+  <h2>How NFT Works</h2>
+  <div class="sec-head-line"></div>
+</div>
+<div class="flow-wrap" style="margin-top:14px;">
+  <div class="flow-steps">
+    <div class="flow-step">
+      <div class="flow-step-circle" style="background:#E3F2FD;">💧</div>
+      <div class="flow-step-num">Step 1</div>
+      <div class="flow-step-name">Reservoir</div>
+      <div class="flow-step-desc">Nutrient solution<br>mixed &amp; stored</div>
+    </div>
+    <div class="flow-conn">›</div>
+    <div class="flow-step">
+      <div class="flow-step-circle" style="background:#E8F5E9;">⚙️</div>
+      <div class="flow-step-num">Step 2</div>
+      <div class="flow-step-name">Pump</div>
+      <div class="flow-step-desc">Runs 24/7<br>per side</div>
+    </div>
+    <div class="flow-conn">›</div>
+    <div class="flow-step">
+      <div class="flow-step-circle" style="background:#F3E5F5;">⬆️</div>
+      <div class="flow-step-num">Step 3</div>
+      <div class="flow-step-name">Pipe Inlet</div>
+      <div class="flow-step-desc">Water enters<br>at the top</div>
+    </div>
+    <div class="flow-conn">›</div>
+    <div class="flow-step">
+      <div class="flow-step-circle" style="background:#E0F7FA;">🌊</div>
+      <div class="flow-step-num">Step 4</div>
+      <div class="flow-step-name">NFT Film</div>
+      <div class="flow-step-desc">Thin film flows<br>over roots</div>
+    </div>
+    <div class="flow-conn">›</div>
+    <div class="flow-step">
+      <div class="flow-step-circle" style="background:#E8F5E9;">🌿</div>
+      <div class="flow-step-num">Step 5</div>
+      <div class="flow-step-name">Roots</div>
+      <div class="flow-step-desc">Absorb nutrients<br>+ oxygen</div>
+    </div>
+    <div class="flow-conn">›</div>
+    <div class="flow-step">
+      <div class="flow-step-circle" style="background:#E8F5E9;">♻️</div>
+      <div class="flow-step-num">Step 6</div>
+      <div class="flow-step-name">Return</div>
+      <div class="flow-step-desc">Drains back<br>to reservoir</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MONITORING TABLE ═══════════════════ -->
+<div class="sec-head" style="margin-top:4px;">
+  <div class="sec-head-icon" style="background:#FFF9C4;">📋</div>
+  <h2>Quick Reference</h2>
+  <div class="sec-head-line"></div>
+</div>
+<div class="monitor-wrap" style="margin-top:14px;">
+  <table>
+    <thead>
+      <tr>
+        <th>Crop</th>
+        <th>Side(s)</th>
+        <th>EC Target</th>
+        <th>pH Target</th>
+        <th>Harvest</th>
+        <th>Water Temp</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>🥬 Lettuce</td>
+        <td>1 &amp; 4</td>
+        <td>1.2 – 1.8 mS/cm</td>
+        <td>5.8 – 6.2</td>
+        <td>30–45 days</td>
+        <td>18–22°C</td>
+        <td><span class="badge badge-green">Active</span></td>
+      </tr>
+      <tr>
+        <td>🌿 Mustard Spinach</td>
+        <td>2</td>
+        <td>1.6 – 2.0 mS/cm</td>
+        <td>6.0 – 6.8</td>
+        <td>25–40 days</td>
+        <td>18–24°C</td>
+        <td><span class="badge badge-yellow">Active</span></td>
+      </tr>
+      <tr>
+        <td>🍓 Strawberry</td>
+        <td>3</td>
+        <td>1.0 – 1.4 mS/cm</td>
+        <td>5.5 – 6.0</td>
+        <td>Seasonal</td>
+        <td>16–20°C</td>
+        <td><span class="badge badge-red">Active</span></td>
+      </tr>
+      <tr style="background:#F0F7F0;">
+        <td colspan="7" style="font-size:11px; color:#78909C; font-family:'Inter',sans-serif; font-weight:400;">
+          ⚠️ &nbsp;Each side has its <strong>own independent pump and tank</strong> — adjust EC &amp; pH per side without affecting others.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ══ DAILY CHECKLIST ════════════════════ -->
+<div class="sec-head" style="margin-top:4px;">
+  <div class="sec-head-icon" style="background:#E8F5E9;">✅</div>
+  <h2>Daily Checklist</h2>
+  <div class="sec-head-line"></div>
+</div>
+<div style="margin:14px 52px 32px; display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+  <div style="background:#fff;border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);">
+    <span style="font-size:22px;">⚙️</span>
+    <div><div style="font-size:12px;font-weight:800;color:#1A2E1A;">Check all 4 pumps running</div><div style="font-size:11px;color:#78909C;font-family:'Inter',sans-serif;">No noise, consistent flow</div></div>
+  </div>
+  <div style="background:#fff;border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);">
+    <span style="font-size:22px;">⚡</span>
+    <div><div style="font-size:12px;font-weight:800;color:#1A2E1A;">Measure EC per tank</div><div style="font-size:11px;color:#78909C;font-family:'Inter',sans-serif;">Adjust if outside optimal window</div></div>
+  </div>
+  <div style="background:#fff;border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);">
+    <span style="font-size:22px;">🧪</span>
+    <div><div style="font-size:12px;font-weight:800;color:#1A2E1A;">Measure pH per tank</div><div style="font-size:11px;color:#78909C;font-family:'Inter',sans-serif;">Adjust one change at a time</div></div>
+  </div>
+  <div style="background:#fff;border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);">
+    <span style="font-size:22px;">💧</span>
+    <div><div style="font-size:12px;font-weight:800;color:#1A2E1A;">Check tank water levels</div><div style="font-size:11px;color:#78909C;font-family:'Inter',sans-serif;">Top up with clean water if low</div></div>
+  </div>
+  <div style="background:#fff;border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);">
+    <span style="font-size:22px;">🌿</span>
+    <div><div style="font-size:12px;font-weight:800;color:#1A2E1A;">Inspect plants visually</div><div style="font-size:11px;color:#78909C;font-family:'Inter',sans-serif;">Yellow leaves, pests, wilting?</div></div>
+  </div>
+  <div style="background:#fff;border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);">
+    <span style="font-size:22px;">🔍</span>
+    <div><div style="font-size:12px;font-weight:800;color:#1A2E1A;">Check roots in pipes</div><div style="font-size:11px;color:#78909C;font-family:'Inter',sans-serif;">White roots = healthy. Brown = investigate</div></div>
+  </div>
+</div>
+
+<!-- ══ FOOTER ═════════════════════════════ -->
+<div class="footer">
+  <div>
+    <div class="footer-brand">NFT <em>A-Frame</em> System</div>
+    <div class="footer-sub">2 Frames · 4 Sides · 20 Pipes · 120 m Growing Space · 4 Independent Loops</div>
+  </div>
+  <div class="footer-dots">
+    <div class="footer-dot" style="background:#4CAF50;"></div>
+    <div class="footer-dot" style="background:#FFC107;"></div>
+    <div class="footer-dot" style="background:#E53935;"></div>
+    <div class="footer-dot" style="background:#2196F3;"></div>
+  </div>
+  <div style="text-align:right;">
+    <div class="footer-brand" style="font-size:11px;">No Soil · Less Water · More Yield</div>
+    <div class="footer-sub">Lettuce · Mustard Spinach · Strawberry</div>
+  </div>
+</div>
+
+</div><!-- /poster -->
+</body>
+</html>

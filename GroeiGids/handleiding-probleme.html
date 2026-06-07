@@ -1,0 +1,807 @@
+﻿<!DOCTYPE html>
+<html lang="af">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NFT Handleiding — Probleemoplossing</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#f2f5f2;font-family:'Montserrat',sans-serif;padding:30px 0}
+.page{width:794px;min-height:1123px;background:#fff;margin:0 auto 32px;position:relative;overflow:visible;box-shadow:0 8px 40px rgba(0,0,0,.45);page-break-after:always}
+.book-header{background:linear-gradient(135deg,#e3f2fd,#bbdefb);border-bottom:2px solid #90caf9;color:#1a237e;padding:10px 24px;display:flex;justify-content:space-between;align-items:center}
+.book-header .chapter{font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#1a237e}
+.book-header .page-num{font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;color:#1a237e}
+.book-footer{position:absolute;bottom:0;left:0;right:0;background:#1b3a1b;border-top:none;padding:8px 24px;display:flex;justify-content:space-between;align-items:center}
+.book-footer span{font-size:10px;color:rgba(255,255,255,.85);font-weight:600;letter-spacing:.5px}
+.page-body{padding:0 20px 10px}
+
+/* COVER */
+.cover-bg{background:linear-gradient(160deg,#f3f7ff 0%,#f1f8e9 60%,#ffffff 100%);min-height:1123px;color:#263238;display:flex;flex-direction:column}
+.cover-header-bar{background:rgba(27,94,32,.08);padding:14px 32px;display:flex;justify-content:space-between;align-items:center}
+.cover-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center}
+
+/* PROBLEM CARD */
+.prob-card{border-radius:12px;overflow:hidden;margin-bottom:8px;box-shadow:0 3px 14px rgba(0,0,0,.1)}
+.prob-header{padding:10px 16px;display:flex;align-items:center;gap:10px;color:#fff}
+.prob-icon{font-size:20px;flex-shrink:0}
+.prob-title{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:800}
+.prob-severity{margin-left:auto;background:rgba(255,255,255,.2);border:1.5px solid rgba(255,255,255,.35);border-radius:20px;padding:3px 10px;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.prob-body{background:#fff;border:1.5px solid #EEE;border-top:none;border-radius:0 0 12px 12px;padding:3px 8px}
+.prob-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0}
+.prob-col{padding:10px 12px}
+.prob-col:not(:last-child){border-right:1.5px solid #F5F5F5}
+.prob-col-label{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+.prob-col ul{list-style:none;font-size:12px;color:#37474F;line-height:1.7}
+.prob-col ul li::before{content:'• ';color:#EF5350}
+.prob-col ul li.green::before{content:'→ ';color:#4CAF50}
+
+/* SECTION LABEL */
+.section-label{display:flex;align-items:center;gap:10px;margin:10px 0 8px}
+.section-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.section-title{font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:#1b3a1b}
+.section-rule{flex:1;height:2px;background:linear-gradient(to right,#1b3a1b,transparent)}
+
+/* QUICK DECISION TABLE */
+.decision-table{width:100%;border-collapse:collapse;font-size:11px}
+.decision-table th{background:#e8eaf6;color:#1a237e;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:8px 10px;text-align:left;border:1px solid #c5cae9}
+.decision-table td{border:1px solid #E0E0E0;padding:5px 8px;color:#37474F;vertical-align:top}
+.decision-table tr:nth-child(even) td{background:#f5f5f5}
+.badge-red{background:#FFEBEE;color:#C62828;border-radius:10px;padding:2px 8px;font-size:10px;font-weight:700;white-space:nowrap}
+.badge-amber{background:#FFF8E1;color:#F57F17;border-radius:10px;padding:2px 8px;font-size:10px;font-weight:700;white-space:nowrap}
+.badge-green{background:#E8F5E9;color:#2E7D32;border-radius:10px;padding:2px 8px;font-size:10px;font-weight:700;white-space:nowrap}
+
+/* EMERGENCY CARD */
+.emergency-card{background:linear-gradient(135deg,#B71C1C,#C62828);color:#fff;border-radius:10px;padding:10px 14px;margin-bottom:6px}
+.emergency-card .ec-title{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:900;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.emergency-card .ec-steps{counter-reset:steps}
+.emergency-card .ec-step{display:flex;gap:8px;margin-bottom:6px;font-size:12px;line-height:1.5}
+.emergency-card .ec-step .num{background:rgba(255,255,255,.2);border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;font-weight:800;font-size:10px;flex-shrink:0;margin-top:1px}
+
+/* PEST TABLE */
+.pest-card{border-radius:8px;overflow:hidden;margin-bottom:3px}
+.pest-header{padding:3px 8px;display:flex;align-items:center;gap:10px;color:#fff;background:#37474F}
+.pest-body{background:#FAFAFA;border:1.5px solid #E0E0E0;border-top:none;padding:4px 8px;display:grid;grid-template-columns:1fr 1fr;gap:3px;font-size:10px;color:#37474F}
+
+
+
+
+@media print {
+  @page { size: A4 portrait; margin: 0; }
+  *, *::before, *::after { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; box-sizing: border-box; }
+  html, body { margin: 0 !important; padding: 0 !important; background: white !important; }
+
+  .page, .page1, .page2 {
+    width: 210mm !important;
+    height: 297mm !important;
+    min-height: unset !important;
+    max-height: 297mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    overflow: hidden !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    display: flex !important;
+    flex-direction: column !important;
+    position: relative !important;
+  }
+
+  /* Inhoud area groei om plek te vul */
+  .page-body, .content {
+    flex: 1 1 auto !important;
+    overflow: hidden !important;
+    padding-bottom: 0 !important;
+  }
+
+  /* Voetbalk LAASTE in die bladsy — altyd onderaan */
+  .book-footer, .book-ftr {
+    flex-shrink: 0 !important;
+    position: relative !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
+    width: 100% !important;
+    margin-top: auto !important;
+  }
+
+  /* Omslag volle hoogte */
+  .cover-bg, .cover {
+    height: 297mm !important;
+    min-height: unset !important;
+    overflow: hidden !important;
+    flex: 1 !important;
+  }
+
+  .print-btn-bar { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ PAGE 1 — COVER ═══ -->
+<div class="page">
+  <div class="cover-bg">
+    <div class="cover-header-bar">
+      <span style="font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;color:#1b3a1b">NFT A-Raam Handleiding</span>
+      <span style="font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;color:#1b3a1b">Hoofstuk 6</span>
+    </div>
+    <div class="cover-body">
+      <div style="background:rgba(27,94,32,.1);border:2px solid rgba(27,94,32,.3);border-radius:40px;padding:6px 20px;font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:20px;color:#1b3a1b">Hoofstuk 6</div>
+      <div style="font-size:50px;margin-bottom:8px">🚨</div>
+      <div style="font-family:'Montserrat',sans-serif;font-size:40px;font-weight:900;line-height:1.15;margin-bottom:8px;color:#1b3a1b">Probleem&shy;oplossing</div>
+      <div style="font-size:16px;color:#546E7A;margin-bottom:36px;font-weight:300">Diagnoseer, verstaan en herstel enige NFT-probleem</div>
+      <div style="width:80px;height:4px;background:rgba(27,94,32,.3);border-radius:2px;margin:0 auto 28px"></div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;max-width:500px;margin-bottom:28px">
+        <div style="background:rgba(27,94,32,.08);border:1.5px solid rgba(27,94,32,.2);border-radius:10px;padding:12px 14px;text-align:left">
+          <div style="font-size:20px;margin-bottom:4px">⚡</div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700">EC &amp; TDS Probleme</div>
+          <div style="font-size:10px;color:#546E7A;margin-top:2px">Te hoog, te laag, ppm omskakeling</div>
+        </div>
+        <div style="background:rgba(27,94,32,.08);border:1.5px solid rgba(27,94,32,.2);border-radius:10px;padding:12px 14px;text-align:left">
+          <div style="font-size:20px;margin-bottom:4px">🧪</div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700">pH Probleme</div>
+          <div style="font-size:10px;color:#546E7A;margin-top:2px">Skommel, te suur, te sout</div>
+        </div>
+        <div style="background:rgba(27,94,32,.08);border:1.5px solid rgba(27,94,32,.2);border-radius:10px;padding:12px 14px;text-align:left">
+          <div style="font-size:20px;margin-bottom:4px">🌿</div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700">Plant Simptome</div>
+          <div style="font-size:10px;color:#546E7A;margin-top:2px">Geelheid, groei-stagnasie, vrot</div>
+        </div>
+        <div style="background:rgba(27,94,32,.08);border:1.5px solid rgba(27,94,32,.2);border-radius:10px;padding:12px 14px;text-align:left">
+          <div style="font-size:20px;margin-bottom:4px">⚙️</div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700">Stelselfout</div>
+          <div style="font-size:10px;color:#546E7A;margin-top:2px">Pomp, lekkasie, kragonderbreking</div>
+        </div>
+      </div>
+
+      <div style="background:rgba(27,94,32,.07);border:1px solid rgba(27,94,32,.15);border-radius:12px;padding:18px 24px;width:100%;max-width:480px;text-align:left">
+        <div style="font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;color:#546E7A;margin-bottom:8px;text-transform:uppercase">Inhoud</div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(27,94,32,.15);font-size:12px"><span>EC, TDS &amp; pH Vinnige Diagnosetabel</span><span style="color:#546E7A;font-weight:600">Bl. 2</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(27,94,32,.15);font-size:12px"><span>Plant Simptome — Oorsaak &amp; Oplossing</span><span style="color:#546E7A;font-weight:600">Bl. 3</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(27,94,32,.15);font-size:12px"><span>Stelselfoute &amp; Noodprosedures</span><span style="color:#546E7A;font-weight:600">Bl. 4</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:12px"><span>Peste, Siektes &amp; Voorkomingsplan</span><span style="color:#546E7A;font-weight:600">Bl. 5</span></div>
+      </div>
+    </div>
+    <div style="background:#1b3a1b;padding:10px 32px;display:flex;justify-content:space-between">
+      <span style="font-size:10px;color:rgba(255,255,255,.7)">NFT A-Raam Handleiding · Hoofstuk 6 · Probleemoplossing</span>
+      <span style="font-size:10px;color:rgba(255,255,255,.7)">Bladsy 1 van 5</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ PAGE 2 — EC & pH DIAGNOSE TABLE ═══ -->
+<div class="page">
+  <div class="book-header">
+    <span class="chapter">NFT Handleiding · Hoofstuk 6 · Probleemoplossing</span>
+    <span class="page-num">Bladsy 2 van 5</span>
+  </div>
+  <div class="page-body">
+
+    <div class="section-label" style="margin-top:18px">
+      <div class="section-icon" style="background:#FFEBEE">⚡</div>
+      <span class="section-title">EC Probleme — Vinnige Diagnosetabel</span>
+      <div class="section-rule"></div>
+    </div>
+
+    <table class="decision-table" style="margin-bottom:16px">
+      <thead>
+        <tr>
+          <th>Wat jy sien</th>
+          <th>Moontlike Oorsaak</th>
+          <th>Onmiddellike Aksie</th>
+          <th>Erns</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>EC te hoog</strong><br>(bo 2.2 mS/cm)</td>
+          <td>Te veel voedingstof bygevoeg · Water verdamp maar sout bly · Pomp te vinnig</td>
+          <td>Voeg skoon water by tot EC daal · Moenie meer voedingstof byvoeg nie · Kontroleer pompspoed</td>
+          <td><span class="badge-amber">! Moniteer</span></td>
+        </tr>
+        <tr>
+          <td><strong>EC baie hoog</strong><br>(bo 3.0 mS/cm)</td>
+          <td>Groot voedingstof-oorlading · Tenk nie gekombineer nie</td>
+          <td>Halveer die oplossing met skoon water dadelik · Vervang 50% van tenk vloeistof</td>
+          <td><span class="badge-red">🚨 Dringend</span></td>
+        </tr>
+        <tr>
+          <td><strong>EC te laag</strong><br>(onder 1.0 mS/cm)</td>
+          <td>Voedingstof op · Tenk aangevul met skoon water sonder voedingstof · Groot oes</td>
+          <td>Voeg voedingstof A + B by in gelyk verhoudings totdat teiken bereik word</td>
+          <td><span class="badge-amber">! Moniteer</span></td>
+        </tr>
+        <tr>
+          <td><strong>EC skommel</strong><br>(verskil &gt;0.5 in 24 uur)</td>
+          <td>Plante drink baie in warm weer · Tenk te klein</td>
+          <td>Vergroot tenk · Voeg aanvullings-water by in hitte</td>
+          <td><span class="badge-amber">! Moniteer</span></td>
+        </tr>
+        <tr>
+          <td><strong>EC styg elke dag</strong></td>
+          <td>Plante neem water op maar nie al die voedingstowwe nie · Te veel voedingstof relatief tot water</td>
+          <td>Vervang 25–30% tenk met vars gemengde oplossing op teikensterkte weekliks</td>
+          <td><span class="badge-green">Normaal — bestuur</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="section-label">
+      <div class="section-icon" style="background:#FFEBEE">🧪</div>
+      <span class="section-title">pH Probleme — Vinnige Diagnosetabel</span>
+      <div class="section-rule"></div>
+    </div>
+
+    <table class="decision-table">
+      <thead>
+        <tr>
+          <th>Wat jy sien</th>
+          <th>Moontlike Oorsaak</th>
+          <th>Onmiddellike Aksie</th>
+          <th>Erns</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>pH te hoog</strong><br>(bo 6.5 vir slaai)</td>
+          <td>Water is alkalies · Nuwe voedingstof verhoog pH · Alge in tenk</td>
+          <td>Voeg pH-daler druppelsgewys by · Meng goed · Wag 2 minute · Meet weer</td>
+          <td><span class="badge-amber">! Moniteer</span></td>
+        </tr>
+        <tr>
+          <td><strong>pH te laag</strong><br>(onder 5.5)</td>
+          <td>Te veel pH-daler bygevoeg · Sekere voedingstowwe verlaag pH oor tyd</td>
+          <td>Voeg pH-verhoger (kaliumhidroksied) druppelsgewys by · Meet gereeld</td>
+          <td><span class="badge-amber">! Moniteer</span></td>
+        </tr>
+        <tr>
+          <td><strong>pH skommel wild</strong><br>(±1.0 in 12 uur)</td>
+          <td>Alge-groei in tenk · Bakteriële aktiwiteit · Tenk in direkte son</td>
+          <td>Maak tenk toe (geen lig) · Spoel stelsel met skoon water · Vervang oplossing</td>
+          <td><span class="badge-red">🚨 Dringend</span></td>
+        </tr>
+        <tr>
+          <td><strong>pH styg elke dag</strong></td>
+          <td>Aktiewe plantegroei verhoog pH natuurlik · Normaal by gesonde plante</td>
+          <td>Daaglikse pH-aanpassing verwag · Voeg klein hoeveelheid pH-daler by soggens</td>
+          <td><span class="badge-green">Normaal — bestuur</span></td>
+        </tr>
+        <tr>
+          <td><strong>pH daal elke dag</strong></td>
+          <td>Bakteriële groei · Wortelvrot · Voedingstof chemie</td>
+          <td>Kontroleer wortels vir vrot · Ruik die water — suur of muf reuk dui op bakterieë. Spoel en vervang</td>
+          <td><span class="badge-red">🚨 Dringend</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="section-label" style="margin-top:16px">
+      <div class="section-icon" style="background:#E8EAF6">📊</div>
+      <span class="section-title" style="color:#283593">TDS — Totale Opgeloste Soute (ppm)</span>
+      <div class="section-rule" style="background:linear-gradient(to right,#5C6BC0,transparent)"></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div style="background:#E8EAF6;border:1.5px solid #9FA8DA;border-radius:10px;padding:12px 14px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:800;color:#283593;margin-bottom:8px">📐 TDS ↔ EC Omskakeling per Gewas</div>
+        <table style="width:100%;border-collapse:collapse;font-size:10px;color:#37474F">
+          <tr style="font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;color:#283593">
+            <td style="padding:3px 6px">Gewas</td>
+            <td style="padding:3px 6px">EC (mS/cm)</td>
+            <td style="padding:3px 6px">TDS (ppm)</td>
+          </tr>
+          <tr style="background:#fff"><td style="padding:4px 6px">Slaai</td><td style="padding:4px 6px">1.0–2.0</td><td style="padding:4px 6px">500–1 000</td></tr>
+          <tr><td style="padding:4px 6px">Spinasie</td><td style="padding:4px 6px">1.8–2.3</td><td style="padding:4px 6px">900–1 150</td></tr>
+          <tr style="background:#fff"><td style="padding:4px 6px">Mosterd Spinasie</td><td style="padding:4px 6px">1.5–2.0</td><td style="padding:4px 6px">750–1 000</td></tr>
+          <tr><td style="padding:4px 6px">Aarbeie</td><td style="padding:4px 6px">1.0–1.4</td><td style="padding:4px 6px">500–700</td></tr>
+        </table>
+        <div style="margin-top:8px;font-size:9px;color:#5C6BC0;font-style:italic">TDS = EC × 500 (500-skaal meter) &nbsp;|&nbsp; TDS = EC × 700 (700-skaal meter)</div>
+      </div>
+
+      <table class="decision-table">
+        <thead>
+          <tr>
+            <th style="background:#3949AB">TDS Lesing</th>
+            <th style="background:#3949AB">Onmiddellike Aksie</th>
+            <th style="background:#3949AB">Erns</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Bo 1 500 ppm</strong></td>
+            <td>Verdun met skoon water · Moenie voedingstof byvoeg</td>
+            <td><span class="badge-amber">! Moniteer</span></td>
+          </tr>
+          <tr>
+            <td><strong>Bo 2 000 ppm</strong></td>
+            <td>Vervang 50% oplossing onmiddellik</td>
+            <td><span class="badge-red">🚨 Dringend</span></td>
+          </tr>
+          <tr>
+            <td><strong>Onder 500 ppm</strong></td>
+            <td>Voeg A+B voedingstof by tot teiken bereik</td>
+            <td><span class="badge-amber">! Moniteer</span></td>
+          </tr>
+          <tr>
+            <td><strong>Styg elke dag</strong></td>
+            <td>Plante gebruik water — vervang 25% oplossing weekliks</td>
+            <td><span class="badge-green">Normaal — bestuur</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+  <div class="book-footer">
+    <span>NFT A-Raam Handleiding</span>
+    <span>Hoofstuk 6 — Probleemoplossing</span>
+    <span>Bladsy 2</span>
+  </div>
+</div>
+
+<!-- ═══════════ PAGE 3 — PLANT SYMPTOMS ═══ -->
+<div class="page">
+  <div class="book-header">
+    <span class="chapter">NFT Handleiding · Hoofstuk 6 · Probleemoplossing</span>
+    <span class="page-num">Bladsy 3 van 5</span>
+  </div>
+  <div class="page-body">
+
+    <div class="section-label" style="margin-top:18px">
+      <div class="section-icon" style="background:#FFF9C4">🌿</div>
+      <span class="section-title">Plant Simptome — Diagnoseer &amp; Herstel</span>
+      <div class="section-rule"></div>
+    </div>
+
+    <!-- SYMPTOM CARDS -->
+    <div class="prob-card">
+      <div class="prob-header" style="background:linear-gradient(135deg,#F9A825,#F57F17)">
+        <span class="prob-icon">💛</span>
+        <span class="prob-title">Geel Ou Blare (Onderste blare geel eerste)</span>
+        <span class="prob-severity">Stikstof Tekort</span>
+      </div>
+      <div class="prob-body" style="padding:0;display:flex;overflow:hidden">
+        <div class="prob-grid" style="flex:1">
+          <div class="prob-col">
+            <div class="prob-col-label" style="color:#F57F17">Simptome</div>
+            <ul><li>Ou (onderste) blare geel</li><li>Nuwe blare bly groen</li><li>Stadige groei</li><li>Plant lyk "liggroen"</li></ul>
+          </div>
+          <div class="prob-col">
+            <div class="prob-col-label" style="color:#B71C1C">Oorsaak</div>
+            <ul><li>EC te laag — honger plant</li><li>pH bo 7.0 blokkeer N</li><li>Ou voedingsoplossing</li></ul>
+          </div>
+          <div class="prob-col">
+            <div class="prob-col-label" style="color:#2E7D32">Oplossing</div>
+            <ul class="green"><li>Verhoog EC met A+B voedingstof</li><li>Kontroleer en herstel pH</li><li>Vervang 30% oplossing</li></ul>
+          </div>
+        </div>
+        <div style="width:150px;border-left:1.5px solid #F5F5F5;display:flex;align-items:center;justify-content:center;padding:8px;background:#FAFAFA">
+          <img src="../Images/simptoom-stikstof.png" style="width:100%;height:auto;max-height:130px;object-fit:contain">
+        </div>
+      </div>
+    </div>
+
+    <div class="prob-card">
+      <div class="prob-header" style="background:linear-gradient(135deg,#7B1FA2,#9C27B0)">
+        <span class="prob-icon">🟣</span>
+        <span class="prob-title">Pers / Rooi Kleur op Blaarstele en Onderkante</span>
+        <span class="prob-severity">Fosfaat Tekort</span>
+      </div>
+      <div class="prob-body" style="padding:0;display:flex;overflow:hidden">
+        <div class="prob-grid" style="flex:1">
+          <div class="prob-col">
+            <div class="prob-col-label" style="color:#7B1FA2">Simptome</div>
+            <ul><li>Pers/rooi stele</li><li>Bladonderkant pers gestreep</li><li>Groei vertraag</li><li>Donker groen nuwe blare</li></ul>
+          </div>
+          <div class="prob-col">
+            <div class="prob-col-label" style="color:#B71C1C">Oorsaak</div>
+            <ul><li>pH onder 5.0 of bo 7.0</li><li>Watertemperatuur onder 15°C</li><li>Fosfaat in voedingstof laag</li></ul>
+          </div>
+          <div class="prob-col">
+            <div class="prob-col-label" style="color:#2E7D32">Oplossing</div>
+            <ul class="green"><li>Stel pH na 6.0–6.5</li><li>Verwarm water bo 18°C</li><li>Kontroleer voedingstof mengsel</li></ul>
+          </div>
+        </div>
+        <div style="width:150px;border-left:1.5px solid #F5F5F5;display:flex;align-items:center;justify-content:center;padding:8px;background:#FAFAFA">
+          <img src="../Images/simptoom-fosfaat.png" style="width:100%;height:auto;max-height:130px;object-fit:contain">
+        </div>
+      </div>
+    </div>
+
+    <div class="prob-card">
+      <div class="prob-header" style="background:linear-gradient(135deg,#558B2F,#689F38)">
+        <span class="prob-icon">🟡</span>
+        <span class="prob-title">Geel Blare Tussen Are (Are bly groen)</span>
+        <span class="prob-severity">Yster / Mangaan Tekort</span>
+      </div>
+      <div class="prob-body" style="padding:0;display:flex;overflow:hidden">
+        <div class="prob-grid" style="flex:1">
+          <div class="prob-col">
+            <div class="prob-col-label" style="color:#558B2F">Simptome</div>
+            <ul><li>Nuwe blare geel tussen are</li><li>Are self bly groen</li><li>Begin by toppunt blare</li></ul>
+          </div>
+          <div class="prob-col">
+            <div class="prob-col-label" style="color:#B71C1C">Oorsaak</div>
+            <ul><li>pH bo 6.5 blokkeer Fe &amp; Mn</li><li>Wortelvrot (geen opname)</li><li>Voedingstof tekort aan chelaat-Fe</li></ul>
+          </div>
+          <div class="prob-col">
+            <div class="prob-col-label" style="color:#2E7D32">Oplossing</div>
+            <ul class="green"><li>Verlaag pH na 5.8–6.2</li><li>Kontroleer wortels</li><li>Gebruik chelaat-yster supplement</li></ul>
+          </div>
+        </div>
+        <div style="width:150px;border-left:1.5px solid #F5F5F5;display:flex;align-items:center;justify-content:center;padding:8px;background:#FAFAFA">
+          <img src="../Images/simptoom-yster.png" style="width:100%;height:auto;max-height:130px;object-fit:contain">
+        </div>
+      </div>
+    </div>
+
+    <div class="prob-card">
+      <div class="prob-header" style="background:linear-gradient(135deg,#37474F,#455A64)">
+        <span class="prob-icon">🟤</span>
+        <span class="prob-title">Bruin, Slymerige Wortels met Slegte Reuk</span>
+        <span class="prob-severity">Wortelvrot — Ernstig</span>
+      </div>
+      <div class="prob-body" style="padding:0;display:flex;overflow:hidden">
+        <div class="prob-grid" style="flex:1">
+          <div class="prob-col">
+            <div class="prob-col-label" style="color:#37474F">Simptome</div>
+            <ul><li>Wortels bruin of swart</li><li>Slymerig aan aanraking</li><li>Slegte reuk van tenk</li><li>Plant hang en verwelk</li></ul>
+          </div>
+          <div class="prob-col">
+            <div class="prob-col-label" style="color:#B71C1C">Oorsaak</div>
+            <ul><li>Water te warm (&gt;28°C)</li><li>Geen suurstof in water</li><li>Pythium of Fusarium skimmel</li><li>Pomp was af (water het versamel)</li></ul>
+          </div>
+          <div class="prob-col">
+            <div class="prob-col-label" style="color:#2E7D32">Oplossing</div>
+            <ul class="green"><li>Verwyder <strong>alle plante</strong> — ook gesonde plante is latente draers</li><li>Spoel pype met waterstofperoksied 3%</li><li>Vervang alle oplossing</li><li>Verlaag watertemperatuur</li></ul>
+          </div>
+        </div>
+        <div style="width:150px;border-left:1.5px solid #F5F5F5;display:flex;align-items:center;justify-content:center;padding:8px;background:#FAFAFA">
+          <img src="../Images/simptoom-wortelvrot.png" style="width:100%;height:auto;max-height:130px;object-fit:contain">
+        </div>
+      </div>
+    </div>
+
+    <div class="prob-card">
+      <div class="prob-header" style="background:linear-gradient(135deg,#C62828,#D32F2F)">
+        <span class="prob-icon">🔥</span>
+        <span class="prob-title">Blaarrand Brand — Bruin Rande op Blare</span>
+        <span class="prob-severity">Kalsium Tekort / Hitte</span>
+      </div>
+      <div class="prob-body" style="padding:0;display:flex;overflow:hidden">
+        <div class="prob-grid" style="flex:1">
+          <div class="prob-col">
+            <div class="prob-col-label" style="color:#C62828">Simptome</div>
+            <ul><li>Bruin, papieragtige rante</li><li>Tipburn op binneste blare</li><li>Veral by slaai in hitte</li></ul>
+          </div>
+          <div class="prob-col">
+            <div class="prob-col-label" style="color:#B71C1C">Oorsaak</div>
+            <ul><li>Kalsium nie vinnig genoeg opgeneem</li><li>Lugvloei te min</li><li>Watertemperatuur bo 25°C</li></ul>
+          </div>
+          <div class="prob-col">
+            <div class="prob-col-label" style="color:#2E7D32">Oplossing</div>
+            <ul class="green"><li>Verbeter lugsirkulasie (waaier)</li><li>Verlaag watertemperatuur</li><li>Plante in skadu tydens hitte</li></ul>
+          </div>
+        </div>
+        <div style="width:150px;border-left:1.5px solid #F5F5F5;display:flex;align-items:center;justify-content:center;padding:8px;background:#FAFAFA">
+          <img src="../Images/simptoom-tipburn.png" style="width:100%;height:auto;max-height:130px;object-fit:contain">
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="book-footer">
+    <span>NFT A-Raam Handleiding</span>
+    <span>Hoofstuk 6 — Probleemoplossing</span>
+    <span>Bladsy 3</span>
+  </div>
+</div>
+
+<!-- ═══════════ PAGE 4 — SYSTEM FAULTS & EMERGENCIES ═══ -->
+<div class="page">
+  <div class="book-header">
+    <span class="chapter">NFT Handleiding · Hoofstuk 6 · Probleemoplossing</span>
+    <span class="page-num">Bladsy 4 van 5</span>
+  </div>
+  <div class="page-body">
+
+    <div class="section-label" style="margin-top:18px">
+      <div class="section-icon" style="background:#FFEBEE">⚙️</div>
+      <span class="section-title">Stelselfoute — Diagnose &amp; Regmaak</span>
+      <div class="section-rule"></div>
+    </div>
+
+    <table class="decision-table" style="margin-bottom:18px">
+      <thead>
+        <tr>
+          <th>Probleem</th>
+          <th>Oorsaak</th>
+          <th>Regmaak stappe</th>
+          <th>Tyd tot skade</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Pomp werk nie</strong></td>
+          <td>Kragonderbreking · Pomp geblokkeer</td>
+          <td>1. Kyk kragbron 2. Skoonmaak pompfilter 3. Vervang pomp indien nodig</td>
+          <td><span class="badge-red">⚠ Handel binne 30 min</span></td>
+        </tr>
+        <tr>
+          <td><strong>Lekkasie in pyp</strong></td>
+          <td>Verbinding los · Pyp gebreek · Gate te groot gesny</td>
+          <td>1. Identifiseer bron 2. Sit pomp af 3. Droog area 4. PVC seëlmiddel of klamp gebruik</td>
+          <td><span class="badge-amber">Verlies van oplossing</span></td>
+        </tr>
+        <tr>
+          <td><strong>Tenk loop droog</strong></td>
+          <td>Lekkasie · Pomp te vinnig · Plante drink baie</td>
+          <td>1. Sit pomp af dadelik 2. Soek lekkasie 3. Vul tenk aan met nuwe oplossing</td>
+          <td><span class="badge-red">⚠ Handel binne 30 min</span></td>
+        </tr>
+        <tr>
+          <td><strong>Water vloei nie deur pyp</strong></td>
+          <td>Wortels blokkeer pyp · Sediment in pyp · Helling verkeerd</td>
+          <td>1. Kontroleer helling (moet 2–3% wees) 2. Spoel met druk 3. Verwyder vrot wortels</td>
+          <td><span class="badge-amber">Geleidelik — ure</span></td>
+        </tr>
+        <tr>
+          <td><strong>Alge groei in tenk</strong></td>
+          <td>Lig bereik die water · Tenk oop · Warm weer</td>
+          <td>1. Maak tenk volledig toe met swart plastiek 2. Spoel stelsel 3. Vervang oplossing</td>
+          <td><span class="badge-amber">Dae — pH onstabiliteit</span></td>
+        </tr>
+        <tr>
+          <td><strong>Kragonderbreking</strong></td>
+          <td>Eskom kragonderbreking</td>
+          <td>1. Gooi 5–10 L water deur elke pyp elke 5–7 minute — wortels begin sterf na 30 min sonder vloei 2. Noodkragbron (UPS/generator) 3. Verwittig onderwyser</td>
+          <td><span class="badge-red">⚠ Handel binne 30 min</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- EMERGENCY PROTOCOLS -->
+    <div class="section-label">
+      <div class="section-icon" style="background:#FFEBEE">🚨</div>
+      <span class="section-title">Noodprosedures</span>
+      <div class="section-rule"></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+
+      <div class="emergency-card">
+        <div class="ec-title">🔌 Kragonderbreking &gt; 2 uur</div>
+        <div class="ec-steps">
+          <div class="ec-step"><div class="num">1</div><span>Gooi onmiddellik 5–10 L water (met voedingstof) deur elke pyp — wortels begin sterf ná 30 min sonder vloei</span></div>
+          <div class="ec-step"><div class="num">2</div><span>Herhaal elke 5–7 minute — hou 'n gevulde emmer by die stelsel sodat jy vinnig kan optree</span></div>
+          <div class="ec-step"><div class="num">3</div><span>Dek plante met skadu-doek om verdamping te verminder en worteltemperatuur laag te hou</span></div>
+          <div class="ec-step"><div class="num">4</div><span>Sodra krag terug is — pomp aan en EC/pH onmiddellik meet; inspekteer wortels vir bruin verkleuring</span></div>
+        </div>
+      </div>
+
+      <div class="emergency-card" style="background:linear-gradient(135deg,#4A0000,#7B1FA2)">
+        <div class="ec-title">🦠 Wortelvrot Uitbraak</div>
+        <div class="ec-steps">
+          <div class="ec-step"><div class="num">1</div><span>Verwyder <strong>alle plante</strong> dadelik — ook oënskynlik gesonde plante is latente draers wat die probleem sal herhaal</span></div>
+          <div class="ec-step"><div class="num">2</div><span>Sit pomp af, dreineer tenk volledig</span></div>
+          <div class="ec-step"><div class="num">3</div><span>Spoel pype met 3% waterstofperoksied-oplossing</span></div>
+          <div class="ec-step"><div class="num">4</div><span>Vul tenk met vars oplossing en begin oplaas</span></div>
+        </div>
+      </div>
+
+      <div class="emergency-card" style="background:linear-gradient(135deg,#E65100,#F57F17)">
+        <div class="ec-title">🌡 Hittegolf (lugtemperatuur bo 35°C)</div>
+        <div class="ec-steps">
+          <div class="ec-step"><div class="num">1</div><span>Voeg ysblokke of koue water by tenk — hou <strong>watertemperatuur onder 24°C</strong> (optimaal 18–22°C)</span></div>
+          <div class="ec-step"><div class="num">2</div><span>Plaas skadu-doek oor die stelsel</span></div>
+          <div class="ec-step"><div class="num">3</div><span>Kontroleer dat vloei nie geblokkeer is nie — hitte vergroot wortelgroei vinnig</span></div>
+          <div class="ec-step"><div class="num">4</div><span>Monitor EC elke 4 uur — hitte verhoog EC vinnig</span></div>
+        </div>
+      </div>
+
+      <div class="emergency-card" style="background:linear-gradient(135deg,#1565C0,#0D47A1)">
+        <div class="ec-title">❄️ Koue Golf (onder 10°C)</div>
+        <div class="ec-steps">
+          <div class="ec-step"><div class="num">1</div><span>Bedek die stelsel met plastiek of kombuisdoek snags</span></div>
+          <div class="ec-step"><div class="num">2</div><span>Isoleer die tenk en pype snags met ou kombers of plastiek om warmte te behou</span></div>
+          <div class="ec-step"><div class="num">3</div><span>Verhoog EC effens (10–15%) — koue benodig meer voedingstowwe</span></div>
+          <div class="ec-step"><div class="num">4</div><span>Aarbeie kan beter groei — slaai word stadiger</span></div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+  <div class="book-footer">
+    <span>NFT A-Raam Handleiding</span>
+    <span>Hoofstuk 6 — Probleemoplossing</span>
+    <span>Bladsy 4</span>
+  </div>
+</div>
+
+<!-- ═══════════ PAGE 5 — PESTS & PREVENTION ═══ -->
+<div class="page">
+  <div class="book-header">
+    <span class="chapter">NFT Handleiding · Hoofstuk 6 · Probleemoplossing</span>
+    <span class="page-num">Bladsy 5 van 5</span>
+  </div>
+  <div class="page-body">
+
+    <div class="section-label" style="margin-top:18px">
+      <div class="section-icon" style="background:#FCE4EC">🐛</div>
+      <span class="section-title">Peste &amp; Siektes — Identifiseer &amp; Beheer</span>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="pest-card">
+      <div class="pest-header">
+        <span style="font-size:18px">🦗</span>
+        <div><div style="font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700">Bladluise (Aphids)</div><div style="font-size:10px;opacity:.7;margin-top:1px">Klein groen/swart insekte op nuwe groeipunte</div></div>
+        <span style="margin-left:auto;background:rgba(255,255,255,.15);border-radius:12px;padding:3px 10px;font-size:9px;font-weight:700;font-family:'Montserrat',sans-serif">ALGEMEEN</span>
+      </div>
+      <div class="pest-body" style="grid-template-columns:1fr 1fr 140px">
+        <div><strong style="color:#C62828;display:block;margin-bottom:3px">Tekens</strong>Klein insekte saam op nuwe groeipunte · Blare krul en verkleur · Heuningdou trek miere aan</div>
+        <div><strong style="color:#2E7D32;display:block;margin-bottom:3px">Beheer</strong>Spuit met verdunde seepwater (5 ml seep / liter) · Gebruik ladybeetles · Verwyder hand</div>
+        <div style="display:flex;align-items:center;justify-content:center;border-left:1px solid #E0E0E0;padding:6px">
+          <img src="../Images/pes-bladluise.png" style="width:100%;height:auto;max-height:100px;object-fit:contain">
+        </div>
+      </div>
+    </div>
+
+    <div class="pest-card">
+      <div class="pest-header">
+        <span style="font-size:18px">🕷️</span>
+        <div><div style="font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700">Rooispinmyt (Spider Mites)</div><div style="font-size:10px;opacity:.7;margin-top:1px">Wit stippies op blare, fyn spinneweb onderkant blaar</div></div>
+        <span style="margin-left:auto;background:rgba(255,255,255,.15);border-radius:12px;padding:3px 10px;font-size:9px;font-weight:700;font-family:'Montserrat',sans-serif">DROOGTE</span>
+      </div>
+      <div class="pest-body" style="grid-template-columns:1fr 1fr 140px">
+        <div><strong style="color:#C62828;display:block;margin-bottom:3px">Tekens</strong>Wit of geel stippies op blaaroppervlak · Fyn spineweb · Blare droog en vaal</div>
+        <div><strong style="color:#2E7D32;display:block;margin-bottom:3px">Beheer</strong>Verhoog lugvogtigheid · Spuit met neem-olie of insekseep · Verwyder erg aangetaste blare</div>
+        <div style="display:flex;align-items:center;justify-content:center;border-left:1px solid #E0E0E0;padding:6px">
+          <img src="../Images/pes-rooispinmyt.png" style="width:100%;height:auto;max-height:100px;object-fit:contain">
+        </div>
+      </div>
+    </div>
+
+    <div class="pest-card">
+      <div class="pest-header">
+        <span style="font-size:18px">🦟</span>
+        <div><div style="font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700">Fungus Gnats (Wortelmuggies)</div><div style="font-size:10px;opacity:.7;margin-top:1px">Klein vlieë rondom potte, larwes vreet wortels</div></div>
+        <span style="margin-left:auto;background:rgba(255,255,255,.15);border-radius:12px;padding:3px 10px;font-size:9px;font-weight:700;font-family:'Montserrat',sans-serif">VOGTIG</span>
+      </div>
+      <div class="pest-body" style="grid-template-columns:1fr 1fr 140px">
+        <div><strong style="color:#C62828;display:block;margin-bottom:3px">Tekens</strong>Klein swart vlieë rondom groeimedium · Plant groei stadig · Wortels aangevreet</div>
+        <div><strong style="color:#2E7D32;display:block;margin-bottom:3px">Beheer</strong>Laat groeimedium bo droog · Geel kleeflisse · Bacillus thuringiensis (Bt) in water</div>
+        <div style="display:flex;align-items:center;justify-content:center;border-left:1px solid #E0E0E0;padding:6px">
+          <img src="../Images/pes-fungusgnat.png" style="width:100%;height:auto;max-height:100px;object-fit:contain">
+        </div>
+      </div>
+    </div>
+
+    <div class="pest-card">
+      <div class="pest-header" style="background:#4A0000">
+        <span style="font-size:18px">🍄</span>
+        <div><div style="font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700">Pythium (Wortelvrot Skimmel)</div><div style="font-size:10px;opacity:.7;margin-top:1px">Ernstigste NFT-bedreiging — warm, suurstofarm water</div></div>
+        <span style="margin-left:auto;background:rgba(255,0,0,.3);border-radius:12px;padding:3px 10px;font-size:9px;font-weight:700;font-family:'Montserrat',sans-serif">GEVAARLIK</span>
+      </div>
+      <div class="pest-body" style="grid-template-columns:1fr 1fr 140px">
+        <div><strong style="color:#C62828;display:block;margin-bottom:3px">Tekens</strong>Bruin, slymerige wortels · Slegte reuk · Plante verwelk ondanks water · Vinnige verspreiding</div>
+        <div><strong style="color:#2E7D32;display:block;margin-bottom:3px">Beheer</strong>Verwyder aangetaste plante · waterstofperoksied-spoeling · Watertemperatuur onder 22°C · Voorkomend: goeie lugsirkulasie</div>
+        <div style="display:flex;align-items:center;justify-content:center;border-left:1px solid #E0E0E0;padding:6px">
+          <img src="../Images/pes-pythium.png" style="width:100%;height:auto;max-height:100px;object-fit:contain">
+        </div>
+      </div>
+    </div>
+
+    <!-- PREVENTION PLAN -->
+    <div class="section-label" style="margin-top:14px">
+      <div class="section-icon" style="background:#E8F5E9">🛡️</div>
+      <span class="section-title">Weeklikse Voorkomingsplan</span>
+      <div class="section-rule"></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px">
+      <div style="background:#E8F5E9;border:1.5px solid #A5D6A7;border-radius:10px;padding:10px 12px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:800;color:#1B5E20;margin-bottom:6px">📅 Daagliks</div>
+        <ul style="list-style:none;font-size:10px;color:#37474F;line-height:1.7">
+          <li>☐ EC, TDS &amp; pH kontroleer</li>
+          <li>☐ Plante visueel kyk</li>
+          <li>☐ Pompe werk?</li>
+          <li>☐ Lekkasies?</li>
+        </ul>
+      </div>
+      <div style="background:#FFF8E1;border:1.5px solid #FFE082;border-radius:10px;padding:10px 12px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:800;color:#F57F17;margin-bottom:6px">📅 Weekliks</div>
+        <ul style="list-style:none;font-size:10px;color:#37474F;line-height:1.7">
+          <li>☐ Wortels inspekteer</li>
+          <li>☐ Tenk vlak kontroleer</li>
+          <li>☐ Pype skoonmaak</li>
+          <li>☐ Logboek voltooi</li>
+        </ul>
+      </div>
+      <div style="background:#E3F2FD;border:1.5px solid #90CAF9;border-radius:10px;padding:10px 12px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:800;color:#1565C0;margin-bottom:6px">📅 Maandeliks</div>
+        <ul style="list-style:none;font-size:10px;color:#37474F;line-height:1.7">
+          <li>☐ Volle tenk vervang</li>
+          <li>☐ Filters skoonmaak</li>
+          <li>☐ Pomp inspeksie</li>
+          <li>☐ Voedingstof bestel</li>
+        </ul>
+      </div>
+      <div style="background:#FCE4EC;border:1.5px solid #F48FB1;border-radius:10px;padding:10px 12px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:800;color:#880E4F;margin-bottom:6px">📅 Per Siklus</div>
+        <ul style="list-style:none;font-size:10px;color:#37474F;line-height:1.7">
+          <li>☐ Pype volledig spoel</li>
+          <li>☐ Waterstofperoksied-sterilisasie</li>
+          <li>☐ Netpotte nuut</li>
+          <li>☐ Stelsel inspeksie</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- QUICK REFERENCE -->
+    <div class="section-label" style="margin-top:16px">
+      <div class="section-icon" style="background:#E8EAF6">📊</div>
+      <span class="section-title">Vinnige Verwysing — EC &amp; pH per Kant</span>
+      <div class="section-rule"></div>
+    </div>
+
+    <table style="width:100%;border-collapse:collapse;font-size:11px">
+      <thead>
+        <tr>
+          <th style="background:#1B5E20;color:#fff;padding:7px 10px;text-align:left;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;border:1px solid #388E3C">Kant</th>
+          <th style="background:#1B5E20;color:#fff;padding:7px 10px;text-align:left;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;border:1px solid #388E3C">Gewas</th>
+          <th style="background:#1B5E20;color:#fff;padding:7px 10px;text-align:center;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;border:1px solid #388E3C">EC (mS/cm)</th>
+          <th style="background:#1B5E20;color:#fff;padding:7px 10px;text-align:center;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;border:1px solid #388E3C">pH</th>
+          <th style="background:#1B5E20;color:#fff;padding:7px 10px;text-align:center;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;border:1px solid #388E3C">Tenk</th>
+          <th style="background:#1B5E20;color:#fff;padding:7px 10px;text-align:center;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;border:1px solid #388E3C">Pomp</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="background:#E8F5E9">
+          <td style="padding:7px 10px;border:1px solid #C8E6C9;font-family:'Montserrat',sans-serif;font-weight:700;color:#1B5E20">Raam A Kant 1</td>
+          <td style="padding:7px 10px;border:1px solid #C8E6C9">🥬 Slaai</td>
+          <td style="padding:7px 10px;border:1px solid #C8E6C9;text-align:center;font-weight:700">1.2 – 1.8</td>
+          <td style="padding:7px 10px;border:1px solid #C8E6C9;text-align:center;font-weight:700">5.8 – 6.2</td>
+          <td style="padding:7px 10px;border:1px solid #C8E6C9;text-align:center">A</td>
+          <td style="padding:7px 10px;border:1px solid #C8E6C9;text-align:center">1</td>
+        </tr>
+        <tr style="background:#F1F8E9">
+          <td style="padding:7px 10px;border:1px solid #DCEDC8;font-family:'Montserrat',sans-serif;font-weight:700;color:#1B5E20">Raam A Kant 2</td>
+          <td style="padding:7px 10px;border:1px solid #DCEDC8">🌱 Spinasie</td>
+          <td style="padding:7px 10px;border:1px solid #DCEDC8;text-align:center;font-weight:700">1.8 – 2.3</td>
+          <td style="padding:7px 10px;border:1px solid #DCEDC8;text-align:center;font-weight:700">6.0 – 7.0</td>
+          <td style="padding:7px 10px;border:1px solid #DCEDC8;text-align:center">B</td>
+          <td style="padding:7px 10px;border:1px solid #DCEDC8;text-align:center">2</td>
+        </tr>
+        <tr style="background:#FCE4EC">
+          <td style="padding:7px 10px;border:1px solid #F48FB1;font-family:'Montserrat',sans-serif;font-weight:700;color:#880E4F">Raam B Kant 1</td>
+          <td style="padding:7px 10px;border:1px solid #F48FB1">🍓 Aarbeie</td>
+          <td style="padding:7px 10px;border:1px solid #F48FB1;text-align:center;font-weight:700">1.0 – 1.4</td>
+          <td style="padding:7px 10px;border:1px solid #F48FB1;text-align:center;font-weight:700">5.5 – 6.0</td>
+          <td style="padding:7px 10px;border:1px solid #F48FB1;text-align:center">C</td>
+          <td style="padding:7px 10px;border:1px solid #F48FB1;text-align:center">3</td>
+        </tr>
+        <tr style="background:#F1F8E9">
+          <td style="padding:7px 10px;border:1px solid #DCEDC8;font-family:'Montserrat',sans-serif;font-weight:700;color:#33691E">Raam B Kant 2</td>
+          <td style="padding:7px 10px;border:1px solid #DCEDC8">🌿 Mosterd Spinasie</td>
+          <td style="padding:7px 10px;border:1px solid #DCEDC8;text-align:center;font-weight:700">1.6 – 2.0</td>
+          <td style="padding:7px 10px;border:1px solid #DCEDC8;text-align:center;font-weight:700">6.0 – 6.8</td>
+          <td style="padding:7px 10px;border:1px solid #DCEDC8;text-align:center">D</td>
+          <td style="padding:7px 10px;border:1px solid #DCEDC8;text-align:center">4</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+  <div class="book-footer">
+    <span>NFT A-Raam Handleiding</span>
+    <span>Hoofstuk 6 — Probleemoplossing</span>
+    <span>Bladsy 5</span>
+  </div>
+</div>
+
+</body>
+</html>

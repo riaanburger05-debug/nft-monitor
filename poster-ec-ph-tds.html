@@ -1,0 +1,617 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NFT — EC, pH, TDS & Oxygen</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0f0f1a;font-family:'Inter',sans-serif;padding:24px;min-height:100vh}
+
+.poster{
+  max-width:1100px;margin:0 auto;
+  background:#fff;border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 20px 80px rgba(0,0,0,.6);
+}
+
+/* ── HEADER ── */
+.header{
+  background:linear-gradient(135deg,#0D47A1 0%,#1565C0 40%,#1B5E20 100%);
+  padding:32px 40px 28px;color:#fff;
+  position:relative;overflow:hidden;
+}
+.header::before{
+  content:'';position:absolute;top:-60px;right:-60px;
+  width:300px;height:300px;border-radius:50%;
+  background:rgba(255,255,255,.04);
+}
+.header-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px}
+.header-eyebrow{font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:8px}
+.header-title{font-family:'Montserrat',sans-serif;font-size:38px;font-weight:900;line-height:1.1}
+.header-title span{color:#81D4FA}
+.header-subtitle{font-size:15px;opacity:.75;margin-top:6px;font-weight:300}
+.badge-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.badge{border-radius:20px;padding:5px 14px;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.12)}
+
+/* ── STATS ROW ── */
+.stats-row{
+  display:grid;grid-template-columns:repeat(6,1fr);
+  background:linear-gradient(135deg,#0A1628,#0D2137);
+  padding:0;
+}
+.stat{
+  padding:18px 16px;text-align:center;color:#fff;
+  border-right:1px solid rgba(255,255,255,.07);
+  position:relative;
+}
+.stat:last-child{border-right:none}
+.stat::after{content:'';position:absolute;bottom:0;left:20%;right:20%;height:3px;border-radius:2px 2px 0 0}
+.stat.blue::after{background:#42A5F5}
+.stat.green::after{background:#66BB6A}
+.stat.teal::after{background:#26C6DA}
+.stat.amber::after{background:#FFA726}
+.stat.red::after{background:#EF5350}
+.stat.purple::after{background:#AB47BC}
+.stat-num{font-family:'Montserrat',sans-serif;font-size:28px;font-weight:900;line-height:1}
+.stat-icon{font-size:18px;margin-bottom:4px}
+.stat-label{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;opacity:.6;margin-top:4px}
+
+/* ── BODY ── */
+.body{padding:32px 36px}
+
+/* ── SECTION LABEL ── */
+.section-label{display:flex;align-items:center;gap:10px;margin:28px 0 16px}
+.section-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.section-title{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:#1565C0}
+.section-rule{flex:1;height:2px;background:linear-gradient(to right,#42A5F5,transparent)}
+
+/* ── CONCEPT CARDS (EC / pH / TDS) ── */
+.concept-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:0}
+.concept-card{border-radius:14px;overflow:hidden;box-shadow:0 4px 18px rgba(0,0,0,.1)}
+.cc-header{padding:14px 18px;color:#fff}
+.cc-icon{font-size:28px;margin-bottom:6px}
+.cc-title{font-family:'Montserrat',sans-serif;font-size:17px;font-weight:900}
+.cc-abbr{font-size:11px;opacity:.75;margin-top:2px}
+.cc-body{padding:14px 18px;background:#fff;border:1.5px solid #EEE;border-top:none;border-radius:0 0 14px 14px}
+.cc-def{font-size:11px;color:#37474F;line-height:1.6;margin-bottom:10px}
+.cc-unit{display:flex;justify-content:space-between;align-items:center;background:#F5F5F5;border-radius:8px;padding:6px 10px;font-size:11px;margin-bottom:6px}
+.cc-unit .label{color:#78909C;font-weight:500}
+.cc-unit .val{font-family:'Montserrat',sans-serif;font-weight:800;color:#1565C0}
+.cc-key{font-size:10px;color:#546E7A;font-style:italic;line-height:1.5;border-left:3px solid #E0E0E0;padding-left:8px;margin-top:8px}
+
+/* ── RANGE BARS ── */
+.range-section{background:linear-gradient(135deg,#F8FFFE,#F0F8FF);border-radius:14px;padding:20px 22px;margin-bottom:0}
+.range-crop{margin-bottom:18px}
+.range-crop:last-child{margin-bottom:0}
+.range-crop-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.crop-icon-pill{border-radius:8px;padding:4px 12px;font-size:13px;font-weight:700;font-family:'Montserrat',sans-serif;color:#fff;display:flex;align-items:center;gap:6px}
+.range-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.range-row-label{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px}
+.range-rlabel{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;color:#37474F;text-transform:uppercase;letter-spacing:1px}
+.range-val{font-family:'Montserrat',sans-serif;font-size:16px;font-weight:900;color:#0D47A1}
+.range-unit{font-size:10px;font-weight:400;color:#78909C;margin-left:2px}
+.range-track-wrap{position:relative;height:24px;margin-bottom:3px}
+.range-track{position:absolute;top:50%;transform:translateY(-50%);left:0;right:0;height:14px;border-radius:7px}
+.ec-track{background:linear-gradient(to right,#B71C1C 0%,#EF5350 14%,#FF9800 28%,#4CAF50 34%,#4CAF50 57%,#FF9800 71%,#EF5350 86%,#B71C1C 100%)}
+.ph-track{background:linear-gradient(to right,#B71C1C 0%,#EF5350 12.5%,#FF9800 25%,#FDD835 37.5%,#4CAF50 50%,#FDD835 62.5%,#FF9800 75%,#EF5350 87.5%,#B71C1C 100%)}
+.temp-track{background:linear-gradient(to right,#1565C0 0%,#42A5F5 20%,#4CAF50 35%,#4CAF50 55%,#FF9800 70%,#EF5350 85%,#B71C1C 100%)}
+.range-optimal{position:absolute;top:50%;transform:translateY(-50%);height:20px;border-radius:5px;border:3px solid #fff;box-shadow:0 0 0 2px rgba(0,0,0,.18),0 2px 8px rgba(0,0,0,.15);z-index:2}
+.range-ticks{display:flex;justify-content:space-between;font-size:9px;color:#90A4AE;padding:0 2px}
+
+/* ── TDS CONVERTER ── */
+.tds-convert{background:linear-gradient(135deg,#E8EAF6,#E3F2FD);border-radius:14px;padding:18px 20px}
+.tds-title{font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#3949AB;margin-bottom:12px}
+.tds-table{width:100%;border-collapse:collapse;font-size:11px}
+.tds-table th{background:#3949AB;color:#fff;font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:7px 10px;text-align:center;border:1px solid #5C6BC0}
+.tds-table td{border:1px solid #C5CAE9;padding:6px 10px;text-align:center;color:#37474F}
+.tds-table tr:nth-child(even) td{background:#EDE7F6}
+.tds-table td.highlight{background:#3949AB;color:#fff;font-family:'Montserrat',sans-serif;font-weight:700}
+
+/* ── OXYGEN SECTION ── */
+.oxygen-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.oxy-card{border-radius:14px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.08)}
+.oxy-header{padding:12px 18px;color:#fff;display:flex;align-items:center;gap:10px}
+.oxy-header .oh-icon{font-size:22px}
+.oxy-header .oh-title{font-family:'Montserrat',sans-serif;font-size:14px;font-weight:800}
+.oxy-header .oh-sub{font-size:10px;opacity:.75;margin-top:1px}
+.oxy-body{background:#fff;border:1.5px solid #EEE;border-top:none;border-radius:0 0 14px 14px;padding:14px 18px}
+.oxy-item{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px;font-size:11px;color:#37474F;line-height:1.5}
+.oxy-item:last-child{margin-bottom:0}
+.oxy-item .oi-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
+
+/* ── TEMPERATURE RANGE BAR (oxygen) ── */
+.temp-section{background:linear-gradient(135deg,#E0F7FA,#E8F5E9);border-radius:14px;padding:18px 20px;margin-bottom:0}
+.temp-title{font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#00695C;margin-bottom:12px}
+.do-table{width:100%;border-collapse:collapse;font-size:11px;margin-top:12px}
+.do-table th{background:#00695C;color:#fff;font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:7px 10px;text-align:center;border:1px solid #00897B}
+.do-table td{border:1px solid #B2DFDB;padding:6px 10px;text-align:center;color:#37474F}
+.do-table tr:nth-child(even) td{background:#E0F2F1}
+.badge-r{background:#FFEBEE;color:#C62828;border-radius:10px;padding:2px 8px;font-size:9px;font-weight:700}
+.badge-a{background:#FFF8E1;color:#F57F17;border-radius:10px;padding:2px 8px;font-size:9px;font-weight:700}
+.badge-g{background:#E8F5E9;color:#2E7D32;border-radius:10px;padding:2px 8px;font-size:9px;font-weight:700}
+
+/* ── FLOW DIAGRAM ── */
+.flow-row{display:flex;align-items:center;gap:0;margin:0}
+.flow-step{flex:1;text-align:center;padding:14px 8px;position:relative}
+.flow-circle{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;margin:0 auto 8px;box-shadow:0 3px 10px rgba(0,0,0,.12)}
+.flow-label{font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#37474F;line-height:1.3}
+.flow-sub{font-size:9px;color:#78909C;margin-top:2px;line-height:1.4}
+.flow-arrow{color:#B0BEC5;font-size:20px;flex-shrink:0;margin-top:-20px}
+
+/* ── LEGEND ── */
+.legend-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;background:#F5F5F5;border-radius:8px;padding:8px 12px;margin-top:12px}
+.legend-item{display:flex;align-items:center;gap:4px;font-size:9px;color:#546E7A}
+.legend-dot{width:10px;height:10px;border-radius:2px}
+
+/* ── FOOTER ── */
+.footer{
+  background:linear-gradient(135deg,#0A1628,#0D47A1);
+  padding:16px 36px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.footer-brand{font-family:'Montserrat',sans-serif;font-size:14px;font-weight:900;color:#fff}
+.footer-sub{font-size:11px;color:rgba(255,255,255,.55);margin-top:2px}
+.footer-dots{display:flex;gap:6px}
+.footer-dot{width:10px;height:10px;border-radius:50%}
+</style>
+</head>
+<body>
+<div class="poster">
+
+  <!-- ═══════ HEADER ═══════ -->
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <div class="header-eyebrow">NFT Hydroponic System</div>
+        <div class="header-title">EC, pH, TDS &amp; <span>Oxygen</span></div>
+        <div class="header-subtitle">Understanding the three core measurements and how oxygen drives root health</div>
+      </div>
+      <div style="text-align:right;opacity:.7;font-size:11px;font-family:'Montserrat',sans-serif;font-weight:700;letter-spacing:1px">
+        RANGE CARD STYLE<br>
+        <span style="font-size:28px;opacity:.5">🌊</span>
+      </div>
+    </div>
+    <div class="badge-row">
+      <div class="badge">⚡ EC — Nutrient Strength</div>
+      <div class="badge">🧪 pH — Acidity Lock</div>
+      <div class="badge">💧 TDS — Total Dissolved Solids</div>
+      <div class="badge">🫧 Dissolved Oxygen — Root Survival</div>
+      <div class="badge">🌡 Temperature Effect</div>
+    </div>
+  </div>
+
+  <!-- ═══════ STATS ROW ═══════ -->
+  <div class="stats-row">
+    <div class="stat blue">
+      <div class="stat-icon">⚡</div>
+      <div class="stat-num">mS/cm</div>
+      <div class="stat-label">EC Unit</div>
+    </div>
+    <div class="stat green">
+      <div class="stat-icon">🧪</div>
+      <div class="stat-num">0–14</div>
+      <div class="stat-label">pH Scale</div>
+    </div>
+    <div class="stat teal">
+      <div class="stat-icon">💧</div>
+      <div class="stat-num">ppm</div>
+      <div class="stat-label">TDS Unit</div>
+    </div>
+    <div class="stat amber">
+      <div class="stat-icon">🌡</div>
+      <div class="stat-num">22°C</div>
+      <div class="stat-label">Max Water Temp</div>
+    </div>
+    <div class="stat red">
+      <div class="stat-icon">⏱</div>
+      <div class="stat-num">2 hr</div>
+      <div class="stat-label">Root Death (no O₂)</div>
+    </div>
+    <div class="stat purple">
+      <div class="stat-icon">🫧</div>
+      <div class="stat-num">×500</div>
+      <div class="stat-label">EC → TDS Factor</div>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <!-- ═══════ CONCEPT CARDS ═══════ -->
+    <div class="section-label" style="margin-top:0">
+      <div class="section-icon" style="background:#E3F2FD">📖</div>
+      <span class="section-title">The Three Core Measurements — What They Measure &amp; Why They Differ</span>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="concept-grid">
+
+      <!-- EC -->
+      <div class="concept-card">
+        <div class="cc-header" style="background:linear-gradient(135deg,#1565C0,#1976D2)">
+          <div class="cc-icon">⚡</div>
+          <div class="cc-title">EC</div>
+          <div class="cc-abbr">Electrical Conductivity</div>
+        </div>
+        <div class="cc-body">
+          <div class="cc-def">Measures <strong>how well electricity passes through your water.</strong> More dissolved salts (nutrients) = higher conductivity. EC tells you the <em>total strength</em> of your nutrient solution — not which nutrients, just how much.</div>
+          <div class="cc-unit"><span class="label">Unit</span><span class="val">mS/cm</span></div>
+          <div class="cc-unit"><span class="label">Ideal NFT range</span><span class="val">1.0 – 2.2 mS/cm</span></div>
+          <div class="cc-unit"><span class="label">Pure water EC</span><span class="val">≈ 0.0 mS/cm</span></div>
+          <div class="cc-key">💡 Think of EC as the "food concentration dial" — too low = hungry plants, too high = nutrient burn.</div>
+        </div>
+      </div>
+
+      <!-- pH -->
+      <div class="concept-card">
+        <div class="cc-header" style="background:linear-gradient(135deg,#1B5E20,#2E7D32)">
+          <div class="cc-icon">🧪</div>
+          <div class="cc-title">pH</div>
+          <div class="cc-abbr">Power of Hydrogen</div>
+        </div>
+        <div class="cc-body">
+          <div class="cc-def">Measures the <strong>concentration of hydrogen ions</strong> — i.e. how acidic or alkaline your water is. pH controls the <em>chemical availability</em> of nutrients. Even perfect EC is useless if pH locks out the nutrient the plant needs.</div>
+          <div class="cc-unit"><span class="label">Scale</span><span class="val">0 (acid) → 14 (base)</span></div>
+          <div class="cc-unit"><span class="label">Ideal NFT range</span><span class="val">5.5 – 6.8</span></div>
+          <div class="cc-unit"><span class="label">Pure water pH</span><span class="val">7.0 (neutral)</span></div>
+          <div class="cc-key">💡 pH is the "key to the pantry" — the nutrients are there (EC is fine) but the wrong pH locks the door.</div>
+        </div>
+      </div>
+
+      <!-- TDS -->
+      <div class="concept-card">
+        <div class="cc-header" style="background:linear-gradient(135deg,#4A148C,#6A1B9A)">
+          <div class="cc-icon">💧</div>
+          <div class="cc-title">TDS</div>
+          <div class="cc-abbr">Total Dissolved Solids</div>
+        </div>
+        <div class="cc-body">
+          <div class="cc-def">Measures the <strong>same thing as EC</strong> — total dissolved salts — but expressed in <strong>ppm (parts per million)</strong> instead of mS/cm. Most TDS meters simply measure conductivity and multiply by a conversion factor.</div>
+          <div class="cc-unit"><span class="label">Unit</span><span class="val">ppm (mg/L)</span></div>
+          <div class="cc-unit"><span class="label">Conversion (×500)</span><span class="val">EC 1.5 → 750 ppm</span></div>
+          <div class="cc-unit"><span class="label">Conversion (×700)</span><span class="val">EC 1.5 → 1050 ppm</span></div>
+          <div class="cc-key">💡 TDS and EC measure the same thing. Hydro growers use EC. Aquarium and drinking water use TDS. Know your meter's factor (×500 or ×700).</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ═══════ TDS CONVERTER TABLE ═══════ -->
+    <div style="margin-top:16px">
+      <div class="tds-convert">
+        <div class="tds-title">💱 EC ↔ TDS Conversion Reference (×500 factor / ×700 factor)</div>
+        <table class="tds-table">
+          <thead>
+            <tr>
+              <th>EC (mS/cm)</th>
+              <th>TDS ×500 (ppm)</th>
+              <th>TDS ×700 (ppm)</th>
+              <th>Crop Suitability</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>0.5</td><td>250</td><td>350</td><td>Seedlings / pure water</td><td><span class="badge-a">Too Low</span></td></tr>
+            <tr><td class="highlight">1.0</td><td class="highlight">500</td><td class="highlight">700</td><td class="highlight">🍓 Strawberry (low end)</td><td><span class="badge-g">In Range</span></td></tr>
+            <tr><td class="highlight">1.2</td><td class="highlight">600</td><td class="highlight">840</td><td class="highlight">🥬 Lettuce (low end)</td><td><span class="badge-g">In Range</span></td></tr>
+            <tr><td class="highlight">1.5</td><td class="highlight">750</td><td class="highlight">1050</td><td class="highlight">🥬 Lettuce (mid) / 🍓 Strawberry (high)</td><td><span class="badge-g">Optimal</span></td></tr>
+            <tr><td class="highlight">1.8</td><td class="highlight">900</td><td class="highlight">1260</td><td class="highlight">🥬 Lettuce (high) / 🌿 Mustard (low)</td><td><span class="badge-g">Optimal</span></td></tr>
+            <tr><td class="highlight">2.0</td><td class="highlight">1000</td><td class="highlight">1400</td><td class="highlight">🌿 Mustard Spinach (high end)</td><td><span class="badge-g">In Range</span></td></tr>
+            <tr><td>2.5</td><td>1250</td><td>1750</td><td>Tomatoes / Peppers</td><td><span class="badge-a">Watch</span></td></tr>
+            <tr><td>3.0+</td><td>1500+</td><td>2100+</td><td>Avoid for leafy greens</td><td><span class="badge-r">Too High</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ═══════ RANGE BARS — ALL CROPS ═══════ -->
+    <div class="section-label">
+      <div class="section-icon" style="background:#E8F5E9">📊</div>
+      <span class="section-title">Visual Range Reference — EC &amp; pH per Crop</span>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="legend-bar" style="margin-bottom:14px;margin-top:-4px">
+      <span style="font-weight:700;font-size:10px;margin-right:4px">Colour scale:</span>
+      <div class="legend-item"><div class="legend-dot" style="background:#EF5350"></div> Too low / too high</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#FF9800"></div> Border zone</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#4CAF50"></div> Safe zone</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#fff;border:2px solid #333;width:12px;height:12px;border-radius:2px"></div> Optimal window (white box)</div>
+    </div>
+
+    <div class="range-section">
+      <!-- LETTUCE -->
+      <div class="range-crop">
+        <div class="range-crop-header">
+          <div class="crop-icon-pill" style="background:#1B5E20">🥬 Lettuce</div>
+          <span style="font-size:10px;color:#78909C;margin-left:4px">Pyp 1 &amp; 2 · Tenk A</span>
+        </div>
+        <div class="range-pair">
+          <div>
+            <div class="range-row-label">
+              <span class="range-rlabel">⚡ EC</span>
+              <span class="range-val">1.2 – 1.8<span class="range-unit">mS/cm</span></span>
+            </div>
+            <div class="range-track-wrap">
+              <div class="range-track ec-track"></div>
+              <div class="range-optimal" style="left:34.3%;width:17.1%"></div>
+            </div>
+            <div class="range-ticks"><span>0</span><span>0.5</span><span>1.0</span><span>1.5</span><span>2.0</span><span>2.5</span><span>3.0</span><span>3.5</span></div>
+          </div>
+          <div>
+            <div class="range-row-label">
+              <span class="range-rlabel">🧪 pH</span>
+              <span class="range-val">5.8 – 6.2<span class="range-unit">pH</span></span>
+            </div>
+            <div class="range-track-wrap">
+              <div class="range-track ph-track"></div>
+              <!-- (5.8-4.0)/4.0=45%, width=0.4/4.0=10% -->
+              <div class="range-optimal" style="left:45%;width:10%"></div>
+            </div>
+            <div class="range-ticks"><span>4.0</span><span>4.5</span><span>5.0</span><span>5.5</span><span>6.0</span><span>6.5</span><span>7.0</span><span>8.0</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="height:1px;background:#E0E0E0;margin:12px 0"></div>
+
+      <!-- MUSTARD -->
+      <div class="range-crop">
+        <div class="range-crop-header">
+          <div class="crop-icon-pill" style="background:#33691E">🌿 Mustard Spinach</div>
+          <span style="font-size:10px;color:#78909C;margin-left:4px">Pyp 3 &amp; 4 · Tenk B</span>
+        </div>
+        <div class="range-pair">
+          <div>
+            <div class="range-row-label">
+              <span class="range-rlabel">⚡ EC</span>
+              <span class="range-val">1.6 – 2.0<span class="range-unit">mS/cm</span></span>
+            </div>
+            <div class="range-track-wrap">
+              <div class="range-track ec-track"></div>
+              <div class="range-optimal" style="left:45.7%;width:11.4%"></div>
+            </div>
+            <div class="range-ticks"><span>0</span><span>0.5</span><span>1.0</span><span>1.5</span><span>2.0</span><span>2.5</span><span>3.0</span><span>3.5</span></div>
+          </div>
+          <div>
+            <div class="range-row-label">
+              <span class="range-rlabel">🧪 pH</span>
+              <span class="range-val">6.0 – 6.8<span class="range-unit">pH</span></span>
+            </div>
+            <div class="range-track-wrap">
+              <div class="range-track ph-track"></div>
+              <!-- (6.0-4.0)/4.0=50%, width=0.8/4.0=20% -->
+              <div class="range-optimal" style="left:50%;width:20%"></div>
+            </div>
+            <div class="range-ticks"><span>4.0</span><span>4.5</span><span>5.0</span><span>5.5</span><span>6.0</span><span>6.5</span><span>7.0</span><span>8.0</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="height:1px;background:#E0E0E0;margin:12px 0"></div>
+
+      <!-- STRAWBERRY -->
+      <div class="range-crop">
+        <div class="range-crop-header">
+          <div class="crop-icon-pill" style="background:#880E4F">🍓 Strawberry</div>
+          <span style="font-size:10px;color:#78909C;margin-left:4px">Pyp 5 · Tenk C</span>
+        </div>
+        <div class="range-pair">
+          <div>
+            <div class="range-row-label">
+              <span class="range-rlabel">⚡ EC</span>
+              <span class="range-val">1.0 – 1.4<span class="range-unit">mS/cm</span></span>
+            </div>
+            <div class="range-track-wrap">
+              <div class="range-track ec-track"></div>
+              <div class="range-optimal" style="left:28.6%;width:11.4%"></div>
+            </div>
+            <div class="range-ticks"><span>0</span><span>0.5</span><span>1.0</span><span>1.5</span><span>2.0</span><span>2.5</span><span>3.0</span><span>3.5</span></div>
+          </div>
+          <div>
+            <div class="range-row-label">
+              <span class="range-rlabel">🧪 pH</span>
+              <span class="range-val">5.5 – 6.0<span class="range-unit">pH</span></span>
+            </div>
+            <div class="range-track-wrap">
+              <div class="range-track ph-track"></div>
+              <!-- (5.5-4.0)/4.0=37.5%, width=0.5/4.0=12.5% -->
+              <div class="range-optimal" style="left:37.5%;width:12.5%"></div>
+            </div>
+            <div class="range-ticks"><span>4.0</span><span>4.5</span><span>5.0</span><span>5.5</span><span>6.0</span><span>6.5</span><span>7.0</span><span>8.0</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ OXYGEN SECTION ═══════ -->
+    <div class="section-label">
+      <div class="section-icon" style="background:#E0F7FA">🫧</div>
+      <span class="section-title">Dissolved Oxygen — How It Works &amp; What Destroys It</span>
+      <div class="section-rule" style="background:linear-gradient(to right,#26C6DA,transparent)"></div>
+    </div>
+
+    <!-- HOW OXYGEN ENTERS THE SYSTEM — FLOW -->
+    <div style="background:linear-gradient(135deg,#E0F7FA,#E8F5E9);border-radius:14px;padding:16px 20px;margin-bottom:16px">
+      <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#00695C;margin-bottom:14px">How Oxygen Enters an NFT System</div>
+      <div class="flow-row">
+        <div class="flow-step">
+          <div class="flow-circle" style="background:linear-gradient(135deg,#1565C0,#1976D2)">💧</div>
+          <div class="flow-label">Pump pushes water</div>
+          <div class="flow-sub">Injects turbulence at entry point</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-circle" style="background:linear-gradient(135deg,#00838F,#0097A7)">🌊</div>
+          <div class="flow-label">Waterfall entry</div>
+          <div class="flow-sub">O₂ absorbed as water splashes into pipe</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-circle" style="background:linear-gradient(135deg,#2E7D32,#388E3C)">🫧</div>
+          <div class="flow-label">Thin film flows</div>
+          <div class="flow-sub">Large surface area absorbs O₂ continuously</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-circle" style="background:linear-gradient(135deg,#558B2F,#689F38)">🌿</div>
+          <div class="flow-label">Air gap in pipe</div>
+          <div class="flow-sub">Upper roots hang in oxygenated air</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-circle" style="background:linear-gradient(135deg,#1B5E20,#2E7D32)">✅</div>
+          <div class="flow-label">Root absorbs O₂</div>
+          <div class="flow-sub">Aerobic respiration drives nutrient uptake</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WATER TEMPERATURE RANGE BAR -->
+    <div class="temp-section" style="margin-bottom:16px">
+      <div class="temp-title">🌡 Water Temperature vs Dissolved Oxygen (15°C – 35°C scale)</div>
+      <div class="range-row-label" style="margin-bottom:5px">
+        <span class="range-rlabel" style="color:#00695C">Optimal window for NFT roots</span>
+        <span class="range-val" style="color:#00695C">18 – 22°C<span class="range-unit">°C</span></span>
+      </div>
+      <div class="range-track-wrap">
+        <div class="range-track temp-track"></div>
+        <!-- 18°C: (18-15)/20=15%, 22°C: (22-15)/20=35%, width=20% -->
+        <div class="range-optimal" style="left:15%;width:20%"></div>
+      </div>
+      <div class="range-ticks">
+        <span>15°C</span><span>17°C</span><span>19°C</span><span>21°C</span><span>23°C</span><span>25°C</span><span>28°C</span><span>30°C</span><span>35°C</span>
+      </div>
+      <table class="do-table" style="margin-top:12px">
+        <thead>
+          <tr><th>Temp Range</th><th>O₂ Level</th><th>Root Effect</th><th>Action Required</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Below 15°C</td><td><span class="badge-a">Low — cold slows uptake</span></td><td>Roots slow, nutrient uptake drops</td><td>Warm water or insulate tank</td></tr>
+          <tr><td>18–22°C ✅</td><td><span class="badge-g">High — optimal O₂ saturation</span></td><td>White healthy roots, fast growth</td><td>Maintain — no action needed</td></tr>
+          <tr><td>23–26°C</td><td><span class="badge-a">Declining — watch closely</span></td><td>Slight stress, monitor for slime</td><td>Add shade, check pump timing</td></tr>
+          <tr><td>27–30°C</td><td><span class="badge-r">Low — root rot risk high</span></td><td>Brown roots, pythium risk</td><td>Add ice blocks, increase flow rate</td></tr>
+          <tr><td>Above 30°C</td><td><span class="badge-r">Critical — O₂ nearly zero</span></td><td>Rapid root death within hours</td><td>Emergency cooling or harvest early</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- TOO LITTLE / TOO MUCH OXYGEN -->
+    <div class="oxygen-grid">
+      <div class="oxy-card">
+        <div class="oxy-header" style="background:linear-gradient(135deg,#B71C1C,#C62828)">
+          <span class="oh-icon">📉</span>
+          <div>
+            <div class="oh-title">Too Little Oxygen — Causes</div>
+            <div class="oh-sub">Root hypoxia → brown slime → plant death</div>
+          </div>
+        </div>
+        <div class="oxy-body">
+          <div class="oxy-item"><div class="oi-dot" style="background:#EF5350"></div><span><strong>Pump failure or power cut</strong> — stagnant water loses O₂ within 2–4 hours. Roots begin dying.</span></div>
+          <div class="oxy-item"><div class="oi-dot" style="background:#EF5350"></div><span><strong>Water too warm (&gt;26°C)</strong> — warm water holds less dissolved oxygen than cold water (Henry's Law).</span></div>
+          <div class="oxy-item"><div class="oi-dot" style="background:#EF5350"></div><span><strong>Pipe slope too flat (&lt;2°)</strong> — water pools instead of flowing, creating anaerobic dead zones.</span></div>
+          <div class="oxy-item"><div class="oi-dot" style="background:#EF5350"></div><span><strong>Algae or bacteria bloom</strong> — these organisms consume O₂ faster than it can dissolve in, starving roots.</span></div>
+          <div class="oxy-item"><div class="oi-dot" style="background:#EF5350"></div><span><strong>Root mass blocking pipe</strong> — over-grown roots block flow and eliminate the air gap in the pipe.</span></div>
+          <div class="oxy-item"><div class="oi-dot" style="background:#EF5350"></div><span><strong>Timer set wrong</strong> — pump running 24/7 at low flow can cause pooling in some pipe layouts.</span></div>
+        </div>
+      </div>
+
+      <div class="oxy-card">
+        <div class="oxy-header" style="background:linear-gradient(135deg,#1B5E20,#2E7D32)">
+          <span class="oh-icon">📈</span>
+          <div>
+            <div class="oh-title">Too Much Oxygen — Is It Possible?</div>
+            <div class="oh-sub">In NFT, more O₂ is almost always better</div>
+          </div>
+        </div>
+        <div class="oxy-body">
+          <div class="oxy-item"><div class="oi-dot" style="background:#4CAF50"></div><span><strong>In practice — not dangerous to roots.</strong> Unlike soil, there is no upper limit where excess O₂ harms root tissue in hydro systems.</span></div>
+          <div class="oxy-item"><div class="oi-dot" style="background:#FFC107"></div><span><strong>Air pump too strong in tank</strong> — heavy bubbling makes EC readings inaccurate. Measure after bubbles settle.</span></div>
+          <div class="oxy-item"><div class="oi-dot" style="background:#FFC107"></div><span><strong>Flow rate too aggressive</strong> — if water sprays rather than flows as a thin film, roots can dry out between cycles.</span></div>
+          <div class="oxy-item"><div class="oi-dot" style="background:#4CAF50"></div><span><strong>Signs of excellent O₂</strong> — brilliant white roots, no smell from the tank, rapid plant growth, stable pH (no bacterial drift).</span></div>
+          <div style="background:#E8F5E9;border-radius:8px;padding:10px 12px;margin-top:8px;font-size:10px;color:#1B5E20;border-left:3px solid #4CAF50">
+            <strong>Rule of thumb:</strong> Keep water temperature under 22°C, maintain a 3–5° pipe slope, and run the pump at least 15 min every hour — oxygen takes care of itself.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ QUICK DIFFERENCE TABLE ═══════ -->
+    <div class="section-label">
+      <div class="section-icon" style="background:#EDE7F6">🔍</div>
+      <span class="section-title">Side-by-Side Comparison — EC vs pH vs TDS</span>
+      <div class="section-rule" style="background:linear-gradient(to right,#AB47BC,transparent)"></div>
+    </div>
+
+    <div style="overflow:hidden;border-radius:12px;box-shadow:0 3px 14px rgba(0,0,0,.08)">
+      <table style="width:100%;border-collapse:collapse;font-size:11px">
+        <thead>
+          <tr>
+            <th style="background:#4A148C;color:#fff;font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:10px 14px;text-align:left;border:1px solid #6A1B9A">Attribute</th>
+            <th style="background:#1565C0;color:#fff;font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:10px 14px;text-align:center;border:1px solid #1976D2">⚡ EC</th>
+            <th style="background:#1B5E20;color:#fff;font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:10px 14px;text-align:center;border:1px solid #2E7D32">🧪 pH</th>
+            <th style="background:#4A148C;color:#fff;font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:10px 14px;text-align:center;border:1px solid #6A1B9A">💧 TDS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="border:1px solid #E8EAF6;padding:8px 14px;background:#FAFAFA;font-weight:600;color:#37474F">What it measures</td>
+            <td style="border:1px solid #E8EAF6;padding:8px 14px;text-align:center;color:#37474F">Nutrient solution strength</td>
+            <td style="border:1px solid #E8EAF6;padding:8px 14px;text-align:center;color:#37474F">Acidity / alkalinity</td>
+            <td style="border:1px solid #E8EAF6;padding:8px 14px;text-align:center;color:#37474F">Same as EC (different unit)</td>
+          </tr>
+          <tr>
+            <td style="border:1px solid #E8EAF6;padding:8px 14px;background:#F3F4F6;font-weight:600;color:#37474F">Unit</td>
+            <td style="border:1px solid #E8EAF6;padding:8px 14px;text-align:center;font-family:'Montserrat',sans-serif;font-weight:700;color:#1565C0;background:#F3F4F6">mS/cm</td>
+            <td style="border:1px solid #E8EAF6;padding:8px 14px;text-align:center;font-family:'Montserrat',sans-serif;font-weight:700;color:#1B5E20;background:#F3F4F6">0 – 14 scale</td>
+            <td style="border:1px solid #E8EAF6;padding:8px 14px;text-align:center;font-family:'Montserrat',sans-serif;font-weight:700;color:#4A148C;background:#F3F4F6">ppm (mg/L)</td>
+          </tr>
+          <tr>
+            <td style="border:1px solid #E8EAF6;padding:8px 14px;background:#FAFAFA;font-weight:600;color:#37474F">What happens if wrong</td>
+            <td style="border:1px solid #E8EAF6;padding:8px 14px;text-align:center;color:#37474F;background:#FAFAFA">Nutrient burn or starvation</td>
+            <td style="border:1px solid #E8EAF6;padding:8px 14px;text-align:center;color:#37474F;background:#FAFAFA">Nutrient lockout (even if EC is fine)</td>
+            <td style="border:1px solid #E8EAF6;padding:8px 14px;text-align:center;color:#37474F;background:#FAFAFA">Same effect as wrong EC</td>
+          </tr>
+          <tr>
+            <td style="border:1px solid #E8EAF6;padding:8px 14px;background:#F3F4F6;font-weight:600;color:#37474F">How to fix if too high</td>
+            <td style="border:1px solid #E8EAF6;padding:8px 14px;text-align:center;color:#37474F;background:#F3F4F6">Dilute with clean water</td>
+            <td style="border:1px solid #E8EAF6;padding:8px 14px;text-align:center;color:#37474F;background:#F3F4F6">Add pH-down (phosphoric acid)</td>
+            <td style="border:1px solid #E8EAF6;padding:8px 14px;text-align:center;color:#37474F;background:#F3F4F6">Dilute with clean water</td>
+          </tr>
+          <tr>
+            <td style="border:1px solid #E8EAF6;padding:8px 14px;background:#FAFAFA;font-weight:600;color:#37474F">How to fix if too low</td>
+            <td style="border:1px solid #E8EAF6;padding:8px 14px;text-align:center;color:#37474F;background:#FAFAFA">Add nutrient A + B solution</td>
+            <td style="border:1px solid #E8EAF6;padding:8px 14px;text-align:center;color:#37474F;background:#FAFAFA">Add pH-up (potassium hydroxide)</td>
+            <td style="border:1px solid #E8EAF6;padding:8px 14px;text-align:center;color:#37474F;background:#FAFAFA">Add nutrient A + B solution</td>
+          </tr>
+          <tr>
+            <td style="border:1px solid #E8EAF6;padding:8px 14px;background:#F3F4F6;font-weight:600;color:#37474F">Check frequency</td>
+            <td style="border:1px solid #E8EAF6;padding:8px 14px;text-align:center;background:#F3F4F6"><span class="badge-g">2× daily</span></td>
+            <td style="border:1px solid #E8EAF6;padding:8px 14px;text-align:center;background:#F3F4F6"><span class="badge-g">2× daily</span></td>
+            <td style="border:1px solid #E8EAF6;padding:8px 14px;text-align:center;background:#F3F4F6"><span class="badge-a">Optional — EC is enough</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- ═══════ FOOTER ═══════ -->
+  <div class="footer">
+    <div>
+      <div class="footer-brand">NFT A-Frame System</div>
+      <div class="footer-sub">EC measures strength · pH controls access · TDS = EC in ppm · Temperature controls O₂</div>
+    </div>
+    <div class="footer-dots">
+      <div class="footer-dot" style="background:#42A5F5"></div>
+      <div class="footer-dot" style="background:#66BB6A"></div>
+      <div class="footer-dot" style="background:#26C6DA"></div>
+      <div class="footer-dot" style="background:#FFA726"></div>
+      <div class="footer-dot" style="background:#EF5350"></div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

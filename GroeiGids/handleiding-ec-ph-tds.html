@@ -1,0 +1,843 @@
+﻿<!DOCTYPE html>
+<html lang="af">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NFT Handleiding — NFT, EC, pH, TDS &amp; Suurstof</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#f2f5f2;font-family:'Montserrat',sans-serif;padding:30px 0}
+.page{width:794px;min-height:1123px;background:#fff;margin:0 auto 32px;position:relative;overflow:visible;box-shadow:0 8px 40px rgba(0,0,0,.15);page-break-after:always;color:#37474F}
+
+/* HEADER & FOOTER */
+.book-header{background:linear-gradient(135deg,#e3f2fd,#bbdefb);border-bottom:2px solid #90caf9;color:#1a237e;padding:10px 24px;display:flex;justify-content:space-between;align-items:center}
+.book-header .chapter{font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#1a237e}
+.book-header .page-num{font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700;color:#1a237e}
+.book-footer{position:absolute;bottom:0;left:0;right:0;background:#1b3a1b;border-top:none;padding:8px 24px;display:flex;justify-content:space-between;align-items:center}
+.book-footer span{font-size:14px;color:rgba(255,255,255,.85);font-weight:600;letter-spacing:.5px}
+.page-body{padding:0 24px 55px}
+
+/* COVER */
+.cover-bg{background:linear-gradient(160deg,#f3f7ff 0%,#f1f8e9 60%,#ffffff 100%);min-height:1123px;color:#1a2e1a;display:flex;flex-direction:column}
+.cover-header-bar{background:rgba(255,255,255,.95);border-bottom:1px solid #e0e0e0;padding:14px 32px;display:flex;justify-content:space-between;align-items:center}
+.cover-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center}
+
+/* SECTION LABEL */
+.section-label{display:flex;align-items:center;gap:10px;margin:6px 0 5px}
+.section-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:21px;flex-shrink:0;background:#F5F5F5}
+.section-title{font-family:'Montserrat',sans-serif;font-size:14px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#1A237E}
+.section-rule{flex:1;height:1px;background:linear-gradient(to right,#3949AB,transparent)}
+
+/* CONCEPT CARD */
+.concept-card{border-radius:10px;overflow:hidden;border:1px solid #E0E0E0;margin-bottom:6px}
+.cc-header{padding:12px 18px;color:#fff}
+.cc-icon{font-size:31px;margin-bottom:4px}
+.cc-title{font-family:'Montserrat',sans-serif;font-size:21px;font-weight:900}
+.cc-abbr{font-size:15px;opacity:.7;margin-top:1px}
+.cc-body{padding:8px 14px;background:#F8F9FA;border:1px solid #E0E0E0;border-top:none;border-radius:0 0 12px 12px}
+.cc-def{font-size:15px;color:#37474F;line-height:1.6;margin-bottom:8px}
+.cc-unit{display:flex;justify-content:space-between;align-items:center;background:#F5F5F5;border-radius:7px;padding:5px 10px;font-size:15px;margin-bottom:4px;border:1px solid #E0E0E0}
+.cc-unit .lbl{color:#546E7A;font-weight:500}
+.cc-unit .val{font-family:'Montserrat',sans-serif;font-weight:800;color:#1A237E}
+.cc-key{font-size:14px;color:#37474F;font-style:italic;line-height:1.5;border-left:3px solid #3949AB;padding-left:8px;margin-top:8px}
+
+/* RANGE BAR */
+.range-track-wrap{position:relative;height:18px;margin-bottom:2px}
+.range-track{position:absolute;top:50%;transform:translateY(-50%);left:0;right:0;height:13px;border-radius:7px}
+.ec-track{background:linear-gradient(to right,#B71C1C 0%,#EF5350 14%,#FF9800 28%,#4CAF50 34%,#4CAF50 57%,#FF9800 71%,#EF5350 86%,#B71C1C 100%)}
+.ph-track{background:linear-gradient(to right,#B71C1C 0%,#EF5350 12.5%,#FF9800 25%,#FDD835 37.5%,#4CAF50 50%,#FDD835 62.5%,#FF9800 75%,#EF5350 87.5%,#B71C1C 100%)}
+.temp-track{background:linear-gradient(to right,#1565C0 0%,#42A5F5 20%,#4CAF50 35%,#4CAF50 55%,#FF9800 70%,#EF5350 85%,#B71C1C 100%)}
+.range-optimal{position:absolute;top:50%;transform:translateY(-50%);height:19px;border-radius:5px;border:3px solid #fff;box-shadow:0 0 8px rgba(0,0,0,.2),0 0 16px rgba(129,199,132,.3);z-index:2}
+.range-ticks{display:flex;justify-content:space-between;font-size:12px;color:#666;padding:0 2px}
+.range-label-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}
+.range-title{font-family:'Montserrat',sans-serif;font-size:14px;font-weight:700;color:#1A237E;text-transform:uppercase;letter-spacing:1px}
+.range-val{font-family:'Montserrat',sans-serif;font-size:18px;font-weight:900;color:#3949AB}
+.range-unit{font-size:14px;font-weight:400;color:#546E7A;margin-left:2px}
+
+/* TABLES */
+.std-table{width:100%;border-collapse:collapse;font-size:14px}
+.std-table th{background:#e8eaf6;color:#1a237e;font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:5px 8px;text-align:left;border:1px solid #c5cae9}
+.std-table td{border:1px solid #E0E0E0;padding:3px 6px;color:#37474F;vertical-align:top}
+.std-table tr:nth-child(even) td{background:#F5F5F5}
+.badge-g{background:#E8F5E9;color:#2E7D32;border-radius:10px;padding:2px 8px;font-size:12px;font-weight:700;white-space:nowrap}
+.badge-a{background:#FFF8E1;color:#E65100;border-radius:10px;padding:2px 8px;font-size:12px;font-weight:700;white-space:nowrap}
+.badge-r{background:#FFEBEE;color:#C62828;border-radius:10px;padding:2px 8px;font-size:12px;font-weight:700;white-space:nowrap}
+.hl{background:#E8EAF6;color:#1A237E;font-family:'Montserrat',sans-serif;font-weight:700}
+
+/* INFO BOX */
+.info-box{border-radius:10px;padding:7px 12px;display:flex;gap:10px;align-items:flex-start;margin-bottom:8px}
+.info-box.blue{background:rgba(30,136,229,.08);border-left:4px solid #42a5f5}
+.info-box.green{background:rgba(67,160,71,.08);border-left:4px solid #4caf50}
+.info-box.amber{background:rgba(255,193,7,.08);border-left:4px solid #ffc107}
+.info-box.red{background:rgba(239,83,80,.08);border-left:4px solid #ef5350}
+.info-box .ib-icon{font-size:21px;flex-shrink:0}
+.info-box .ib-text{font-size:15px;color:#37474F;line-height:1.55}
+.info-box .ib-text strong{display:block;margin-bottom:2px;font-size:16px;color:#222}
+
+/* OXY ITEM */
+.oxy-item{display:flex;gap:8px;align-items:flex-start;margin-bottom:4px;font-size:15px;color:#37474F;line-height:1.5}
+.oxy-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
+
+/* FLOW */
+.flow-row{display:flex;align-items:center;gap:0}
+.flow-step{flex:1;text-align:center;padding:6px 4px}
+.flow-circle{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:21px;margin:0 auto 6px;box-shadow:0 3px 10px rgba(0,0,0,.12)}
+.flow-label{font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:#37474F;line-height:1.3}
+.flow-sub{font-size:12px;color:#666;margin-top:2px;line-height:1.4}
+.flow-arrow{color:#BDBDBD;font-size:21px;flex-shrink:0;margin-top:-16px}
+
+/* LEGEND */
+.legend-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;background:#F5F5F5;border:1px solid #E0E0E0;border-radius:8px;padding:5px 10px;margin-bottom:6px}
+.legend-item{display:flex;align-items:center;gap:4px;font-size:12px;color:#555}
+.legend-dot{width:10px;height:10px;border-radius:2px}
+
+/* PRINT */
+
+
+
+@media print {
+  @page { size: A4 portrait; margin: 0; }
+  *, *::before, *::after { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; box-sizing: border-box; }
+  html, body { margin: 0 !important; padding: 0 !important; background: white !important; }
+
+  .page, .page1, .page2 {
+    width: 210mm !important;
+    height: 297mm !important;
+    min-height: unset !important;
+    max-height: 297mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    overflow: hidden !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    display: flex !important;
+    flex-direction: column !important;
+    position: relative !important;
+  }
+
+  /* Inhoud area groei om plek te vul */
+  .page-body, .content {
+    flex: 1 1 auto !important;
+    overflow: hidden !important;
+    padding-bottom: 0 !important;
+  }
+
+  /* Voetbalk LAASTE in die bladsy — altyd onderaan */
+  .book-footer, .book-ftr {
+    flex-shrink: 0 !important;
+    position: relative !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
+    width: 100% !important;
+    margin-top: auto !important;
+  }
+
+  /* Omslag volle hoogte */
+  .cover-bg, .cover {
+    height: 297mm !important;
+    min-height: unset !important;
+    overflow: hidden !important;
+    flex: 1 !important;
+  }
+
+  .print-btn-bar { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════ PAGE 1 — COVER ══════════════════ -->
+<div class="page">
+  <div class="cover-bg">
+    <div class="cover-header-bar">
+      <span style="font-family:'Montserrat',sans-serif;font-size:16px;font-weight:700;letter-spacing:2px;color:#1a237e">NFT A-Raam Handleiding</span>
+      <span style="font-family:'Montserrat',sans-serif;font-size:16px;font-weight:700;letter-spacing:2px;color:#1a237e">Hoofstuk 1</span>
+    </div>
+    <div class="cover-body">
+      <div style="background:#e8eaf6;border:2px solid #9fa8da;border-radius:40px;padding:6px 20px;font-family:'Montserrat',sans-serif;font-size:16px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#1a237e;margin-bottom:20px">Hoofstuk 1</div>
+      <div style="font-size:44px;margin-bottom:10px">⚡🧪💧🫧</div>
+      <div style="font-family:'Montserrat',sans-serif;font-size:49px;font-weight:900;line-height:1.15;margin-bottom:12px;color:#1a237e">NFT, EC, pH, TDS<br>&amp; Suurstof</div>
+      <div style="font-size:20px;color:rgba(26,35,126,.65);margin-bottom:36px;font-weight:300">Verstaan die drie kernmetings en hoe suurstof jou wortels aan die lewe hou</div>
+      <div style="width:80px;height:4px;background:#c5cae9;border-radius:2px;margin:0 auto 28px"></div>
+
+      <!-- STAT PILLS -->
+      <div style="display:flex;gap:12px;margin-bottom:32px;justify-content:center">
+        <div style="background:#e3f2fd;border:1.5px solid #90caf9;border-radius:20px;padding:10px 18px;text-align:center">
+          <div style="font-family:'Montserrat',sans-serif;font-size:31px;font-weight:900;color:#1565c0">mS/cm</div>
+          <div style="font-size:14px;color:#546e7a;margin-top:2px">EC eenheid</div>
+        </div>
+        <div style="background:#e8f5e9;border:1.5px solid #a5d6a7;border-radius:20px;padding:10px 18px;text-align:center">
+          <div style="font-family:'Montserrat',sans-serif;font-size:31px;font-weight:900;color:#2e7d32">0–14</div>
+          <div style="font-size:14px;color:#546e7a;margin-top:2px">pH skaal</div>
+        </div>
+        <div style="background:#ede7f6;border:1.5px solid #ce93d8;border-radius:20px;padding:10px 18px;text-align:center">
+          <div style="font-family:'Montserrat',sans-serif;font-size:31px;font-weight:900;color:#6a1b9a">ppm</div>
+          <div style="font-size:14px;color:#546e7a;margin-top:2px">TDS eenheid</div>
+        </div>
+        <div style="background:#fff8e1;border:1.5px solid #ffe082;border-radius:20px;padding:10px 18px;text-align:center">
+          <div style="font-family:'Montserrat',sans-serif;font-size:31px;font-weight:900;color:#e65100">2 uur</div>
+          <div style="font-size:14px;color:#546e7a;margin-top:2px">Worteldood sonder suurstof</div>
+        </div>
+      </div>
+
+      <div style="background:#f5f5f5;border:1px solid #e0e0e0;border-radius:12px;padding:18px 24px;width:100%;max-width:500px;text-align:left">
+        <div style="font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700;letter-spacing:2px;color:#546e7a;margin-bottom:12px;text-transform:uppercase">Inhoud van hierdie hoofstuk</div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #e0e0e0;font-size:16px;color:#37474f"><span>Wat is 'n NFT Hidroponiese Stelsel?</span><span style="color:#546e7a;font-weight:600">Bl. 2</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #e0e0e0;font-size:16px;color:#37474f"><span>EC, pH en TDS — Wat is die verskil?</span><span style="color:#546e7a;font-weight:600">Bl. 3</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #e0e0e0;font-size:16px;color:#37474f"><span>Wat Gebeur as Elkeen Verkeerd Is?</span><span style="color:#546e7a;font-weight:600">Bl. 4</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #e0e0e0;font-size:16px;color:#37474f"><span>Visuele Reeksbalkie — EC &amp; pH per Gewas</span><span style="color:#546e7a;font-weight:600">Bl. 5</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #e0e0e0;font-size:16px;color:#37474f"><span>Suurstof in die NFT Stelsel</span><span style="color:#546e7a;font-weight:600">Bl. 6</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:16px;color:#37474f"><span>Watertemperatuur, suurstof &amp; vergelyking</span><span style="color:#546e7a;font-weight:600">Bl. 7</span></div>
+      </div>
+    </div>
+    <div style="background:#1b3a1b;padding:10px 32px;display:flex;justify-content:space-between">
+      <span style="font-size:14px;color:rgba(255,255,255,.7)">Hoofstuk 1 · NFT, EC, pH, TDS &amp; Suurstof</span>
+      <span style="font-size:14px;color:rgba(255,255,255,.7)">Bladsy 1 van 7</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ PAGE 2 — NFT INLEIDING ══════════════════ -->
+<div class="page">
+  <div class="book-header">
+    <span class="chapter">Hoofstuk 1 · NFT, EC, pH, TDS &amp; Suurstof</span>
+    <span class="page-num">Bladsy 2 van 7</span>
+  </div>
+  <div class="page-body">
+
+    <div class="section-label" style="margin-top:18px">
+      <div class="section-icon" style="background:#E8F5E9">🌱</div>
+      <span class="section-title">Wat is 'n NFT Hidroponiese Stelsel?</span>
+      <div class="section-rule"></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px">
+      <div style="background:#F8F9FA;border:1.5px solid #E0E0E0;border-radius:12px;padding:16px 18px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:800;color:#1B5E20;margin-bottom:10px">💧 Hoe werk NFT?</div>
+        <p style="font-size:13px;color:#37474F;line-height:1.75;margin-bottom:10px"><strong>NFT</strong> staan vir <strong>Nutrient Film Technique</strong> — Voedingstoffilm-tegniek in Afrikaans.</p>
+        <p style="font-size:13px;color:#37474F;line-height:1.75;margin-bottom:10px">In plaas van grond gebruik ons water wat baie stadig deur gekantelde pype vloei — so stadig dat dit net 'n dun "film" water op die onderkant van die pyp laat.</p>
+        <p style="font-size:13px;color:#37474F;line-height:1.75">Die plantewortels hang in dié pype. Die onderpunt van die wortels raak die waterfilm en suig voedingstowwe op. Die boonste deel van die wortels bly in die lug en asem suurstof in.</p>
+      </div>
+      <div style="background:#E8F5E9;border:1.5px solid #A5D6A7;border-radius:12px;padding:16px 18px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:800;color:#1B5E20;margin-bottom:10px">🏫 Wat beoog ons hiermee?</div>
+        <div style="font-size:13px;color:#37474F;line-height:1.8">
+          <div style="margin-bottom:8px">✅ <strong>Vars groente kweek</strong> by die skool — slaai, spinasie, aarbeie en mosterd</div>
+          <div style="margin-bottom:8px">✅ <strong>Wetenskaplike vaardighede</strong> aanleer — meting, analise, logboek</div>
+          <div style="margin-bottom:8px">✅ <strong>Verantwoordelikheid</strong> — elke leerder sorg vir 'n kant van die stelsel</div>
+          <div style="margin-bottom:8px">✅ <strong>Voedselsekerheid</strong> — verstaan hoe kos geproduseer word</div>
+          <div>✅ <strong>Entrepreneurskap</strong> — groente kan verkoop word aan onderwysers en ouers</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VOORDELE EN NADELE -->
+    <div class="section-label">
+      <div class="section-icon" style="background:#E3F2FD">⚖️</div>
+      <span class="section-title">Voordele en Nadele van NFT</span>
+      <div class="section-rule"></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px">
+      <!-- VOORDELE -->
+      <div style="background:#E8F5E9;border:2px solid #A5D6A7;border-radius:12px;padding:16px 18px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:900;color:#1B5E20;margin-bottom:12px">✅ Voordele</div>
+        <div style="font-size:12px;color:#37474F;line-height:1.8">
+          <div style="margin-bottom:6px">🌱 <strong>Vinniger groei</strong> — plante groei 30–50% vinniger as in grond</div>
+          <div style="margin-bottom:6px">💧 <strong>Waterbesparend</strong> — tot 90% minder water as tradisionele tuinmaak</div>
+          <div style="margin-bottom:6px">🧪 <strong>Presiese beheer</strong> — jy bepaal presies watter voedingstowwe plante kry</div>
+          <div style="margin-bottom:6px">🦟 <strong>Minder peste</strong> — geen grond = minder grondgedraagde siektes</div>
+          <div style="margin-bottom:6px">📏 <strong>Ruimtebesparing</strong> — A-raam-ontwerp gebruik vertikale spasie</div>
+          <div>🔄 <strong>Herbruikbare water</strong> — water sirkuleer terug na die tenk</div>
+        </div>
+      </div>
+      <!-- NADELE -->
+      <div style="background:#FFEBEE;border:2px solid #FFCDD2;border-radius:12px;padding:16px 18px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:900;color:#C62828;margin-bottom:12px">⚠️ Nadele &amp; Uitdagings</div>
+        <div style="font-size:12px;color:#37474F;line-height:1.8">
+          <div style="margin-bottom:6px">⚡ <strong>Kragafhanklik</strong> — die pomp moet 24/7 loop; kragonderbreking is gevaarlik</div>
+          <div style="margin-bottom:6px">🌡 <strong>Watertemperatuur</strong> — warm water hou minder suurstof; wortels kan sterf</div>
+          <div style="margin-bottom:6px">🧫 <strong>Siekte versprei vinnig</strong> — een siek plant kan die hele tenk besmet</div>
+          <div style="margin-bottom:6px">💰 <strong>Opstelkoste</strong> — die aanvanklike koste is hoër as 'n gewone tuin</div>
+          <div style="margin-bottom:6px">📚 <strong>Kennis nodig</strong> — EC, pH en suurstof moet gereeld gemeet word</div>
+          <div>🔧 <strong>Onderhoud</strong> — tenks moet elke 4–6 weke skoongemaak word</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLEUTELWENK -->
+    <div style="background:#FFF8E1;border:1.5px solid #FFE082;border-radius:10px;padding:12px 16px;display:flex;gap:12px;align-items:flex-start">
+      <span style="font-size:22px;flex-shrink:0">💡</span>
+      <div style="font-size:13px;color:#37474F;line-height:1.65">
+        <strong style="color:#E65100;font-family:'Montserrat',sans-serif">Onthou:</strong> Die grootste gevaar in NFT is 'n pompstoring. Sonder water-sirkulasie sterf wortels binne <strong>30 minute</strong>. Dít is hoekom ons in Hoofstuk 4 sê: <em>die pomp moet 24/7 aan wees</em>.
+      </div>
+    </div>
+
+  </div>
+  <div class="book-footer">
+    <span>NFT A-Raam Handleiding</span>
+    <span>Hoofstuk 1 — NFT, EC, pH, TDS &amp; Suurstof</span>
+    <span>Bladsy 2</span>
+  </div>
+</div>
+
+<!-- ══════════════════ PAGE 3 (was 2) — EC, pH, TDS DEFINITIONS ══════════════════ -->
+<div class="page">
+  <div class="book-header">
+    <span class="chapter">Hoofstuk 1 · NFT, EC, pH, TDS &amp; Suurstof</span>
+    <span class="page-num">Bladsy 3 van 7</span>
+  </div>
+  <div class="page-body">
+
+    <div class="section-label" style="margin-top:18px">
+      <div class="section-icon" style="background:rgba(30,136,229,.12)">📖</div>
+      <span class="section-title">Die Drie Kernmetings — Wat Meet Elkeen &amp; Hoekom Verskil Hulle?</span>
+      <div class="section-rule"></div>
+    </div>
+
+    <!-- EC -->
+    <div class="concept-card">
+      <div class="cc-header" style="background:linear-gradient(135deg,#1565C0,#1976D2)">
+        <div class="cc-icon">⚡</div>
+        <div class="cc-title">EC — Elektriese Geleidingsvermoë</div>
+        <div class="cc-abbr">Electrical Conductivity</div>
+      </div>
+      <div class="cc-body">
+        <div class="cc-def">Meet <strong>hoe goed elektrisiteit deur jou water beweeg.</strong> Meer opgeloste soute (voedingstowwe) = hoër geleidingsvermoë. EC vertel jou die <em>totale sterkte</em> van jou voedingsoplossing — nie watter voedingstowwe nie, net hoeveel.</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
+          <div class="cc-unit"><span class="lbl">Eenheid</span><span class="val">mS/cm</span></div>
+          <div class="cc-unit"><span class="lbl">NFT reeks</span><span class="val">1.0 – 2.2 mS/cm</span></div>
+          <div class="cc-unit"><span class="lbl">Suiwer water EC</span><span class="val">≈ 0.0 mS/cm</span></div>
+        </div>
+        <div class="cc-key">💡 Dink aan EC as die "voedselkonsentrasiedraaiknop" — te laag = honger plante, te hoog = brandskade van wortels.</div>
+      </div>
+    </div>
+
+    <!-- pH -->
+    <div class="concept-card">
+      <div class="cc-header" style="background:linear-gradient(135deg,#1B5E20,#2E7D32)">
+        <div class="cc-icon">🧪</div>
+        <div class="cc-title">pH — Suurgraad</div>
+        <div class="cc-abbr">Power of Hydrogen</div>
+      </div>
+      <div class="cc-body">
+        <div class="cc-def">Meet die <strong>konsentrasie van waterstofione</strong> — d.w.s. hoe suur of alkalies jou water is. pH beheer die <em>chemiese beskikbaarheid</em> van voedingstowwe. Selfs 'n perfekte EC is nutteloos as die pH die voedingstof blokkeer wat die plant benodig.</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
+          <div class="cc-unit"><span class="lbl">Skaal</span><span class="val">0 (suur) → 14 (basies)</span></div>
+          <div class="cc-unit"><span class="lbl">NFT ideaal</span><span class="val">5.5 – 6.8</span></div>
+          <div class="cc-unit"><span class="lbl">Suiwer water pH</span><span class="val">7.0 (neutraal)</span></div>
+        </div>
+        <div class="cc-key">💡 pH is die "sleutel tot die spens" — die voedingstowwe is teenwoordig (EC is reg) maar die verkeerde pH sluit die deur. Die plant verhonger terwyl kos rondom hom is.</div>
+      </div>
+    </div>
+
+    <!-- TDS -->
+    <div class="concept-card">
+      <div class="cc-header" style="background:linear-gradient(135deg,#4A148C,#6A1B9A)">
+        <div class="cc-icon">💧</div>
+        <div class="cc-title">TDS — Totale Opgeloste Vastestowwe</div>
+        <div class="cc-abbr">Total Dissolved Solids</div>
+      </div>
+      <div class="cc-body">
+        <div class="cc-def">Meet <strong>dieselfde ding as EC</strong> — totale opgeloste soute — maar uitgedruk in <strong>ppm (deeltjies per miljoen)</strong> in plaas van mS/cm. Die meeste TDS-meters meet geleidingsvermoë en vermenigvuldig dit met 'n omskakellingsfaktor.</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
+          <div class="cc-unit"><span class="lbl">Eenheid</span><span class="val">ppm (mg/L)</span></div>
+          <div class="cc-unit"><span class="lbl">Omskakeling ×500</span><span class="val">EC 1.5 → 750 ppm</span></div>
+          <div class="cc-unit"><span class="lbl">Omskakeling ×700</span><span class="val">EC 1.5 → 1050 ppm</span></div>
+        </div>
+        <div class="cc-key">💡 TDS en EC meet dieselfde ding. Hidroponiese boere gebruik EC. Akwarium en drinkwater gebruik TDS. Ken jou meter se faktor (×500 of ×700) — albei is korrek, net verskillende skale.</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="book-footer">
+    <span>NFT A-Raam Handleiding</span>
+    <span>Hoofstuk 1 — NFT, EC, pH, TDS &amp; Suurstof</span>
+    <span>Bladsy 3</span>
+  </div>
+</div>
+
+<!-- ══════════════════ PAGE 3B — WAT GEBEUR ══════════════════ -->
+<div class="page">
+  <div class="book-header">
+    <span class="chapter">Hoofstuk 1 · NFT, EC, pH, TDS &amp; Suurstof</span>
+    <span class="page-num">Bladsy 4 van 7</span>
+  </div>
+  <div class="page-body">
+
+    <!-- WHAT HAPPENS IF WRONG -->
+    <div class="section-label" style="margin-top:18px">
+      <div class="section-icon" style="background:#FFF8E1">⚠️</div>
+      <span class="section-title">Wat Gebeur as Elkeen Verkeerd Is?</span>
+      <div class="section-rule"></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+
+      <!-- EC CARD -->
+      <div style="background:rgba(30,136,229,.12);border:1px solid rgba(30,136,229,.25);border-radius:10px;padding:12px 14px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:15px;font-weight:800;color:#1565C0;margin-bottom:8px">⚡ EC Verkeerd</div>
+        <div style="font-size:14px;color:#37474F;line-height:1.6">
+          <strong style="display:block;color:#EF5350;margin-bottom:2px">Te hoog:</strong> Brandskade — blaarrande brand bruin, wortels verdroog, groei stop.<br><br>
+          <strong style="display:block;color:#1565C0;margin-bottom:2px">Te laag:</strong> Plante verhonger — bleek geel kleur, stadige groei, swak opbrengs.
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:8px">
+          <div style="border:1.5px dashed rgba(239,83,80,.4);border-radius:6px;overflow:hidden;text-align:center">
+            <img src="../Images/ec-hoog-simptome.png" alt="EC te hoog simptome" style="width:100%;height:110px;object-fit:cover;display:block" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div style="display:none;height:110px;align-items:center;justify-content:center;flex-direction:column;gap:2px;background:rgba(239,83,80,.08)">
+              <span style="font-size:16px">🔴</span>
+              <span style="font-size:12px;color:#EF5350;font-weight:600">Blaarpunt brand</span>
+            </div>
+            <div style="font-size:12px;color:#EF5350;padding:2px 4px;background:#F5F5F5">Te hoog — brandskade</div>
+          </div>
+          <div style="border:1.5px dashed rgba(144,202,249,.3);border-radius:6px;overflow:hidden;text-align:center">
+            <img src="../Images/ec-laag-simptome.png" alt="EC te laag simptome" style="width:100%;height:110px;object-fit:cover;display:block" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div style="display:none;height:110px;align-items:center;justify-content:center;flex-direction:column;gap:2px;background:rgba(144,202,249,.08)">
+              <span style="font-size:16px">🟡</span>
+              <span style="font-size:12px;color:#1565C0;font-weight:600">Bleek geel blare</span>
+            </div>
+            <div style="font-size:12px;color:#1565C0;padding:2px 4px;background:#F5F5F5">Te laag — verhongering</div>
+          </div>
+        </div>
+        <div style="margin-top:7px;padding:7px 10px;background:rgba(30,136,229,.1);border-left:3px solid #42a5f5;border-radius:4px;font-size:12px;color:#1565C0">
+          <strong>Voorbeeld:</strong> Slaai-EC van 3.2 mS/cm — blaarpunte brand bruin binne 48 uur. Oplossing: verdun met vars water tot 1.5 mS/cm.
+        </div>
+      </div>
+
+      <!-- pH CARD -->
+      <div style="background:rgba(67,160,71,.12);border:1px solid rgba(67,160,71,.25);border-radius:10px;padding:12px 14px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:15px;font-weight:800;color:#2E7D32;margin-bottom:8px">🧪 pH Verkeerd</div>
+        <div style="font-size:14px;color:#37474F;line-height:1.6">
+          <strong style="display:block;color:#EF5350;margin-bottom:2px">Te hoog (&gt;7.0):</strong> Yster, mangaan en fosfaat geblokkeer — geel blare met groen are, pers stele.<br><br>
+          <strong style="display:block;color:#2E7D32;margin-bottom:2px">Te laag (&lt;5.5):</strong> Kalsium en magnesium geblokkeer — blaarrande brand, groei stagneer.
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:8px">
+          <div style="border:1.5px dashed rgba(239,83,80,.4);border-radius:6px;overflow:hidden;text-align:center">
+            <img src="../Images/ph-hoog-simptome.png" alt="pH te hoog simptome" style="width:100%;height:110px;object-fit:cover;display:block" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div style="display:none;height:110px;align-items:center;justify-content:center;flex-direction:column;gap:2px;background:rgba(239,83,80,.08)">
+              <span style="font-size:16px">🟡</span>
+              <span style="font-size:12px;color:#EF5350;font-weight:600">Geel blare, groen are</span>
+            </div>
+            <div style="font-size:12px;color:#EF5350;padding:2px 4px;background:#F5F5F5">Te hoog — blokkering</div>
+          </div>
+          <div style="border:1.5px dashed rgba(165,214,167,.3);border-radius:6px;overflow:hidden;text-align:center">
+            <img src="../Images/ph-laag-simptome.png" alt="pH te laag simptome" style="width:100%;height:110px;object-fit:cover;display:block" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div style="display:none;height:110px;align-items:center;justify-content:center;flex-direction:column;gap:2px;background:rgba(165,214,167,.08)">
+              <span style="font-size:16px">🔴</span>
+              <span style="font-size:12px;color:#2E7D32;font-weight:600">Blaarrande brand</span>
+            </div>
+            <div style="font-size:12px;color:#2E7D32;padding:2px 4px;background:#F5F5F5">Te laag — stagnasie</div>
+          </div>
+        </div>
+        <div style="margin-top:7px;padding:7px 10px;background:rgba(67,160,71,.1);border-left:3px solid #4caf50;border-radius:4px;font-size:12px;color:#2E7D32">
+          <strong>Voorbeeld:</strong> pH van 7.4 — slaai-blare geel word alhoewel EC korrek is. Voeg pH-daler druppelsgewys by tot 6.2.
+        </div>
+      </div>
+
+      <!-- TDS CARD -->
+      <div style="background:rgba(171,71,188,.12);border:1px solid rgba(171,71,188,.25);border-radius:10px;padding:12px 14px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:15px;font-weight:800;color:#6A1B9A;margin-bottom:8px">💧 TDS Verkeerd</div>
+        <div style="font-size:14px;color:#37474F;line-height:1.6">
+          TDS en EC het dieselfde effek — TDS is net EC in 'n ander eenheid.<br><br>
+          <strong style="display:block;color:#6A1B9A;margin-bottom:2px">Belangrik:</strong> As jou meter ×500 gebruik en 'n ander meter ×700, sal die lesings verskil — altwee kan korrek wees.
+        </div>
+        <div style="margin-top:8px;border:1.5px dashed rgba(206,147,216,.3);border-radius:6px;padding:8px 10px;background:rgba(171,71,188,.08);text-align:center">
+          <span style="font-size:21px">🔗</span>
+          <div style="font-size:12px;color:#6A1B9A;margin-top:3px;font-weight:600">TDS simptome = EC simptome</div>
+          <div style="font-size:12px;color:#666;margin-top:2px">Gebruik EC-foto's hierbo as verwysing</div>
+        </div>
+        <div style="margin-top:7px;padding:7px 10px;background:rgba(171,71,188,.1);border-left:3px solid #ab47bc;border-radius:4px;font-size:12px;color:#6A1B9A">
+          <strong>Voorbeeld:</strong> Meter A lees 1050 ppm, Meter B lees 1470 ppm — dieselfde water, verskillende faktore (×500 vs ×700). Gebruik altyd dieselfde meter vir konsekwente lesings.
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+  <div class="book-footer">
+    <span>NFT A-Raam Handleiding</span>
+    <span>Hoofstuk 1 — NFT, EC, pH, TDS &amp; Suurstof</span>
+    <span>Bladsy 4</span>
+  </div>
+</div>
+
+<!-- ══════════════════ PAGE 4 — RANGE BARS + OXYGEN ══════════════════ -->
+<div class="page">
+  <div class="book-header">
+    <span class="chapter">Hoofstuk 1 · NFT, EC, pH, TDS &amp; Suurstof</span>
+    <span class="page-num">Bladsy 5 van 7</span>
+  </div>
+  <div class="page-body">
+
+    <div class="section-label" style="margin-top:10px">
+      <div class="section-icon" style="background:rgba(67,160,71,.12)">📊</div>
+      <span class="section-title">Visuele Reeksbalkie — EC &amp; pH per Gewas</span>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="legend-bar">
+      <span style="font-weight:700;font-size:14px;margin-right:4px">Kleurskaal:</span>
+      <div class="legend-item"><div class="legend-dot" style="background:#EF5350"></div> Te laag / te hoog</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#FF9800"></div> Grensgebied</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#4CAF50"></div> Veilige sone</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#fff;border:2px solid #333;width:12px;height:12px;border-radius:2px"></div> Optimale venster (wit blokkie)</div>
+    </div>
+
+    <!-- RANGE CARDS per crop -->
+    <div style="background:#F8F9FA;border-radius:12px;padding:12px 18px;margin-bottom:12px;border:1px solid #E0E0E0">
+
+      <!-- SLAAI -->
+      <div style="margin-bottom:10px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+          <div style="background:#1B5E20;color:#fff;border-radius:8px;padding:3px 12px;font-size:15px;font-weight:700;font-family:'Montserrat',sans-serif">🥬 Slaai</div>
+          <span style="font-size:13px;color:#546E7A">5 Pype · Raam A Kant 1 · Pomp 1</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div>
+            <div class="range-label-row"><span class="range-title">⚡ EC</span><span class="range-val">1.2 – 1.8<span class="range-unit">mS/cm</span></span></div>
+            <div class="range-track-wrap"><div class="range-track ec-track"></div><div class="range-optimal" style="left:34.3%;width:17.1%"></div></div>
+            <div class="range-ticks"><span>0</span><span>0.5</span><span>1.0</span><span>1.5</span><span>2.0</span><span>2.5</span><span>3.0</span><span>3.5</span></div>
+          </div>
+          <div>
+            <div class="range-label-row"><span class="range-title">🧪 pH</span><span class="range-val">5.8 – 6.2<span class="range-unit">pH</span></span></div>
+            <div class="range-track-wrap"><div class="range-track ph-track"></div><div class="range-optimal" style="left:45%;width:10%"></div></div>
+            <div class="range-ticks"><span>4.0</span><span>4.5</span><span>5.0</span><span>5.5</span><span>6.0</span><span>6.5</span><span>7.0</span><span>8.0</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="height:1px;background:#E0E0E0;margin-bottom:10px"></div>
+
+      <!-- SPINASIE -->
+      <div style="margin-bottom:10px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+          <div style="background:#1B5E20;color:#fff;border-radius:8px;padding:3px 12px;font-size:15px;font-weight:700;font-family:'Montserrat',sans-serif">🌱 Spinasie</div>
+          <span style="font-size:13px;color:#546E7A">5 Pype · Raam A Kant 2 · Pomp 2</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div>
+            <div class="range-label-row"><span class="range-title">⚡ EC</span><span class="range-val">1.8 – 2.3<span class="range-unit">mS/cm</span></span></div>
+            <div class="range-track-wrap"><div class="range-track ec-track"></div><div class="range-optimal" style="left:51.4%;width:14.3%"></div></div>
+            <div class="range-ticks"><span>0</span><span>0.5</span><span>1.0</span><span>1.5</span><span>2.0</span><span>2.5</span><span>3.0</span><span>3.5</span></div>
+          </div>
+          <div>
+            <div class="range-label-row"><span class="range-title">🧪 pH</span><span class="range-val">6.0 – 7.0<span class="range-unit">pH</span></span></div>
+            <div class="range-track-wrap"><div class="range-track ph-track"></div><div class="range-optimal" style="left:50%;width:25%"></div></div>
+            <div class="range-ticks"><span>4.0</span><span>4.5</span><span>5.0</span><span>5.5</span><span>6.0</span><span>6.5</span><span>7.0</span><span>8.0</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="height:1px;background:#E0E0E0;margin-bottom:10px"></div>
+
+      <!-- AARBEIE -->
+      <div style="margin-bottom:10px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+          <div style="background:#880E4F;color:#fff;border-radius:8px;padding:3px 12px;font-size:15px;font-weight:700;font-family:'Montserrat',sans-serif">🍓 Aarbeie</div>
+          <span style="font-size:13px;color:#546E7A">5 Pype · Raam B Kant 1 · Pomp 3</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div>
+            <div class="range-label-row"><span class="range-title">⚡ EC</span><span class="range-val">1.0 – 1.4<span class="range-unit">mS/cm</span></span></div>
+            <div class="range-track-wrap"><div class="range-track ec-track"></div><div class="range-optimal" style="left:28.6%;width:11.4%"></div></div>
+            <div class="range-ticks"><span>0</span><span>0.5</span><span>1.0</span><span>1.5</span><span>2.0</span><span>2.5</span><span>3.0</span><span>3.5</span></div>
+          </div>
+          <div>
+            <div class="range-label-row"><span class="range-title">🧪 pH</span><span class="range-val">5.5 – 6.0<span class="range-unit">pH</span></span></div>
+            <div class="range-track-wrap"><div class="range-track ph-track"></div><div class="range-optimal" style="left:37.5%;width:12.5%"></div></div>
+            <div class="range-ticks"><span>4.0</span><span>4.5</span><span>5.0</span><span>5.5</span><span>6.0</span><span>6.5</span><span>7.0</span><span>8.0</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="height:1px;background:#E0E0E0;margin-bottom:10px"></div>
+
+      <!-- MOSTERD SPINASIE -->
+      <div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+          <div style="background:#33691E;color:#fff;border-radius:8px;padding:3px 12px;font-size:15px;font-weight:700;font-family:'Montserrat',sans-serif">🌿 Mosterd Spinasie</div>
+          <span style="font-size:13px;color:#546E7A">5 Pype · Raam B Kant 2 · Pomp 4</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div>
+            <div class="range-label-row"><span class="range-title">⚡ EC</span><span class="range-val">1.6 – 2.0<span class="range-unit">mS/cm</span></span></div>
+            <div class="range-track-wrap"><div class="range-track ec-track"></div><div class="range-optimal" style="left:45.7%;width:11.4%"></div></div>
+            <div class="range-ticks"><span>0</span><span>0.5</span><span>1.0</span><span>1.5</span><span>2.0</span><span>2.5</span><span>3.0</span><span>3.5</span></div>
+          </div>
+          <div>
+            <div class="range-label-row"><span class="range-title">🧪 pH</span><span class="range-val">6.0 – 6.8<span class="range-unit">pH</span></span></div>
+            <div class="range-track-wrap"><div class="range-track ph-track"></div><div class="range-optimal" style="left:50%;width:20%"></div></div>
+            <div class="range-ticks"><span>4.0</span><span>4.5</span><span>5.0</span><span>5.5</span><span>6.0</span><span>6.5</span><span>7.0</span><span>8.0</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="book-footer">
+    <span>NFT A-Raam Handleiding</span>
+    <span>Hoofstuk 1 — NFT, EC, pH, TDS &amp; Suurstof</span>
+    <span>Bladsy 5</span>
+  </div>
+</div>
+
+<!-- ══════════════════ PAGE 5 — SUURSTOF ══════════════════ -->
+<div class="page">
+  <div class="book-header">
+    <span class="chapter">Hoofstuk 1 · NFT, EC, pH, TDS &amp; Suurstof</span>
+    <span class="page-num">Bladsy 6 van 7</span>
+  </div>
+  <div class="page-body">
+
+    <div class="section-label" style="style="margin-top:6px"><div class="section-icon" style="background:#E0F7FA">🫧</div>
+      <span class="section-title">Suurstof in die NFT Stelsel — Hoekom is dit So Krities?</span>
+      <div class="section-rule" style="background:linear-gradient(to right,#26C6DA,transparent)"></div>
+    </div>
+
+    <div class="info-box blue" style="margin-bottom:14px">
+      <span class="ib-icon">🌿</span>
+      <div class="ib-text">
+        <strong>Wortels benodig suurstof net soos blare CO₂ benodig</strong>
+        In 'n NFT stelsel hang die wortel half in water, half in lug — dit is die slimste deel van NFT. Die onderste deel van die wortel absorbeer water en voedingstowwe. Die boste deel hang in die lugruimte binne die pyp en absorbeer suurstof direk. Hierdie suurstof dryf sellulêre asemhaling aan wat voedingstofopname moontlik maak.
+      </div>
+    </div>
+
+    <!-- HOW OXYGEN ENTERS — FLOW DIAGRAM -->
+    <div style="background:#F8F9FA;border:1px solid #E0E0E0;border-radius:12px;padding:16px 18px;margin-bottom:16px">
+      <div style="font-family:'Montserrat',sans-serif;font-size:14px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#1A237E;margin-bottom:12px">Hoe Suurstof in 'n NFT Stelsel Inkom — Stap vir Stap</div>
+      <div class="flow-row">
+        <div class="flow-step">
+          <div class="flow-circle" style="background:linear-gradient(135deg,#1565C0,#1976D2)">💧</div>
+          <div class="flow-label">Pomp stoot water</div>
+          <div class="flow-sub">Skep turbulensie by inlaatpunt</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-circle" style="background:linear-gradient(135deg,#00838F,#0097A7)">🌊</div>
+          <div class="flow-label">Waterval by inlaat</div>
+          <div class="flow-sub">suurstof word ingemeng as water in pyp val</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-circle" style="background:linear-gradient(135deg,#2E7D32,#388E3C)">🫧</div>
+          <div class="flow-label">Dun film vloei</div>
+          <div class="flow-sub">Groot oppervlak absorbeer suurstof deurlopend</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-circle" style="background:linear-gradient(135deg,#558B2F,#689F38)">🌿</div>
+          <div class="flow-label">Lugruimte in pyp</div>
+          <div class="flow-sub">Boonste wortels hang in suurstofryke lug</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-circle" style="background:linear-gradient(135deg,#1B5E20,#2E7D32)">✅</div>
+          <div class="flow-label">Wortel absorbeer suurstof</div>
+          <div class="flow-sub">Aërobie asemhaling dryf voedingstofopname aan</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOO LITTLE / TOO MUCH OXYGEN -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+
+      <div>
+        <div style="background:linear-gradient(135deg,#ffebee,#ffcdd2);color:#b71c1c;border-radius:10px 10px 0 0;padding:10px 14px;display:flex;align-items:center;gap:8px">
+          <span style="font-size:21px">📉</span>
+          <div>
+            <div style="font-family:'Montserrat',sans-serif;font-size:16px;font-weight:800">Te Min Suurstof — Oorsake</div>
+            <div style="font-size:14px;opacity:.75">Wortelhipoksie → bruin slym → plantdood</div>
+          </div>
+        </div>
+        <div style="background:#FFF5F5;border:1px solid #FFCDD2;border-top:none;border-radius:0 0 10px 10px;padding:12px 14px">
+          <div class="oxy-item"><div class="oxy-dot" style="background:#EF5350"></div><span><strong style="color:#C62828">Pompstoring of kragonderbreking</strong> — stilstaande water verloor suurstof binne 2–4 uur. Wortels begin afsterf.</span></div>
+          <div class="oxy-item"><div class="oxy-dot" style="background:#EF5350"></div><span><strong style="color:#C62828">Water te warm (&gt;26°C)</strong> — warm water hou minder opgeloste suurstof as koue water (Henry se Wet).</span></div>
+          <div class="oxy-item"><div class="oxy-dot" style="background:#EF5350"></div><span><strong style="color:#C62828">Pyp se helling te plat (&lt;2°)</strong> — water versamel in plaas van te vloei en skep anaërobie dooie sones.</span></div>
+          <div class="oxy-item"><div class="oxy-dot" style="background:#EF5350"></div><span><strong style="color:#C62828">Alge of bakterieel uitbraak</strong> — hierdie organismes verbruik suurstof vinniger as wat dit kan oplos, sodat wortels verhonger.</span></div>
+          <div class="oxy-item"><div class="oxy-dot" style="background:#EF5350"></div><span><strong style="color:#C62828">Wortel volume blokkeer pyp</strong> — te groot wortels blokkeer die vloei en elimineer die lugruimte in die pyp.</span></div>
+        </div>
+      </div>
+
+      <div>
+        <div style="background:linear-gradient(135deg,#e8f5e9,#c8e6c9);color:#1b5e20;border-radius:10px 10px 0 0;padding:10px 14px;display:flex;align-items:center;gap:8px">
+          <span style="font-size:21px">📈</span>
+          <div>
+            <div style="font-family:'Montserrat',sans-serif;font-size:16px;font-weight:800">Te Veel Suurstof — Is dit Moontlik?</div>
+            <div style="font-size:14px;opacity:.75">In NFT is meer suurstof amper altyd beter</div>
+          </div>
+        </div>
+        <div style="background:#F1F8E9;border:1px solid #C8E6C9;border-top:none;border-radius:0 0 10px 10px;padding:12px 14px">
+          <div class="oxy-item"><div class="oxy-dot" style="background:#4CAF50"></div><span><strong style="color:#2E7D32">In die praktyk — nie gevaarlik vir wortels nie.</strong> Anders as grond, is daar geen boonste grens waar oortollige suurstof wortelweefsel in hidroponika beskadig nie.</span></div>
+          <div class="oxy-item"><div class="oxy-dot" style="background:#FFC107"></div><span><strong style="color:#E65100">Lugpomp te sterk in tenk</strong> — sterk borrels maak EC-lesings onakkuraat. Meet nadat borrels bedaar het.</span></div>
+          <div class="oxy-item"><div class="oxy-dot" style="background:#FFC107"></div><span><strong style="color:#E65100">Vloeispoed te aggressief</strong> — as water spuit eerder as dun film vloei, kan wortels tussen siklusse uitdroog.</span></div>
+          <div class="oxy-item"><div class="oxy-dot" style="background:#4CAF50"></div><span><strong style="color:#2E7D32">Tekens van uitstekende suurstof</strong> — helderwitblinkende wortels, geen reuk van die tenk, vinnige groei, stabiele pH (geen bakterieë vermeerdering).</span></div>
+          <div style="background:#E8F5E9;border-radius:8px;padding:10px 12px;margin-top:6px;font-size:14px;color:#37474F;border-left:3px solid #4CAF50">
+            <strong>Vuisreël:</strong> Hou watertemperatuur onder 22°C, handhaaf 'n 2–3% pyp-helling, en laat die pomp 24 uur per dag loop.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+  <div class="book-footer">
+    <span>NFT A-Raam Handleiding</span>
+    <span>Hoofstuk 1 — NFT, EC, pH, TDS &amp; Suurstof</span>
+    <span>Bladsy 6</span>
+  </div>
+</div>
+
+<!-- ══════════════════ PAGE 4 — TEMP RANGE + COMPARISON TABLE ══════════════════ -->
+<div class="page">
+  <div class="book-header">
+    <span class="chapter">Hoofstuk 1 · NFT, EC, pH, TDS &amp; Suurstof</span>
+    <span class="page-num">Bladsy 7 van 7</span>
+  </div>
+  <div class="page-body">
+
+    <!-- TEMPERATURE RANGE BAR -->
+    <div class="section-label" style="style="margin-top:6px"><div class="section-icon" style="background:#E0F7FA">🌡</div>
+      <span class="section-title">Watertemperatuur vs Opgeloste Suurstof (15°C – 35°C skaal)</span>
+      <div class="section-rule" style="background:linear-gradient(to right,#26C6DA,transparent)"></div>
+    </div>
+
+    <div style="background:#F8F9FA;border:1px solid #E0E0E0;border-radius:12px;padding:16px 18px;margin-bottom:16px">
+      <div class="range-label-row" style="margin-bottom:5px">
+        <span class="range-title">Optimale venster vir NFT wortels</span>
+        <span class="range-val">18 – 22°C<span class="range-unit">°C</span></span>
+      </div>
+      <div class="range-track-wrap">
+        <div class="range-track temp-track"></div>
+        <div class="range-optimal" style="left:15%;width:20%"></div>
+      </div>
+      <div class="range-ticks">
+        <span>15°C</span><span>17°C</span><span>19°C</span><span>21°C</span><span>23°C</span><span>25°C</span><span>28°C</span><span>30°C</span><span>35°C</span>
+      </div>
+
+      <table class="std-table" style="margin-top:12px;font-size:14px">
+        <thead>
+          <tr>
+            <th style="background:#e0f2f1;color:#00695c;border-color:#b2dfdb">Temperatuurreeks</th>
+            <th style="background:#e0f2f1;color:#00695c;border-color:#b2dfdb">suurstof-vlak in water</th>
+            <th style="background:#e0f2f1;color:#00695c;border-color:#b2dfdb">Effek op wortels</th>
+            <th style="background:#e0f2f1;color:#00695c;border-color:#b2dfdb">Aksie nodig</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Onder 15°C</td>
+            <td><span class="badge-a">Laag — koud vertraag opname</span></td>
+            <td>Wortels stadig, voedingstofopname daal</td>
+            <td>Verwarm water of isoleer tenk</td>
+          </tr>
+          <tr>
+            <td><strong>18–22°C ✅</strong></td>
+            <td><span class="badge-g">Hoog — optimale suurstof-versadiging</span></td>
+            <td>Wit gesonde wortels, vinnige groei</td>
+            <td>Handhaaf — geen aksie nodig</td>
+          </tr>
+          <tr>
+            <td>23–26°C</td>
+            <td><span class="badge-a">Dalend — kyk noukeurig</span></td>
+            <td>Effense stres, monitor vir slym</td>
+            <td>Voeg skadu by, kontroleer pompinstelling</td>
+          </tr>
+          <tr>
+            <td>27–30°C</td>
+            <td><span class="badge-r">Laag — wortelvrot-risiko hoog</span></td>
+            <td>Bruin wortels, Pythium-risiko</td>
+            <td>Voeg ysblokke by, verhoog vloeisnelheid</td>
+          </tr>
+          <tr>
+            <td>Bo 30°C</td>
+            <td><span class="badge-r">Krities — suurstof byna nul</span></td>
+            <td>Vinnige worteldood binne ure</td>
+            <td>Noodverkoeling of oes vroeg</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SIDE BY SIDE COMPARISON -->
+    <div class="section-label">
+      <div class="section-icon" style="background:rgba(171,71,188,.12)">🔍</div>
+      <span class="section-title">Kant-aan-kant vergelyking — EC teenoor pH teenoor TDS</span>
+      <div class="section-rule" style="background:linear-gradient(to right,#AB47BC,transparent)"></div>
+    </div>
+
+    <div style="overflow:hidden;border-radius:12px;box-shadow:0 3px 14px rgba(0,0,0,.08);margin-bottom:16px">
+      <table style="width:100%;border-collapse:collapse;font-size:15px">
+        <thead>
+          <tr>
+            <th style="background:#ede7f6;color:#4a148c;font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:5px 8px;text-align:left;border:1px solid #e1bee7">Eienskap</th>
+            <th style="background:#e3f2fd;color:#1565c0;font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:5px 8px;text-align:center;border:1px solid #bbdefb">⚡ EC</th>
+            <th style="background:#e8f5e9;color:#1b5e20;font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:5px 8px;text-align:center;border:1px solid #c8e6c9">🧪 pH</th>
+            <th style="background:#ede7f6;color:#4a148c;font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:5px 8px;text-align:center;border:1px solid #e1bee7">💧 TDS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="border:1px solid #E0E0E0;padding:4px 8px;background:#F5F5F5;font-weight:600;color:#37474F">Wat meet dit</td>
+            <td style="border:1px solid #E0E0E0;padding:4px 8px;text-align:center;color:#37474F">Voedingsoplossing sterkte</td>
+            <td style="border:1px solid #E0E0E0;padding:4px 8px;text-align:center;color:#37474F">Suurheid / basisheid</td>
+            <td style="border:1px solid #E0E0E0;padding:4px 8px;text-align:center;color:#37474F">Dieselfde as EC (ander eenheid)</td>
+          </tr>
+          <tr>
+            <td style="border:1px solid #E0E0E0;padding:4px 8px;background:#fff;font-weight:600;color:#37474F">Eenheid</td>
+            <td style="border:1px solid #E0E0E0;padding:4px 8px;text-align:center;font-family:'Montserrat',sans-serif;font-weight:700;color:#1A237E;background:#fff">mS/cm</td>
+            <td style="border:1px solid #E0E0E0;padding:4px 8px;text-align:center;font-family:'Montserrat',sans-serif;font-weight:700;color:#2E7D32;background:#fff">0–14 skaal</td>
+            <td style="border:1px solid #E0E0E0;padding:4px 8px;text-align:center;font-family:'Montserrat',sans-serif;font-weight:700;color:#6A1B9A;background:#fff">ppm (mg/L)</td>
+          </tr>
+          <tr>
+            <td style="border:1px solid #E0E0E0;padding:4px 8px;background:#F5F5F5;font-weight:600;color:#37474F">Wat gebeur as verkeerd</td>
+            <td style="border:1px solid #E0E0E0;padding:4px 8px;text-align:center;color:#37474F;background:#F5F5F5">Brandskade of verhongering</td>
+            <td style="border:1px solid #E0E0E0;padding:4px 8px;text-align:center;color:#37474F;background:#F5F5F5">Voedingstof-blokkering (al is EC reg)</td>
+            <td style="border:1px solid #E0E0E0;padding:4px 8px;text-align:center;color:#37474F;background:#F5F5F5">Dieselfde effek as verkeerde EC</td>
+          </tr>
+          <tr>
+            <td style="border:1px solid #E0E0E0;padding:4px 8px;background:#fff;font-weight:600;color:#37474F">Reg as te hoog</td>
+            <td style="border:1px solid #E0E0E0;padding:4px 8px;text-align:center;color:#37474F;background:#fff">Verdun met skoon water</td>
+            <td style="border:1px solid #E0E0E0;padding:4px 8px;text-align:center;color:#37474F;background:#fff">Voeg pH-daler by (fosforsuur)</td>
+            <td style="border:1px solid #E0E0E0;padding:4px 8px;text-align:center;color:#37474F;background:#fff">Verdun met skoon water</td>
+          </tr>
+          <tr>
+            <td style="border:1px solid #E0E0E0;padding:4px 8px;background:#F5F5F5;font-weight:600;color:#37474F">Reg as te laag</td>
+            <td style="border:1px solid #E0E0E0;padding:4px 8px;text-align:center;color:#37474F;background:#F5F5F5">Voeg voedingstof A + B by</td>
+            <td style="border:1px solid #E0E0E0;padding:4px 8px;text-align:center;color:#37474F;background:#F5F5F5">Voeg pH-verhoger by (kaliumhidroksied)</td>
+            <td style="border:1px solid #E0E0E0;padding:4px 8px;text-align:center;color:#37474F;background:#F5F5F5">Voeg voedingstof A + B by</td>
+          </tr>
+          <tr>
+            <td style="border:1px solid #E0E0E0;padding:4px 8px;background:#fff;font-weight:600;color:#37474F">Kontroleer hoe gereeld</td>
+            <td style="border:1px solid #E0E0E0;padding:4px 8px;text-align:center;background:#fff"><span class="badge-g">2× per dag</span></td>
+            <td style="border:1px solid #E0E0E0;padding:4px 8px;text-align:center;background:#fff"><span class="badge-g">2× per dag</span></td>
+            <td style="border:1px solid #E0E0E0;padding:4px 8px;text-align:center;background:#fff"><span class="badge-a">Opsioneel — EC is genoeg</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- FINAL SUMMARY BOX -->
+    <div style="background:#E8EAF6;border:2px solid #3949AB;border-radius:12px;padding:14px 18px;display:flex;gap:14px;align-items:flex-start">
+      <span style="font-size:28px">🧠</span>
+      <div>
+        <div style="font-family:'Montserrat',sans-serif;font-weight:900;font-size:17px;color:#1A237E;margin-bottom:6px">Onthou die Drie Reëls</div>
+        <div style="font-size:15px;color:#37474F;line-height:1.7">
+          <strong style="color:#1A237E">EC</strong> = die "hoeveel" — sterkte van die voedingsoplossing (mS/cm of ppm via TDS).<br>
+          <strong style="color:#2E7D32">pH</strong> = die "toegang" — sleutel wat voedingstowwe oopsluit of blokkeer vir die plant.<br>
+          <strong style="color:#00695C">Suurstof</strong> = die "lewe" — wortels sterf binne ure sonder suurstof; hou water koel en die pomp lopend.
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="book-footer">
+    <span>NFT A-Raam Handleiding</span>
+    <span>Hoofstuk 1 — NFT, EC, pH, TDS &amp; Suurstof</span>
+    <span>Bladsy 7</span>
+  </div>
+</div>
+
+</body>
+</html>

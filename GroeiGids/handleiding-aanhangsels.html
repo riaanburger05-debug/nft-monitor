@@ -1,0 +1,514 @@
+﻿<!DOCTYPE html>
+<html lang="af">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NFT A-Raam Handleiding — Aanhangsels</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: #f2f5f2; padding: 30px 0; }
+  .page {
+    width: 794px; min-height: 1123px; background: #fff;
+    margin: 0 auto 32px; position: relative; overflow:visible;
+    box-shadow: 0 8px 40px rgba(0,0,0,.15);
+    page-break-after: always; color: #37474F;
+  }
+  
+
+  /* BOEK KOPTEKST & VOETBALK — dieselfde as ander hoofstukke */
+  .book-header {
+    background: linear-gradient(135deg,#e3f2fd,#bbdefb);
+    border-bottom: 2px solid #90caf9;
+    color: #1a237e;
+    padding: 10px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .book-header .chapter {
+    font-family: 'Montserrat',sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #1a237e;
+  }
+  .book-header .page-num {
+    font-family: 'Montserrat',sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #1a237e;
+  }
+  .book-footer {
+    background: #1b3a1b;
+    padding: 8px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  .book-footer span {
+    font-size: 10px;
+    color: rgba(255,255,255,.85);
+    font-weight: 600;
+    letter-spacing: .5px;
+  }
+  .page-body {
+    padding: 0 24px 55px;
+  }
+
+  /* AFDELING ETIKET — dieselfde as ander hoofstukke */
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 14px 0 10px;
+  }
+  .section-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-family: 'Montserrat',sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #1b3a1b;
+  }
+  .section-rule {
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(to right, #1b3a1b, transparent);
+    margin-left: 8px;
+  }
+
+  /* GLOSSARIUM */
+  .gloss-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 16px; }
+  .gloss-table thead th { background: #546E7A; color: #fff; padding: 7px 10px; text-align: left; font-family: 'Montserrat',sans-serif; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; border: 1px solid #78909C; }
+  .gloss-table tbody tr:nth-child(even) { background: #F5F5F5; }
+  .gloss-table tbody td { padding: 7px 10px; border: 1px solid #E0E0E0; vertical-align: top; line-height: 1.5; }
+  .gloss-term { font-family: 'Montserrat',sans-serif; font-weight: 800; color: #1B5E20; }
+  .gloss-eng { font-size: 10px; color: #78909C; font-style: italic; }
+
+  /* VEILIGHEID */
+  .chem-card { border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; }
+  .chem-name { font-family: 'Montserrat',sans-serif; font-size: 14px; font-weight: 900; margin-bottom: 4px; }
+  .chem-sub { font-size: 11px; opacity: .75; margin-bottom: 8px; }
+  .danger-badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 10px; font-weight: 700; font-family: 'Montserrat',sans-serif; margin-bottom: 8px; }
+
+
+@media print {
+  @page { size: A4 portrait; margin: 0; }
+  *, *::before, *::after { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; box-sizing: border-box; }
+  html, body { margin: 0 !important; padding: 0 !important; background: white !important; }
+
+  .page, .page1, .page2 {
+    width: 210mm !important;
+    height: 297mm !important;
+    min-height: unset !important;
+    max-height: 297mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    overflow: hidden !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    display: flex !important;
+    flex-direction: column !important;
+    position: relative !important;
+  }
+
+  /* Inhoud area groei om plek te vul */
+  .page-body, .content {
+    flex: 1 1 auto !important;
+    overflow: hidden !important;
+    padding-bottom: 0 !important;
+  }
+
+  /* Voetbalk LAASTE in die bladsy — altyd onderaan */
+  .book-footer, .book-ftr {
+    flex-shrink: 0 !important;
+    position: relative !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
+    width: 100% !important;
+    margin-top: auto !important;
+  }
+
+  /* Omslag volle hoogte */
+  .cover-bg, .cover {
+    height: 297mm !important;
+    min-height: unset !important;
+    overflow: hidden !important;
+    flex: 1 !important;
+  }
+
+  .print-btn-bar { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════ BLADSY 1 — VEILIGHEIDSPROTOKOL ══════════════════ -->
+<div class="page">
+  <div class="book-header"><span class="chapter">NFT A-Raam Handleiding · Aanhangsels</span><span class="page-num">Aanhangsel A — Veiligheidsprotokol</span>
+  </div>
+  <div class="page-body">
+
+    <div class="section-label" style="margin-top:14px">
+      <div class="section-icon" style="background:#FFEBEE">⚠️</div>
+      <span class="section-title" style="color:#C62828">Veiligheidsprotokol — Chemikalieë in die NFT Stelsel</span>
+      <div class="section-rule" style="background:linear-gradient(to right,#C62828,transparent)"></div>
+    </div>
+
+    <div style="background:#FFEBEE;border:2px solid #EF9A9A;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:12px;color:#37474F">
+      ⚠️ <strong style="color:#C62828">Belangrik vir onderwysers:</strong> Hierdie protokol moet <strong>gelees en bespreek</strong> word met alle leerders voor hulle enige chemikalieë hanteer. Die pH-daler is 'n verdunde suur en die pH-verhoger is 'n verdunde basis — beide kan vel en oë beskadig.
+    </div>
+
+    <!-- DRIE CHEMIKALIEË -->
+    <div class="chem-card" style="background:#FFEBEE;border:1.5px solid #FFCDD2">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <span style="font-size:24px">🧪</span>
+        <div>
+          <div class="chem-name" style="color:#C62828">pH-Daler (Fosforsuur, ~10%)</div>
+          <div class="chem-sub" style="color:#C62828">Verlaag pH van water · Gebruik as pH te hoog is</div>
+        </div>
+        <span class="danger-badge" style="background:#C62828;color:#fff;margin-left:auto">⚠️ SUUR — VERSIGTIG</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;font-size:11px;color:#37474F">
+        <div><strong style="color:#C62828">Gevaar:</strong><br>Brand op vel en oë. Skadelik as ingeasem.</div>
+        <div><strong style="color:#C62828">Beskermtoerusting:</strong><br>✓ Veiligheidsbril<br>✓ Rubber handskoene<br>✓ Voorskoot</div>
+        <div><strong style="color:#C62828">Noodprosedure:</strong><br>Oë/vel: spoel 15 min met skoon water. Stel onmiddellik 'n onderwyser in kennis.</div>
+      </div>
+      <div style="margin-top:8px;padding:6px 10px;background:#fff;border-left:3px solid #C62828;border-radius:4px;font-size:11px;color:#37474F">
+        🔑 <strong>Goue Reël:</strong> Voeg <em>suur by water</em> — NOOIT water by suur nie. Voeg druppelsgewys by, roer na elke byvoeging, meet voor volgende toevoeging.
+      </div>
+    </div>
+
+    <div class="chem-card" style="background:#E3F2FD;border:1.5px solid #90CAF9">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <span style="font-size:24px">🧫</span>
+        <div>
+          <div class="chem-name" style="color:#1565C0">pH-Verhoger (Kaliumhidroksied, ~5%)</div>
+          <div class="chem-sub" style="color:#1565C0">Verhoog pH van water · Gebruik as pH te laag is</div>
+        </div>
+        <span class="danger-badge" style="background:#1565C0;color:#fff;margin-left:auto">⚠️ BASIS — VERSIGTIG</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;font-size:11px;color:#37474F">
+        <div><strong style="color:#1565C0">Gevaar:</strong><br>Bytend op vel en oë. Hou weg van suur.</div>
+        <div><strong style="color:#1565C0">Beskermtoerusting:</strong><br>✓ Veiligheidsbril<br>✓ Rubber handskoene<br>✓ Voorskoot</div>
+        <div><strong style="color:#1565C0">Noodprosedure:</strong><br>Oë/vel: spoel 15 min met skoon water. Stel onmiddellik 'n onderwyser in kennis.</div>
+      </div>
+      <div style="margin-top:8px;padding:6px 10px;background:#fff;border-left:3px solid #1565C0;border-radius:4px;font-size:11px;color:#37474F">
+        🔑 <strong>Goue Reël:</strong> Voeg ook druppelsgewys by. Hou pH-daler en pH-verhoger <em>altyd apart</em> — meng NOOIT die twee saam nie.
+      </div>
+    </div>
+
+    <div class="chem-card" style="background:#E8F5E9;border:1.5px solid #A5D6A7">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <span style="font-size:24px">🌿</span>
+        <div>
+          <div class="chem-name" style="color:#1B5E20">Voedingstof A &amp; B</div>
+          <div class="chem-sub" style="color:#1B5E20">Gekonsentreerde voedingstowwe · Verdun altyd in water</div>
+        </div>
+        <span class="danger-badge" style="background:#2E7D32;color:#fff;margin-left:auto">ℹ️ LAER RISIKO</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;font-size:11px;color:#37474F">
+        <div><strong style="color:#1B5E20">Gevaar:</strong><br>Kan vel en oë irriteer in gekonsentreerde vorm. Moenie drink nie.</div>
+        <div><strong style="color:#1B5E20">Beskermtoerusting:</strong><br>✓ Rubber handskoene<br>✓ Veiligheidsbril aanbeveel</div>
+        <div><strong style="color:#1B5E20">Noodprosedure:</strong><br>Vel/oë: spoel met water. As ingesluk: drink water en stel 'n onderwyser in kennis.</div>
+      </div>
+      <div style="margin-top:8px;padding:6px 10px;background:#fff;border-left:3px solid #2E7D32;border-radius:4px;font-size:11px;color:#37474F">
+        🔑 <strong>Goue Reël:</strong> Voeg A <em>eers</em> by water, roer goed, dan eers B. Meng NOOIT A en B direk saam sonder water — dit veroorsaak 'n neerslagreaksie.
+      </div>
+    </div>
+
+    <!-- BERGINGSREËLS -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div style="background:#FFF8E1;border:1.5px solid #FFE082;border-radius:10px;padding:12px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:12px;font-weight:800;color:#E65100;margin-bottom:8px">🔒 Berging &amp; Hantering</div>
+        <div style="font-size:11px;color:#37474F;line-height:1.8">
+          ☐ Berg chemikalieë in 'n geslote, geventileerde kas<br>
+          ☐ Weg van sonlig en hitte<br>
+          ☐ Etikette altyd leesbaar<br>
+          ☐ Weg van bereik van klein kinders<br>
+          ☐ Nooit in kosdrankhousies herberg nie<br>
+          ☐ pH-daler en pH-verhoger apart gebêre
+        </div>
+      </div>
+      <div style="background:#F3E5F5;border:1.5px solid #CE93D8;border-radius:10px;padding:12px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:12px;font-weight:800;color:#6A1B9A;margin-bottom:8px">🏥 Noodinligting</div>
+        <div style="font-size:11px;color:#37474F;line-height:1.8">
+          <strong>Nasionale Noodlyn:</strong><br>
+          📞 10177 (Ambulans)<br><br>
+          <strong>Noodgeval:</strong> 112 (selfoon)<br><br>
+          <strong>By enige chemiese blootstelling:</strong><br>
+          Spoel onmiddellik met water en kontak die naaste mediese fasiliteit
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="book-footer">
+    <span>NFT A-Raam Handleiding</span>
+    <span>Aanhangsel A — Veiligheidsprotokol</span>
+    <span>Vertroulik: Onderwysers</span>
+  </div>
+</div>
+
+<!-- ══════════════════ BLADSY 2 — GLOSSARIUM ══════════════════ -->
+<div class="page">
+  <div class="book-header"><span class="chapter">NFT A-Raam Handleiding · Aanhangsels</span><span class="page-num">Aanhangsel B — Glossarium</span>
+  </div>
+  <div class="page-body">
+
+    <div class="section-label" style="margin-top:14px">
+      <div class="section-icon" style="background:#E3F2FD">📖</div>
+      <span class="section-title">Glossarium — Tegniese Terme Verduidelik</span>
+      <div class="section-rule" style="background:linear-gradient(to right,#1565C0,transparent)"></div>
+    </div>
+
+    <table class="gloss-table">
+      <thead>
+        <tr>
+          <th style="width:130px">Term</th>
+          <th style="width:120px">Engels</th>
+          <th>Verduideliking</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="gloss-term">NFT</span><br><span class="gloss-eng">Afk.</span></td>
+          <td style="font-size:11px;color:#546E7A">Nutrient Film Technique</td>
+          <td>Voedingstoffilm-tegniek. 'n Metode waar 'n dun stroom voedingstofryke water deur gekantelde pype vloei. Wortels hang in dié film en suig voedingstowwe op terwyl die boonste deel lug kry.</td>
+        </tr>
+        <tr>
+          <td><span class="gloss-term">EC</span><br><span class="gloss-eng">Afk.</span></td>
+          <td style="font-size:11px;color:#546E7A">Electrical Conductivity</td>
+          <td>Elektriese geleidingsvermoë. Meet hoeveel opgeloste minerale (voedingstowwe) in die water is. Gemeet in mS/cm. Hoe hoër die EC, hoe meer voedingstowwe — maar te hoog brand wortels.</td>
+        </tr>
+        <tr>
+          <td><span class="gloss-term">pH</span><br><span class="gloss-eng">Afk.</span></td>
+          <td style="font-size:11px;color:#546E7A">Potential of Hydrogen</td>
+          <td>Skaal van 0–14 wat meet hoe suur of alkalies die water is. 7 = neutraal. Onder 7 = suur. Bo 7 = alkalies. Die pH bepaal of plante voedingstowwe kan absorbeer — verkeerde pH "sluit" voedingstowwe uit.</td>
+        </tr>
+        <tr>
+          <td><span class="gloss-term">TDS</span><br><span class="gloss-eng">Afk.</span></td>
+          <td style="font-size:11px;color:#546E7A">Total Dissolved Solids</td>
+          <td>Totale opgeloste vastestowwe in water. Gemeet in ppm (dele per miljoen). TDS en EC meet dieselfde ding — verskillende eenhede. Hidroponiese boere gebruik gewoonlik EC.</td>
+        </tr>
+        <tr>
+          <td><span class="gloss-term">ppm</span><br><span class="gloss-eng">Afk.</span></td>
+          <td style="font-size:11px;color:#546E7A">Parts per Million</td>
+          <td>Dele per miljoen. Eenheid vir TDS-metings. Beteken hoeveel milligram vastestowwe in een liter water opgelos is. 1 mS/cm EC ≈ 500–700 ppm TDS (afhangend van meter-faktor).</td>
+        </tr>
+        <tr>
+          <td><span class="gloss-term">mS/cm</span><br><span class="gloss-eng">Eenheid</span></td>
+          <td style="font-size:11px;color:#546E7A">Millisiemens/sentimeter</td>
+          <td>Die standaard eenheid vir EC-metings in hidroponies. Tipiese reekse: slaai 1.2–1.8 mS/cm, aarbeie 1.0–1.4 mS/cm.</td>
+        </tr>
+        <tr>
+          <td><span class="gloss-term">Pythium</span><br><span class="gloss-eng">Pythium spp.</span></td>
+          <td style="font-size:11px;color:#546E7A">Root rot fungus</td>
+          <td>Wortelvrot-skimmel. Die gevaarlikste siekteorganisme in NFT-stelsels. Groei vinnig in warm water (bo 22°C). Tekens: bruin, slymrige wortels en verwelkende plante. Sprei vinnig deur die hele tenk.</td>
+        </tr>
+        <tr>
+          <td><span class="gloss-term">Stoelon</span><br><span class="gloss-eng">Runner / Stolon</span></td>
+          <td style="font-size:11px;color:#546E7A">Vegetative propagule</td>
+          <td>Lang dun stingel wat 'n moeder-aarbeieplant uitstuur. Aan die punt vorm 'n nuwe plantjie. Word gebruik om aarbeie vegetatief (sonder saad) te vermeerder.</td>
+        </tr>
+        <tr>
+          <td><span class="gloss-term">Saadskiet</span><br><span class="gloss-eng">Bolting</span></td>
+          <td style="font-size:11px;color:#546E7A">Premature flowering</td>
+          <td>Wanneer 'n plant onverwags blom en saad skiet as gevolg van hitte of lang daglengte. Slaai, spinasie en mosterd spinasie word bitter en oneetbaar wanneer dit saadskiet. Vermy deur in die regte seisoen te plant.</td>
+        </tr>
+        <tr>
+          <td><span class="gloss-term">Oorplantings-kok</span><br><span class="gloss-eng">Transplant shock</span></td>
+          <td style="font-size:11px;color:#546E7A">Transplant stress</td>
+          <td>Tydelike stres wat 'n plant ervaar nadat dit verskuif is. Tekens: hangblare, stadige groei vir 24–72 uur. Normaal — die plant herstel as wortels water kan bereik.</td>
+        </tr>
+        <tr>
+          <td><span class="gloss-term">Tipbrand</span><br><span class="gloss-eng">Tipburn</span></td>
+          <td style="font-size:11px;color:#546E7A">Calcium deficiency</td>
+          <td>Bruin, verdroogde blaarrante op jong blare. Veroorsaak deur kalsiumtekort of swak watervloei na nuwe blare. Vermy deur vloei te handhaaf en EC korrek te hou.</td>
+        </tr>
+        <tr>
+          <td><span class="gloss-term">Voedingstof-blokkasie</span><br><span class="gloss-eng">Nutrient lockout</span></td>
+          <td style="font-size:11px;color:#546E7A">pH-induced deficiency</td>
+          <td>Wanneer voedingstowwe teenwoordig is in die water (EC is reg) maar die pH verhoed dat die plant dit absorbeer. Lyk soos 'n voedingstoftekort maar die probleem is die pH.</td>
+        </tr>
+        <tr>
+          <td><span class="gloss-term">Propagasie</span><br><span class="gloss-eng">Propagation</span></td>
+          <td style="font-size:11px;color:#546E7A">Seedling production</td>
+          <td>Die proses om saailinge te kweek — van saad of stoelon — in rokwol of perliet, totdat die wortels lank genoeg is om in die NFT-stelsel ingeplant te word.</td>
+        </tr>
+        <tr>
+          <td><span class="gloss-term">Rokwol</span><br><span class="gloss-eng">Rockwool / Stonewool</span></td>
+          <td style="font-size:11px;color:#546E7A">Inert growing medium</td>
+          <td>Groeimiddel gemaak van gespinde rotsvesels. Hou water vas maar laat ook lug deur. Ideaal vir saailing-propagasie. pH-neutraal en steriel. Herbruikbaar na ontsmet.</td>
+        </tr>
+        <tr>
+          <td><span class="gloss-term">Perliet</span><br><span class="gloss-eng">Perlite</span></td>
+          <td style="font-size:11px;color:#546E7A">Volcanic glass medium</td>
+          <td>Uitgeblaasde vulkaniese glas. Ligte, poreuse wit korrels wat lug en water balanseer. Goeie alternatief vir rokwol. Chemies inert — beïnvloed nie EC of pH nie.</td>
+        </tr>
+        <tr>
+          <td><span class="gloss-term">Wortelvrot</span><br><span class="gloss-eng">Root rot</span></td>
+          <td style="font-size:11px;color:#546E7A">Root disease</td>
+          <td>Verrotting van plantewortels as gevolg van siekte organismes (gewoonlik Pythium) of waterversadiging. Tekens: bruin/swart, slymrige, stinkende wortels. Plante verwelk selfs al is water beskikbaar.</td>
+        </tr>
+        <tr>
+          <td><span class="gloss-term">Alkalies</span><br><span class="gloss-eng">Alkaline / Basic</span></td>
+          <td style="font-size:11px;color:#546E7A">pH above 7</td>
+          <td>Water met 'n pH bo 7. In hidroponies beteken alkalies water gewoonlik dat kalk (kalsiumkarbonaat) in die water is. Verlaag met pH-daler (fosforsuur).</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+  <div class="book-footer">
+    <span>NFT A-Raam Handleiding</span>
+    <span>Aanhangsel B — Glossarium</span>
+    <span>Verwysing</span>
+  </div>
+</div>
+
+<!-- ══════════════════ BLADSY 3 — VINNIGE VERWYSINGSKAART ══════════════════ -->
+<div class="page">
+  <div class="book-header"><span class="chapter">NFT A-Raam Handleiding · Aanhangsels</span><span class="page-num">Aanhangsel C — Verwysingskaart</span>
+  </div>
+  <div class="page-body">
+
+    <div style="background:#1B5E20;color:#fff;border-radius:12px;padding:12px 18px;margin:14px 0 14px;text-align:center">
+      <div style="font-family:'Montserrat',sans-serif;font-size:16px;font-weight:900;letter-spacing:2px">📋 VINNIGE VERWYSINGSKAART — LAMINEER &amp; PLAAS BY STELSEL</div>
+    </div>
+
+    <!-- EC/PH TABEL -->
+    <table style="width:100%;border-collapse:collapse;font-size:12px;margin-bottom:14px">
+      <thead>
+        <tr>
+          <th style="background:#1B5E20;color:#fff;padding:8px 10px;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;border:1px solid #388E3C;text-align:left">Kant</th>
+          <th style="background:#1B5E20;color:#fff;padding:8px 10px;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;border:1px solid #388E3C;text-align:left">Gewas</th>
+          <th style="background:#1B5E20;color:#fff;padding:8px 10px;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;border:1px solid #388E3C;text-align:center">EC (mS/cm)</th>
+          <th style="background:#1B5E20;color:#fff;padding:8px 10px;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;border:1px solid #388E3C;text-align:center">pH</th>
+          <th style="background:#1B5E20;color:#fff;padding:8px 10px;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;border:1px solid #388E3C;text-align:center">Temp °C</th>
+          <th style="background:#1B5E20;color:#fff;padding:8px 10px;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;border:1px solid #388E3C;text-align:center">Tenk</th>
+          <th style="background:#1B5E20;color:#fff;padding:8px 10px;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;border:1px solid #388E3C;text-align:center">Pomp</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="background:#E8F5E9">
+          <td style="padding:9px 10px;border:1px solid #C8E6C9;font-family:'Montserrat',sans-serif;font-weight:800;color:#1B5E20;font-size:13px">Raam A Kant 1</td>
+          <td style="padding:9px 10px;border:1px solid #C8E6C9;font-size:13px">🥬 Slaai</td>
+          <td style="padding:9px 10px;border:1px solid #C8E6C9;text-align:center;font-weight:700;font-size:13px">1.2 – 1.8</td>
+          <td style="padding:9px 10px;border:1px solid #C8E6C9;text-align:center;font-weight:700;font-size:13px">5.8 – 6.2</td>
+          <td style="padding:9px 10px;border:1px solid #C8E6C9;text-align:center;font-size:13px">18 – 22</td>
+          <td style="padding:9px 10px;border:1px solid #C8E6C9;text-align:center;font-weight:700">A</td>
+          <td style="padding:9px 10px;border:1px solid #C8E6C9;text-align:center;font-weight:700">1</td>
+        </tr>
+        <tr>
+          <td style="padding:9px 10px;border:1px solid #E0E0E0;font-family:'Montserrat',sans-serif;font-weight:800;color:#1B5E20;font-size:13px">Raam A Kant 2</td>
+          <td style="padding:9px 10px;border:1px solid #E0E0E0;font-size:13px">🌱 Spinasie</td>
+          <td style="padding:9px 10px;border:1px solid #E0E0E0;text-align:center;font-weight:700;font-size:13px">1.8 – 2.3</td>
+          <td style="padding:9px 10px;border:1px solid #E0E0E0;text-align:center;font-weight:700;font-size:13px">6.0 – 7.0</td>
+          <td style="padding:9px 10px;border:1px solid #E0E0E0;text-align:center;font-size:13px">18 – 22</td>
+          <td style="padding:9px 10px;border:1px solid #E0E0E0;text-align:center;font-weight:700">B</td>
+          <td style="padding:9px 10px;border:1px solid #E0E0E0;text-align:center;font-weight:700">2</td>
+        </tr>
+        <tr style="background:#FCE4EC">
+          <td style="padding:9px 10px;border:1px solid #F48FB1;font-family:'Montserrat',sans-serif;font-weight:800;color:#880E4F;font-size:13px">Raam B Kant 1</td>
+          <td style="padding:9px 10px;border:1px solid #F48FB1;font-size:13px">🍓 Aarbeie</td>
+          <td style="padding:9px 10px;border:1px solid #F48FB1;text-align:center;font-weight:700;font-size:13px">1.0 – 1.4</td>
+          <td style="padding:9px 10px;border:1px solid #F48FB1;text-align:center;font-weight:700;font-size:13px">5.5 – 6.0</td>
+          <td style="padding:9px 10px;border:1px solid #F48FB1;text-align:center;font-size:13px">18 – 22</td>
+          <td style="padding:9px 10px;border:1px solid #F48FB1;text-align:center;font-weight:700">C</td>
+          <td style="padding:9px 10px;border:1px solid #F48FB1;text-align:center;font-weight:700">3</td>
+        </tr>
+        <tr style="background:#F1F8E9">
+          <td style="padding:9px 10px;border:1px solid #DCEDC8;font-family:'Montserrat',sans-serif;font-weight:800;color:#33691E;font-size:13px">Raam B Kant 2</td>
+          <td style="padding:9px 10px;border:1px solid #DCEDC8;font-size:13px">🌿 Mosterd</td>
+          <td style="padding:9px 10px;border:1px solid #DCEDC8;text-align:center;font-weight:700;font-size:13px">1.6 – 2.0</td>
+          <td style="padding:9px 10px;border:1px solid #DCEDC8;text-align:center;font-weight:700;font-size:13px">6.0 – 6.8</td>
+          <td style="padding:9px 10px;border:1px solid #DCEDC8;text-align:center;font-size:13px">18 – 22</td>
+          <td style="padding:9px 10px;border:1px solid #DCEDC8;text-align:center;font-weight:700">D</td>
+          <td style="padding:9px 10px;border:1px solid #DCEDC8;text-align:center;font-weight:700">4</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- DRIE KOLOM: DAAGLIKSE KONTROLE / NOODPROSEDURE / ONTHOU -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px">
+
+      <div style="background:#E8F5E9;border:2px solid #A5D6A7;border-radius:10px;padding:12px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:12px;font-weight:900;color:#1B5E20;margin-bottom:8px">🌅 Oggend Kontrole</div>
+        <div style="font-size:11px;color:#37474F;line-height:1.8">
+          ☐ Alle pompe loop?<br>
+          ☐ EC meet per kant<br>
+          ☐ pH meet per kant<br>
+          ☐ Watertemperatuur<br>
+          ☐ Lekkasies?<br>
+          ☐ Plante gesond?<br>
+          ☐ Logboek invul
+        </div>
+      </div>
+
+      <div style="background:#FFEBEE;border:2px solid #FFCDD2;border-radius:10px;padding:12px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:12px;font-weight:900;color:#C62828;margin-bottom:8px">🚨 Noodprosedure</div>
+        <div style="font-size:11px;color:#37474F;line-height:1.8">
+          <strong>Pomp stop:</strong><br>
+          → Gooi 5–10L water deur elke pyp<br>
+          → Herstel pomp binne 30 min<br><br>
+          <strong>Wortelvrot:</strong><br>
+          → Dreineer tenk dadelik<br>
+          → Ontsmet met H₂O₂ (3%)<br>
+          → Kontak onderwyser
+        </div>
+      </div>
+
+      <div style="background:#FFF8E1;border:2px solid #FFE082;border-radius:10px;padding:12px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:12px;font-weight:900;color:#E65100;margin-bottom:8px">⚡ Sleutelreëls</div>
+        <div style="font-size:11px;color:#37474F;line-height:1.8">
+          ⏱ Pomp: 24/7 aan<br>
+          🌡 Water: maks 24°C<br>
+          🧪 EC: een aanpassing<br>
+          &nbsp;&nbsp;&nbsp;op 'n slag<br>
+          💧 Voedingstof: A dan B<br>
+          🔒 Tenk: altyd toe<br>
+          📅 Skoonmaak: 4–6 weke
+        </div>
+      </div>
+    </div>
+
+    <!-- EC/PH VINNIGE GIDS -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div style="background:#F8F9FA;border:1.5px solid #E0E0E0;border-radius:10px;padding:12px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:12px;font-weight:800;color:#1B5E20;margin-bottom:8px">📊 EC te hoog? → Voeg skoon water by</div>
+        <div style="font-family:'Montserrat',sans-serif;font-size:12px;font-weight:800;color:#1B5E20;margin-bottom:8px">📊 EC te laag? → Voeg voedingstof A+B by</div>
+        <div style="font-family:'Montserrat',sans-serif;font-size:12px;font-weight:800;color:#1B5E20">📊 EC OK maar plant geel? → Kontroleer pH eerste</div>
+      </div>
+      <div style="background:#F8F9FA;border:1.5px solid #E0E0E0;border-radius:10px;padding:12px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:12px;font-weight:800;color:#1565C0;margin-bottom:8px">🔵 pH te hoog? → pH-daler druppelsgewys</div>
+        <div style="font-family:'Montserrat',sans-serif;font-size:12px;font-weight:800;color:#C62828;margin-bottom:8px">🔴 pH te laag? → pH-verhoger druppelsgewys</div>
+        <div style="font-family:'Montserrat',sans-serif;font-size:12px;font-weight:800;color:#37474F">⚠️ Meet altyd na 30 min — nooit meer as een aanpassing gelyk</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="book-footer">
+    <span>NFT A-Raam Handleiding</span>
+    <span>Aanhangsel C — Vinnige Verwysingskaart</span>
+    <span>🖨 Lamineer vir gebruik by stelsel</span>
+  </div>
+</div>
+
+</body>
+</html>

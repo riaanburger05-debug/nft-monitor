@@ -1,0 +1,965 @@
+﻿<!DOCTYPE html>
+<html lang="af">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GroeiGids — NFT A-Raam Stelsel</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  
+
+  /* ── DRUK KNOPPIE ── */
+  .print-btn-bar {
+    background: #e8f5e9;
+    border-bottom: 2px solid #a5d6a7;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    max-width: 794px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .print-btn {
+    background: #c0392b;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+  }
+  .print-btn:hover { background: #a93226; }
+  .print-instruction { font-size: 13px; color: #2e7d32; }
+  .print-instruction strong { color: #c0392b; }
+
+  /* ── BLADSY ── */
+  .page {
+    width: 794px;
+    height: 1123px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.15);
+    background: #ffffff;
+  }
+
+  /* Agtergrond foto */
+  .bg-photo {
+    position: absolute;
+    inset: 0;
+    background-image: url('../Images/aframe-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.06;
+  }
+
+  /* Kleur-gradient oorleg */
+  .bg-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 700px 500px at 90% -5%, rgba(67,160,71,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 600px 500px at -5% 70%, rgba(21,101,192,0.05) 0%, transparent 55%);
+  }
+
+  /* Rooster-patroon */
+  .bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
+    background-size: 36px 36px;
+  }
+
+  /* Alle inhoud bo agtergrond */
+  .content {
+    position: relative;
+    z-index: 10;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── BOONSTE BALK ── */
+  .topbar {
+    background: rgba(255,255,255,0.92);
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    padding: 11px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .topbar-tag {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.45);
+  }
+  .topbar-badge {
+    background: linear-gradient(135deg, #2e7d32, #1565c0);
+    color: #fff;
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+
+  /* ── HOOF-AREA ── */
+  .main {
+    flex: 1;
+    padding: 44px 48px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* Gewas-badge-ry */
+  .crop-badges {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 36px;
+    flex-wrap: wrap;
+  }
+  .crop-badge {
+    border-radius: 30px;
+    padding: 6px 16px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border: 1.5px solid rgba(0,0,0,0.1);
+  }
+
+  /* Handelsmerk-blok */
+  .brand-block { margin-bottom: 32px; }
+  .brand-pre {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.4);
+    margin-bottom: 6px;
+  }
+  .brand-name {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: 96px;
+    line-height: 0.9;
+    letter-spacing: -5px;
+    color: #1a2e1a;
+  }
+  .brand-name .groei { color: #2e7d32; }
+  .brand-name .gids {
+    color: transparent;
+    -webkit-text-stroke: 3px rgba(26,46,26,0.65);
+  }
+  .brand-sub {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: rgba(0,0,0,0.4);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 10px;
+  }
+  .brand-author {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(0,0,0,0.35);
+    letter-spacing: 1.5px;
+    margin-top: 10px;
+  }
+
+  /* ── HERO FOTO ── */
+  .hero-card {
+    background: rgba(0,0,0,0.03);
+    border: 1.5px solid rgba(0,0,0,0.1);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .hero-label {
+    position: absolute;
+    top: 12px;
+    left: 16px;
+    z-index: 2;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.9);
+    background: rgba(0,0,0,0.45);
+    padding: 3px 10px;
+    border-radius: 4px;
+  }
+  .hero-img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    display: block;
+  }
+  .hero-gradient {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 80px;
+    background: linear-gradient(to top, rgba(255,255,255,0.85), transparent);
+  }
+
+  /* ── STATS-RY ── */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 22px;
+    border: 1px solid rgba(0,0,0,0.09);
+  }
+  .stat-cell {
+    padding: 16px 8px 14px;
+    text-align: center;
+    border-right: 1px solid rgba(0,0,0,0.08);
+    position: relative;
+  }
+  .stat-cell:last-child { border-right: none; }
+  .stat-icon { font-size: 21px; display: block; margin-bottom: 4px; }
+  .stat-num {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 28px;
+    font-weight: 900;
+    line-height: 1;
+  }
+  .stat-lbl {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.45);
+    margin-top: 4px;
+    display: block;
+  }
+  .stat-bar {
+    position: absolute;
+    bottom: 0; left: 15%; right: 15%;
+    height: 3px;
+    border-radius: 2px 2px 0 0;
+  }
+
+  /* ── KENMERK-PILLE ── */
+  .feature-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 0;
+  }
+  .feature-pill {
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid rgba(0,0,0,0.1);
+  }
+
+  /* ── ONDERSTE BALK ── */
+  .bottombar {
+    background: #1b3a1b;
+    border-top: 3px solid #c0392b;
+    padding: 14px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .bottom-brand {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 900;
+    color: #fff;
+  }
+  .bottom-brand span { color: #c0392b; }
+  .bottom-sub {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    margin-top: 2px;
+    letter-spacing: 0.5px;
+  }
+  .bottom-dots { display: flex; gap: 6px; }
+  .bdot { width: 11px; height: 11px; border-radius: 50%; }
+
+  /* ── BLADSY 2 — INHOUDSOPGAWE ── */
+  .page2 {
+    width: 794px;
+    height: 1123px;
+    margin: 20px auto 0;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.15);
+    background: #f8faf8;
+    display: flex;
+    flex-direction: column;
+    page-break-before: always;
+  }
+
+  /* Sagte rooster */
+  .page2-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+    background-size: 36px 36px;
+  }
+  .page2-content {
+    position: relative;
+    z-index: 10;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Kop */
+  .toc-header {
+    background: linear-gradient(135deg, #f1f8e9 0%, #e8f5e9 100%);
+    border-bottom: 3px solid #c0392b;
+    padding: 28px 48px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .toc-header-left {}
+  .toc-eyebrow {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #c0392b;
+    margin-bottom: 6px;
+  }
+  .toc-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 42px;
+    font-weight: 900;
+    color: #1a2e1a;
+    line-height: 1;
+  }
+  .toc-sub {
+    font-size: 13px;
+    color: rgba(0,0,0,0.45);
+    margin-top: 6px;
+    letter-spacing: 1px;
+  }
+  .toc-page-num {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: rgba(0,0,0,0.3);
+    letter-spacing: 2px;
+  }
+
+  /* Hoofstuk-rye */
+  .toc-body {
+    flex: 1;
+    padding: 28px 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .toc-row {
+    display: flex;
+    align-items: stretch;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.1);
+  }
+  .toc-num-box {
+    width: 64px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+  }
+  .toc-num-val {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 30px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1;
+  }
+  .toc-num-lbl {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+  }
+  .toc-info {
+    flex: 1;
+    background: #ffffff;
+    padding: 14px 18px;
+    border-left: 1px solid rgba(0,0,0,0.07);
+  }
+  .toc-chapter-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a2e1a;
+    margin-bottom: 4px;
+  }
+  .toc-chapter-desc {
+    font-size: 12px;
+    color: rgba(0,0,0,0.5);
+    line-height: 1.5;
+  }
+  .toc-chips {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+  }
+  .toc-chip {
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .toc-pg {
+    width: 52px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.04);
+    border-left: 1px solid rgba(0,0,0,0.07);
+  }
+  .toc-pg-num {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 21px;
+    font-weight: 900;
+    color: rgba(0,0,0,0.45);
+    line-height: 1;
+  }
+  .toc-pg-lbl {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.3);
+    margin-top: 2px;
+  }
+
+  /* Stats-band */
+  .toc-stats {
+    margin: 0 48px 20px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.08);
+  }
+  .toc-stat {
+    text-align: center;
+    padding: 12px 8px;
+    border-right: 1px solid rgba(0,0,0,0.08);
+  }
+  .toc-stat:last-child { border-right: none; }
+  .toc-stat-num {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 23px;
+    font-weight: 900;
+    line-height: 1;
+  }
+  .toc-stat-lbl {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.5);
+    margin-top: 3px;
+    display: block;
+  }
+
+@media print {
+  @page { size: A4 portrait; margin: 0; }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  html, body { margin: 0 !important; padding: 0 !important; background: white !important; }
+  .page, .page1, .page2 {
+    width: 210mm !important;
+    min-height: 297mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+    page-break-before: always !important;
+    page-break-after: always !important;
+    break-before: page !important;
+    break-after: page !important;
+    position: relative !important;
+    display: block !important;
+  }
+  .book-footer, .book-ftr {
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+  }
+  .page-body, .content { padding-bottom: 55px !important; }
+  .cover-bg, .cover {  min-height: 297mm !important; overflow: visible !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- Druk knoppie -->
+<div class="print-btn-bar">
+  <button class="print-btn" onclick="window.print()">🖨️ STOOR AS PDF</button>
+  <span class="print-instruction">
+    Destination → <strong>Save as PDF</strong> ·
+    aktiveer <strong>Background graphics</strong> ·
+    oriëntasie: <strong>Portrait</strong>
+  </span>
+</div>
+
+<!-- ── BLADSY ── -->
+<div class="page">
+
+  <!-- Agtergrond lae -->
+  <div class="bg-photo"></div>
+  <div class="bg-overlay"></div>
+  <div class="bg-grid"></div>
+
+  <div class="content">
+
+    <!-- Boonste balk -->
+    <div class="topbar">
+      <span class="topbar-tag">Hidroponika · NFT A-Raam Stelsel · Voedselproduksie</span>
+      <span class="topbar-badge">📗 Eerste Uitgawe 2026</span>
+    </div>
+
+    <!-- Hoof-inhoud -->
+    <div class="main">
+
+      <!-- Gewas-badges -->
+      <div class="crop-badges">
+        <div class="crop-badge" style="background:rgba(46,125,50,0.12);color:#1b5e20;">
+          🥬 <span>Slaai</span>
+        </div>
+        <div class="crop-badge" style="background:rgba(104,159,56,0.12);color:#33691e;">
+          🌿 <span>Mostert Spinasie</span>
+        </div>
+        <div class="crop-badge" style="background:rgba(183,28,28,0.12);color:#b71c1c;">
+          🍓 <span>Aarbeie</span>
+        </div>
+        <div class="crop-badge" style="background:rgba(2,119,189,0.12);color:#01579b;">
+          🌱 <span>Spinasie</span>
+        </div>
+        <div class="crop-badge" style="background:rgba(21,101,192,0.12);color:#0d47a1;">
+          ⚡ <span>EC · pH · TDS · O₂</span>
+        </div>
+      </div>
+
+      <!-- Handelsmerk -->
+      <div class="brand-block">
+        <div class="brand-pre">NFT A-Raam Stelsel</div>
+        <div class="brand-name">
+          <span class="groei">Groei</span><span class="gids">Gids</span>
+        </div>
+        <div class="brand-sub">Die Volledige Handleiding</div>
+        <div class="brand-author">Opgestel en saamgestel deur Riaan Burger · 2026</div>
+      </div>
+
+      <!-- Hero foto -->
+      <div class="hero-card">
+        <div class="hero-label">A-Raam NFT Stelsel — Hidroponiese Opstelling</div>
+        <img class="hero-img" src="../Images/aframe-hero.jpg" alt="NFT A-Raam Stelsel">
+        <div class="hero-gradient"></div>
+      </div>
+
+      <!-- Stats-ry -->
+      <div class="stats-row">
+        <div class="stat-cell" style="background:rgba(67,160,71,0.1);">
+          <span class="stat-icon">🏗️</span>
+          <div class="stat-num" style="color:#2e7d32;">2</div>
+          <span class="stat-lbl">A-Rame</span>
+          <div class="stat-bar" style="background:#43a047;"></div>
+        </div>
+        <div class="stat-cell" style="background:rgba(30,136,229,0.1);">
+          <span class="stat-icon">↔️</span>
+          <div class="stat-num" style="color:#1565c0;">4</div>
+          <span class="stat-lbl">Kante</span>
+          <div class="stat-bar" style="background:#1e88e5;"></div>
+        </div>
+        <div class="stat-cell" style="background:rgba(251,140,0,0.1);">
+          <span class="stat-icon">🔧</span>
+          <div class="stat-num" style="color:#e65100;">5</div>
+          <span class="stat-lbl">Pype / Kant</span>
+          <div class="stat-bar" style="background:#fb8c00;"></div>
+        </div>
+        <div class="stat-cell" style="background:rgba(192,57,43,0.1);">
+          <span class="stat-icon">📐</span>
+          <div class="stat-num" style="color:#c0392b;">20</div>
+          <span class="stat-lbl">Totale Pype</span>
+          <div class="stat-bar" style="background:#c0392b;"></div>
+        </div>
+        <div class="stat-cell" style="background:rgba(129,199,132,0.1);">
+          <span class="stat-icon">💧</span>
+          <div class="stat-num" style="color:#2e7d32;">1–2</div>
+          <span class="stat-lbl">L/min Vloei</span>
+          <div class="stat-bar" style="background:#66bb6a;"></div>
+        </div>
+        <div class="stat-cell" style="background:rgba(171,71,188,0.1);">
+          <span class="stat-icon">🔄</span>
+          <div class="stat-num" style="color:#6a1b9a;">Serie</div>
+          <span class="stat-lbl">Vloei-tipe</span>
+          <div class="stat-bar" style="background:#ab47bc;"></div>
+        </div>
+      </div>
+
+      <!-- Kenmerk-pille -->
+      <div class="feature-row">
+        <div class="feature-pill" style="background:rgba(46,125,50,0.1);color:#1b5e20;">
+          📊 EC · pH · TDS Beheer
+        </div>
+        <div class="feature-pill" style="background:rgba(21,101,192,0.1);color:#0d47a1;">
+          🌡️ Temperatuur Monitor
+        </div>
+        <div class="feature-pill" style="background:rgba(230,81,0,0.1);color:#bf360c;">
+          📋 "Range Cards" ingesluit
+        </div>
+        <div class="feature-pill" style="background:rgba(183,28,28,0.1);color:#b71c1c;">
+          🔄 Daaglikse Kontrolelys
+        </div>
+        <div class="feature-pill" style="background:rgba(46,125,50,0.1);color:#2e7d32;">
+          🌱 Saailing tot Oes
+        </div>
+      </div>
+
+    </div><!-- /main -->
+
+    <!-- Onderste balk -->
+    <div class="bottombar">
+      <div>
+        <div class="bottom-brand">GROEI<span>WYS</span></div>
+        <div class="bottom-sub">GroeiGids · NFT A-Raam Stelsel · Eerste Uitgawe 2026</div>
+      </div>
+      <div class="bottom-dots">
+        <div class="bdot" style="background:#4caf50;"></div>
+        <div class="bdot" style="background:#1e88e5;"></div>
+        <div class="bdot" style="background:#fb8c00;"></div>
+        <div class="bdot" style="background:#c0392b;"></div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /page -->
+
+<!-- ═══════════════════════════════ VOORWOORD ═══ -->
+<div class="page" style="width:794px;min-height:1123px;margin:20px auto;background:#fff;box-shadow:0 30px 100px rgba(0,0,0,.15);position:relative;overflow:hidden;font-family:'Inter',sans-serif;display:flex;flex-direction:column">
+
+  <!-- Groen balk bo -->
+  <div style="background:linear-gradient(135deg,#1B5E20,#2E7D32);padding:28px 52px 24px;color:#fff">
+    <div style="font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin-bottom:8px">GroeiGids · NFT A-Raam Stelsel</div>
+    <div style="font-family:'Montserrat',sans-serif;font-size:36px;font-weight:900;line-height:1.1">Voorwoord</div>
+  </div>
+
+  <!-- Inhoud -->
+  <div style="padding:44px 52px;flex:1;color:#263238">
+
+    <p style="font-size:18px;font-weight:700;color:#1B5E20;font-family:'Montserrat',sans-serif;margin-bottom:20px;line-height:1.4">Welkom by die GroeiGids!</p>
+
+    <p style="font-size:14px;line-height:1.85;margin-bottom:18px">
+      Jy hou tans 'n handleiding wat jou gaan leer hoe om kos te kweek sonder grond — reg in die klaskamer, skoolgrond of jou tuiste. Dit klink miskien na towery, maar dit is pure wetenskap. Hierdie metode, wat ons <strong>NFT hidroponies</strong> noem, word reg oor die wêreld gebruik om gesonde groente te kweek — vinniger, skoner en meer doeltreffend as tradisionele tuinmaak.
+    </p>
+
+    <p style="font-size:14px;line-height:1.85;margin-bottom:18px">
+      Ons glo dat jy die vermoë het om meer te doen as net kos te kweek. Jy kan 'n probleem help oplos. In baie gemeenskappe is vars groente duur of moeilik bekombaar. Met hierdie stelsel kan jy deel wees van die oplossing — en terselfdertyd een van die belangrikste vaardighede van die toekoms aanleer.
+    </p>
+
+    <p style="font-size:14px;line-height:1.85;margin-bottom:24px">
+      Hierdie gids is geskryf sodat <em>enigeen</em> dit kan verstaan — of jy nou Graad 8 of Graad 12 is. Jy hoef nie 'n wetenskaps-wenner te wees nie. Jy moet net nuuskierig wees, bereid wees om te leer, en nie bang wees om jou hande nat te maak nie — letterlik!
+    </p>
+
+    <div style="background:#F1F8E9;border:2px solid #A5D6A7;border-radius:14px;padding:20px 24px;margin-bottom:24px">
+      <div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:800;color:#1B5E20;margin-bottom:12px">📖 Hoe gebruik jy hierdie gids?</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:13px;color:#37474F;line-height:1.7">
+        <div><strong style="color:#1B5E20">Hoofstuk 1</strong> — NFT inleiding, basiese metings: EC, pH en TDS</div>
+        <div><strong style="color:#1B5E20">Hoofstuk 2</strong> — Stel jou stelsel stap-vir-stap op</div>
+        <div><strong style="color:#1B5E20">Hoofstuk 3</strong> — Ken jou gewasse en wanneer om te plant</div>
+        <div><strong style="color:#1B5E20">Hoofstuk 4</strong> — Wat jy altyd moet — en nooit mag — doen</div>
+        <div><strong style="color:#1B5E20">Hoofstuk 5</strong> — Hou jou logboek elke dag by</div>
+        <div><strong style="color:#1B5E20">Hoofstuk 6</strong> — Los probleme op sodra dit voorkom</div>
+      </div>
+    </div>
+
+    <p style="font-size:14px;line-height:1.85;margin-bottom:18px">
+      Die <strong>logboek in Hoofstuk 5</strong> is jou wetenskaplike dagboek. Gebruik dit elke dag. Dit is waar jy begin dink soos 'n regte navorser — jy sien tendense, leer uit foute en vier suksesse.
+    </p>
+
+    <p style="font-size:14px;line-height:1.85;margin-bottom:32px">
+      As iets verkeerd gaan — en soms sal dit, want dit is deel van die leerproses — gaan Hoofstuk 6 jou help om die probleem te identifiseer en reg te stel. Moenie ontmoedig raak nie. Elke probleem is 'n kans om te leer.
+    </p>
+
+    <p style="font-size:15px;font-weight:700;color:#1B5E20;font-family:'Montserrat',sans-serif;margin-bottom:24px">
+      Ek wens jou baie pret, 'n gesonde stelsel en 'n goeie oes toe. 🌱
+    </p>
+
+    <div style="border-top:2px solid #E0E0E0;padding-top:20px;display:flex;justify-content:space-between;align-items:flex-end">
+      <div>
+        <div style="font-family:'Montserrat',sans-serif;font-size:16px;font-weight:900;color:#1B5E20">Riaan Burger</div>
+        <div style="font-size:12px;color:#546E7A;margin-top:3px">GroeiWys — Hidroponies vir Skole</div>
+        <div style="font-size:12px;color:#546E7A">2026</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-family:'Montserrat',sans-serif;font-size:22px;font-weight:900;color:#1B5E20;letter-spacing:-1px">GROEI<span style="color:#FF8F00">WYS</span></div>
+        <div style="font-size:10px;color:#9E9E9E;letter-spacing:1px;text-transform:uppercase">Eerste Uitgawe 2026</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════ BLADSY 2 — INHOUDSOPGAWE ══ -->
+<div class="page2">
+  <div class="page2-grid"></div>
+  <div class="page2-content">
+
+    <!-- Kop -->
+    <div class="toc-header">
+      <div class="toc-header-left">
+        <div class="toc-eyebrow">GroeiGids · NFT A-Raam Stelsel</div>
+        <div class="toc-title">Inhoudsopgawe</div>
+        <div class="toc-sub">Opgestel en saamgestel deur Riaan Burger · 2026</div>
+      </div>
+      <div class="toc-page-num">BLADSY 3</div>
+    </div>
+
+    <!-- Hoofstuk-rye -->
+    <div class="toc-body">
+
+      <!-- VOORWOORD -->
+      <div class="toc-row">
+        <div class="toc-num-box" style="background:linear-gradient(135deg,#e8f5e9,#c8e6c9);">
+          <div class="toc-num-val" style="color:#1B5E20;font-size:14px">✍</div>
+          <div class="toc-num-lbl" style="color:rgba(27,94,32,0.6);">Voor</div>
+        </div>
+        <div class="toc-info">
+          <div class="toc-chapter-title">Voorwoord</div>
+          <div class="toc-chapter-desc">Welkom · Hoe om hierdie gids te gebruik · 'n Woord van die outeur</div>
+        </div>
+        <div class="toc-pg">
+          <div class="toc-pg-num">2</div>
+          <div class="toc-pg-lbl">Bladsy</div>
+        </div>
+      </div>
+
+      <div class="toc-row">
+        <div class="toc-num-box" style="background:linear-gradient(135deg,#e3f2fd,#bbdefb);">
+          <div class="toc-num-val" style="color:#1a237e;">1</div>
+          <div class="toc-num-lbl" style="color:rgba(26,35,126,0.6);">Hfst.</div>
+        </div>
+        <div class="toc-info">
+          <div class="toc-chapter-title">NFT, EC, pH, TDS &amp; Suurstof</div>
+          <div class="toc-chapter-desc">Verstaan die beginsels · Verskille tussen metings · Reeksbalkie per gewas · Suurstof in NFT-stelsels</div>
+          <div class="toc-chips">
+            <span class="toc-chip" style="background:rgba(90,100,200,0.15);color:#283593;">EC</span>
+            <span class="toc-chip" style="background:rgba(90,100,200,0.15);color:#283593;">pH</span>
+            <span class="toc-chip" style="background:rgba(90,100,200,0.15);color:#283593;">TDS</span>
+            <span class="toc-chip" style="background:rgba(90,100,200,0.15);color:#283593;">O₂</span>
+          </div>
+        </div>
+        <div class="toc-pg">
+          <div class="toc-pg-num">4</div>
+          <div class="toc-pg-lbl">Bladsy</div>
+        </div>
+      </div>
+
+      <div class="toc-row">
+        <div class="toc-num-box" style="background:linear-gradient(135deg,#e3f2fd,#bbdefb);">
+          <div class="toc-num-val" style="color:#0d47a1;">2</div>
+          <div class="toc-num-lbl" style="color:rgba(13,71,161,0.6);">Hfst.</div>
+        </div>
+        <div class="toc-info">
+          <div class="toc-chapter-title">Stelsel Opstelling</div>
+          <div class="toc-chapter-desc">15-stap gids · Vloeisnelheid instel · Pype in serie · Voedingsoplossing mengresepte</div>
+          <div class="toc-chips">
+            <span class="toc-chip" style="background:rgba(25,118,210,0.15);color:#0d47a1;">A-Raam</span>
+            <span class="toc-chip" style="background:rgba(25,118,210,0.15);color:#0d47a1;">NFT Pype</span>
+            <span class="toc-chip" style="background:rgba(25,118,210,0.15);color:#0d47a1;">1–2 L/min</span>
+          </div>
+        </div>
+        <div class="toc-pg">
+          <div class="toc-pg-num">9</div>
+          <div class="toc-pg-lbl">Bladsy</div>
+        </div>
+      </div>
+
+      <div class="toc-row">
+        <div class="toc-num-box" style="background:linear-gradient(135deg,#e8f5e9,#c8e6c9);">
+          <div class="toc-num-val" style="color:#1b5e20;">3</div>
+          <div class="toc-num-lbl" style="color:rgba(27,94,32,0.6);">Hfst.</div>
+        </div>
+        <div class="toc-info">
+          <div class="toc-chapter-title">Gewasse &amp; Parameters</div>
+          <div class="toc-chapter-desc">EC/pH reekse per gewas · Slaai · Aarbeie · Mostert Spinasie · Spinasie · Range Cards</div>
+          <div class="toc-chips">
+            <span class="toc-chip" style="background:rgba(46,125,50,0.15);color:#1b5e20;">🥬 Slaai</span>
+            <span class="toc-chip" style="background:rgba(46,125,50,0.15);color:#1b5e20;">🍓 Aarbeie</span>
+            <span class="toc-chip" style="background:rgba(46,125,50,0.15);color:#1b5e20;">🌿 Spinasie</span>
+          </div>
+        </div>
+        <div class="toc-pg">
+          <div class="toc-pg-num">16</div>
+          <div class="toc-pg-lbl">Bladsy</div>
+        </div>
+      </div>
+
+      <div class="toc-row">
+        <div class="toc-num-box" style="background:linear-gradient(135deg,#ffebee,#ffcdd2);">
+          <div class="toc-num-val" style="color:#b71c1c;">4</div>
+          <div class="toc-num-lbl" style="color:rgba(183,28,28,0.6);">Hfst.</div>
+        </div>
+        <div class="toc-info">
+          <div class="toc-chapter-title">Moets en Moenies</div>
+          <div class="toc-chapter-desc">Kritieke reëls · Wat om te doen en te vermy · Oggend-kontrolelys · Veiligheid</div>
+          <div class="toc-chips">
+            <span class="toc-chip" style="background:rgba(183,28,28,0.15);color:#b71c1c;">✅ Moets</span>
+            <span class="toc-chip" style="background:rgba(183,28,28,0.15);color:#b71c1c;">❌ Moenies</span>
+            <span class="toc-chip" style="background:rgba(183,28,28,0.15);color:#b71c1c;">Kontrolelys</span>
+          </div>
+        </div>
+        <div class="toc-pg">
+          <div class="toc-pg-num">23</div>
+          <div class="toc-pg-lbl">Bladsy</div>
+        </div>
+      </div>
+
+      <div class="toc-row">
+        <div class="toc-num-box" style="background:linear-gradient(135deg,#e0f2f1,#b2dfdb);">
+          <div class="toc-num-val" style="color:#004d40;">5</div>
+          <div class="toc-num-lbl" style="color:rgba(0,77,64,0.6);">Hfst.</div>
+        </div>
+        <div class="toc-info">
+          <div class="toc-chapter-title">Monitering Logboek</div>
+          <div class="toc-chapter-desc">Weeklikse log · Maandelikse opsomming · Oesrekord · Tendense opspoor</div>
+          <div class="toc-chips">
+            <span class="toc-chip" style="background:rgba(0,121,107,0.15);color:#004d40;">Weeklikse Log</span>
+            <span class="toc-chip" style="background:rgba(0,121,107,0.15);color:#004d40;">Oesrekord</span>
+          </div>
+        </div>
+        <div class="toc-pg">
+          <div class="toc-pg-num">28</div>
+          <div class="toc-pg-lbl">Bladsy</div>
+        </div>
+      </div>
+
+      <div class="toc-row">
+        <div class="toc-num-box" style="background:linear-gradient(135deg,#ffebee,#ffcdd2);">
+          <div class="toc-num-val" style="color:#b71c1c;">6</div>
+          <div class="toc-num-lbl" style="color:rgba(183,28,28,0.6);">Hfst.</div>
+        </div>
+        <div class="toc-info">
+          <div class="toc-chapter-title">Probleemoplossing</div>
+          <div class="toc-chapter-desc">EC/pH diagnose · Plant simptome herken · Noodprosedures · Peste &amp; siektes</div>
+          <div class="toc-chips">
+            <span class="toc-chip" style="background:rgba(183,28,28,0.15);color:#b71c1c;">Diagnose</span>
+            <span class="toc-chip" style="background:rgba(183,28,28,0.15);color:#b71c1c;">Simptome</span>
+            <span class="toc-chip" style="background:rgba(183,28,28,0.15);color:#b71c1c;">Noodplan</span>
+          </div>
+        </div>
+        <div class="toc-pg">
+          <div class="toc-pg-num">33</div>
+          <div class="toc-pg-lbl">Bladsy</div>
+        </div>
+      </div>
+
+      <!-- AANHANGSELS -->
+      <div class="toc-row">
+        <div class="toc-num-box" style="background:linear-gradient(135deg,#eceff1,#cfd8dc);">
+          <div class="toc-num-val" style="color:#546E7A;font-size:13px">A–B</div>
+          <div class="toc-num-lbl" style="color:rgba(84,110,122,0.6);">Anh.</div>
+        </div>
+        <div class="toc-info">
+          <div class="toc-chapter-title">Aanhangsels</div>
+          <div class="toc-chapter-desc">A: Veiligheidsprotokol · B: Glossarium · C: Vinnige Verwysingskaart (lamineer)</div>
+          <div class="toc-chips">
+            <span class="toc-chip" style="background:rgba(198,40,40,0.15);color:#b71c1c;">⚠️ Veiligheid</span>
+            <span class="toc-chip" style="background:rgba(21,101,192,0.15);color:#0d47a1;">📖 Glossarium</span>
+            <span class="toc-chip" style="background:rgba(27,94,32,0.15);color:#1b5e20;">📋 Verwysingskaart</span>
+          </div>
+        </div>
+        <div class="toc-pg">
+          <div class="toc-pg-num">38</div>
+          <div class="toc-pg-lbl">Bladsy</div>
+        </div>
+      </div>
+
+    </div><!-- /toc-body -->
+
+    <!-- Stats-band -->
+    <div class="toc-stats">
+      <div class="toc-stat" style="background:rgba(67,160,71,0.1);">
+        <div class="toc-stat-num" style="color:#2e7d32;">2</div>
+        <span class="toc-stat-lbl">A-Rame</span>
+      </div>
+      <div class="toc-stat" style="background:rgba(30,136,229,0.1);">
+        <div class="toc-stat-num" style="color:#1565c0;">20</div>
+        <span class="toc-stat-lbl">Totale Pype</span>
+      </div>
+      <div class="toc-stat" style="background:rgba(251,140,0,0.1);">
+        <div class="toc-stat-num" style="color:#e65100;">1–2</div>
+        <span class="toc-stat-lbl">L/min Vloei</span>
+      </div>
+      <div class="toc-stat" style="background:rgba(129,199,132,0.1);">
+        <div class="toc-stat-num" style="color:#2e7d32;">4</div>
+        <span class="toc-stat-lbl">Gewasse</span>
+      </div>
+      <div class="toc-stat" style="background:rgba(192,57,43,0.1);">
+        <div class="toc-stat-num" style="color:#c0392b;">6</div>
+        <span class="toc-stat-lbl">Hoofstukke</span>
+      </div>
+    </div>
+
+    <!-- Voetskrif -->
+    <div class="bottombar">
+      <div>
+        <div class="bottom-brand">GROEI<span>WYS</span></div>
+        <div class="bottom-sub">GroeiGids · NFT A-Raam Stelsel · Eerste Uitgawe 2026</div>
+      </div>
+      <div class="bottom-dots">
+        <div class="bdot" style="background:#4caf50;"></div>
+        <div class="bdot" style="background:#1e88e5;"></div>
+        <div class="bdot" style="background:#fb8c00;"></div>
+        <div class="bdot" style="background:#c0392b;"></div>
+      </div>
+    </div>
+
+  </div><!-- /page2-content -->
+</div><!-- /page2 -->
+
+
+</body>
+</html>

@@ -1,0 +1,554 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NFT System — Do's & Don'ts</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+body {
+  background:#C8D5CC;
+  display:flex; justify-content:center; align-items:flex-start;
+  min-height:100vh; padding:30px 20px;
+  font-family:'Montserrat',sans-serif;
+}
+.poster { width:880px; background:#F4F7F4; border-radius:20px; overflow:hidden; box-shadow:0 30px 90px rgba(0,0,0,.3); }
+
+/* ── HEADER ── */
+.hdr {
+  background:linear-gradient(135deg,#0A3D1F 0%,#1B5E20 50%,#0D4720 100%);
+  padding:42px 52px 36px; position:relative; overflow:hidden;
+}
+.hdr::before { content:''; position:absolute; top:-70px; right:-70px; width:260px; height:260px; border-radius:50%; background:rgba(255,255,255,.05); }
+.hdr::after  { content:''; position:absolute; bottom:-90px; left:35%; width:260px; height:260px; border-radius:50%; background:rgba(255,255,255,.04); }
+.hdr-eyebrow { font-size:11px; font-weight:700; letter-spacing:4px; color:rgba(255,255,255,.55); text-transform:uppercase; margin-bottom:10px; }
+.hdr-title { font-size:50px; font-weight:900; color:#fff; line-height:1; letter-spacing:-2px; }
+.hdr-title em { color:#69F0AE; font-style:normal; }
+.hdr-sub { font-size:13px; color:rgba(255,255,255,.6); margin-top:10px; font-family:'Inter',sans-serif; }
+.hdr-badges { display:flex; gap:10px; margin-top:20px; flex-wrap:wrap; }
+.hdr-badge { display:inline-flex; align-items:center; gap:6px; padding:6px 15px; border-radius:30px; font-size:11.5px; font-weight:700; }
+.hdr-logo { position:absolute; right:52px; top:40px; width:88px; height:88px; }
+
+/* ── STATS ROW ── */
+.stats-row { display:flex; background:#fff; border-bottom:3px solid #E8F5E9; }
+.stat { flex:1; padding:20px 10px; text-align:center; border-right:1px solid #E8F5E9; }
+.stat:last-child { border-right:none; }
+.stat-icon { font-size:22px; margin-bottom:3px; }
+.stat-num  { font-size:34px; font-weight:900; line-height:1; color:#1B5E20; }
+.stat-num small { font-size:16px; }
+.stat-lbl  { font-size:10px; font-weight:700; color:#78909C; text-transform:uppercase; letter-spacing:1.5px; margin-top:3px; }
+.stat-accent { height:3px; border-radius:3px; width:36px; margin:6px auto 0; }
+
+/* ── SECTION HEAD ── */
+.sec-head { display:flex; align-items:center; gap:12px; padding:28px 52px 0; }
+.sec-icon { width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0; }
+.sec-head h2 { font-size:13px; font-weight:800; text-transform:uppercase; letter-spacing:3px; }
+.sec-line { flex:1; height:1px; }
+
+/* ── PRIORITY BADGE ── */
+.pri { display:inline-block; font-size:9px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; padding:3px 9px; border-radius:20px; }
+.pri-crit  { background:#C62828; color:#fff; }
+.pri-imp   { background:#E65100; color:#fff; }
+.pri-setup { background:#1565C0; color:#fff; }
+.pri-rout  { background:#2E7D32; color:#fff; }
+
+/* ── GOLDEN RULES (top 3 critical DO's) ── */
+.golden { display:flex; gap:16px; padding:16px 52px 28px; }
+.golden-card {
+  flex:1; border-radius:16px; overflow:hidden;
+  background:#fff; box-shadow:0 6px 28px rgba(0,0,0,.1);
+  border-top:5px solid #00C853;
+}
+.golden-body { padding:22px 20px; }
+.golden-icon-wrap { width:56px; height:56px; border-radius:14px; background:#E8F5E9; display:flex; align-items:center; justify-content:center; font-size:28px; margin-bottom:14px; }
+.golden-title { font-size:15px; font-weight:900; color:#1B5E20; margin:8px 0 6px; }
+.golden-desc  { font-size:12px; color:#546E7A; font-family:'Inter',sans-serif; line-height:1.6; }
+.golden-consequence { margin-top:12px; padding:9px 12px; border-radius:8px; background:#FFEBEE; font-size:11px; color:#B71C1C; font-family:'Inter',sans-serif; display:flex; gap:7px; align-items:flex-start; }
+
+/* ── DO / DON'T GRID ── */
+.grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; padding:16px 52px 28px; }
+
+.rule-card {
+  border-radius:14px; background:#fff;
+  box-shadow:0 4px 16px rgba(0,0,0,.07);
+  overflow:hidden;
+}
+.rule-card-hdr { padding:14px 16px 12px; display:flex; align-items:flex-start; gap:12px; }
+.rule-icon { font-size:28px; flex-shrink:0; line-height:1; }
+.rule-hdr-text { flex:1; }
+.rule-title { font-size:13px; font-weight:800; margin-top:5px; }
+.rule-card-body { padding:0 16px 16px; }
+.rule-desc { font-size:11.5px; color:#546E7A; font-family:'Inter',sans-serif; line-height:1.55; }
+.rule-note { margin-top:10px; padding:8px 10px; border-radius:7px; font-size:10.5px; font-family:'Inter',sans-serif; display:flex; gap:6px; align-items:flex-start; }
+
+/* Do card */
+.do-card .rule-card-hdr { background:linear-gradient(135deg,#E8F5E9,#F1F8E9); }
+.do-card .rule-title    { color:#1B5E20; }
+.do-card .rule-note     { background:#F1F8E9; color:#33691E; }
+
+/* Don't card */
+.dont-card .rule-card-hdr { background:linear-gradient(135deg,#FCE4EC,#FFF0F3); }
+.dont-card .rule-title    { color:#B71C1C; }
+.dont-card .rule-note     { background:#FFF0F3; color:#880E4F; }
+
+/* ── WARNING SIGNS ── */
+.warn-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; padding:16px 52px 28px; }
+.warn-card {
+  border-radius:14px; background:#fff;
+  box-shadow:0 4px 16px rgba(0,0,0,.07);
+  border-left:5px solid #FF8F00;
+  padding:18px 20px;
+  display:flex; gap:14px; align-items:flex-start;
+}
+.warn-icon { font-size:32px; flex-shrink:0; }
+.warn-title { font-size:13px; font-weight:800; color:#E65100; margin-bottom:5px; }
+.warn-symptom { font-size:12px; font-weight:700; color:#BF360C; margin-bottom:4px; }
+.warn-action  { font-size:11.5px; color:#546E7A; font-family:'Inter',sans-serif; line-height:1.5; }
+
+/* ── QUICK REFERENCE TABLE ── */
+.table-wrap { margin:0 52px 28px; border-radius:14px; overflow:hidden; box-shadow:0 4px 16px rgba(0,0,0,.07); }
+.table-wrap table { width:100%; border-collapse:collapse; font-size:12px; background:#fff; }
+.table-wrap thead { background:#1B5E20; }
+.table-wrap thead th { padding:11px 16px; text-align:left; color:#fff; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1px; }
+.table-wrap tbody tr:nth-child(even) { background:#F9FBF9; }
+.table-wrap tbody td { padding:10px 16px; border-bottom:1px solid #EEF4EE; }
+.table-wrap tbody td:first-child { font-weight:700; }
+.badge { display:inline-block; padding:3px 10px; border-radius:20px; font-size:10px; font-weight:700; }
+.badge-green  { background:#E8F5E9; color:#1B5E20; }
+.badge-red    { background:#FCE4EC; color:#B71C1C; }
+.badge-amber  { background:#FFF8E1; color:#E65100; }
+.badge-blue   { background:#E3F2FD; color:#0D47A1; }
+
+/* ── FOOTER ── */
+.footer { background:#0A2E10; padding:20px 52px; display:flex; justify-content:space-between; align-items:center; }
+.footer-brand { font-size:14px; font-weight:900; color:#fff; }
+.footer-brand em { color:#69F0AE; font-style:normal; }
+.footer-sub { font-size:10px; color:rgba(255,255,255,.4); margin-top:3px; font-family:'Inter',sans-serif; }
+.footer-dots { display:flex; gap:7px; }
+.footer-dot  { width:10px; height:10px; border-radius:50%; }
+</style>
+</head>
+<body>
+<div class="poster">
+
+<!-- ══ HEADER ══ -->
+<div class="hdr">
+  <svg class="hdr-logo" viewBox="0 0 88 88">
+    <circle cx="44" cy="44" r="41" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.18)" stroke-width="1.5"/>
+    <!-- checkmark -->
+    <circle cx="28" cy="44" r="14" fill="rgba(105,240,174,.15)" stroke="#69F0AE" stroke-width="2"/>
+    <path d="M22 44 L26 49 L35 39" stroke="#69F0AE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <!-- X -->
+    <circle cx="60" cy="44" r="14" fill="rgba(239,83,80,.12)" stroke="#EF5350" stroke-width="2"/>
+    <path d="M55 39 L65 49 M65 39 L55 49" stroke="#EF5350" stroke-width="2.5" stroke-linecap="round"/>
+  </svg>
+
+  <div class="hdr-eyebrow">NFT Hydroponic System · Field Reference</div>
+  <div class="hdr-title">Do's &amp; <em>Don'ts</em></div>
+  <div class="hdr-sub">Essential rules for healthy plants, clean water and a system that never fails</div>
+  <div class="hdr-badges">
+    <span class="hdr-badge" style="background:#00C853;color:#003300;">✅ 9 Golden Rules</span>
+    <span class="hdr-badge" style="background:#EF5350;color:#fff;">❌ 9 Common Mistakes</span>
+    <span class="hdr-badge" style="background:#FF8F00;color:#fff;">⚠️ 4 Warning Signs</span>
+    <span class="hdr-badge" style="background:rgba(255,255,255,.15);color:#fff;">📋 Daily Checklist</span>
+  </div>
+</div>
+
+<!-- ══ STATS ROW ══ -->
+<div class="stats-row">
+  <div class="stat">
+    <div class="stat-icon">⏱️</div>
+    <div class="stat-num">30<small>min</small></div>
+    <div class="stat-lbl">Roots Dry = Dead</div>
+    <div class="stat-accent" style="background:#C62828;"></div>
+  </div>
+  <div class="stat">
+    <div class="stat-icon">⚙️</div>
+    <div class="stat-num">24<small>/7</small></div>
+    <div class="stat-lbl">Pump Must Run</div>
+    <div class="stat-accent" style="background:#1B5E20;"></div>
+  </div>
+  <div class="stat">
+    <div class="stat-icon">🌡️</div>
+    <div class="stat-num">24<small>°C</small></div>
+    <div class="stat-lbl">Max Water Temp</div>
+    <div class="stat-accent" style="background:#0277BD;"></div>
+  </div>
+  <div class="stat">
+    <div class="stat-icon">📐</div>
+    <div class="stat-num">1–2<small>%</small></div>
+    <div class="stat-lbl">Pipe Slope</div>
+    <div class="stat-accent" style="background:#6A1B9A;"></div>
+  </div>
+  <div class="stat">
+    <div class="stat-icon">🔄</div>
+    <div class="stat-num">4–6<small>wk</small></div>
+    <div class="stat-lbl">Tank Clean Cycle</div>
+    <div class="stat-accent" style="background:#F57F17;"></div>
+  </div>
+  <div class="stat">
+    <div class="stat-icon">🧪</div>
+    <div class="stat-num">1×</div>
+    <div class="stat-lbl">Change at a Time</div>
+    <div class="stat-accent" style="background:#00838F;"></div>
+  </div>
+</div>
+
+<!-- ══ 3 GOLDEN RULES ══ -->
+<div class="sec-head">
+  <div class="sec-icon" style="background:#E8F5E9;">⭐</div>
+  <h2 style="color:#1B5E20;">The 3 Critical Rules</h2>
+  <div class="sec-line" style="background:#C8E6C9;"></div>
+</div>
+<div class="golden">
+
+  <div class="golden-card">
+    <div class="golden-body">
+      <div class="golden-icon-wrap">⚙️</div>
+      <span class="pri pri-crit">Critical</span>
+      <div class="golden-title">Pump runs 24/7 — no exceptions</div>
+      <div class="golden-desc">NFT roots are always exposed to air. A stopped pump means dry roots within minutes. Always keep a spare pump in stock.</div>
+      <div class="golden-consequence">💀 Without flow: roots die in under 30 minutes. No recovery possible.</div>
+    </div>
+  </div>
+
+  <div class="golden-card">
+    <div class="golden-body">
+      <div class="golden-icon-wrap">🧪</div>
+      <span class="pri pri-crit">Critical</span>
+      <div class="golden-title">Change EC or pH — never both at once</div>
+      <div class="golden-desc">Adjust one parameter, wait 30 minutes, then re-measure. Changing both at once makes it impossible to know what worked — and risks overcorrection.</div>
+      <div class="golden-consequence">⚠️ Dual correction often overshoots in both directions, stressing plants further.</div>
+    </div>
+  </div>
+
+  <div class="golden-card">
+    <div class="golden-body">
+      <div class="golden-icon-wrap">💧</div>
+      <span class="pri pri-crit">Critical</span>
+      <div class="golden-title">Never let the tank run empty</div>
+      <div class="golden-desc">An empty tank means the pump runs dry, overheats and burns out — usually mid-night. Check water levels every morning without fail.</div>
+      <div class="golden-consequence">💀 Dry pump = burned motor + no flow = dead roots. Two failures at once.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══ DO's ══ -->
+<div class="sec-head">
+  <div class="sec-icon" style="background:#E8F5E9;">✅</div>
+  <h2 style="color:#1B5E20;">Always Do This</h2>
+  <div class="sec-line" style="background:#C8E6C9;"></div>
+</div>
+<div class="grid">
+
+  <div class="rule-card do-card">
+    <div class="rule-card-hdr">
+      <div class="rule-icon">📏</div>
+      <div class="rule-hdr-text">
+        <span class="pri pri-setup">Setup</span>
+        <div class="rule-title">Maintain 1–2% pipe slope</div>
+      </div>
+    </div>
+    <div class="rule-card-body">
+      <div class="rule-desc">Pipes must slope slightly downward so water flows by gravity. No slope = water pools = root rot and uneven feeding.</div>
+      <div class="rule-note">📐 Use a spirit level when first installing pipes.</div>
+    </div>
+  </div>
+
+  <div class="rule-card do-card">
+    <div class="rule-card-hdr">
+      <div class="rule-icon">☀️</div>
+      <div class="rule-hdr-text">
+        <span class="pri pri-setup">Setup</span>
+        <div class="rule-title">Use white or light-coloured pipes</div>
+      </div>
+    </div>
+    <div class="rule-card-body">
+      <div class="rule-desc">Dark pipes absorb heat and raise water temperature. They also encourage algae growth inside the pipe where light leaks in.</div>
+      <div class="rule-note">🌡️ Water above 24°C loses oxygen — roots suffocate.</div>
+    </div>
+  </div>
+
+  <div class="rule-card do-card">
+    <div class="rule-card-hdr">
+      <div class="rule-icon">🪣</div>
+      <div class="rule-hdr-text">
+        <span class="pri pri-rout">Routine</span>
+        <div class="rule-title">Cover the reservoir tank</div>
+      </div>
+    </div>
+    <div class="rule-card-body">
+      <div class="rule-desc">An uncovered tank lets in light, causing algae blooms. It also increases evaporation and allows debris to fall in and contaminate the solution.</div>
+      <div class="rule-note">🌿 Algae competes with plants for nutrients and clogs pumps.</div>
+    </div>
+  </div>
+
+  <div class="rule-card do-card">
+    <div class="rule-card-hdr">
+      <div class="rule-icon">🔬</div>
+      <div class="rule-hdr-text">
+        <span class="pri pri-imp">Important</span>
+        <div class="rule-title">Check tap water EC first</div>
+      </div>
+    </div>
+    <div class="rule-card-body">
+      <div class="rule-desc">Tap water already contains dissolved minerals. Your starting EC is not zero. Always measure tap water before mixing nutrients.</div>
+      <div class="rule-note">⚡ High tap EC means less nutrient to add than the recipe says.</div>
+    </div>
+  </div>
+
+  <div class="rule-card do-card">
+    <div class="rule-card-hdr">
+      <div class="rule-icon">🛠️</div>
+      <div class="rule-hdr-text">
+        <span class="pri pri-rout">Routine</span>
+        <div class="rule-title">Flush &amp; clean tanks every 4–6 weeks</div>
+      </div>
+    </div>
+    <div class="rule-card-body">
+      <div class="rule-desc">Salt build-up distorts EC readings over time. Biofilm on tank walls harbours pathogens. Drain, scrub with white vinegar, rinse and refill.</div>
+      <div class="rule-note">🧹 Always clean between crop cycles — never skip this step.</div>
+    </div>
+  </div>
+
+  <div class="rule-card do-card">
+    <div class="rule-card-hdr">
+      <div class="rule-icon">📓</div>
+      <div class="rule-hdr-text">
+        <span class="pri pri-imp">Important</span>
+        <div class="rule-title">Log EC &amp; pH readings daily</div>
+      </div>
+    </div>
+    <div class="rule-card-body">
+      <div class="rule-desc">A single reading tells you the current state. A log tells you the trend — whether things are drifting, improving or getting worse week by week.</div>
+      <div class="rule-note">📈 Trends catch problems before plants show symptoms.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══ DON'Ts ══ -->
+<div class="sec-head">
+  <div class="sec-icon" style="background:#FCE4EC;">❌</div>
+  <h2 style="color:#B71C1C;">Never Do This</h2>
+  <div class="sec-line" style="background:#F8BBD0;"></div>
+</div>
+<div class="grid">
+
+  <div class="rule-card dont-card">
+    <div class="rule-card-hdr">
+      <div class="rule-icon">🌱</div>
+      <div class="rule-hdr-text">
+        <span class="pri pri-crit">Critical</span>
+        <div class="rule-title">Don't fully submerge roots</div>
+      </div>
+    </div>
+    <div class="rule-card-body">
+      <div class="rule-desc">NFT requires a thin film of water only. Roots must have air above the film. Full submersion cuts off oxygen and causes root rot within days.</div>
+      <div class="rule-note">💧 Thin film = water + oxygen. Flooded pipe = oxygen = zero.</div>
+    </div>
+  </div>
+
+  <div class="rule-card dont-card">
+    <div class="rule-card-hdr">
+      <div class="rule-icon">🪵</div>
+      <div class="rule-hdr-text">
+        <span class="pri pri-crit">Critical</span>
+        <div class="rule-title">Don't let roots block the drain</div>
+      </div>
+    </div>
+    <div class="rule-card-body">
+      <div class="rule-desc">Vigorous roots can grow into the drain opening and back up water in the pipe. Check drain openings weekly, especially with fast-growing crops.</div>
+      <div class="rule-note">🔍 Weekly inspection saves a flooded pipe.</div>
+    </div>
+  </div>
+
+  <div class="rule-card dont-card">
+    <div class="rule-card-hdr">
+      <div class="rule-icon">⚗️</div>
+      <div class="rule-hdr-text">
+        <span class="pri pri-imp">Important</span>
+        <div class="rule-title">Don't mix concentrates undiluted</div>
+      </div>
+    </div>
+    <div class="rule-card-body">
+      <div class="rule-desc">Nutrient Part A and Part B must never be mixed together in concentrated form. They react, precipitate and become unavailable to plants.</div>
+      <div class="rule-note">✅ Always add A to water first, stir, then add B separately.</div>
+    </div>
+  </div>
+
+  <div class="rule-card dont-card">
+    <div class="rule-card-hdr">
+      <div class="rule-icon">💊</div>
+      <div class="rule-hdr-text">
+        <span class="pri pri-imp">Important</span>
+        <div class="rule-title">Don't adjust pH in large doses</div>
+      </div>
+    </div>
+    <div class="rule-card-body">
+      <div class="rule-desc">pH Up and pH Down are powerful. A large dose swings the pH past the target and stresses plants. Add a little, wait, then re-measure before adding more.</div>
+      <div class="rule-note">⏱️ Wait 10–15 minutes after each addition before measuring again.</div>
+    </div>
+  </div>
+
+  <div class="rule-card dont-card">
+    <div class="rule-card-hdr">
+      <div class="rule-icon">🍅</div>
+      <div class="rule-hdr-text">
+        <span class="pri pri-setup">Setup</span>
+        <div class="rule-title">Don't grow heavy crops without support</div>
+      </div>
+    </div>
+    <div class="rule-card-body">
+      <div class="rule-desc">Tomatoes, peppers and cucumbers produce large root masses that block flow and heavy fruit that tips pipes. They need structural support and wider pipes.</div>
+      <div class="rule-note">✅ NFT works best with leafy greens, herbs and strawberries.</div>
+    </div>
+  </div>
+
+  <div class="rule-card dont-card">
+    <div class="rule-card-hdr">
+      <div class="rule-icon">🍂</div>
+      <div class="rule-hdr-text">
+        <span class="pri pri-rout">Routine</span>
+        <div class="rule-title">Don't skip cleaning between cycles</div>
+      </div>
+    </div>
+    <div class="rule-card-body">
+      <div class="rule-desc">Old root matter left in pipes decomposes, feeds Pythium fungus and introduces it to the next crop. Always remove all root material and disinfect before replanting.</div>
+      <div class="rule-note">🧼 Use diluted hydrogen peroxide to sterilise pipes between cycles.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══ WARNING SIGNS ══ -->
+<div class="sec-head">
+  <div class="sec-icon" style="background:#FFF8E1;">⚠️</div>
+  <h2 style="color:#E65100;">Warning Signs — Act Immediately</h2>
+  <div class="sec-line" style="background:#FFE0B2;"></div>
+</div>
+<div class="warn-grid" style="padding:16px 52px 28px;">
+
+  <div class="warn-card">
+    <div class="warn-icon">🟤</div>
+    <div>
+      <div class="warn-symptom">Brown, slimy roots</div>
+      <div class="warn-title">Root Rot — Pythium</div>
+      <div class="warn-action">Drain the tank immediately. Remove affected plants. Disinfect with diluted H₂O₂. Improve water temperature and oxygen levels before replanting.</div>
+    </div>
+  </div>
+
+  <div class="warn-card">
+    <div class="warn-icon">🟡</div>
+    <div>
+      <div class="warn-symptom">EC rising but plants look weak or yellow</div>
+      <div class="warn-title">pH Problem, Not EC</div>
+      <div class="warn-action">When pH is wrong, plants cannot absorb nutrients even if EC is perfect. Always fix pH first before adjusting EC. Re-check pH after any EC change.</div>
+    </div>
+  </div>
+
+  <div class="warn-card">
+    <div class="warn-icon">📉</div>
+    <div>
+      <div class="warn-symptom">EC dropping faster than expected</div>
+      <div class="warn-title">Heavy Feeding or Rapid Evaporation</div>
+      <div class="warn-action">Check tank water level first — low level concentrates or dilutes readings. If level is fine, plants are feeding heavily. Top up with mixed nutrient solution, not plain water.</div>
+    </div>
+  </div>
+
+  <div class="warn-card">
+    <div class="warn-icon">🟢</div>
+    <div>
+      <div class="warn-symptom">Green coating inside pipes or on tank walls</div>
+      <div class="warn-title">Algae Bloom</div>
+      <div class="warn-action">Light is entering the system. Immediately cover all gaps in pipes, caps and tank lid. Clean affected surfaces with diluted bleach solution and rinse thoroughly.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══ QUICK REFERENCE TABLE ══ -->
+<div class="sec-head" style="margin-top:4px;">
+  <div class="sec-icon" style="background:#E3F2FD;">📋</div>
+  <h2 style="color:#0277BD;">Daily Checklist</h2>
+  <div class="sec-line" style="background:#BBDEFB;"></div>
+</div>
+<div class="table-wrap" style="margin-top:14px;">
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Task</th>
+        <th>What to Look For</th>
+        <th>If Wrong</th>
+        <th>Priority</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>⚙️ All 4 pumps running</td>
+        <td>Consistent flow, no strange noise</td>
+        <td>Replace pump immediately — 30 min limit</td>
+        <td><span class="badge badge-red">Critical</span></td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>💧 Tank water levels</td>
+        <td>Sufficient water, pump not running dry</td>
+        <td>Top up — use premixed nutrient solution</td>
+        <td><span class="badge badge-red">Critical</span></td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>⚡ EC reading per tank</td>
+        <td>Within optimal range for that crop</td>
+        <td>Add nutrients (low) or dilute with water (high)</td>
+        <td><span class="badge badge-amber">Important</span></td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>🧪 pH reading per tank</td>
+        <td>Within optimal range for that crop</td>
+        <td>Add pH Up or Down — small doses only</td>
+        <td><span class="badge badge-amber">Important</span></td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>🌿 Visual plant inspection</td>
+        <td>Healthy green leaves, upright growth</td>
+        <td>Yellow = nutrient/pH issue. Wilting = flow issue</td>
+        <td><span class="badge badge-amber">Important</span></td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td>🔍 Check pipe drain openings</td>
+        <td>Water flowing freely, no root blockage</td>
+        <td>Clear blockage, trim excess roots</td>
+        <td><span class="badge badge-green">Routine</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<div class="footer" style="margin-top:28px;">
+  <div>
+    <div class="footer-brand">NFT <em>A-Frame System</em> — Field Reference</div>
+    <div class="footer-sub">Lettuce · Mustard Spinach · Strawberry · 4 Independent Sides</div>
+  </div>
+  <div class="footer-dots">
+    <div class="footer-dot" style="background:#00C853;"></div>
+    <div class="footer-dot" style="background:#FF8F00;"></div>
+    <div class="footer-dot" style="background:#EF5350;"></div>
+  </div>
+  <div style="text-align:right;">
+    <div class="footer-brand" style="font-size:11px;">30 min rule · 24/7 pump · 1 change at a time</div>
+    <div class="footer-sub">Print and post near your NFT system</div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>
