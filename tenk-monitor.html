@@ -2839,7 +2839,8 @@ function bouOnttrekking(){
       const gKNont=vol?Math.ceil(Math.abs(delta)*vol/0.75):null;
       const gHFont=vol?Math.ceil(Math.abs(delta)*vol/0.60):null;
       // Kustom produkte
-      const kProd=(data.meststowwe||[]);
+      const rawKP=data.meststowwe||[];
+      const kProd=Array.isArray(rawKP)?rawKP:Object.values(rawKP);
       let prodHtml='';
       if(kProd.length&&vol){
         // Sorteer: Deel A eerste, dan B, dan sonder deel
@@ -2900,7 +2901,8 @@ function bouMestsLys(){
   const el=document.getElementById('mests-lys');
   if(!el)return;
   const data=loadData();
-  const lys=(data.meststowwe||[]);
+  const raw=data.meststowwe||[];
+  const lys=Array.isArray(raw)?raw:Object.values(raw);
   if(!lys.length){
     el.innerHTML=`<div style="font-size:12px;color:rgba(255,255,255,.3);text-align:center;padding:12px 0" data-i18n="mestsGeenProd">${t('mestsGeenProd')}</div>`;
     return;
@@ -2955,7 +2957,8 @@ function meststofStoor(){
   const deel=document.getElementById('mests-deel').value||'';
   const idx=parseInt(document.getElementById('mests-idx').value);
   const d=loadData();
-  if(!d.meststowwe)d.meststowwe=[];
+  const rawMs=d.meststowwe||[];
+  d.meststowwe=Array.isArray(rawMs)?rawMs:Object.values(rawMs);
   const produk={naam,ecBydrae,deel};
   if(idx===-1){
     d.meststowwe.push(produk);
@@ -2969,7 +2972,9 @@ function meststofStoor(){
 
 function meststofVerwyder(idx){
   const d=loadData();
-  if(!d.meststowwe||idx<0||idx>=d.meststowwe.length)return;
+  const rawMv=d.meststowwe||[];
+  d.meststowwe=Array.isArray(rawMv)?rawMv:Object.values(rawMv);
+  if(!d.meststowwe.length||idx<0||idx>=d.meststowwe.length)return;
   d.meststowwe.splice(idx,1);
   saveData(d);
   bouMestsLys();
@@ -3133,7 +3138,8 @@ function doseerBereken(){
       // Hydroflow: 0.60 mS/cm per g/L
       const teiken_lbl=crop?`${crop.ec.min}–${crop.ec.max} mS/cm`:ecT+' mS/cm';
       // Gebruik kustom produkte indien beskikbaar
-      const kProdDos=(loadData().meststowwe||[]);
+      const rawKPD=loadData().meststowwe||[];
+      const kProdDos=Array.isArray(rawKPD)?rawKPD:Object.values(rawKPD);
       let prodLysHtml='';
       if(kProdDos.length){
         const gesorteerDos=[...kProdDos].sort((a,b)=>{const v={'A':0,'B':1,'':2};return(v[a.deel||'']??2)-(v[b.deel||'']??2);});
