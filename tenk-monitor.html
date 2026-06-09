@@ -696,6 +696,21 @@ const T = {
     wOrpLaag:'ORP Laag — Patogeen-risiko',
     wOrpLaagMsg:'ORP tussen 0–200 mV is laag. Gesonde stelsels meet bo 200 mV. Moniteer noukeurig.',
     wOrpLaagAdvies:'Voeg belugting by, kontroleer watertemperatuur, oorweeg gedeeltelike watervervanging.',
+    pyRisiko:'Pythium Risiko',
+    pyLaag:'Laag — Stelsel lyk gesond',
+    pyMatig:'Matig — Moniteer noukeurig',
+    pyHoog:'Hoog — Korrektiewe aksie nodig',
+    pyKrities:'KRITIES — Pythium-gevaar',
+    pyTemp:'Temperatuur',
+    pyORP:'ORP',
+    pyVloei:'Vloei',
+    pyVeilig:'Veilig',
+    pyWaarskulig:'Waarskuwing',
+    pyGevaar:'Gevaar',
+    pyGeenData:'Geen data',
+    pyAdviesMatig:'Verhoog belugting en hou watertemp onder 22°C.',
+    pyAdviesHoog:'Dringende aandag — verlaag watertemp, verhoog vloei, meet ORP.',
+    pyAdviesKrities:'STOP — Anaërobiese toestande! Vervang voedingswater dadelik, verhoog belugting drasties, isoleer siek plante.',
     teikenwaardes:'Teikenwaardes', suurheid:'suurheid', kgGeoes:'geoes',
     chartOptimaleReeks:'Optimale Reeks', chartOnderMin:'⬇ Onder Min', chartBoMax:'⬆ Bo Max', chartInReeks:'✓ In Reeks',
     laatVloei:'LAAT VLOEI', laatVloeiMsg:'Vloei is onder 0.8 L/min — wortels kan die pypkanaal blokkeer.',
@@ -901,6 +916,21 @@ const T = {
     wOrpLaag:'ORP Low — Pathogen risk',
     wOrpLaagMsg:'ORP between 0–200 mV is low. Healthy systems measure above 200 mV. Monitor closely.',
     wOrpLaagAdvies:'Add aeration, check water temperature, consider a partial water change.',
+    pyRisiko:'Pythium Risk',
+    pyLaag:'Low — System looks healthy',
+    pyMatig:'Moderate — Monitor closely',
+    pyHoog:'High — Corrective action needed',
+    pyKrities:'CRITICAL — Pythium danger',
+    pyTemp:'Temperature',
+    pyORP:'ORP',
+    pyVloei:'Flow',
+    pyVeilig:'Safe',
+    pyWaarskulig:'Warning',
+    pyGevaar:'Danger',
+    pyGeenData:'No data',
+    pyAdviesMatig:'Increase aeration and keep water temp below 22°C.',
+    pyAdviesHoog:'Urgent attention — lower water temp, increase flow, measure ORP.',
+    pyAdviesKrities:'STOP — Anaerobic conditions! Replace nutrient solution immediately, increase aeration drastically, isolate sick plants.',
     teikenwaardes:'Target Values', suurheid:'acidity', kgGeoes:'harvested',
     chartOptimaleReeks:'Optimal Range', chartOnderMin:'⬇ Below Min', chartBoMax:'⬆ Above Max', chartInReeks:'✓ In Range',
     laatVloei:'LOW FLOW', laatVloeiMsg:'Flow is below 0.8 L/min — roots may be blocking the channel.',
@@ -1252,6 +1282,75 @@ async function saveData(d) {
 function today(){return new Date().toISOString().slice(0,10);}
 function plantAge(d){if(!d)return null;return Math.max(0,Math.floor((new Date()-new Date(d))/86400000));}
 
+function pythiumPunte(temp,orp,vloei){
+  // Elke parameter gee 0–3 punte. Totaal 0–9.
+  let tPunte=0,oPunte=0,vPunte=0;
+  let tStatus='none',oStatus='none',vStatus='none';
+  if(temp!=null){
+    if(temp<=20){tPunte=0;tStatus='ok';}
+    else if(temp<=22){tPunte=1;tStatus='warn';}
+    else if(temp<=25){tPunte=2;tStatus='bad';}
+    else{tPunte=3;tStatus='bad';}
+  }
+  if(orp!=null){
+    if(orp>=200){oPunte=0;oStatus='ok';}
+    else if(orp>=100){oPunte=1;oStatus='warn';}
+    else if(orp>=0){oPunte=2;oStatus='bad';}
+    else{oPunte=3;oStatus='bad';}
+  }
+  if(vloei!=null){
+    if(vloei>=1.5){vPunte=0;vStatus='ok';}
+    else if(vloei>=1.0){vPunte=1;vStatus='warn';}
+    else if(vloei>=0.5){vPunte=2;vStatus='bad';}
+    else{vPunte=3;vStatus='bad';}
+  }
+  const totaal=tPunte+oPunte+vPunte;
+  return{totaal,tPunte,oPunte,vPunte,tStatus,oStatus,vStatus};
+}
+
+function bouPythiumMeter(i,temp,orp,vloei){
+  // Slegs wys as ten minste een waarde beskikbaar is
+  if(temp==null&&orp==null&&vloei==null)return'';
+  const p=pythiumPunte(temp,orp,vloei);
+  const maxPunte=(temp!=null?3:0)+(orp!=null?3:0)+(vloei!=null?3:0);
+  const pct=maxPunte?Math.round(p.totaal/maxPunte*100):0;
+  let kleur,ikoon,vlak,advies;
+  if(p.totaal<=2){kleur='#81C784';ikoon='🟢';vlak=t('pyLaag');advies='';}
+  else if(p.totaal<=5){kleur='#FFD54F';ikoon='🟡';vlak=t('pyMatig');advies=t('pyAdviesMatig');}
+  else if(p.totaal<=7){kleur='#FF8A65';ikoon='🟠';vlak=t('pyHoog');advies=t('pyAdviesHoog');}
+  else{kleur='#EF9A9A';ikoon='🔴';vlak=t('pyKrities');advies=t('pyAdviesKrities');}
+
+  const fakSel=(waarde,punte,status,naam,eenheid)=>{
+    if(waarde==null)return`<div style="opacity:.35;font-size:11px">${naam}: ${t('pyGeenData')}</div>`;
+    const fkleur=status==='ok'?'#81C784':status==='warn'?'#FFD54F':'#EF9A9A';
+    const fikon=status==='ok'?'✓':status==='warn'?'⚠':'✕';
+    return`<div style="display:flex;align-items:center;gap:6px;font-size:11px">
+      <span style="color:${fkleur};font-weight:700;width:12px">${fikon}</span>
+      <span style="color:rgba(255,255,255,.6)">${naam}:</span>
+      <span style="color:${fkleur};font-weight:700">${waarde}${eenheid}</span>
+      <span style="color:rgba(255,255,255,.3);font-size:10px">(+${punte})</span>
+    </div>`;
+  };
+
+  return`<div class="waarsku-kaart" style="border-left-color:${kleur};background:linear-gradient(135deg,rgba(0,0,0,.2),rgba(0,0,0,.1))">
+    <div style="width:100%">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <div style="font-family:Montserrat,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.4)">${t('tank')} ${i} — ${t('pyRisiko')}</div>
+        <div style="font-family:Montserrat,sans-serif;font-size:11px;font-weight:800;color:${kleur}">${ikoon} ${vlak}</div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border-radius:10px;height:10px;margin-bottom:10px;overflow:hidden">
+        <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,#81C784,${kleur});border-radius:10px;transition:width .5s"></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:${advies?'10px':'0'}">
+        ${fakSel(temp,p.tPunte,p.tStatus,t('pyTemp'),'°C')}
+        ${fakSel(orp,p.oPunte,p.oStatus,t('pyORP'),' mV')}
+        ${fakSel(vloei,p.vPunte,p.vStatus,t('pyVloei'),' L/min')}
+      </div>
+      ${advies?`<div style="font-size:11px;color:${kleur};line-height:1.5;padding:8px;background:rgba(0,0,0,.2);border-radius:8px">👉 ${advies}</div>`:''}
+    </div>
+  </div>`;
+}
+
 function checkWaarskuwings(){
   const blok=document.getElementById('waarsku-blok');
   if(!blok)return;
@@ -1378,6 +1477,12 @@ function checkWaarskuwings(){
     }
     // ORP-waarskuwings
     const orpLesings=readings.filter(r=>r.orp!=null);
+    // Pythium risikometer
+    const laasteLesing=readings[readings.length-1];
+    const pyTemp=laasteLesing.temp!=null?laasteLesing.temp:null;
+    const pyOrp=orpLesings.length?(orpLesings[orpLesings.length-1].orp):null;
+    const pyVloei=(readings.filter(r=>r.vloei!=null).slice(-1)[0]?.vloei)??null;
+    html+=bouPythiumMeter(i,pyTemp,pyOrp,pyVloei);
     if(orpLesings.length){
       const laaste=orpLesings[orpLesings.length-1];
       if(laaste.orp<0){
