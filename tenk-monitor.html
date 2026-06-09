@@ -690,6 +690,10 @@ const T = {
     vloeiNieMeet:'Vloei nie gemeet die afgelope 7 dae nie',
     vloeiMeetWeekliks:'Meet weekliks die vloeisnelheid (teiken: 1–2 L/min per kant).',
     vloeiMeetAdvies:"Meet vandag se vloei en teken dit aan as 'n nuwe lesing.",
+    vloeiTeHoog:'Vloei TE HOOG',
+    vloeiTeHoogMsg:'Vloei bo 2 L/min beteken water beweeg te vinnig — wortels het te min kontak-tyd met voedingstowwe. Plante absorbeer minder, ongebruikte voedingstowwe stapel op in die tenk en EC sal begin styg.',
+    vloeiTeHoogAdvies:'Verminder pompspoed tot 1–2 L/min. Kyk of EC besig is om te styg — dit is \'n teken dat plante nie genoeg absorbeer nie.',
+    vloeiTeHoogECLet:'⚡ Let op: EC styg tans ook — dit bevestig dat plante minder voedingstowwe absorbeer as gevolg van te-hoë vloei.',
     wOrpKrities:'ORP KRITIES — Pythium-gevaar',
     wOrpKritiesMsg:'ORP onder 0 mV dui op anaërobiese toestande — ideale teelaarde vir Pythium (wortelvrot). Onmiddellike optrede nodig.',
     wOrpKritiesAdvies:'Verhoog belugting, verminder watertemperatuur, verander voedingsoplossing dadelik.',
@@ -910,6 +914,10 @@ const T = {
     vloeiNieMeet:'Flow not measured in the past 7 days',
     vloeiMeetWeekliks:'Measure the flow rate weekly (target: 1–2 L/min per side).',
     vloeiMeetAdvies:'Measure today\'s flow and record it as a new reading.',
+    vloeiTeHoog:'Flow TOO HIGH',
+    vloeiTeHoogMsg:'Flow above 2 L/min means water moves too fast — roots have too little contact time with nutrients. Plants absorb less, unused nutrients accumulate in the tank and EC will start to rise.',
+    vloeiTeHoogAdvies:'Reduce pump speed to 1–2 L/min. Check whether EC is rising — this is a sign that plants are not absorbing enough nutrients due to high flow.',
+    vloeiTeHoogECLet:'⚡ Note: EC is also rising — this confirms that plants are absorbing fewer nutrients due to high flow rate.',
     wOrpKrities:'ORP CRITICAL — Pythium danger',
     wOrpKritiesMsg:'ORP below 0 mV indicates anaerobic conditions — ideal breeding ground for Pythium (root rot). Immediate action required.',
     wOrpKritiesAdvies:'Increase aeration, reduce water temperature, replace nutrient solution immediately.',
@@ -1299,9 +1307,10 @@ function pythiumPunte(temp,orp,vloei){
     else{oPunte=3;oStatus='bad';}
   }
   if(vloei!=null){
-    if(vloei>=1.5){vPunte=0;vStatus='ok';}
-    else if(vloei>=1.0){vPunte=1;vStatus='warn';}
-    else if(vloei>=0.5){vPunte=2;vStatus='bad';}
+    // Optimaal: 1.0–2.0 L/min — straf beide te laag EN te hoog
+    if(vloei>=1.0&&vloei<=2.0){vPunte=0;vStatus='ok';}
+    else if((vloei>=0.8&&vloei<1.0)||(vloei>2.0&&vloei<=2.5)){vPunte=1;vStatus='warn';}
+    else if((vloei>=0.5&&vloei<0.8)||(vloei>2.5&&vloei<=3.0)){vPunte=2;vStatus='bad';}
     else{vPunte=3;vStatus='bad';}
   }
   const totaal=tPunte+oPunte+vPunte;
@@ -1458,6 +1467,18 @@ function checkWaarskuwings(){
             <div class="waarsku-titel">${t('tank')} ${i} — ${t('laatVloei')} (${laaste.vloei} L/min)</div>
             <div class="waarsku-boodskap">${t('laatVloeiMsg')}</div>
             <div class="waarsku-advies">👉 ${t('laatVloeiAdvies')}</div>
+          </div>
+        </div>`;
+      } else if(laaste.vloei>2.0){
+        // Kyk of EC ook besig is om te styg (laaste 3 lesings)
+        const ecTrend=readings.length>=3&&readings.slice(-3).every((r,idx,arr)=>idx===0||r.ec>=arr[idx-1].ec);
+        html+=`<div class="waarsku-kaart" style="border-left-color:#FFD54F">
+          <div class="waarsku-ikoon">💨</div>
+          <div class="waarsku-inhoud">
+            <div class="waarsku-titel" style="color:#FFD54F">${t('tank')} ${i} — ${t('vloeiTeHoog')} (${laaste.vloei} L/min)</div>
+            <div class="waarsku-boodskap">${t('vloeiTeHoogMsg')}</div>
+            ${ecTrend?`<div class="waarsku-boodskap" style="color:#FFD54F;margin-top:6px">${t('vloeiTeHoogECLet')}</div>`:''}
+            <div class="waarsku-advies">👉 ${t('vloeiTeHoogAdvies')}</div>
           </div>
         </div>`;
       }
