@@ -418,6 +418,34 @@ canvas{max-width:100%}
   </div>
 </div>
 
+<!-- ═══ BEMESTING PRODUK MODAL ═══ -->
+<div class="modal-orl" id="modal-mests" onclick="if(event.target===this)sluitMestsModal()">
+  <div class="modal-boks">
+    <div class="modal-titel" id="modal-mests-titel">🌿 Produk</div>
+    <input type="hidden" id="mests-idx" value="-1">
+    <div class="modal-veld">
+      <label data-i18n="mestsNaam">Produk Naam</label>
+      <input type="text" id="mests-naam" placeholder="bv. Kalsiumnitraat">
+    </div>
+    <div class="modal-veld">
+      <label data-i18n="mestsEC">EC Bydrae (mS/cm per g/L)</label>
+      <input type="number" id="mests-ec" placeholder="bv. 0.75" step="0.01" inputmode="decimal">
+    </div>
+    <div class="modal-veld">
+      <label data-i18n="mestsDeel">Deel (opsioneel)</label>
+      <select id="mests-deel">
+        <option value="" data-i18n="mestsDeelGeenKeuse">— Enkel Komponent —</option>
+        <option value="A" data-i18n="mestsDeelA">Deel A (voeg eerste by)</option>
+        <option value="B" data-i18n="mestsDeelB">Deel B (voeg tweede by)</option>
+      </select>
+    </div>
+    <div class="modal-knoppe">
+      <button class="btn-modal-kanselleer" onclick="sluitMestsModal()" data-i18n="btnKanselleer">Kanselleer</button>
+      <button class="btn-modal-bevestig" onclick="meststofStoor()" data-i18n="btnStoor">✅ Stoor</button>
+    </div>
+  </div>
+</div>
+
 <!-- ═══ NUWE SIKLUS MODAL ═══ -->
 <div class="modal-orl" id="modal-siklus" onclick="if(event.target===this)sluitModal()">
   <div class="modal-boks">
@@ -828,7 +856,7 @@ const T = {
     oesGram:'Hoeveelheid (gram)', oesTipe:'Oes Tipe',
     oesTipeA:'✂️ Gedeeltelik (sny-en-groei-weer)', oesTipeB:'🌾 Volledig (hele plant)',
     oesPrys:'Verkoopprys (per kg)', oesNota:'Nota (opsioneel)', oesRandWaarde:'Geldwaarde',
-    btnKanselleer:'Kanselleer', btnStoorOes:'✅ Stoor Oes',
+    btnKanselleer:'Kanselleer', btnStoorOes:'✅ Stoor Oes', btnStoor:'✅ Stoor',
     // Siklus modal
     siklusTitel:'🔄 Nuwe Aanplantingsiklus',
     siklusInfo:"Stoor die huidige oes en begin 'n nuwe siklus. Die geskiedenisinligting word geargiveer.",
@@ -1046,7 +1074,7 @@ const T = {
     oesGram:'Quantity (grams)', oesTipe:'Harvest Type',
     oesTipeA:'✂️ Partial (cut-and-grow-again)', oesTipeB:'🌾 Full (whole plant)',
     oesPrys:'Selling price (per kg)', oesNota:'Note (optional)', oesRandWaarde:'Value',
-    btnKanselleer:'Cancel', btnStoorOes:'✅ Save Harvest',
+    btnKanselleer:'Cancel', btnStoorOes:'✅ Save Harvest', btnStoor:'✅ Save',
     siklusTitel:'🔄 New Planting Cycle',
     siklusInfo:'Save the current harvest and start a new cycle. History will be archived.',
     siklusOesdatum:'Harvest date', siklusGram:'Harvest quantity (grams)',
@@ -1154,6 +1182,7 @@ function applyLang(){
   bouOnttrekking();
   bouWaterverbruik();
   bouOes();
+  bouMestsLys();
 
   // Rebuild history if visible
   const histContent=document.getElementById('hist-content');
@@ -2809,8 +2838,27 @@ function bouOnttrekking(){
       status=t('ontOnttrek');
       const gKNont=vol?Math.ceil(Math.abs(delta)*vol/0.75):null;
       const gHFont=vol?Math.ceil(Math.abs(delta)*vol/0.60):null;
+      // Kustom produkte
+      const kProd=(data.meststowwe||[]);
+      let prodHtml='';
+      if(kProd.length&&vol){
+        // Sorteer: Deel A eerste, dan B, dan sonder deel
+        const gesorteer=[...kProd].sort((a,b)=>{
+          const v={'A':0,'B':1,'':2};
+          return (v[a.deel||'']??2)-(v[b.deel||'']??2);
+        });
+        prodHtml=gesorteer.map(p=>{
+          const g=p.ecBydrae?Math.ceil(Math.abs(delta)*vol/p.ecBydrae):null;
+          const deelTeks=p.deel?` (Deel ${p.deel})`:'';
+          return g?`🌿 ${p.naam}${deelTeks}: <strong>~${g}g</strong>`:'';
+        }).filter(Boolean).join('<br>');
+        if(prodHtml)prodHtml=`${t('ontVoegByLbl')}<br>${prodHtml} in ${vol}L.<br><br>`;
+      }
+      if(!prodHtml){
+        prodHtml=gKNont?`${t('ontVoegByLbl')}<br>🧂 ${t('prodKN')}: <strong>~${gKNont}g</strong><br>🌿 ${t('prodHF')}: <strong>~${gHFont}g</strong> in ${vol}L.<br><br>`:t('ontStelVol')+'<br><br>';
+      }
       aanbeveling=`<strong>${t('ontPlanteVerwyder')}</strong> ${t('ontECDaal')} <strong>${vorige.ec}</strong> ${t('ontECNa')} <strong>${laaste.ec}</strong> mS/cm.<br><br>`
-        +(gKNont?`${t('ontVoegByLbl')}<br>🧂 ${t('prodKN')}: <strong>~${gKNont}g</strong><br>🌿 ${t('prodHF')}: <strong>~${gHFont}g</strong> in ${vol}L.<br><br>`:t('ontStelVol')+'<br><br>')
+        +prodHtml
         +t('ontLosOp');
     } else {
       kaartKlas='vul-water';deltaKleur='#FFD54F';
@@ -2846,6 +2894,87 @@ function bouOnttrekking(){
 
   cont.innerHTML=gevind?html:`<div style="font-size:12px;color:rgba(255,255,255,.3);text-align:center;padding:16px">${t('ontMinLesings')}</div>`;
 }
+
+// ═══ BEMESTING PRODUKTE ═══
+function bouMestsLys(){
+  const el=document.getElementById('mests-lys');
+  if(!el)return;
+  const data=loadData();
+  const lys=(data.meststowwe||[]);
+  if(!lys.length){
+    el.innerHTML=`<div style="font-size:12px;color:rgba(255,255,255,.3);text-align:center;padding:12px 0" data-i18n="mestsGeenProd">${t('mestsGeenProd')}</div>`;
+    return;
+  }
+  el.innerHTML=lys.map((p,i)=>{
+    const deelBadge=p.deel
+      ?`<span style="font-size:10px;font-weight:700;letter-spacing:1px;padding:2px 8px;border-radius:20px;background:rgba(76,175,80,.15);color:#81C784;margin-left:6px">DEEL ${p.deel}</span>`
+      :'';
+    const ecTeks=p.ecBydrae?`<span style="font-size:11px;color:rgba(255,255,255,.4)">${p.ecBydrae} mS/cm per g/L</span>`:'';
+    return `<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06)">
+      <div>
+        <span style="font-size:14px;font-weight:700;color:#fff">${p.naam}</span>${deelBadge}<br>${ecTeks}
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn-mests-edit" style="border:none;border-radius:8px;padding:7px 12px;font-size:11px;font-weight:700;cursor:pointer" onclick="meststofOopModal(${i})">✏️</button>
+        <button class="btn-mests-del" style="border:none;border-radius:8px;padding:7px 12px;font-size:11px;font-weight:700;cursor:pointer" onclick="meststofVerwyder(${i})">🗑️</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function meststofOopModal(idx){
+  const data=loadData();
+  const lys=data.meststowwe||[];
+  document.getElementById('mests-idx').value=idx;
+  const titelEl=document.getElementById('modal-mests-titel');
+  if(idx===-1){
+    document.getElementById('mests-naam').value='';
+    document.getElementById('mests-ec').value='';
+    document.getElementById('mests-deel').value='';
+    if(titelEl)titelEl.textContent='🌿 '+t('mestsVoegBy').replace('+ ','');
+  } else {
+    const p=lys[idx]||{};
+    document.getElementById('mests-naam').value=p.naam||'';
+    document.getElementById('mests-ec').value=p.ecBydrae||'';
+    document.getElementById('mests-deel').value=p.deel||'';
+    if(titelEl)titelEl.textContent='🌿 '+t('mestsNaam');
+  }
+  document.getElementById('modal-mests').classList.add('oop');
+  document.body.style.overflow='hidden';
+}
+
+function sluitMestsModal(){
+  document.getElementById('modal-mests').classList.remove('oop');
+  document.body.style.overflow='';
+}
+
+function meststofStoor(){
+  const naam=(document.getElementById('mests-naam').value||'').trim();
+  if(!naam){alert(t('mestsNaam')+' ?');return;}
+  const ecBydrae=parseFloat(document.getElementById('mests-ec').value)||0;
+  const deel=document.getElementById('mests-deel').value||'';
+  const idx=parseInt(document.getElementById('mests-idx').value);
+  const d=loadData();
+  if(!d.meststowwe)d.meststowwe=[];
+  const produk={naam,ecBydrae,deel};
+  if(idx===-1){
+    d.meststowwe.push(produk);
+  } else {
+    d.meststowwe[idx]=produk;
+  }
+  saveData(d);
+  sluitMestsModal();
+  bouMestsLys();
+}
+
+function meststofVerwyder(idx){
+  const d=loadData();
+  if(!d.meststowwe||idx<0||idx>=d.meststowwe.length)return;
+  d.meststowwe.splice(idx,1);
+  saveData(d);
+  bouMestsLys();
+}
+
 
 function bouWaterverbruik(){
   const cont=document.getElementById('water-gebruik-inhoud');
@@ -3002,12 +3131,26 @@ function doseerBereken(){
       // Gebaseer op produk-spesifikasies (word gekalibreer na kraanwater-toets)
       // Kalsiumnitraat Omnica: 0.75 mS/cm per g/L
       // Hydroflow: 0.60 mS/cm per g/L
-      const gKN=Math.ceil(delta*vol/0.75);
-      const gHF=Math.ceil(delta*vol/0.60);
       const teiken_lbl=crop?`${crop.ec.min}–${crop.ec.max} mS/cm`:ecT+' mS/cm';
+      // Gebruik kustom produkte indien beskikbaar
+      const kProdDos=(loadData().meststowwe||[]);
+      let prodLysHtml='';
+      if(kProdDos.length){
+        const gesorteerDos=[...kProdDos].sort((a,b)=>{const v={'A':0,'B':1,'':2};return(v[a.deel||'']??2)-(v[b.deel||'']??2);});
+        prodLysHtml=gesorteerDos.map(p=>{
+          if(!p.ecBydrae)return '';
+          const g=Math.ceil(delta*vol/p.ecBydrae);
+          const deelTeks=p.deel?` (Deel ${p.deel})`:'';
+          return `🌿 <strong>${p.naam}${deelTeks}: <span class="getal">${g}g</span></strong>`;
+        }).filter(Boolean).join('<br>');
+      }
+      if(!prodLysHtml){
+        const gKN=Math.ceil(delta*vol/0.75);
+        const gHF=Math.ceil(delta*vol/0.60);
+        prodLysHtml=`🧂 <strong>${t('prodKN')}: <span class="getal">${gKN}g</span></strong><br>🌿 <strong>${t('prodHF')}: <span class="getal">${gHF}g</span></strong>`;
+      }
       ecRes.innerHTML=`<div class="doseer-stap"><div class="doseer-stap-num">1</div><div class="doseer-stap-txt">${t('dosECMoetGaan')} ${ecH} ${t('dosECNa')} ${ecT} ${t('dosECMSCM')} (Δ ${delta.toFixed(2)} mS/cm in ${vol}L).<br><br>
-        🧂 <strong>${t('prodKN')}: <span class="getal">${gKN}g</span></strong><br>
-        🌿 <strong>${t('prodHF')}: <span class="getal">${gHF}g</span></strong></div></div>
+        ${prodLysHtml}</div></div>
       <div class="doseer-stap"><div class="doseer-stap-num">2</div><div class="doseer-stap-txt">${t('dosECLosKN')}</div></div>
       <div class="doseer-stap"><div class="doseer-stap-num">3</div><div class="doseer-stap-txt">${t('dosECWagMeet')} (${teiken_lbl}) ${t('dosECBereiken')}<br><span style="color:rgba(255,255,255,.4);font-size:10px">${t('dosECBasis')}</span></div></div>`;
     }
@@ -3175,7 +3318,7 @@ function showPage(id,btn){
       const tt=dd[`t${i}`];
       if(tt&&(tt.active||tt.readings?.length||tt.crop)){doseerLaaiTenk(i);break;}
     }
-    bouOnttrekking();bouWaterverbruik();laaiKoste();
+    bouOnttrekking();bouWaterverbruik();laaiKoste();bouMestsLys();
   }
   if(id==='groei'){
     bouGroeiSelektors();
