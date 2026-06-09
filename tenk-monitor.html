@@ -691,7 +691,7 @@ const T = {
     vloeiMeetWeekliks:'Meet weekliks die vloeisnelheid (teiken: 1–2 L/min per kant).',
     vloeiMeetAdvies:"Meet vandag se vloei en teken dit aan as 'n nuwe lesing.",
     vloeiTeHoog:'Vloei TE HOOG',
-    vloeiTeHoogMsg:'Vloei bo 2 L/min beteken water beweeg te vinnig — wortels het te min kontak-tyd met voedingstowwe. Plante absorbeer minder, ongebruikte voedingstowwe stapel op in die tenk en EC sal begin styg.',
+    vloeiTeHoogMsg:'Vloei bo 2 L/min beteken water beweeg te vinnig — wortels het te min kontak-tyd met voedingstowwe. Plante absorbeer minder, ongebruikte voedingstowwe stapel op in die tenk en EC sal begin styg. Hoë vloei veroorsaak ook meer turbulentheid en spat in die kanale wat verdamping verhoog — water verdamp maar voedingstowwe bly, wat EC verder laat styg.',
     vloeiTeHoogAdvies:'Verminder pompspoed tot 1–2 L/min. Kyk of EC besig is om te styg — dit is \'n teken dat plante nie genoeg absorbeer nie.',
     vloeiTeHoogECLet:'⚡ Let op: EC styg tans ook — dit bevestig dat plante minder voedingstowwe absorbeer as gevolg van te-hoë vloei.',
     wOrpKrities:'ORP KRITIES — Pythium-gevaar',
@@ -915,7 +915,7 @@ const T = {
     vloeiMeetWeekliks:'Measure the flow rate weekly (target: 1–2 L/min per side).',
     vloeiMeetAdvies:'Measure today\'s flow and record it as a new reading.',
     vloeiTeHoog:'Flow TOO HIGH',
-    vloeiTeHoogMsg:'Flow above 2 L/min means water moves too fast — roots have too little contact time with nutrients. Plants absorb less, unused nutrients accumulate in the tank and EC will start to rise.',
+    vloeiTeHoogMsg:'Flow above 2 L/min means water moves too fast — roots have too little contact time with nutrients. Plants absorb less, unused nutrients accumulate in the tank and EC will start to rise. High flow also creates more turbulence and splashing in the channels which increases evaporation — water evaporates but nutrients remain, pushing EC even higher.',
     vloeiTeHoogAdvies:'Reduce pump speed to 1–2 L/min. Check whether EC is rising — this is a sign that plants are not absorbing enough nutrients due to high flow.',
     vloeiTeHoogECLet:'⚡ Note: EC is also rising — this confirms that plants are absorbing fewer nutrients due to high flow rate.',
     wOrpKrities:'ORP CRITICAL — Pythium danger',
@@ -2432,7 +2432,7 @@ function renderHistory(n){
         if(r.vloei!=null&&r.vloei<0.8)recs.push({icon:'🚰',name:t('histVloei'),badge:`<span style="background:#EF9A9A;color:#000;font-size:9px;font-weight:700;padding:2px 6px;border-radius:8px">${t('wTeLaag')}</span>`,advice:lang==='en'?`Flow is ${r.vloei} L/min — too slow. Roots lose oxygen, stagnant water favours Pythium. Target: 1–2 L/min.`:`Vloei is ${r.vloei} L/min — te stadig. Wortels verloor suurstof, stagnante water bevorder Pythium. Teiken: 1–2 L/min.`,img:PROB_IMGS['vloei-te-stadig']});
         if(r.vloei!=null&&r.vloei>2.0){
           const ecStyg=prev&&r.ec>prev.ec;
-          recs.push({icon:'💨',name:t('histVloei'),badge:`<span style="background:#FFD54F;color:#000;font-size:9px;font-weight:700;padding:2px 6px;border-radius:8px">${t('wTeHoog')}</span>`,advice:(lang==='en'?`Flow is ${r.vloei} L/min — too fast. Roots have too little contact time with nutrients. Plants absorb less → unused nutrients build up → EC rises.`:`Vloei is ${r.vloei} L/min — te vinnig. Wortels het te min kontak-tyd met voedingstowwe. Plante absorbeer minder → ongebruikte voedingstowwe stapel op → EC styg.`)+(ecStyg?(lang==='en'?' ⚡ EC is also rising — this confirms the pattern.':' ⚡ EC styg ook — dit bevestig die patroon.'):''),img:PROB_IMGS['vloei-te-vinnig']});
+          recs.push({icon:'💨',name:t('histVloei'),badge:`<span style="background:#FFD54F;color:#000;font-size:9px;font-weight:700;padding:2px 6px;border-radius:8px">${t('wTeHoog')}</span>`,advice:(lang==='en'?`Flow is ${r.vloei} L/min — too fast. Roots have too little contact time with nutrients → plants absorb less → unused nutrients build up → EC rises. High flow also increases turbulence and evaporation in the channels — water evaporates but nutrients stay, pushing EC even higher.`:`Vloei is ${r.vloei} L/min — te vinnig. Wortels het te min kontak-tyd met voedingstowwe → plante absorbeer minder → ongebruikte voedingstowwe stapel op → EC styg. Hoë vloei verhoog ook turbulentheid en verdamping in die kanale — water verdamp maar voedingstowwe bly, wat EC verder laat styg.`)+(ecStyg?(lang==='en'?' ⚡ EC is also rising — this confirms the pattern.':' ⚡ EC styg ook — dit bevestig die patroon.'):''),img:PROB_IMGS['vloei-te-vinnig']});
         }
         const recsHtml=recs.length===0
           ?`<div style="color:#81C784;font-size:11px">${t('histAlleOK')}</div>`
