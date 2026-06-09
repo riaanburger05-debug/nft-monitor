@@ -624,11 +624,8 @@ canvas{max-width:100%}
         <label data-i18n="dosKosWater">Water (R per liter)</label>
         <input type="number" id="kos-water" placeholder="bv. 0.05" step="0.01" inputmode="decimal" oninput="stoorKoste()">
       </div>
-      <div class="doseer-field">
-        <label data-i18n="dosTydperk">Tydperk (weke)</label>
-        <input type="number" id="kos-weke" placeholder="bv. 5" step="1" inputmode="numeric" value="5" oninput="stoorKoste()">
-      </div>
     </div>
+    <div style="font-size:10px;color:rgba(255,255,255,.3);margin-bottom:8px" data-i18n="dosTydperkAuto">⏱ Tydperk word outomaties bereken per tenk uit plantdatum → vandag</div>
     <div id="koste-resultaat"></div>
   </div>
 
@@ -735,7 +732,7 @@ const T = {
     dosWaterGebr:'🌱 Waterverbruik per Tenk',
     dosWaterGebrLeeg:'Stoor eers lesings met aantal plante om waterverbruik te sien.',
     dosWaterKoste:'💰 Waterkoste Berekening',
-    dosKosWater:'Water (R per liter)', dosKosKN:'Kalsiumnitraat (R/kg)', dosKosHF:'Hydroflow (R/kg)', dosTydperk:'Tydperk (weke)',
+    dosKosWater:'Water (R per liter)', dosKosKN:'Kalsiumnitraat (R/kg)', dosKosHF:'Hydroflow (R/kg)', dosTydperkAuto:'⏱ Tydperk word outomaties bereken per tenk uit plantdatum → vandag',
     dosInfoTitel:'💡 Moet ek elke dag kunsmis ingooi?',
     dosInfoTeks:'Nie noodwendig nie. In \'n NFT-stelsel gebeur twee dinge gelyktydig: water verdamp (EC <strong style="color:#fff">styg</strong>) en plante drink voedingstowwe (EC <strong style="color:#fff">daal</strong>).<br><br>• As EC <strong style="color:#FFD54F">te hoog</strong> is → voeg <strong style="color:#fff">skoon water</strong> by, geen kunsmis nie<br>• As EC <strong style="color:#EF9A9A">te laag</strong> is → voeg <strong style="color:#fff">kunsmis</strong> by (Kalsiumnitraat dan Hydroflow)<br>• As EC <strong style="color:#81C784">binne reeks</strong> is → niks nodig nie<br><br>Gebruik hierdie rekenaar slegs <strong style="color:#fff">wanneer EC of pH buite reeks is</strong>.',
     dosWaarsku:'⚠️ <strong>Waarskuwing:</strong> Hierdie berekeninge is benaderings. Voeg altyd <strong>stadig</strong> by — meet tussenin. Spesifieke hoeveelhede hang af van jou voedingsoplossing se konsentrasie.',
@@ -957,7 +954,7 @@ const T = {
     dosWaterGebr:'🌱 Water Use per Tank',
     dosWaterGebrLeeg:'Save readings with plant count first to see water use.',
     dosWaterKoste:'💰 Water Cost Calculation',
-    dosKosWater:'Water (R per litre)', dosKosKN:'Calcium Nitrate (R/kg)', dosKosHF:'Hydroflow (R/kg)', dosTydperk:'Period (weeks)',
+    dosKosWater:'Water (R per litre)', dosKosKN:'Calcium Nitrate (R/kg)', dosKosHF:'Hydroflow (R/kg)', dosTydperkAuto:'⏱ Period calculated automatically per tank from plant date → today',
     dosInfoTitel:'💡 Do I need to add fertiliser every day?',
     dosInfoTeks:'Not necessarily. In an NFT system two things happen simultaneously: water evaporates (EC <strong style="color:#fff">rises</strong>) and plants absorb nutrients (EC <strong style="color:#fff">drops</strong>).<br><br>• If EC is <strong style="color:#FFD54F">too high</strong> → add <strong style="color:#fff">clean water</strong>, no fertiliser<br>• If EC is <strong style="color:#EF9A9A">too low</strong> → add <strong style="color:#fff">fertiliser</strong> (Calcium Nitrate then Hydroflow)<br>• If EC is <strong style="color:#81C784">within range</strong> → nothing needed<br><br>Only use this calculator <strong style="color:#fff">when EC or pH is out of range</strong>.',
     dosWaarsku:'⚠️ <strong>Warning:</strong> These calculations are approximations. Always add <strong>slowly</strong> — measure in between. Specific quantities depend on your nutrient solution concentration.',
@@ -2172,7 +2169,6 @@ function stoorKoste(){
     water:document.getElementById('kos-water').value,
     kn:document.getElementById('kos-kn').value,
     aq:document.getElementById('kos-aq').value,
-    weke:document.getElementById('kos-weke').value
   };
   localStorage.setItem('nft_koste',JSON.stringify(k));
   // Stoor ook na Firebase sodat leerders dit kan sien
@@ -2193,7 +2189,6 @@ function laaiKoste(){
     if(k.water)document.getElementById('kos-water').value=k.water;
     if(k.kn)document.getElementById('kos-kn').value=k.kn;
     if(k.aq)document.getElementById('kos-aq').value=k.aq;
-    if(k.weke)document.getElementById('kos-weke').value=k.weke;
     // Stoor altyd in beide plekke
     if(k.water||k.kn||k.aq){
       localStorage.setItem('nft_koste',JSON.stringify(k));
@@ -2210,39 +2205,58 @@ function berekeningKoste(){
   const kosWater=parseFloat(document.getElementById('kos-water').value)||0;
   const kosKN=parseFloat(document.getElementById('kos-kn').value)||0;
   const kosAQ=parseFloat(document.getElementById('kos-aq').value)||0;
-  const weke=parseFloat(document.getElementById('kos-weke').value)||5;
   const res=document.getElementById('koste-resultaat');
   if(!kosWater&&!kosKN&&!kosAQ){res.innerHTML='';return;}
   const data=loadData();
-  let totWaterL=0,aktief=0;
+  const COLORS_LBL=['#4CAF50','#2196F3','#FF9800','#9C27B0'];
+  let totWaterL=0,totKosWater=0,totKosNutr=0,aktief=0;
+  let tenkRye='';
+  const perTenkResultate=[];
   for(let i=1;i<=4;i++){
     const td=data[`t${i}`];
-    if(!td||!td.aantalPlante)continue;
-    const age=plantAge(td.plantDate)||14;
-    aktief++;
-    totWaterL+=waterGebruikPerPlant(td.crop,age)*td.aantalPlante/1000*7*weke;
+    if(!td||!td.active||!td.aantalPlante)continue;
+    // Outomatiese weke-berekening uit plantdatum
+    const ouderdomDae=plantAge(td.plantDate)||14;
+    const weke=+(ouderdomDae/7).toFixed(1);
+    const waterL=waterGebruikPerPlant(td.crop,ouderdomDae)*td.aantalPlante/1000*7*weke;
+    const vol=td.tenkVolume||0;
+    const gKN=vol*1*weke;
+    const gHF=vol*1*weke;
+    const kWater=+(waterL*kosWater).toFixed(2);
+    const kNutr=+(gKN/1000*kosKN+gHF/1000*kosAQ).toFixed(2);
+    const tTotaal=+(kWater+kNutr).toFixed(2);
+    totWaterL+=waterL;totKosWater+=kWater;totKosNutr+=kNutr;aktief++;
+    perTenkResultate.push({i,weke,kWater,kNutr,tTotaal});
+    const crop=CROPS[td.crop];
+    tenkRye+=`<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05)">
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="width:8px;height:8px;border-radius:50%;background:${COLORS_LBL[i-1]}"></div>
+        <div>
+          <div style="font-size:12px;font-weight:600">${t('tank')} ${i}${crop?` · ${crop.emoji} ${cropName(td.crop)||crop.name}`:''}</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.35)">${weke} ${lang==='en'?'weeks':'weke'} · ${td.aantalPlante} ${lang==='en'?'plants':'plante'}${vol?` · ${vol}L`:''}</div>
+        </div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:14px;font-weight:700;color:#81C784">R ${tTotaal}</div>
+        <div style="font-size:9px;color:rgba(255,255,255,.3)">💧R${kWater} 🌿R${kNutr}</div>
+      </div>
+    </div>`;
   }
-  if(!aktief){res.innerHTML='<div style="font-size:12px;color:rgba(255,255,255,.3);text-align:center;padding:12px">Geen aktiewe tenke met plante-telling nie.</div>';return;}
-  // Nutrient gebruik: ~10ml per 10L per week per tank (rough estimate)
-  const totVolume=Object.values(data).filter(t=>t&&t.tenkVolume).reduce((s,t)=>s+(t.tenkVolume||0),0);
-  // ~1g KN + 1g Hydroflow per liter per week (beraamde dosis)
-  const gKN=totVolume*1*weke;
-  const gHF=totVolume*1*weke;
-  const kosWaterTot=+(totWaterL*kosWater).toFixed(2);
-  const kosNutrTot=+(gKN/1000*kosKN + gHF/1000*kosAQ).toFixed(2);
-  const totaal=+(kosWaterTot+kosNutrTot).toFixed(2);
+  if(!aktief){res.innerHTML=`<div style="font-size:12px;color:rgba(255,255,255,.3);text-align:center;padding:12px">${lang==='en'?'No active tanks with plant count.':'Geen aktiewe tenke met plante-telling nie.'}</div>`;return;}
+  const totaal=+(totKosWater+totKosNutr).toFixed(2);
   res.innerHTML=`<div class="koste-totaal">
     <div class="koste-bedrag">R ${totaal}</div>
-    <div class="koste-lbl">Beraamde koste vir ${weke} weke</div>
-    <div style="display:flex;justify-content:space-around;margin-top:12px;font-size:11px;color:rgba(255,255,255,.5)">
-      <span>💧 Water: <strong style="color:#90caf9">R${kosWaterTot}</strong></span>
-      <span>🌿 Voeding: <strong style="color:#81C784">R${kosNutrTot}</strong></span>
+    <div class="koste-lbl">${lang==='en'?'Estimated total cost — all tanks':'Beraamde totale koste — alle tenke'}</div>
+    <div style="margin-top:12px">${tenkRye}</div>
+    <div style="display:flex;justify-content:space-around;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08);font-size:11px;color:rgba(255,255,255,.5)">
+      <span>💧 ${lang==='en'?'Water':'Water'}: <strong style="color:#90caf9">R${totKosWater.toFixed(2)}</strong></span>
+      <span>🌿 ${lang==='en'?'Nutrients':'Voeding'}: <strong style="color:#81C784">R${totKosNutr.toFixed(2)}</strong></span>
     </div>
   </div>`;
-  // Stoor berekende resultaat na Firebase sodat leerder dieselfde syfers sien
+  // Stoor per-tenk resultate na Firebase
   const d2=loadData();
   if(!d2.koste)d2.koste={};
-  d2.koste.resultaat={totaal,water:kosWaterTot,nutr:kosNutrTot,waterL:+totWaterL.toFixed(1),weke};
+  d2.koste.resultaat={totaal,water:+totKosWater.toFixed(2),nutr:+totKosNutr.toFixed(2),waterL:+totWaterL.toFixed(1),perTenk:perTenkResultate};
   saveData(d2);
 }
 
@@ -3039,7 +3053,7 @@ function bouOes(){
         <div style="flex:1;min-width:90px;background:rgba(239,154,154,.07);border-radius:10px;padding:10px 12px">
           <div style="font-size:10px;color:rgba(255,255,255,.35);margin-bottom:2px">${t('oesKoste')}</div>
           <div style="font-size:20px;font-weight:700;color:#EF9A9A">R ${totKoste}</div>
-          <div style="font-size:9px;color:rgba(255,255,255,.25)">${t('oesWaterVoeding').replace('{0}',kosteResultaat.weke)}</div>
+          <div style="font-size:9px;color:rgba(255,255,255,.25)">${lang==='en'?'Water + Nutrients (per tank)':'Water + Voeding (per tenk)'}</div>
         </div>
       </div>
       <div style="border-top:1px solid rgba(255,255,255,.08);padding-top:10px;font-family:'Montserrat',sans-serif;font-size:18px;font-weight:900;color:${winsKleur}">${winsLbl}</div>
