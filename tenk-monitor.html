@@ -624,6 +624,10 @@ canvas{max-width:100%}
         <label data-i18n="dosKosWater">Water (R per liter)</label>
         <input type="number" id="kos-water" placeholder="bv. 0.05" step="0.01" inputmode="decimal" oninput="stoorKoste()">
       </div>
+      <div class="doseer-field">
+        <label data-i18n="dosGeldeenheid">Geldeenheid</label>
+        <input type="text" id="kos-geld" placeholder="R" maxlength="5" style="font-size:18px;font-weight:700" oninput="stoorGeldeenheid()">
+      </div>
     </div>
     <div style="font-size:10px;color:rgba(255,255,255,.3);margin-bottom:8px" data-i18n="dosTydperkAuto">⏱ Tydperk word outomaties bereken per tenk uit plantdatum → vandag</div>
     <div id="koste-resultaat"></div>
@@ -648,6 +652,11 @@ canvas{max-width:100%}
 // ══════════════════════════════════════════════════════════
 let lang = localStorage.getItem('groeiwys_lang') || 'af';
 
+// ── GELDEENHEID ──────────────────────────────────────────────────────────────
+let G = localStorage.getItem('groeiwys_geld') || 'R';
+function cur(bedrag){return `${G}${typeof bedrag==='number'?bedrag.toFixed(2):bedrag}`;}
+function curR(bedrag){return `${G} ${typeof bedrag==='number'?bedrag.toFixed(2):bedrag}`;}
+
 const T = {
   af: {
     // Nav tabs (span icon preserved by applyLang)
@@ -664,7 +673,7 @@ const T = {
     oesTotaal:'TOTALE OES', oesOorAlle:'oor alle tenke saam',
     oesWinsVerlies:'📊 Wins &amp; Verlies', oesVerkope:'💰 Verkope', oesKoste:'🧾 Koste',
     oesWaterVoeding:'Water + Voeding ({0}w)',
-    oesWins:'🟢 Wins: R {0}', oesVerliesLbl:'🔴 Verlies: R {0}',
+    oesWins:'🟢 Wins: {0}', oesVerliesLbl:'🔴 Verlies: {0}',
     oesLeeg:'🌱 Nog geen oes aangeteken nie.<br>Gebruik die &ldquo;+ Teken Oes Aan&rdquo; knoppie op \'n tenk-kaart.',
     dosH1:'🧪 <span>Doseer</span>rekenaar',   dosP:'EC · pH aanpassings per tenk',
     // Help panel
@@ -732,7 +741,7 @@ const T = {
     dosWaterGebr:'🌱 Waterverbruik per Tenk',
     dosWaterGebrLeeg:'Stoor eers lesings met aantal plante om waterverbruik te sien.',
     dosWaterKoste:'💰 Waterkoste Berekening',
-    dosKosWater:'Water (R per liter)', dosKosKN:'Kalsiumnitraat (R/kg)', dosKosHF:'Hydroflow (R/kg)', dosTydperkAuto:'⏱ Tydperk word outomaties bereken per tenk uit plantdatum → vandag',
+    dosKosWater:'Water (per liter)', dosKosKN:'Kalsiumnitraat (per kg)', dosKosHF:'Hydroflow (per kg)', dosGeldeenheid:'Geldeenheid-simbool', dosTydperkAuto:'⏱ Tydperk word outomaties bereken per tenk uit plantdatum → vandag',
     dosInfoTitel:'💡 Moet ek elke dag kunsmis ingooi?',
     dosInfoTeks:'Nie noodwendig nie. In \'n NFT-stelsel gebeur twee dinge gelyktydig: water verdamp (EC <strong style="color:#fff">styg</strong>) en plante drink voedingstowwe (EC <strong style="color:#fff">daal</strong>).<br><br>• As EC <strong style="color:#FFD54F">te hoog</strong> is → voeg <strong style="color:#fff">skoon water</strong> by, geen kunsmis nie<br>• As EC <strong style="color:#EF9A9A">te laag</strong> is → voeg <strong style="color:#fff">kunsmis</strong> by (Kalsiumnitraat dan Hydroflow)<br>• As EC <strong style="color:#81C784">binne reeks</strong> is → niks nodig nie<br><br>Gebruik hierdie rekenaar slegs <strong style="color:#fff">wanneer EC of pH buite reeks is</strong>.',
     dosWaarsku:'⚠️ <strong>Waarskuwing:</strong> Hierdie berekeninge is benaderings. Voeg altyd <strong>stadig</strong> by — meet tussenin. Spesifieke hoeveelhede hang af van jou voedingsoplossing se konsentrasie.',
@@ -818,7 +827,7 @@ const T = {
     oesTitel:'🌾 Teken Oes Aan', oesDatum:'Datum',
     oesGram:'Hoeveelheid (gram)', oesTipe:'Oes Tipe',
     oesTipeA:'✂️ Gedeeltelik (sny-en-groei-weer)', oesTipeB:'🌾 Volledig (hele plant)',
-    oesPrys:'Verkoopprys (R per kg)', oesNota:'Nota (opsioneel)', oesRandWaarde:'Rand Waarde',
+    oesPrys:'Verkoopprys (per kg)', oesNota:'Nota (opsioneel)', oesRandWaarde:'Geldwaarde',
     btnKanselleer:'Kanselleer', btnStoorOes:'✅ Stoor Oes',
     // Siklus modal
     siklusTitel:'🔄 Nuwe Aanplantingsiklus',
@@ -890,7 +899,7 @@ const T = {
     oesTotaal:'TOTAL HARVEST', oesOorAlle:'across all tanks combined',
     oesWinsVerlies:'📊 Profit &amp; Loss', oesVerkope:'💰 Sales', oesKoste:'🧾 Costs',
     oesWaterVoeding:'Water + Nutrients ({0}w)',
-    oesWins:'🟢 Profit: R {0}', oesVerliesLbl:'🔴 Loss: R {0}',
+    oesWins:'🟢 Profit: {0}', oesVerliesLbl:'🔴 Loss: {0}',
     oesLeeg:'🌱 No harvest recorded yet.<br>Use the &ldquo;+ Record Harvest&rdquo; button on a tank card.',
     dosH1:'🧪 <span>Dose</span> Calculator', dosP:'EC · pH adjustments per tank',
     helpTitel:'📖 How Do I Use The App?',
@@ -954,7 +963,7 @@ const T = {
     dosWaterGebr:'🌱 Water Use per Tank',
     dosWaterGebrLeeg:'Save readings with plant count first to see water use.',
     dosWaterKoste:'💰 Water Cost Calculation',
-    dosKosWater:'Water (R per litre)', dosKosKN:'Calcium Nitrate (R/kg)', dosKosHF:'Hydroflow (R/kg)', dosTydperkAuto:'⏱ Period calculated automatically per tank from plant date → today',
+    dosKosWater:'Water (per litre)', dosKosKN:'Calcium Nitrate (per kg)', dosKosHF:'Hydroflow (per kg)', dosGeldeenheid:'Currency symbol', dosTydperkAuto:'⏱ Period calculated automatically per tank from plant date → today',
     dosInfoTitel:'💡 Do I need to add fertiliser every day?',
     dosInfoTeks:'Not necessarily. In an NFT system two things happen simultaneously: water evaporates (EC <strong style="color:#fff">rises</strong>) and plants absorb nutrients (EC <strong style="color:#fff">drops</strong>).<br><br>• If EC is <strong style="color:#FFD54F">too high</strong> → add <strong style="color:#fff">clean water</strong>, no fertiliser<br>• If EC is <strong style="color:#EF9A9A">too low</strong> → add <strong style="color:#fff">fertiliser</strong> (Calcium Nitrate then Hydroflow)<br>• If EC is <strong style="color:#81C784">within range</strong> → nothing needed<br><br>Only use this calculator <strong style="color:#fff">when EC or pH is out of range</strong>.',
     dosWaarsku:'⚠️ <strong>Warning:</strong> These calculations are approximations. Always add <strong>slowly</strong> — measure in between. Specific quantities depend on your nutrient solution concentration.',
@@ -1036,7 +1045,7 @@ const T = {
     oesTitel:'🌾 Record Harvest', oesDatum:'Date',
     oesGram:'Quantity (grams)', oesTipe:'Harvest Type',
     oesTipeA:'✂️ Partial (cut-and-grow-again)', oesTipeB:'🌾 Full (whole plant)',
-    oesPrys:'Selling price (R per kg)', oesNota:'Note (optional)', oesRandWaarde:'Rand Value',
+    oesPrys:'Selling price (per kg)', oesNota:'Note (optional)', oesRandWaarde:'Value',
     btnKanselleer:'Cancel', btnStoorOes:'✅ Save Harvest',
     siklusTitel:'🔄 New Planting Cycle',
     siklusInfo:'Save the current harvest and start a new cycle. History will be archived.',
@@ -2079,7 +2088,7 @@ function berekeningOesWaarde(){
   const getal=document.getElementById('oes-waarde-getal');
   if(gram>0&&prys>0){
     const waarde=(gram/1000*prys);
-    getal.textContent=`R ${waarde.toFixed(2)}`;
+    getal.textContent=cur(waarde);
     voorskou.style.display='block';
   } else {
     voorskou.style.display='none';
@@ -2163,6 +2172,16 @@ function bevestigNuweSiklus(){
   alert(`✅ Nuwe siklus begin vir Tenk ${n}!\n🌾 Oes gestoor: ${gram}g ${kwaliteit}`);
 }
 
+// ── GELDEENHEID ──────────────────────────────────────────────────────────────
+function stoorGeldeenheid(){
+  const el=document.getElementById('kos-geld');
+  G=(el&&el.value.trim())||'R';
+  localStorage.setItem('groeiwys_geld',G);
+  // Herbou alles wat geldsimbool gebruik
+  berekeningKoste();
+  bouOes();
+  buildTankCards();
+}
 // ── WATERKOSTE ───────────────────────────────────────────────────────────────
 function stoorKoste(){
   const k={
@@ -2189,6 +2208,8 @@ function laaiKoste(){
     if(k.water)document.getElementById('kos-water').value=k.water;
     if(k.kn)document.getElementById('kos-kn').value=k.kn;
     if(k.aq)document.getElementById('kos-aq').value=k.aq;
+    const geldEl=document.getElementById('kos-geld');
+    if(geldEl){G=localStorage.getItem('groeiwys_geld')||'R';geldEl.value=G;}
     // Stoor altyd in beide plekke
     if(k.water||k.kn||k.aq){
       localStorage.setItem('nft_koste',JSON.stringify(k));
@@ -2237,20 +2258,20 @@ function berekeningKoste(){
         </div>
       </div>
       <div style="text-align:right">
-        <div style="font-size:14px;font-weight:700;color:#81C784">R ${tTotaal}</div>
-        <div style="font-size:9px;color:rgba(255,255,255,.3)">💧R${kWater} 🌿R${kNutr}</div>
+        <div style="font-size:14px;font-weight:700;color:#81C784">${cur(tTotaal)}</div>
+        <div style="font-size:9px;color:rgba(255,255,255,.3)">💧${cur(kWater)} 🌿${cur(kNutr)}</div>
       </div>
     </div>`;
   }
   if(!aktief){res.innerHTML=`<div style="font-size:12px;color:rgba(255,255,255,.3);text-align:center;padding:12px">${lang==='en'?'No active tanks with plant count.':'Geen aktiewe tenke met plante-telling nie.'}</div>`;return;}
   const totaal=+(totKosWater+totKosNutr).toFixed(2);
   res.innerHTML=`<div class="koste-totaal">
-    <div class="koste-bedrag">R ${totaal}</div>
+    <div class="koste-bedrag">${cur(totaal)}</div>
     <div class="koste-lbl">${lang==='en'?'Estimated total cost — all tanks':'Beraamde totale koste — alle tenke'}</div>
     <div style="margin-top:12px">${tenkRye}</div>
     <div style="display:flex;justify-content:space-around;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08);font-size:11px;color:rgba(255,255,255,.5)">
-      <span>💧 ${lang==='en'?'Water':'Water'}: <strong style="color:#90caf9">R${totKosWater.toFixed(2)}</strong></span>
-      <span>🌿 ${lang==='en'?'Nutrients':'Voeding'}: <strong style="color:#81C784">R${totKosNutr.toFixed(2)}</strong></span>
+      <span>💧 ${lang==='en'?'Water':'Water'}: <strong style="color:#90caf9">${cur(totKosWater)}</strong></span>
+      <span>🌿 ${lang==='en'?'Nutrients':'Voeding'}: <strong style="color:#81C784">${cur(totKosNutr)}</strong></span>
     </div>
   </div>`;
   // Stoor per-tenk resultate na Firebase
@@ -2491,7 +2512,7 @@ function renderHistory(n){
               <div style="flex:1"><div class="oes-rek-gewas">${CROPS[r.gewas]?CROPS[r.gewas].emoji+' '+(cropName(r.gewas)||CROPS[r.gewas].name):r.gewas||''} <span style="font-size:9px;color:rgba(255,255,255,.3)">${r.tipe||''}</span></div><div class="oes-rek-detail">${r.datum}${r.kwaliteit?' · '+r.kwaliteit:''}${r.nota?' · '+r.nota:''} · ${t('dagVan')} ${r.groeidae}</div></div>
               <div style="text-align:right;margin-right:8px">
                 <div class="oes-rek-kg">${(r.gram||0)>=1000?((r.gram||0)/1000).toFixed(1)+'kg':(r.gram||0)+'g'}</div>
-                ${r.randWaarde?`<div style="font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;color:#81C784">R ${r.randWaarde.toFixed(2)}</div>`:''}
+                ${r.randWaarde?`<div style="font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;color:#81C784">${cur(r.randWaarde)}</div>`:''}
               </div>
               <button onclick="verwyderOes(${n},${idx})" style="background:none;border:none;color:rgba(239,83,80,.6);font-size:16px;cursor:pointer;padding:4px 6px;line-height:1" title="${t('confirmVerwyder')}">🗑️</button>
             </div>`).join('')}
@@ -2499,7 +2520,7 @@ function renderHistory(n){
             <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;color:rgba(76,175,80,.7)">${t('histTotaal')}</div>
             <div style="text-align:right">
               <div class="oes-rek-kg" style="font-size:18px">${(()=>{const t=td.oesrekords.reduce((s,r)=>s+(r.gram||0),0);return t>=1000?(t/1000).toFixed(1)+'kg':t+'g';})()}</div>
-              ${(()=>{const r=td.oesrekords.reduce((s,r)=>s+(r.randWaarde||0),0);return r>0?`<div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:900;color:#81C784">R ${r.toFixed(2)}</div>`:''})()}
+              ${(()=>{const r=td.oesrekords.reduce((s,r)=>s+(r.randWaarde||0),0);return r>0?`<div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:900;color:#81C784">${cur(r)}</div>`:''})()}
             </div>
           </div>
         </div>`:'';
@@ -3034,12 +3055,12 @@ function bouOes(){
   const totKoste=kosteResultaat?kosteResultaat.totaal:null;
   const wins=totKoste!==null?+(totRand-totKoste).toFixed(2):null;
   const winsKleur=wins===null?'#fff':wins>=0?'#81C784':'#EF9A9A';
-  const winsLbl=wins===null?'—':wins>=0?t('oesWins').replace('{0}',wins):t('oesVerliesLbl').replace('{0}',Math.abs(wins));
+  const winsLbl=wins===null?'—':wins>=0?t('oesWins').replace('{0}',cur(wins)):t('oesVerliesLbl').replace('{0}',cur(Math.abs(wins)));
   totBlok.innerHTML=`
     <div class="oes-totaal-kaart">
       <div class="oes-totaal-lbl">${t('oesTotaal')}</div>
       <div class="oes-totaal-getal">${gramTeks}</div>
-      ${totRand>0?`<div class="oes-totaal-rand">R ${totRand.toFixed(2)}</div>`:''}
+      ${totRand>0?`<div class="oes-totaal-rand">${cur(totRand)}</div>`:''}
       <div class="oes-totaal-lbl" style="margin-top:8px">${t('oesOorAlle')}</div>
     </div>
     ${totKoste!==null?`
@@ -3048,11 +3069,11 @@ function bouOes(){
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px">
         <div style="flex:1;min-width:90px;background:rgba(255,193,7,.07);border-radius:10px;padding:10px 12px">
           <div style="font-size:10px;color:rgba(255,255,255,.35);margin-bottom:2px">${t('oesVerkope')}</div>
-          <div style="font-size:20px;font-weight:700;color:#FFD54F">R ${totRand.toFixed(2)}</div>
+          <div style="font-size:20px;font-weight:700;color:#FFD54F">${cur(totRand)}</div>
         </div>
         <div style="flex:1;min-width:90px;background:rgba(239,154,154,.07);border-radius:10px;padding:10px 12px">
           <div style="font-size:10px;color:rgba(255,255,255,.35);margin-bottom:2px">${t('oesKoste')}</div>
-          <div style="font-size:20px;font-weight:700;color:#EF9A9A">R ${totKoste}</div>
+          <div style="font-size:20px;font-weight:700;color:#EF9A9A">${cur(Number(totKoste))}</div>
           <div style="font-size:9px;color:rgba(255,255,255,.25)">${lang==='en'?'Water + Nutrients (per tank)':'Water + Voeding (per tenk)'}</div>
         </div>
       </div>
@@ -3091,7 +3112,7 @@ function bouOes(){
     const tenkKoste=pk?pk.tTotaal:null;
     const tenkWins=tenkKoste!==null?+(tRand-tenkKoste).toFixed(2):null;
     const tenkWinsKleur=tenkWins===null?'rgba(255,255,255,.4)':tenkWins>=0?'#81C784':'#EF9A9A';
-    const tenkWinsLbl=tenkWins===null?'':(tenkWins>=0?`🟢 ${lang==='en'?'Profit':'Wins'}: R${tenkWins}`:`🔴 ${lang==='en'?'Loss':'Verlies'}: R${Math.abs(tenkWins)}`);
+    const tenkWinsLbl=tenkWins===null?'':(tenkWins>=0?`🟢 ${lang==='en'?'Profit':'Wins'}: ${cur(tenkWins)}`:`🔴 ${lang==='en'?'Loss':'Verlies'}: ${cur(Math.abs(tenkWins))}`);
     const crop=sv.crop&&CROPS[sv.crop]?CROPS[sv.crop]:null;
     html+=`<div class="oes-tenk-kaart">
       <div class="oes-tenk-kop">
@@ -3108,7 +3129,7 @@ function bouOes(){
           </div>
           <div class="oes-ry-regs">
             <div class="oes-ry-gram">${gTeks}</div>
-            ${o.randWaarde?`<div class="oes-ry-rand">R ${o.randWaarde.toFixed(2)}</div>`:''}
+            ${o.randWaarde?`<div class="oes-ry-rand">${cur(o.randWaarde)}</div>`:''}
           </div>
         </div>`;
       }).join(''):
@@ -3118,12 +3139,12 @@ function bouOes(){
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
           <div style="display:flex;gap:12px;font-size:11px">
             <span style="color:rgba(255,255,255,.35)">${lang==='en'?'Period':'Tydperk'}: <strong style="color:rgba(255,255,255,.6)">${pk.weke}w</strong></span>
-            <span style="color:rgba(255,255,255,.35)">${lang==='en'?'Cost':'Koste'}: <strong style="color:#EF9A9A">R${pk.tTotaal}</strong></span>
-            <span style="color:rgba(255,255,255,.35)">${lang==='en'?'Sales':'Verkope'}: <strong style="color:#FFD54F">R${tRand.toFixed(2)}</strong></span>
+            <span style="color:rgba(255,255,255,.35)">${lang==='en'?'Cost':'Koste'}: <strong style="color:#EF9A9A">${cur(pk.tTotaal)}</strong></span>
+            <span style="color:rgba(255,255,255,.35)">${lang==='en'?'Sales':'Verkope'}: <strong style="color:#FFD54F">${cur(tRand)}</strong></span>
           </div>
           <div style="font-family:Montserrat,sans-serif;font-size:12px;font-weight:800;color:${tenkWinsKleur}">${tenkWinsLbl}</div>
         </div>
-        <div style="font-size:9px;color:rgba(255,255,255,.2);margin-top:4px">💧R${pk.kWater} ${lang==='en'?'water':'water'} · 🌿R${pk.kNutr} ${lang==='en'?'nutrients':'voeding'}</div>
+        <div style="font-size:9px;color:rgba(255,255,255,.2);margin-top:4px">💧${cur(pk.kWater)} ${lang==='en'?'water':'water'} · 🌿${cur(pk.kNutr)} ${lang==='en'?'nutrients':'voeding'}</div>
       </div>`:`<div style="margin-top:8px;font-size:10px;color:rgba(255,255,255,.25);padding:8px 0">💡 ${lang==='en'?'Enter water price in Doseer → Water Cost to see profit/loss per tank.':'Stel waterprys in by Doseer → Waterkoste om wins/verlies per tenk te sien.'}</div>`}
     </div>`;
   }
