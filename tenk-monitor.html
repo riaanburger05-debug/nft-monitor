@@ -3018,8 +3018,6 @@ function doseerBereken(){
 }
 
 function bouOes(){
-  // Hers bereken koste sodat perTenk altyd vars is
-  berekeningKoste();
   const data=loadData();
   let totGram=0,totRand=0;
   for(let i=1;i<=4;i++){
@@ -3060,7 +3058,25 @@ function bouOes(){
       </div>
       <div style="border-top:1px solid rgba(255,255,255,.08);padding-top:10px;font-family:'Montserrat',sans-serif;font-size:18px;font-weight:900;color:${winsKleur}">${winsLbl}</div>
     </div>`:''}` ;
-  const perTenkKoste=(kosteResultaat?.perTenk||[]).reduce((m,r)=>{m[r.i]=r;return m;},{});
+  // Bereken per-tenk koste direk uit gestoorte pryse (geen DOM nodig)
+  const gestoordePryse=data.koste||{};
+  const kosWaterPrys=parseFloat(gestoordePryse.water)||0;
+  const kosKNPrys=parseFloat(gestoordePryse.kn)||0;
+  const kosAQPrys=parseFloat(gestoordePryse.aq)||0;
+  const perTenkKoste={};
+  if(kosWaterPrys||kosKNPrys||kosAQPrys){
+    for(let i=1;i<=4;i++){
+      const td=data[`t${i}`];
+      if(!td||!td.aantalPlante)continue;
+      const ouderdomDae=plantAge(td.plantDate)||14;
+      const weke=+(ouderdomDae/7).toFixed(1);
+      const waterL=waterGebruikPerPlant(td.crop,ouderdomDae)*td.aantalPlante/1000*7*weke;
+      const vol=td.tenkVolume||0;
+      const kWater=+(waterL*kosWaterPrys).toFixed(2);
+      const kNutr=+((vol*kosKNPrys/1000+vol*kosAQPrys/1000)*weke).toFixed(2);
+      perTenkKoste[i]={weke,kWater,kNutr,tTotaal:+(kWater+kNutr).toFixed(2)};
+    }
+  }
   let html='';
   for(let i=1;i<=4;i++){
     const sv=data[`t${i}`]||{};
