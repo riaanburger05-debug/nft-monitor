@@ -3018,6 +3018,8 @@ function doseerBereken(){
 }
 
 function bouOes(){
+  // Hers bereken koste sodat perTenk altyd vars is
+  berekeningKoste();
   const data=loadData();
   let totGram=0,totRand=0;
   for(let i=1;i<=4;i++){
@@ -3102,7 +3104,7 @@ function bouOes(){
           <div style="font-family:Montserrat,sans-serif;font-size:12px;font-weight:800;color:${tenkWinsKleur}">${tenkWinsLbl}</div>
         </div>
         <div style="font-size:9px;color:rgba(255,255,255,.2);margin-top:4px">💧R${pk.kWater} ${lang==='en'?'water':'water'} · 🌿R${pk.kNutr} ${lang==='en'?'nutrients':'voeding'}</div>
-      </div>`:''}
+      </div>`:`<div style="margin-top:8px;font-size:10px;color:rgba(255,255,255,.25);padding:8px 0">💡 ${lang==='en'?'Enter water price in Doseer → Water Cost to see profit/loss per tank.':'Stel waterprys in by Doseer → Waterkoste om wins/verlies per tenk te sien.'}</div>`}
     </div>`;
   }
   document.getElementById('oes-tenk-lys').innerHTML=html;
