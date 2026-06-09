@@ -3080,23 +3080,25 @@ function bouOes(){
   let html='';
   for(let i=1;i<=4;i++){
     const sv=data[`t${i}`]||{};
+    const pk=perTenkKoste[i];
+    // Wys tenk as dit aktief is OF oes-rekords het
+    if(!sv.active&&!(sv.oesrekords&&sv.oesrekords.length))continue;
     const reks=sv.oesrekords||[];
-    if(!reks.length)continue;
     const c=COLORS[i-1];
     const tGram=reks.reduce((s,o)=>s+(o.gram||0),0);
     const tRand=reks.reduce((s,o)=>s+(o.randWaarde||0),0);
     const gramT=tGram>=1000?(tGram/1000).toFixed(2)+' kg':tGram+' g';
-    const pk=perTenkKoste[i];
     const tenkKoste=pk?pk.tTotaal:null;
     const tenkWins=tenkKoste!==null?+(tRand-tenkKoste).toFixed(2):null;
     const tenkWinsKleur=tenkWins===null?'rgba(255,255,255,.4)':tenkWins>=0?'#81C784':'#EF9A9A';
     const tenkWinsLbl=tenkWins===null?'':(tenkWins>=0?`🟢 ${lang==='en'?'Profit':'Wins'}: R${tenkWins}`:`🔴 ${lang==='en'?'Loss':'Verlies'}: R${Math.abs(tenkWins)}`);
+    const crop=sv.crop&&CROPS[sv.crop]?CROPS[sv.crop]:null;
     html+=`<div class="oes-tenk-kaart">
       <div class="oes-tenk-kop">
-        <div class="oes-tenk-naam" style="color:${c.solid}">${t('tank')} ${i}</div>
-        <div class="oes-tenk-som">${gramT}${tRand>0?' · R '+tRand.toFixed(2):''}</div>
+        <div class="oes-tenk-naam" style="color:${c.solid}">${t('tank')} ${i}${crop?` · ${crop.emoji} ${cropName(sv.crop)||crop.name}`:''}</div>
+        <div class="oes-tenk-som">${tGram>0?gramT+' · ':''}${tRand>0?'R '+tRand.toFixed(2):(lang==='en'?'No harvest yet':'Nog geen oes')}</div>
       </div>
-      ${[...reks].reverse().map(o=>{
+      ${reks.length?[...reks].reverse().map(o=>{
         const gewas=CROPS[o.gewas]?CROPS[o.gewas].emoji+' '+(cropName(o.gewas)||CROPS[o.gewas].name):(o.gewas||'');
         const gTeks=(o.gram||0)>=1000?((o.gram||0)/1000).toFixed(2)+' kg':(o.gram||0)+'g';
         return `<div class="oes-ry">
@@ -3109,7 +3111,9 @@ function bouOes(){
             ${o.randWaarde?`<div class="oes-ry-rand">R ${o.randWaarde.toFixed(2)}</div>`:''}
           </div>
         </div>`;
-      }).join('')}
+      }).join(''):
+      `<div style="font-size:12px;color:rgba(255,255,255,.3);padding:10px 0">${lang==='en'?'No harvest recorded yet — costs are accumulating.':'Nog geen oes aangeteken nie — koste loop aan.'}</div>`
+      }
       ${pk?`<div style="margin-top:10px;padding:10px 12px;background:rgba(0,0,0,.2);border-radius:10px;border-top:1px solid rgba(255,255,255,.06)">
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
           <div style="display:flex;gap:12px;font-size:11px">
