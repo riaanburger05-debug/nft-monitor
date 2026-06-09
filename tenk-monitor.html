@@ -2429,6 +2429,11 @@ function renderHistory(n){
         if(phR!=='ok')recs.push({icon:'🧪',name:'pH',badge:bdg(phR),advice:adv(phR,crop.ph||{low:'',high:''}),img:PROB_IMGS[`probleem-ph-${phR.includes('low')?'laag':'hoog'}`]});
         if(tdsR!=='ok')recs.push({icon:'💧',name:'TDS',badge:bdg(tdsR),advice:adv(tdsR,crop.tds||{low:'',high:''}),img:PROB_IMGS[`probleem-tds-${tdsR.includes('low')?'laag':'hoog'}`]});
         if(tR!=='ok')recs.push({icon:'🌡️',name:'Temp',badge:bdg(tR),advice:adv(tR,crop.temp||{low:'',high:''}),img:PROB_IMGS[`probleem-temp-${tR.includes('low')?'laag':'hoog'}`]});
+        if(r.vloei!=null&&r.vloei<0.8)recs.push({icon:'🚰',name:t('histVloei'),badge:`<span style="background:#EF9A9A;color:#000;font-size:9px;font-weight:700;padding:2px 6px;border-radius:8px">${t('wTeLaag')}</span>`,advice:lang==='en'?`Flow is ${r.vloei} L/min — too slow. Roots lose oxygen, stagnant water favours Pythium. Target: 1–2 L/min.`:`Vloei is ${r.vloei} L/min — te stadig. Wortels verloor suurstof, stagnante water bevorder Pythium. Teiken: 1–2 L/min.`,img:PROB_IMGS['vloei-te-stadig']});
+        if(r.vloei!=null&&r.vloei>2.0){
+          const ecStyg=prev&&r.ec>prev.ec;
+          recs.push({icon:'💨',name:t('histVloei'),badge:`<span style="background:#FFD54F;color:#000;font-size:9px;font-weight:700;padding:2px 6px;border-radius:8px">${t('wTeHoog')}</span>`,advice:(lang==='en'?`Flow is ${r.vloei} L/min — too fast. Roots have too little contact time with nutrients. Plants absorb less → unused nutrients build up → EC rises.`:`Vloei is ${r.vloei} L/min — te vinnig. Wortels het te min kontak-tyd met voedingstowwe. Plante absorbeer minder → ongebruikte voedingstowwe stapel op → EC styg.`)+(ecStyg?(lang==='en'?' ⚡ EC is also rising — this confirms the pattern.':' ⚡ EC styg ook — dit bevestig die patroon.'):''),img:PROB_IMGS['vloei-te-vinnig']});
+        }
         const recsHtml=recs.length===0
           ?`<div style="color:#81C784;font-size:11px">${t('histAlleOK')}</div>`
           :recs.map(rc=>`<div style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05)">
@@ -2446,7 +2451,7 @@ function renderHistory(n){
           <td class="${cls(tR)}">${r.temp}${ht(r.temp,prev?.temp)}</td>
           <td>${r.tempLug!=null?r.tempLug:'—'}</td>
           <td class="${dc}">${delta>0?'+':''}${delta}</td>
-          <td style="${r.vloei!=null&&r.vloei<0.8?'color:#EF9A9A;font-weight:700':''}">${r.vloei!=null?r.vloei+' L/m':'—'}</td>
+          <td style="${r.vloei!=null&&r.vloei<0.8?'color:#EF9A9A;font-weight:700':r.vloei!=null&&r.vloei>2.0?'color:#FFD54F;font-weight:700':''}">${r.vloei!=null?r.vloei+' L/m':'—'}</td>
           <td style="${r.orp!=null&&r.orp<0?'color:#EF9A9A;font-weight:700':r.orp!=null&&r.orp<200?'color:#FFD54F;font-weight:700':'color:#81C784'}">${r.orp!=null?r.orp:'—'}</td>
           <td><button onclick="deleteReading(${n},${origIdx})" style="background:none;border:none;cursor:pointer;font-size:13px;padding:2px 4px;opacity:.5">🗑️</button></td>
         </tr>
