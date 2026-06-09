@@ -3058,6 +3058,7 @@ function bouOes(){
       </div>
       <div style="border-top:1px solid rgba(255,255,255,.08);padding-top:10px;font-family:'Montserrat',sans-serif;font-size:18px;font-weight:900;color:${winsKleur}">${winsLbl}</div>
     </div>`:''}` ;
+  const perTenkKoste=(kosteResultaat?.perTenk||[]).reduce((m,r)=>{m[r.i]=r;return m;},{});
   let html='';
   for(let i=1;i<=4;i++){
     const sv=data[`t${i}`]||{};
@@ -3067,6 +3068,11 @@ function bouOes(){
     const tGram=reks.reduce((s,o)=>s+(o.gram||0),0);
     const tRand=reks.reduce((s,o)=>s+(o.randWaarde||0),0);
     const gramT=tGram>=1000?(tGram/1000).toFixed(2)+' kg':tGram+' g';
+    const pk=perTenkKoste[i];
+    const tenkKoste=pk?pk.tTotaal:null;
+    const tenkWins=tenkKoste!==null?+(tRand-tenkKoste).toFixed(2):null;
+    const tenkWinsKleur=tenkWins===null?'rgba(255,255,255,.4)':tenkWins>=0?'#81C784':'#EF9A9A';
+    const tenkWinsLbl=tenkWins===null?'':(tenkWins>=0?`🟢 ${lang==='en'?'Profit':'Wins'}: R${tenkWins}`:`🔴 ${lang==='en'?'Loss':'Verlies'}: R${Math.abs(tenkWins)}`);
     html+=`<div class="oes-tenk-kaart">
       <div class="oes-tenk-kop">
         <div class="oes-tenk-naam" style="color:${c.solid}">${t('tank')} ${i}</div>
@@ -3086,6 +3092,17 @@ function bouOes(){
           </div>
         </div>`;
       }).join('')}
+      ${pk?`<div style="margin-top:10px;padding:10px 12px;background:rgba(0,0,0,.2);border-radius:10px;border-top:1px solid rgba(255,255,255,.06)">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+          <div style="display:flex;gap:12px;font-size:11px">
+            <span style="color:rgba(255,255,255,.35)">${lang==='en'?'Period':'Tydperk'}: <strong style="color:rgba(255,255,255,.6)">${pk.weke}w</strong></span>
+            <span style="color:rgba(255,255,255,.35)">${lang==='en'?'Cost':'Koste'}: <strong style="color:#EF9A9A">R${pk.tTotaal}</strong></span>
+            <span style="color:rgba(255,255,255,.35)">${lang==='en'?'Sales':'Verkope'}: <strong style="color:#FFD54F">R${tRand.toFixed(2)}</strong></span>
+          </div>
+          <div style="font-family:Montserrat,sans-serif;font-size:12px;font-weight:800;color:${tenkWinsKleur}">${tenkWinsLbl}</div>
+        </div>
+        <div style="font-size:9px;color:rgba(255,255,255,.2);margin-top:4px">💧R${pk.kWater} ${lang==='en'?'water':'water'} · 🌿R${pk.kNutr} ${lang==='en'?'nutrients':'voeding'}</div>
+      </div>`:''}
     </div>`;
   }
   document.getElementById('oes-tenk-lys').innerHTML=html;
