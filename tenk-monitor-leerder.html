@@ -1238,6 +1238,9 @@ const T = {
     vloei:'Vloei', vloeiTeiken:'Teiken: 1–2 L/min per kant',
     vloeiBaieLaag:'⚠️ Vloei baie laag — kontroleer pomp en wortels dadelik!',
     vloeiEffensLaag:'Vloei effens laag — hou dop vir wortelverstopping.',
+    vloeiTeHoogMsg:'Vloei bo 2 L/min beteken water beweeg te vinnig — wortels het te min kontak-tyd met voedingstowwe. Plante absorbeer minder, ongebruikte voedingstowwe stapel op in die tenk en EC sal begin styg.',
+    vloeiTeHoogAdvies:'Verminder pompspoed tot 1–2 L/min. Kyk of EC besig is om te styg — dit is \'n teken dat plante nie genoeg absorbeer nie.',
+    vloeiTeHoogECLet:'⚡ Let op: EC styg tans ook — dit bevestig dat plante minder voedingstowwe absorbeer as gevolg van te-hoë vloei.',
     // Session labels
     sessVm:'🌅 Vooroggend', sessNm:'☀️ Namiddag',
     // Nota box
@@ -1347,6 +1350,9 @@ const T = {
     vloei:'Flow', vloeiTeiken:'Target: 1–2 L/min per side',
     vloeiBaieLaag:'⚠️ Flow very low — check pump and roots immediately!',
     vloeiEffensLaag:'Flow slightly low — watch for root blockage.',
+    vloeiTeHoogMsg:'Flow above 2 L/min means water moves too fast — roots have too little contact time with nutrients. Plants absorb less, unused nutrients build up in the tank and EC will start rising.',
+    vloeiTeHoogAdvies:'Reduce pump speed to 1–2 L/min. Check if EC is rising — that is a sign plants are not absorbing enough.',
+    vloeiTeHoogECLet:'⚡ Note: EC is also rising — this confirms plants are absorbing less due to too-high flow.',
     // Session labels
     sessVm:'🌅 Morning', sessNm:'☀️ Afternoon',
     // Nota box
@@ -2278,12 +2284,18 @@ function bouTenkkarte() {
 
     // Vloei
     if (last.vloei != null) {
-      const vloeiKleur = last.vloei < 0.8 ? '#EF9A9A' : last.vloei < 1.0 ? '#FFD54F' : '#81C784';
-      const vloeiAdvies = last.vloei < 0.8
-        ? `<div class="param-advice" style="color:#EF9A9A">${t('vloeiBaieLaag')}</div>`
-        : last.vloei < 1.0
-        ? `<div class="param-advice" style="color:#FFD54F">${t('vloeiEffensLaag')}</div>`
-        : '';
+      const vloeiKleur = (last.vloei < 0.8 || last.vloei > 2.0) ? (last.vloei < 0.8 ? '#EF9A9A' : '#FFD54F') : last.vloei < 1.0 ? '#FFD54F' : '#81C784';
+      let vloeiAdvies = '';
+      if (last.vloei < 0.8) {
+        vloeiAdvies = `<div class="param-advice" style="color:#EF9A9A">${t('vloeiBaieLaag')}</div>`;
+      } else if (last.vloei < 1.0) {
+        vloeiAdvies = `<div class="param-advice" style="color:#FFD54F">${t('vloeiEffensLaag')}</div>`;
+      } else if (last.vloei > 2.0) {
+        const ecTrend = readings.length >= 3 && readings.slice(-3).every((r, idx, arr) => idx === 0 || r.ec >= arr[idx-1].ec);
+        vloeiAdvies = `<div class="param-advice" style="color:#FFD54F">${t('vloeiTeHoogMsg')}</div>`
+          + (ecTrend ? `<div class="param-advice" style="color:#FFD54F">${t('vloeiTeHoogECLet')}</div>` : '')
+          + `<div class="param-advice" style="color:#FFD54F">${t('vloeiTeHoogAdvies')}</div>`;
+      }
       params += `
         <div class="param-row">
           <div class="param-icon">🌊</div>
