@@ -375,6 +375,11 @@ canvas{max-width:100%}
       <canvas id="chart-vloei"></canvas>
       <div class="chart-empty" id="empty-vloei" style="display:none" data-i18n="geenVloei">Geen vloei-lesings gestoor nie.</div>
     </div>
+    <div class="chart-wrap chart-ec-full">
+      <div class="chart-label" data-i18n="chartORP">⚗️ ORP (mV) — Teiken: ≥200 mV</div>
+      <canvas id="chart-orp"></canvas>
+      <div class="chart-empty" id="empty-orp" style="display:none" data-i18n="geenORP">Geen ORP-lesings gestoor nie.</div>
+    </div>
   </div>
 </div>
 
@@ -850,6 +855,7 @@ const T = {
     // Empty states
     geenLesings:'Geen lesings gestoor nie.', geenData:'Geen data nie.',
     geenVloei:'Geen vloei-lesings gestoor nie.',
+    geenORP:'Geen ORP-lesings gestoor nie.',
     geenGewasData:'Geen gewas gekies of geen data nie.',
     // Oes modal
     oesTitel:'🌾 Teken Oes Aan', oesDatum:'Datum',
@@ -869,6 +875,7 @@ const T = {
     chartTemp:'🌡️ Temperatuur — Water &amp; Lug (°C)',
     chartAlles:'📊 Alle Parameters Saam — % van Optimale Reeks',
     chartVloei:'🌊 Vloei (L/min) — Teiken: 1–2 L/min',
+    chartORP:'⚗️ ORP (mV) — Teiken: ≥200 mV',
     // Analise resultate (buildResult)
     dagVan:'Dag',
     analise:'Analise',
@@ -1069,6 +1076,7 @@ const T = {
     syncMisluk:'⚠️ Firebase failed — data saved in localStorage',
     geenLesings:'No readings stored.', geenData:'No data.',
     geenVloei:'No flow readings stored.',
+    geenORP:'No ORP readings stored.',
     geenGewasData:'No crop selected or no data.',
     oesTitel:'🌾 Record Harvest', oesDatum:'Date',
     oesGram:'Quantity (grams)', oesTipe:'Harvest Type',
@@ -1085,6 +1093,7 @@ const T = {
     chartTemp:'🌡️ Temperature — Water &amp; Air (°C)',
     chartAlles:'📊 All Parameters — % of Optimal Range',
     chartVloei:'🌊 Flow (L/min) — Target: 1–2 L/min',
+    chartORP:'⚗️ ORP (mV) — Target: ≥200 mV',
     // Analysis results (buildResult)
     dagVan:'Day',
     analise:'Analysis',
@@ -2759,6 +2768,38 @@ function renderAllCharts(){
         scales:{
           x:{ticks:{color:'rgba(255,255,255,.35)',maxRotation:45,font:{size:8}},grid:{color:'rgba(255,255,255,.05)'}},
           y:{min:0,ticks:{color:'rgba(255,255,255,.35)',font:{size:8}},grid:{color:'rgba(255,255,255,.05)'}}
+        }
+      }
+    });
+  })();
+  // ORP grafiek
+  (function(){
+    const td=loadData()[`t${chartTank}`];
+    const canvas=document.getElementById('chart-orp');
+    const emptyEl=document.getElementById('empty-orp');
+    if(!canvas)return;
+    const readings=(td&&td.readings||[]).filter(r=>r.orp!=null);
+    if(!readings.length){if(emptyEl)emptyEl.style.display='block';canvas.style.display='none';return;}
+    if(emptyEl)emptyEl.style.display='none';canvas.style.display='block';
+    const labels=readings.map(r=>r.date||'');
+    const vals=readings.map(r=>r.orp);
+    const ptColors=vals.map(v=>v<0?'#EF9A9A':v<200?'#FFD54F':'#81C784');
+    if(window._chartOrp){window._chartOrp.destroy();window._chartOrp=null;}
+    window._chartOrp=new Chart(canvas,{
+      type:'line',
+      data:{labels,datasets:[{label:t('labelORP')+' mV',data:vals,borderColor:'#BA68C8',backgroundColor:'rgba(186,104,200,.1)',pointBackgroundColor:ptColors,pointRadius:5,tension:.3,fill:true}]},
+      options:{
+        responsive:true,maintainAspectRatio:true,
+        plugins:{
+          legend:{labels:{color:'rgba(255,255,255,.7)',font:{size:10}}},
+          annotation:{annotations:{
+            laag:{type:'line',yMin:0,yMax:0,borderColor:'#EF9A9A',borderWidth:1,borderDash:[4,4],label:{content:'0 mV',enabled:true,color:'#EF9A9A',font:{size:9}}},
+            ok:{type:'line',yMin:200,yMax:200,borderColor:'#81C784',borderWidth:1,borderDash:[4,4],label:{content:'Teiken 200',enabled:true,color:'#81C784',font:{size:9}}}
+          }}
+        },
+        scales:{
+          x:{ticks:{color:'rgba(255,255,255,.35)',maxRotation:45,font:{size:8}},grid:{color:'rgba(255,255,255,.05)'}},
+          y:{ticks:{color:'rgba(255,255,255,.35)',font:{size:8}},grid:{color:'rgba(255,255,255,.05)'}}
         }
       }
     });

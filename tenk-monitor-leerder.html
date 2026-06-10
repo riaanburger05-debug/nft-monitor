@@ -320,6 +320,11 @@ html[lang="en"] .lang-af{display:none}html[lang="af"] .lang-en{display:none}
       <canvas id="chart-vloei"></canvas>
       <div class="chart-empty" id="empty-vloei" style="display:none" data-i18n="geenVloei">Geen vloei-lesings gestoor nie.</div>
     </div>
+    <div class="chart-wrap">
+      <div class="chart-label" data-i18n="chartORP">⚗️ ORP (mV) — Teiken: ≥200 mV</div>
+      <canvas id="chart-orp"></canvas>
+      <div class="chart-empty" id="empty-orp" style="display:none" data-i18n="geenORP">Geen ORP-lesings gestoor nie.</div>
+    </div>
   </div>
 </div>
 
@@ -1223,6 +1228,7 @@ const T = {
     chartTemp:'🌡️ Temperatuur — Water &amp; Lug (°C)',
     chartAlles:'📊 Alle Parameters Saam — % van Optimale Reeks', chartOptimaleReeks:'Optimale Reeks',
     chartVloei:'🌊 Vloei (L/min) — Teiken: 1–2 L/min',
+    chartORP:'⚗️ ORP (mV) — Teiken: ≥200 mV',
     // Groei tab
     lblPlantegroei:'🌱 Plantegroei', lblWortelOntwik:'🌿 Wortelontwikkeling',
     dagLbl:'Dag', nogNie:'Nog nie', vergelykWeke:'🔍 Vergelyk Weke',
@@ -1230,7 +1236,7 @@ const T = {
     groeiGeenFotos:'📷 Nog geen fotos gestoor nie.',
     groeiOpvoeder:'Die opvoeder sal fotos byvoeg wat hier verskyn.',
     // Empty states
-    geenData:'Geen data nie.', geenVloei:'Geen vloei-lesings gestoor nie.',
+    geenData:'Geen data nie.', geenVloei:'Geen vloei-lesings gestoor nie.', geenORP:'Geen ORP-lesings gestoor nie.',
     geenGewasData:'Geen gewas gekies of geen data nie.',
     geenLesings:'Laai data...',
     ecTipTitel:'💡 Hoekom meet ons EC en nie TDS nie?',
@@ -1362,7 +1368,8 @@ const T = {
     chartTemp:'🌡️ Temperature — Water &amp; Air (°C)',
     chartAlles:'📊 All Parameters — % of Optimal Range', chartOptimaleReeks:'Optimal Range',
     chartVloei:'🌊 Flow (L/min) — Target: 1–2 L/min',
-    geenData:'No data.', geenVloei:'No flow readings stored.',
+    chartORP:'⚗️ ORP (mV) — Target: ≥200 mV',
+    geenData:'No data.', geenVloei:'No flow readings stored.', geenORP:'No ORP readings stored.',
     geenGewasData:'No crop selected or no data.',
     geenLesings:'Loading data...',
     ecTipTitel:'💡 Why do we measure EC and not TDS?',
@@ -2963,6 +2970,42 @@ function renderAllCharts() {
               teiken:{type:'line',yMin:1.0,yMax:1.0,borderColor:'rgba(129,199,132,.4)',borderWidth:1,borderDash:[4,4],label:{content:'Teiken 1.0',display:true,color:'#81C784',font:{size:10}}},
             }}},
           scales:{x:{type:'category',ticks:{color:'rgba(255,255,255,.4)',font:{size:10}},grid:{color:'rgba(255,255,255,.05)'}},y:{min:0,ticks:{color:'rgba(255,255,255,.4)'},grid:{color:'rgba(255,255,255,.05)'},title:{display:true,text:'L/min',color:'rgba(255,255,255,.3)'}}}
+        }
+      });
+    }
+  }
+  // ORP grafiek
+  const orpCanvas=document.getElementById('chart-orp');
+  const orpEmp=document.getElementById('empty-orp');
+  if(orpCanvas){
+    const orpPunte=readings.filter(r=>r.orp!=null&&r.orp!=='').map(r=>({x:r.date||'',y:Number(r.orp)}));
+    if(!orpPunte.length){
+      orpCanvas.style.display='none';
+      if(orpEmp)orpEmp.style.display='block';
+      if(_chartInstances.orp){_chartInstances.orp.destroy();delete _chartInstances.orp;}
+    } else {
+      orpCanvas.style.display='block';
+      if(orpEmp)orpEmp.style.display='none';
+      if(_chartInstances.orp)_chartInstances.orp.destroy();
+      _chartInstances.orp=new Chart(orpCanvas,{
+        type:'line',
+        data:{datasets:[{
+          label:t('labelORP')+' (mV)',
+          data:orpPunte,
+          borderColor:'#BA68C8',
+          backgroundColor:'rgba(186,104,200,.1)',
+          tension:.3,
+          pointRadius:4,
+          pointBackgroundColor:orpPunte.map(p=>p.y<0?'#EF9A9A':p.y<200?'#FFD54F':'#81C784'),
+        }]},
+        options:{
+          responsive:true,maintainAspectRatio:false,
+          plugins:{legend:{display:false},
+            annotation:{annotations:{
+              laag:{type:'line',yMin:0,yMax:0,borderColor:'rgba(239,154,154,.6)',borderWidth:1,borderDash:[4,4],label:{content:'0 mV',display:true,color:'#EF9A9A',font:{size:10}}},
+              teiken:{type:'line',yMin:200,yMax:200,borderColor:'rgba(129,199,132,.4)',borderWidth:1,borderDash:[4,4],label:{content:'Teiken 200',display:true,color:'#81C784',font:{size:10}}},
+            }}},
+          scales:{x:{type:'category',ticks:{color:'rgba(255,255,255,.4)',font:{size:10}},grid:{color:'rgba(255,255,255,.05)'}},y:{ticks:{color:'rgba(255,255,255,.4)'},grid:{color:'rgba(255,255,255,.05)'},title:{display:true,text:'mV',color:'rgba(255,255,255,.3)'}}}
         }
       });
     }
