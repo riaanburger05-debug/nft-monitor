@@ -1197,6 +1197,18 @@ const T = {
     wPhTend:'pH STYGENDE TENDENS (3 lesings)',
     wPhTendMsg:'pH het gestyg', wPhTendExtra:'Sal aanhou styg sonder korreksie.',
     wPhTendAdvies:'Voeg Swembadsuur/pH Down by. Mik op 5.8–6.2.',
+    wPhDaalTend:'pH DALENDE TENDENS (3 lesings)',
+    wPhDaalTendMsg:'pH het gedaal', wPhDaalTendExtra:'Sal aanhou daal sonder korreksie — water raak suur.',
+    wPhDaalTendAdvies:'Voeg Koeksoda/pH Up by. Mik op 5.8–6.2.',
+    wEcDaalTend:'EC DALENDE TENDENS (3 lesings)',
+    wEcDaalTendMsg:'EC het gedaal', wEcDaalTendExtra:'Voedingstowwe word vinnig deur die plante gebruik.',
+    wEcDaalTendAdvies:'Kontroleer Doseer-tab — voeg kunsmis by indien EC onder die optimale reeks val.',
+    wEcStygTend:'EC STYGENDE TENDENS (3 lesings)',
+    wEcStygTendMsg:'EC het gestyg', wEcStygTendExtra:'Water verdamp vinniger as wat plante voedingstowwe gebruik.',
+    wEcStygTendAdvies:'Verdun met skoon water tot EC binne die optimale reeks is.',
+    wTempStygTend:'WATERTEMPERATUUR STYGENDE TENDENS (3 lesings)',
+    wTempStygTendMsg:'Watertemperatuur het gestyg', wTempStygTendExtra:'Verhoog risiko vir Pythium en lae suurstofvlakke.',
+    wTempStygTendAdvies:'Verkoel die tenk (skadu, ventilasie) voor dit krities word.',
     wYster:'YSTER OPNAME GEBLOKKEER',
     wYsterMsg:'Bo pH 7.0 word yster onoplosbaar — nuwe blare sal geel word (chlorose).',
     wYsterAdvies:'Bring pH dringend af na 6.0–6.2 met Swembadsuur. Geel nuwe blare is die eerste simptoom.',
@@ -1319,6 +1331,18 @@ const T = {
     wPhTend:'pH RISING TREND (3 readings)',
     wPhTendMsg:'pH has risen', wPhTendExtra:'Will continue rising without correction.',
     wPhTendAdvies:'Add Pool Acid / pH Down drop by drop. Target 5.8–6.2.',
+    wPhDaalTend:'pH FALLING TREND (3 readings)',
+    wPhDaalTendMsg:'pH has dropped', wPhDaalTendExtra:'Will continue dropping without correction — water becoming acidic.',
+    wPhDaalTendAdvies:'Add Baking Soda / pH Up. Target 5.8–6.2.',
+    wEcDaalTend:'EC FALLING TREND (3 readings)',
+    wEcDaalTendMsg:'EC has dropped', wEcDaalTendExtra:'Plants are using up nutrients quickly.',
+    wEcDaalTendAdvies:'Check the Dose tab — add fertilizer if EC falls below the optimal range.',
+    wEcStygTend:'EC RISING TREND (3 readings)',
+    wEcStygTendMsg:'EC has risen', wEcStygTendExtra:'Water is evaporating faster than plants are using nutrients.',
+    wEcStygTendAdvies:'Dilute with clean water until EC is within range.',
+    wTempStygTend:'WATER TEMPERATURE RISING TREND (3 readings)',
+    wTempStygTendMsg:'Water temperature has risen', wTempStygTendExtra:'Increases the risk of Pythium and low oxygen levels.',
+    wTempStygTendAdvies:'Cool the tank (shade, ventilation) before it becomes critical.',
     wYster:'IRON ABSORPTION BLOCKED',
     wYsterMsg:'Above pH 7.0 iron becomes insoluble — new leaves will turn yellow (chlorosis).',
     wYsterAdvies:'Urgently bring pH down to 6.0–6.2 with Pool Acid. Yellow new leaves are the first symptom.',
@@ -1711,7 +1735,7 @@ function pasOp(){
 }
 
 // ── PROBLEEM-PANEEL ─────────────────────────────────────────────────────────
-function bouProbleemPaneel(readings_last, crop) {
+function bouProbleemPaneel(readings_last, crop, readings) {
   if (!crop || !readings_last) return '';
 
   const params = [
@@ -1897,6 +1921,45 @@ function bouProbleemPaneel(readings_last, crop) {
             <div class="prob-blok-teks">${t('orpLaag')}</div>
           </div>
         </div>`});
+    }
+  }
+
+  // Tendense (3 opeenvolgende lesings)
+  if (readings && readings.length >= 3) {
+    const r1 = readings[readings.length-3], r2 = readings[readings.length-2], r3 = readings[readings.length-1];
+    const tendKaart = (ikon, titelKey, msgKey, extraKey, adviesKey, waardes) => `
+      <div class="probleem-item warn">
+        <div class="prob-param">
+          <span class="prob-ikon">${ikon}</span>
+          <span class="prob-naam warn">${t(titelKey)}</span>
+        </div>
+        <div class="prob-blok">
+          <div class="prob-blok-titel oorsaak">${t(msgKey)}: ${waardes}. ${t(extraKey)}</div>
+        </div>
+        <div class="prob-blok">
+          <div class="prob-blok-titel gevolg">${t('gevolgPlant')}</div>
+          <div class="prob-blok-teks">👉 ${t(adviesKey)}</div>
+        </div>
+      </div>`;
+
+    if (r1.ph!=null && r2.ph!=null && r3.ph!=null) {
+      if (r3.ph > r2.ph && r2.ph > r1.ph) {
+        probleme.push({erg:'waarsku', html: tendKaart('📈','wPhTend','wPhTendMsg','wPhTendExtra','wPhTendAdvies', `${r1.ph} → ${r2.ph} → ${r3.ph}`)});
+      } else if (r3.ph < r2.ph && r2.ph < r1.ph) {
+        probleme.push({erg:'waarsku', html: tendKaart('📉','wPhDaalTend','wPhDaalTendMsg','wPhDaalTendExtra','wPhDaalTendAdvies', `${r1.ph} → ${r2.ph} → ${r3.ph}`)});
+      }
+    }
+    if (r1.ec!=null && r2.ec!=null && r3.ec!=null) {
+      if (r3.ec < r2.ec && r2.ec < r1.ec) {
+        probleme.push({erg:'waarsku', html: tendKaart('📉','wEcDaalTend','wEcDaalTendMsg','wEcDaalTendExtra','wEcDaalTendAdvies', `${r1.ec} → ${r2.ec} → ${r3.ec}`)});
+      } else if (r3.ec > r2.ec && r2.ec > r1.ec && crop.ec && r3.ec > crop.ec.max) {
+        probleme.push({erg:'waarsku', html: tendKaart('📈','wEcStygTend','wEcStygTendMsg','wEcStygTendExtra','wEcStygTendAdvies', `${r1.ec} → ${r2.ec} → ${r3.ec}`)});
+      }
+    }
+    if (r1.temp!=null && r2.temp!=null && r3.temp!=null && crop.temp) {
+      if (r3.temp > r2.temp && r2.temp > r1.temp && r3.temp > crop.temp.max - 2) {
+        probleme.push({erg:'waarsku', html: tendKaart('📈','wTempStygTend','wTempStygTendMsg','wTempStygTendExtra','wTempStygTendAdvies', `${r1.temp} → ${r2.temp} → ${r3.temp}`)});
+      }
     }
   }
 
@@ -2447,7 +2510,7 @@ function bouTenkkarte() {
     const notaHtml     = notaTxt
       ? `<div class="nota-box"><div class="nota-lbl">${t('nota')}</div><div class="nota-txt">${notaTxt}</div></div>`
       : '';
-    const probleemHtml = bouProbleemPaneel(last, crop);
+    const probleemHtml = bouProbleemPaneel(last, crop, readings);
     const allesOkHtml  = (!probleemHtml && defs.length)
       ? `<div class="all-ok">${t('allesOkTenk')}</div>`
       : '';
