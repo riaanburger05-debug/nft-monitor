@@ -73,6 +73,11 @@ html[lang="en"] .lang-af{display:none}html[lang="af"] .lang-en{display:none}
 .all-ok{background:rgba(76,175,80,.07);border:1.5px solid rgba(76,175,80,.18);border-radius:10px;padding:11px 14px;text-align:center;color:#81C784;font-size:12px;font-weight:600;margin:0 14px 14px}
 
 .waarsku-kaart{background:linear-gradient(135deg,rgba(211,47,47,.15),rgba(244,67,54,.08));border:1.5px solid rgba(244,67,54,.5);border-radius:14px;padding:13px 14px;margin:0 14px 14px;display:flex;align-items:flex-start;gap:10px}
+.waarsku-ikoon{font-size:22px;line-height:1;flex-shrink:0}
+.waarsku-inhoud{flex:1}
+.waarsku-titel{font-family:'Montserrat',sans-serif;font-weight:900;font-size:12px;color:#EF9A9A;margin-bottom:3px}
+.waarsku-boodskap{font-size:11px;color:rgba(255,255,255,.6);line-height:1.5}
+.waarsku-advies{font-size:11px;color:#FFD54F;margin-top:4px;font-weight:600}
 
 /* Nota (slegs lees) */
 .nota-box{margin:0 14px 14px;background:#0d1a0d;border:1.5px solid rgba(76,175,80,.15);border-radius:10px;padding:10px 14px}
@@ -1241,6 +1246,11 @@ const T = {
     vloeiTeHoogMsg:'Vloei bo 2 L/min beteken water beweeg te vinnig — wortels het te min kontak-tyd met voedingstowwe. Plante absorbeer minder, ongebruikte voedingstowwe stapel op in die tenk en EC sal begin styg.',
     vloeiTeHoogAdvies:'Verminder pompspoed tot 1–2 L/min. Kyk of EC besig is om te styg — dit is \'n teken dat plante nie genoeg absorbeer nie.',
     vloeiTeHoogECLet:'⚡ Let op: EC styg tans ook — dit bevestig dat plante minder voedingstowwe absorbeer as gevolg van te-hoë vloei.',
+    laatVloei:'LAAT VLOEI', laatVloeiMsg:'Vloei is onder 0.8 L/min — wortels kan die pypkanaal blokkeer.',
+    laatVloeiAdvies:'Kontroleer pomp, pypfilter en wortelontwikkeling dadelik.',
+    vloeiNieMeet:'Vloei nie gemeet die afgelope 7 dae nie',
+    vloeiMeetWeekliks:'Meet weekliks die vloeisnelheid (teiken: 1–2 L/min per kant).',
+    vloeiMeetAdvies:"Meet vandag se vloei en teken dit aan as 'n nuwe lesing.",
     // Session labels
     sessVm:'🌅 Vooroggend', sessNm:'☀️ Namiddag',
     // Nota box
@@ -1353,6 +1363,11 @@ const T = {
     vloeiTeHoogMsg:'Flow above 2 L/min means water moves too fast — roots have too little contact time with nutrients. Plants absorb less, unused nutrients build up in the tank and EC will start rising.',
     vloeiTeHoogAdvies:'Reduce pump speed to 1–2 L/min. Check if EC is rising — that is a sign plants are not absorbing enough.',
     vloeiTeHoogECLet:'⚡ Note: EC is also rising — this confirms plants are absorbing less due to too-high flow.',
+    laatVloei:'LOW FLOW', laatVloeiMsg:'Flow is below 0.8 L/min — roots may be blocking the channel.',
+    laatVloeiAdvies:'Check pump, pipe filter and root development immediately.',
+    vloeiNieMeet:'Flow not measured in the past 7 days',
+    vloeiMeetWeekliks:'Measure the flow rate weekly (target: 1–2 L/min per side).',
+    vloeiMeetAdvies:'Measure today\'s flow and record it as a new reading.',
     // Session labels
     sessVm:'🌅 Morning', sessNm:'☀️ Afternoon',
     // Nota box
@@ -2346,6 +2361,31 @@ function bouTenkkarte() {
     const pyVloei = last.vloei != null ? last.vloei : null;
     const pythiumHtml = bouPythiumMeter(i, pyTemp, pyOrp, pyVloei);
 
+    // Vloei-waarskuwings (laat vloei / nie gemeet in 7 dae nie)
+    let vloeiWaarskuHtml = '';
+    if (last.vloei != null && last.vloei < 0.8) {
+      vloeiWaarskuHtml += `<div class="waarsku-kaart">
+        <div class="waarsku-ikoon">🚰</div>
+        <div class="waarsku-inhoud">
+          <div class="waarsku-titel">${t('laatVloei')} (${last.vloei} L/min)</div>
+          <div class="waarsku-boodskap">${t('laatVloeiMsg')}</div>
+          <div class="waarsku-advies">👉 ${t('laatVloeiAdvies')}</div>
+        </div>
+      </div>`;
+    }
+    const seweDeTerug = new Date(Date.now() - 7*24*60*60*1000).toISOString().slice(0,10);
+    const onlangseVloei = readings.filter(r => r.vloei != null && (r.date || '') >= seweDeTerug);
+    if (!onlangseVloei.length) {
+      vloeiWaarskuHtml += `<div class="waarsku-kaart" style="border-left-color:#FFD54F">
+        <div class="waarsku-ikoon">⏰</div>
+        <div class="waarsku-inhoud">
+          <div class="waarsku-titel" style="color:#FFD54F">${t('vloeiNieMeet')}</div>
+          <div class="waarsku-boodskap">${t('vloeiMeetWeekliks')}</div>
+          <div class="waarsku-advies">👉 ${t('vloeiMeetAdvies')}</div>
+        </div>
+      </div>`;
+    }
+
     grid.innerHTML += `
       <div class="tank-card"${!act?` style="opacity:0.75;border-color:rgba(255,255,255,.08)"`:''}>
         <div class="tank-head">
@@ -2359,6 +2399,7 @@ function bouTenkkarte() {
         <div class="param-list">${params}</div>
         ${allesOkHtml}
         ${probleemHtml}
+        ${vloeiWaarskuHtml}
         ${pythiumHtml}
         ${notaHtml}
       </div>`;
