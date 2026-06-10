@@ -1805,6 +1805,101 @@ function bouProbleemPaneel(readings_last, crop) {
     }
   });
 
+  // Vloei
+  if (readings_last.vloei != null && readings_last.vloei !== '') {
+    const v = Number(readings_last.vloei);
+    if (v < 0.8) {
+      probleme.push({erg:'fout', html:`
+        <div class="probleem-item">
+          <div class="prob-param">
+            <span class="prob-ikon">🌊</span>
+            <span class="prob-naam">${t('vloei')} — ${t('laatVloei')}</span>
+            <span class="prob-waarde" style="color:#EF9A9A">${v} L/min</span>
+          </div>
+          <div class="prob-reeks">${t('vloeiTeiken')}</div>
+          <div class="prob-blok">
+            <div class="prob-blok-titel probleem">${t('watIsFout')}</div>
+            <div class="prob-blok-teks">${t('laatVloeiMsg')}</div>
+          </div>
+          <div class="prob-blok">
+            <div class="prob-blok-titel gevolg">${t('gevolgPlant')}</div>
+            <div class="prob-blok-teks">${t('laatVloeiAdvies')}</div>
+          </div>
+        </div>`});
+    } else if (v < 1.0) {
+      probleme.push({erg:'waarsku', html:`
+        <div class="probleem-item warn">
+          <div class="prob-param">
+            <span class="prob-ikon">🌊</span>
+            <span class="prob-naam warn">${t('vloei')} — ${t('histGrensgeval')}</span>
+            <span class="prob-waarde" style="color:#FFD54F">${v} L/min</span>
+          </div>
+          <div class="prob-reeks">${t('vloeiTeiken')} · ${t('nabieGrens')}</div>
+          <div class="prob-blok">
+            <div class="prob-blok-titel oorsaak">${t('probHouDop')}</div>
+            <div class="prob-blok-teks">${t('vloeiEffensLaag')}</div>
+          </div>
+        </div>`});
+    } else if (v > 2.0) {
+      const erg = v > 2.5 ? 'fout' : 'waarsku';
+      probleme.push({erg, html:`
+        <div class="probleem-item${erg==='waarsku'?' warn':''}">
+          <div class="prob-param">
+            <span class="prob-ikon">🌊</span>
+            <span class="prob-naam${erg==='waarsku'?' warn':''}">${t('vloei')} — ${erg==='fout'?t('histTeHoog'):t('histGrensgeval')}</span>
+            <span class="prob-waarde" style="color:${erg==='fout'?'#EF9A9A':'#FFD54F'}">${v} L/min</span>
+          </div>
+          <div class="prob-reeks">${t('vloeiTeiken')}</div>
+          <div class="prob-blok">
+            <div class="prob-blok-titel ${erg==='fout'?'probleem':'oorsaak'}">${erg==='fout'?t('watIsFout'):t('probHouDop')}</div>
+            <div class="prob-blok-teks">${t('vloeiTeHoogMsg')}</div>
+          </div>
+          <div class="prob-blok">
+            <div class="prob-blok-titel gevolg">${t('gevolgPlant')}</div>
+            <div class="prob-blok-teks">${t('vloeiTeHoogAdvies')}</div>
+          </div>
+        </div>`});
+    }
+  }
+
+  // ORP
+  if (readings_last.orp != null && readings_last.orp !== '') {
+    const o = Number(readings_last.orp);
+    if (o < 0) {
+      probleme.push({erg:'fout', html:`
+        <div class="probleem-item">
+          <div class="prob-param">
+            <span class="prob-ikon">⚗️</span>
+            <span class="prob-naam">${t('labelORP')} — ${t('pyKrities')}</span>
+            <span class="prob-waarde" style="color:#EF9A9A">${o} mV</span>
+          </div>
+          <div class="prob-reeks">${t('orpTeiken')}</div>
+          <div class="prob-blok">
+            <div class="prob-blok-titel probleem">${t('watIsFout')}</div>
+            <div class="prob-blok-teks">${t('orpKrities')}</div>
+          </div>
+          <div class="prob-blok">
+            <div class="prob-blok-titel gevolg">${t('gevolgPlant')}</div>
+            <div class="prob-blok-teks">${t('pyAdviesKrities')}</div>
+          </div>
+        </div>`});
+    } else if (o < 200) {
+      probleme.push({erg:'waarsku', html:`
+        <div class="probleem-item warn">
+          <div class="prob-param">
+            <span class="prob-ikon">⚗️</span>
+            <span class="prob-naam warn">${t('labelORP')} — ${t('histGrensgeval')}</span>
+            <span class="prob-waarde" style="color:#FFD54F">${o} mV</span>
+          </div>
+          <div class="prob-reeks">${t('orpTeiken')} · ${t('nabieGrens')}</div>
+          <div class="prob-blok">
+            <div class="prob-blok-titel oorsaak">${t('probHouDop')}</div>
+            <div class="prob-blok-teks">${t('orpLaag')}</div>
+          </div>
+        </div>`});
+    }
+  }
+
   if (!probleme.length) return '';
 
   const kopKleur = probleme.some(p => p.erg === 'fout')
