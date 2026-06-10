@@ -2451,12 +2451,17 @@ function bouGeskiedenis() {
     const kid  = 'k-' + _selHistTank + '-' + idx;
 
     const orpKleur = r.orp == null ? null : r.orp >= 200 ? '#81C784' : r.orp >= 0 ? '#FFD54F' : '#EF9A9A';
+    const vloeiKleur = r.vloei == null ? null : (r.vloei < 0.8 || r.vloei > 2.5) ? '#EF9A9A' : (r.vloei < 1.0 || r.vloei > 2.0) ? '#FFD54F' : '#81C784';
+    const vloeiEtiket = r.vloei == null ? '' : (r.vloei < 1.0 || r.vloei > 2.0) ? '⚠ '+t('histGrensgeval') : '✓ OK';
     const chips = [
       chip('EC',      r.ec,      ' mS/cm', ec),
       chip('pH',      r.ph,      '',       ph),
       chip('💧 Temp', r.temp,    '°C',     tmp),
       (r.tempLug !== undefined && r.tempLug !== '')
         ? `<div class="les-param"><div class="les-param-naam">🌬️ ${lang==='en'?'Air':'Lug'}</div><div class="les-param-waarde" style="color:rgba(255,255,255,.5)">${r.tempLug}°C</div><div class="les-param-status" style="color:rgba(255,255,255,.25)">—</div></div>`
+        : '',
+      (r.vloei != null)
+        ? `<div class="les-param"><div class="les-param-naam">🌊 ${t('vloei')}</div><div class="les-param-waarde" style="color:${vloeiKleur}">${r.vloei} L/min</div><div class="les-param-status" style="color:${vloeiKleur};font-size:9px">${vloeiEtiket}</div></div>`
         : '',
       (r.orp != null)
         ? `<div class="les-param"><div class="les-param-naam">⚗️ ORP</div><div class="les-param-waarde" style="color:${orpKleur}">${r.orp} mV</div><div class="les-param-status" style="color:${orpKleur};font-size:9px">${r.orp>=200?(lang==='en'?'Good':'Goed'):r.orp>=0?(lang==='en'?'Low':'Laag'):(lang==='en'?'Critical':'Krities')}</div></div>`
