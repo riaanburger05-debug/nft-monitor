@@ -6,6 +6,6 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0nuwe-laptop-begin.
 
 if errorlevel 1 (
   echo.
-  echo Die bediener kon nie begin nie.
+  echo Die opstelling kon nie voltooi word nie.
   pause
 )
